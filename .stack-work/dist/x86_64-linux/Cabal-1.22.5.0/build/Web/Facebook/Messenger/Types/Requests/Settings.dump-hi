@@ -1,0 +1,983 @@
+
+==================== FINAL INTERFACE ====================
+2016-07-11 14:49:54.264393 UTC
+
+interface faceb_6XenxrYvzlWDEEj7EBwREs:Web.Facebook.Messenger.Types.Requests.Settings 7103
+  interface hash: 244fb2536658a8b1a33455d3edbf7d6c
+  ABI hash: 5804473669acf903c7b2f1ce145c118d
+  export-list hash: e2ecdfa6daf8db69fb80ba049df9daf9
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: 9af6cff368432db2ded493d63737c677
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload{Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_getstarted_payload}
+  Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting{Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_greeting_text}
+  Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem{Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemPostback Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemURL Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_menuitem_postback_payload Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_menuitem_postback_title Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_menuitem_weburl_title Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_menuitem_weburl_url}
+  Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest{Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonRequest Web.Facebook.Messenger.Types.Requests.Settings.FBGreetingTextRequest Web.Facebook.Messenger.Types.Requests.Settings.FBPersistentMenuRequest Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_getstarted Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_greeting Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_persistent}
+module dependencies:
+package dependencies: aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG
+                      array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA
+                      attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68 base-4.8.2.0
+                      binary-0.7.5.0@binar_3uXFWMoAGBg0xKP9MHKRwi
+                      bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6
+                      containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU
+                      deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59
+                      dlist-0.7.1.2@dlist_AO7XAasbAeyL0XLKeq1Aui
+                      fail-4.9.0.0@fail_2xB1AvdW34sDm9N3JOe33G ghc-prim-0.4.0.0
+                      hashable-1.2.4.0@hasha_EalUWgp8NarBYWPbvYAD8I integer-gmp-1.0.0.0
+                      primitive-0.6.1.0@primi_EphY2c7CCxSCBKjAN0YTR3
+                      scientific-0.3.4.8@scien_Elq5IFN7LP733k4M8RTP7H
+                      semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1
+                      tagged-0.8.4@tagge_LPeicl3HxVfGUMMwMEsAE6 template-haskell-2.10.0.0
+                      text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne
+                      time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn
+                      transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF
+                      unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw
+                      vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln
+orphans: aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Generic
+         aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Instances
+         attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.ByteString.Char8
+         attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.Text.Internal
+         base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
+         binary-0.7.5.0@binar_3uXFWMoAGBg0xKP9MHKRwi:Data.Binary.Generic
+         bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Builder
+         hashable-1.2.4.0@hasha_EalUWgp8NarBYWPbvYAD8I:Data.Hashable.Generic
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Lazy
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Show
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Calendar.Gregorian
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Format.Parse
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.LocalTime.LocalTime
+         transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF:Control.Monad.Trans.Error
+         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Fusion.Bundle
+         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed
+family instance modules: attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.Internal.Types
+                         base-4.8.2.0:Control.Applicative base-4.8.2.0:Data.Either
+                         base-4.8.2.0:Data.Functor.Identity base-4.8.2.0:Data.Monoid
+                         base-4.8.2.0:Data.Type.Equality base-4.8.2.0:Data.Void
+                         base-4.8.2.0:GHC.Exts base-4.8.2.0:GHC.Generics
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntMap.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntSet.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Sequence
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base
+                         dlist-0.7.1.2@dlist_AO7XAasbAeyL0XLKeq1Aui:Data.DList
+                         primitive-0.6.1.0@primi_EphY2c7CCxSCBKjAN0YTR3:Control.Monad.Primitive
+                         semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1:Data.List.NonEmpty
+                         semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1:Data.Semigroup
+                         tagged-0.8.4@tagge_LPeicl3HxVfGUMMwMEsAE6:Data.Tagged
+                         template-haskell-2.10.0.0:Language.Haskell.TH.Syntax
+                         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text
+                         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Lazy
+                         unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw:Data.HashMap.Base
+                         unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw:Data.HashSet
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Primitive
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Storable
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed.Base
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson e3fc0a86707d11f0744855c22c003db1
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types d71ae0cda6d0b13737565a57b623211b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Class fe6a708e11304b32e33ecaa7b7f0574b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Instances d9242ecda29dd4253371b8f2ef6a3b1b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Internal 1526f1e54c3778413953c293b6e62476
+import  -/  base-4.8.2.0:Control.Applicative a8ebf5ad4932b411ad7725da68be9801
+import  -/  base-4.8.2.0:Data.Functor 5c701b0af1708f0192a25dfe14ce6274
+import  -/  base-4.8.2.0:GHC.Base 1db77db5dae73d8c424c85b09fbadb89
+import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
+import  -/  text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text 677c532e2dd56476a11a0a8a53880ce7
+import  -/  text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Internal d9b6b9a9dd535595b612aea5738b7466
+7b59e397799e712f4ea4bd164d92cf8f
+  $fFromJSONFBGetStartedButtonPayload ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Requests.Settings.$fFromJSONFBGetStartedButtonPayload_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload>_N)) -}
+7b59e397799e712f4ea4bd164d92cf8f
+  $fFromJSONFBGetStartedButtonPayload_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+  {- Arity: 1, Strictness: <S,1*U> -}
+cd0b157cbfb19b0fdd164aa136bc9a89
+  $fFromJSONFBSettingsGreeting ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Requests.Settings.$fFromJSONFBSettingsGreeting_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting>_N)) -}
+cd0b157cbfb19b0fdd164aa136bc9a89
+  $fFromJSONFBSettingsGreeting_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting
+  {- Arity: 1, Strictness: <S,1*U> -}
+9b18974510ae35b3b0f40befc215ef66
+  $fFromJSONFBSettingsMenuItem ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Requests.Settings.$fFromJSONFBSettingsMenuItem_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem>_N)) -}
+9b18974510ae35b3b0f40befc215ef66
+  $fFromJSONFBSettingsMenuItem_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+  {- Arity: 1, Strictness: <S,1*U> -}
+12beb045b9c9af3b6d47ace3cdbf1580
+  $fFromJSONFBSettingsRequest ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Requests.Settings.$fFromJSONFBSettingsRequest_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest>_N)) -}
+12beb045b9c9af3b6d47ace3cdbf1580
+  $fFromJSONFBSettingsRequest_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest
+  {- Arity: 1, Strictness: <S,1*U> -}
+7b59e397799e712f4ea4bd164d92cf8f
+  $fToJSONFBGetStartedButtonPayload ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBGetStartedButtonPayload_$ctoJSON
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBGetStartedButtonPayload_$ctoEncoding -}
+0edd78f67578b944e505620623557d39
+  $fToJSONFBGetStartedButtonPayload1 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "payload"#) -}
+7b59e397799e712f4ea4bd164d92cf8f
+  $fToJSONFBGetStartedButtonPayload_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <L,U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBGetStartedButtonPayload_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+7b59e397799e712f4ea4bd164d92cf8f
+  $fToJSONFBGetStartedButtonPayload_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <L,U>m1, Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ w :: Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload ->
+                 case Data.Aeson.Types.Internal.$sfromList1
+                        @ Data.Aeson.Types.Internal.Value
+                        (GHC.Types.:
+                           @ Data.Aeson.Types.Internal.Pair
+                           (Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBGetStartedButtonPayload1,
+                            Data.Aeson.Types.Internal.$WString
+                              w `cast`
+                              (Web.Facebook.Messenger.Types.Requests.Settings.NTCo:FBGetStartedButtonPayload[0]))
+                           (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair))
+                        (Data.HashMap.Base.Empty
+                           @ Data.Text.Internal.Text
+                           @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                 Data.Aeson.Types.Internal.Object dt }) -}
+cd0b157cbfb19b0fdd164aa136bc9a89
+  $fToJSONFBSettingsGreeting ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsGreeting_$ctoJSON
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsGreeting_$ctoEncoding -}
+a5813cff0664a8acbd1e6d9dcabf43f4
+  $fToJSONFBSettingsGreeting1 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "text"#) -}
+cd0b157cbfb19b0fdd164aa136bc9a89
+  $fToJSONFBSettingsGreeting_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <L,U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsGreeting_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+cd0b157cbfb19b0fdd164aa136bc9a89
+  $fToJSONFBSettingsGreeting_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <L,U>m1, Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ w :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting ->
+                 case Data.Aeson.Types.Internal.$sfromList1
+                        @ Data.Aeson.Types.Internal.Value
+                        (GHC.Types.:
+                           @ Data.Aeson.Types.Internal.Pair
+                           (Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsGreeting1,
+                            Data.Aeson.Types.Internal.$WString
+                              w `cast`
+                              (Web.Facebook.Messenger.Types.Requests.Settings.NTCo:FBSettingsGreeting[0]))
+                           (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair))
+                        (Data.HashMap.Base.Empty
+                           @ Data.Text.Internal.Text
+                           @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                 Data.Aeson.Types.Internal.Object dt }) -}
+9b18974510ae35b3b0f40befc215ef66
+  $fToJSONFBSettingsMenuItem ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem_$ctoJSON
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem_$ctoEncoding -}
+1424bd88809f21fe91956237018e3b74
+  $fToJSONFBSettingsMenuItem1 :: Data.Aeson.Types.Internal.Pair
+  {- Strictness: m,
+     Unfolding: ((Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem3,
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem2)) -}
+f43abc324166fe9e1b28e36a76759cde
+  $fToJSONFBSettingsMenuItem2 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "postback"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+da08f120f2d2c16bb320139705aef05d
+  $fToJSONFBSettingsMenuItem3 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "type"#) -}
+14c0888be62acd680519629b82f49995
+  $fToJSONFBSettingsMenuItem4 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "url"#) -}
+ada5fa480a0b374732d3866411cfa51e
+  $fToJSONFBSettingsMenuItem5 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "title"#) -}
+ac069b8360161304d3df86402543a0a3
+  $fToJSONFBSettingsMenuItem6 :: Data.Aeson.Types.Internal.Pair
+  {- Strictness: m,
+     Unfolding: ((Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem3,
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem7)) -}
+a8b9e87e5144f3dbde61e8184b882466
+  $fToJSONFBSettingsMenuItem7 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "web_url"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+9b18974510ae35b3b0f40befc215ef66
+  $fToJSONFBSettingsMenuItem_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+9b18974510ae35b3b0f40befc215ef66
+  $fToJSONFBSettingsMenuItem_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U>m1, Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ w :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem ->
+                 case Web.Facebook.Messenger.Types.Requests.Settings.$w$ctoJSON
+                        w of ww { (##) ww1 ->
+                 Data.Aeson.Types.Internal.Object ww1 }) -}
+12beb045b9c9af3b6d47ace3cdbf1580
+  $fToJSONFBSettingsRequest ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest_$ctoJSON
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest_$ctoEncoding -}
+85ae939618ca52657687eabe334949c3
+  $fToJSONFBSettingsRequest1 ::
+    GHC.Types.SPEC
+    -> (Data.Vector.Generic.Base.Mutable
+          Data.Vector.Vector
+          (Control.Monad.Primitive.PrimState (GHC.ST.ST s))
+          Data.Aeson.Types.Internal.Value,
+        GHC.Types.Int)
+    -> [Data.Aeson.Types.Internal.Value]
+    -> GHC.Prim.State# s
+    -> (# GHC.Prim.State# s,
+          (Data.Vector.Generic.Base.Mutable
+             Data.Vector.Vector
+             (Control.Monad.Primitive.PrimState (GHC.ST.ST s))
+             Data.Aeson.Types.Internal.Value,
+           GHC.Types.Int) #)
+  {- Arity: 4, Strictness: <S,1*U><L,U(U(U,U,U),U(U))><S,1*U><L,U> -}
+2916cf1180be5393ec25c737b4e5ee6d
+  $fToJSONFBSettingsRequest10 :: Data.Aeson.Types.Internal.Pair
+  {- Strictness: m,
+     Unfolding: ((Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest12,
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest11)) -}
+3ec12e907124da0f3c501189f0193087
+  $fToJSONFBSettingsRequest11 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "call_to_actions"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+f40b882cd96e71526f0dd207496be524
+  $fToJSONFBSettingsRequest12 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "setting_type"#) -}
+26c9d1bc6831beea8fcf66d2df1a534e
+  $fToJSONFBSettingsRequest13 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "greeting"#) -}
+28f6f01f81f849134a454f6b1e465edb
+  $fToJSONFBSettingsRequest14 :: Data.Aeson.Types.Internal.Pair
+  {- Strictness: m,
+     Unfolding: ((Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest12,
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest15)) -}
+5b0bf62fc211eb00d484405bc501d561
+  $fToJSONFBSettingsRequest15 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "greeting"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+47f928c359f65a279ad3d568c74db698
+  $fToJSONFBSettingsRequest2 :: Data.Aeson.Types.Internal.Pair
+  {- Strictness: m,
+     Unfolding: ((Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest4,
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest3)) -}
+8f651fc5c4c0c79f7678ccff6edd4d62
+  $fToJSONFBSettingsRequest3 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "existing_thread"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+73c31b2237a84780a57cd63d5683ef02
+  $fToJSONFBSettingsRequest4 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "thread_state"#) -}
+3926fe705d1576c1f5d572f7e2fde639
+  $fToJSONFBSettingsRequest5 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 0) -}
+0057af367ad17f24e31eca6a6203a22b
+  $fToJSONFBSettingsRequest6 ::
+    GHC.Types.SPEC
+    -> (Data.Vector.Generic.Base.Mutable
+          Data.Vector.Vector
+          (Control.Monad.Primitive.PrimState (GHC.ST.ST s))
+          Data.Aeson.Types.Internal.Value,
+        GHC.Types.Int)
+    -> [Data.Aeson.Types.Internal.Value]
+    -> GHC.Prim.State# s
+    -> (# GHC.Prim.State# s,
+          (Data.Vector.Generic.Base.Mutable
+             Data.Vector.Vector
+             (Control.Monad.Primitive.PrimState (GHC.ST.ST s))
+             Data.Aeson.Types.Internal.Value,
+           GHC.Types.Int) #)
+  {- Arity: 4, Strictness: <S,1*U><L,U(U(U,U,U),U(U))><S,1*U><L,U> -}
+6ec3d6b39517832a3230b8463d567b81
+  $fToJSONFBSettingsRequest7 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "call_to_actions"#) -}
+7d6375879da008edfd807e3c1bd41cbc
+  $fToJSONFBSettingsRequest8 :: Data.Aeson.Types.Internal.Pair
+  {- Strictness: m,
+     Unfolding: ((Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest4,
+                  Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest9)) -}
+83f5f6cb7f4c4f537b78d423f66e6cb1
+  $fToJSONFBSettingsRequest9 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "new_thread"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+12beb045b9c9af3b6d47ace3cdbf1580
+  $fToJSONFBSettingsRequest_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+12beb045b9c9af3b6d47ace3cdbf1580
+  $fToJSONFBSettingsRequest_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U>m1, Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ w :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest ->
+                 case Web.Facebook.Messenger.Types.Requests.Settings.$w$ctoJSON1
+                        w of ww { (##) ww1 ->
+                 Data.Aeson.Types.Internal.Object ww1 }) -}
+89670b6b2a6c6535e97710d755776c7a
+  $s.:12 ::
+    [Data.Aeson.Types.Internal.Parser
+       Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem]
+    -> forall (f :: * -> *) r.
+       Data.Aeson.Types.Internal.JSONPath
+       -> Data.Aeson.Types.Internal.Failure f r
+       -> Data.Aeson.Types.Internal.Success
+            [Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem]
+            f
+            r
+       -> f r
+  {- Arity: 4, HasNoCafRefs, Strictness: <S,1*U><L,U><L,U><L,C(U)> -}
+fdbd2af12da54006473f1645a4997173
+  $s.:6 ::
+    [Data.Aeson.Types.Internal.Parser
+       Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload]
+    -> forall (f :: * -> *) r.
+       Data.Aeson.Types.Internal.JSONPath
+       -> Data.Aeson.Types.Internal.Failure f r
+       -> Data.Aeson.Types.Internal.Success
+            [Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload]
+            f
+            r
+       -> f r
+  {- Arity: 4, HasNoCafRefs, Strictness: <S,1*U><L,U><L,U><L,C(U)> -}
+c0475233c7812ea67233461a024d103a
+  $s.:7 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "[a]"#) -}
+9f7a2d0c3621f6380932d12903056699
+  $s.:_a1 ::
+    GHC.Types.Int
+    -> Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+  {- Arity: 2, Strictness: <L,1*U(U)><L,1*U>,
+     Unfolding: (\ idx :: GHC.Types.Int
+                   value :: Data.Aeson.Types.Internal.Value ->
+                 let {
+                   pathElem17 :: Data.Aeson.Types.Internal.JSONPathElement
+                   = case idx of dt { GHC.Types.I# dt1 ->
+                     Data.Aeson.Types.Internal.Index dt1 }
+                 } in
+                 let {
+                   p :: Data.Aeson.Types.Internal.Parser
+                          Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+                   = Web.Facebook.Messenger.Types.Requests.Settings.$fFromJSONFBSettingsMenuItem_$cparseJSON
+                       value
+                 } in
+                 (\ @ (f :: * -> *)
+                    @ r
+                    path :: Data.Aeson.Types.Internal.JSONPath
+                    kf :: Data.Aeson.Types.Internal.Failure f r
+                    ks :: Data.Aeson.Types.Internal.Success
+                            Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+                            f
+                            r ->
+                  p `cast`
+                  (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                       <Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem>_R)
+                    @ f
+                    @ r
+                    (GHC.Types.:
+                       @ Data.Aeson.Types.Internal.JSONPathElement
+                       pathElem17
+                       path)
+                    kf
+                    ks)
+                   `cast`
+                 (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                           <Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem>_R))) -}
+07f51edaaed6de37a62a623bb96e6f99
+  $s.:_a109 ::
+    GHC.Types.Int
+    -> Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+  {- Arity: 2, Strictness: <L,1*U(U)><L,1*U>,
+     Unfolding: (\ idx :: GHC.Types.Int
+                   value :: Data.Aeson.Types.Internal.Value ->
+                 let {
+                   pathElem17 :: Data.Aeson.Types.Internal.JSONPathElement
+                   = case idx of dt { GHC.Types.I# dt1 ->
+                     Data.Aeson.Types.Internal.Index dt1 }
+                 } in
+                 let {
+                   p :: Data.Aeson.Types.Internal.Parser
+                          Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+                   = Web.Facebook.Messenger.Types.Requests.Settings.$fFromJSONFBGetStartedButtonPayload_$cparseJSON
+                       value
+                 } in
+                 (\ @ (f :: * -> *)
+                    @ r
+                    path :: Data.Aeson.Types.Internal.JSONPath
+                    kf :: Data.Aeson.Types.Internal.Failure f r
+                    ks :: Data.Aeson.Types.Internal.Success
+                            Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+                            f
+                            r ->
+                  p `cast`
+                  (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                       <Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload>_R)
+                    @ f
+                    @ r
+                    (GHC.Types.:
+                       @ Data.Aeson.Types.Internal.JSONPathElement
+                       pathElem17
+                       path)
+                    kf
+                    ks)
+                   `cast`
+                 (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                           <Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload>_R))) -}
+a73ddac649e8c390b612c84676130846
+  $s.:_a110 :: [GHC.Types.Int]
+  {- Unfolding: (GHC.Enum.eftInt 0 9223372036854775807) -}
+9b18974510ae35b3b0f40befc215ef66
+  $w$ctoJSON ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+    -> (# Data.Aeson.Types.Internal.Object #)
+  {- Arity: 1, Strictness: <S,1*U>, Inline: [0],
+     Unfolding: (\ w :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem ->
+                 case w of wild {
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemURL title url
+                   -> case Data.Aeson.Types.Internal.$sfromList1
+                             @ Data.Aeson.Types.Internal.Value
+                             (GHC.Types.:
+                                @ Data.Aeson.Types.Internal.Pair
+                                Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem6
+                                (GHC.Types.:
+                                   @ Data.Aeson.Types.Internal.Pair
+                                   (Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem5,
+                                    Data.Aeson.Types.Internal.$WString title)
+                                   (GHC.Types.:
+                                      @ Data.Aeson.Types.Internal.Pair
+                                      (Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem4,
+                                       Data.Aeson.Types.Internal.$WString url)
+                                      (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair))))
+                             (Data.HashMap.Base.Empty
+                                @ Data.Text.Internal.Text
+                                @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                      (# dt #) }
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemPostback title payload
+                   -> case Data.Aeson.Types.Internal.$sfromList1
+                             @ Data.Aeson.Types.Internal.Value
+                             (GHC.Types.:
+                                @ Data.Aeson.Types.Internal.Pair
+                                Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem1
+                                (GHC.Types.:
+                                   @ Data.Aeson.Types.Internal.Pair
+                                   (Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem5,
+                                    Data.Aeson.Types.Internal.$WString title)
+                                   (GHC.Types.:
+                                      @ Data.Aeson.Types.Internal.Pair
+                                      (Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBGetStartedButtonPayload1,
+                                       Data.Aeson.Types.Internal.$WString payload)
+                                      (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair))))
+                             (Data.HashMap.Base.Empty
+                                @ Data.Text.Internal.Text
+                                @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                      (# dt #) } }) -}
+12beb045b9c9af3b6d47ace3cdbf1580
+  $w$ctoJSON1 ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest
+    -> (# Data.Aeson.Types.Internal.Object #)
+  {- Arity: 1, Strictness: <S,1*U>, Inline: [0],
+     Unfolding: (\ w :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest ->
+                 case w of wild {
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBGreetingTextRequest greeting
+                   -> case Data.Aeson.Types.Internal.$sfromList1
+                             @ Data.Aeson.Types.Internal.Value
+                             (GHC.Types.:
+                                @ Data.Aeson.Types.Internal.Pair
+                                Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest14
+                                (GHC.Types.:
+                                   @ Data.Aeson.Types.Internal.Pair
+                                   (Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest13,
+                                    Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsGreeting_$ctoJSON
+                                      greeting)
+                                   (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair)))
+                             (Data.HashMap.Base.Empty
+                                @ Data.Text.Internal.Text
+                                @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                      (# dt #) }
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonRequest calls
+                   -> case Data.Aeson.Types.Internal.$sfromList1
+                             @ Data.Aeson.Types.Internal.Value
+                             (GHC.Types.:
+                                @ Data.Aeson.Types.Internal.Pair
+                                Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest10
+                                (GHC.Types.:
+                                   @ Data.Aeson.Types.Internal.Pair
+                                   Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest8
+                                   (GHC.Types.:
+                                      @ Data.Aeson.Types.Internal.Pair
+                                      (Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest7,
+                                       case GHC.ST.runSTRep
+                                              @ (Data.Vector.Vector Data.Aeson.Types.Internal.Value)
+                                              (\ @ s s1 :: GHC.Prim.State# s[OneShot] ->
+                                               case GHC.Prim.newArray#
+                                                      @ Data.Aeson.Types.Internal.Value
+                                                      @ (Control.Monad.Primitive.PrimState
+                                                           (GHC.ST.ST s))
+                                                      0
+                                                      (Data.Vector.Mutable.uninitialised
+                                                         @ Data.Aeson.Types.Internal.Value)
+                                                      s1
+                                                        `cast`
+                                                      (GHC.Prim.State#
+                                                         (Sym (Control.Monad.Primitive.TFCo:R:PrimStateST[0]
+                                                                   <s>_N)))_R of ds1 { (#,#) ipv ipv1 ->
+                                               case Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest6
+                                                      @ s
+                                                      GHC.Types.SPEC
+                                                      ((Data.Vector.Mutable.MVector
+                                                          @ (Control.Monad.Primitive.PrimState
+                                                               (GHC.ST.ST s))
+                                                          @ Data.Aeson.Types.Internal.Value
+                                                          0
+                                                          0
+                                                          ipv1)
+                                                         `cast`
+                                                       (Sub (Sym (Data.Vector.TFCo:R:MutableVector[0])) <Control.Monad.Primitive.PrimState
+                                                                                                           (GHC.ST.ST
+                                                                                                              s)>_N <Data.Aeson.Types.Internal.Value>_N),
+                                                       Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest5)
+                                                      (GHC.Base.map
+                                                         @ Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+                                                         @ Data.Aeson.Types.Internal.Value
+                                                         Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBGetStartedButtonPayload_$ctoJSON
+                                                         calls)
+                                                      ipv
+                                                        `cast`
+                                                      (GHC.Prim.State#
+                                                         (Control.Monad.Primitive.TFCo:R:PrimStateST[0]
+                                                              <s>_N))_R of ds2 { (#,#) ipv6 ipv7 ->
+                                               case ipv7 of wild5 { (,) v' n ->
+                                               case v'
+                                                      `cast`
+                                                    (Sub (Data.Vector.TFCo:R:MutableVector[0]) <Control.Monad.Primitive.PrimState
+                                                                                                  (GHC.ST.ST
+                                                                                                     s)>_N <Data.Aeson.Types.Internal.Value>_N) of wild1 { Data.Vector.Mutable.MVector dt dt1 dt2 ->
+                                               case n of dt5 { GHC.Types.I# dt6 ->
+                                               case GHC.Prim.unsafeFreezeArray#
+                                                      @ (Control.Monad.Primitive.PrimState
+                                                           (GHC.ST.ST s))
+                                                      @ Data.Aeson.Types.Internal.Value
+                                                      dt2
+                                                      ipv6
+                                                        `cast`
+                                                      (GHC.Prim.State#
+                                                         (Sym (Control.Monad.Primitive.TFCo:R:PrimStateST[0]
+                                                                   <s>_N)))_R of ds4 { (#,#) ipv2 ipv3 ->
+                                               (# ipv2
+                                                    `cast`
+                                                  (GHC.Prim.State#
+                                                     (Control.Monad.Primitive.TFCo:R:PrimStateST[0]
+                                                          <s>_N))_R,
+                                                  Data.Vector.Vector
+                                                    @ Data.Aeson.Types.Internal.Value
+                                                    dt
+                                                    dt6
+                                                    ipv3 #) } } } } } }) of dt { Data.Vector.Vector ipv ipv1 ipv2 ->
+                                       Data.Aeson.Types.Internal.Array dt })
+                                      (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair))))
+                             (Data.HashMap.Base.Empty
+                                @ Data.Text.Internal.Text
+                                @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                      (# dt #) }
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBPersistentMenuRequest calls
+                   -> case Data.Aeson.Types.Internal.$sfromList1
+                             @ Data.Aeson.Types.Internal.Value
+                             (GHC.Types.:
+                                @ Data.Aeson.Types.Internal.Pair
+                                Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest10
+                                (GHC.Types.:
+                                   @ Data.Aeson.Types.Internal.Pair
+                                   Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest2
+                                   (GHC.Types.:
+                                      @ Data.Aeson.Types.Internal.Pair
+                                      (Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest7,
+                                       case GHC.ST.runSTRep
+                                              @ (Data.Vector.Vector Data.Aeson.Types.Internal.Value)
+                                              (\ @ s s1 :: GHC.Prim.State# s[OneShot] ->
+                                               case GHC.Prim.newArray#
+                                                      @ Data.Aeson.Types.Internal.Value
+                                                      @ (Control.Monad.Primitive.PrimState
+                                                           (GHC.ST.ST s))
+                                                      0
+                                                      (Data.Vector.Mutable.uninitialised
+                                                         @ Data.Aeson.Types.Internal.Value)
+                                                      s1
+                                                        `cast`
+                                                      (GHC.Prim.State#
+                                                         (Sym (Control.Monad.Primitive.TFCo:R:PrimStateST[0]
+                                                                   <s>_N)))_R of ds1 { (#,#) ipv ipv1 ->
+                                               case Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest1
+                                                      @ s
+                                                      GHC.Types.SPEC
+                                                      ((Data.Vector.Mutable.MVector
+                                                          @ (Control.Monad.Primitive.PrimState
+                                                               (GHC.ST.ST s))
+                                                          @ Data.Aeson.Types.Internal.Value
+                                                          0
+                                                          0
+                                                          ipv1)
+                                                         `cast`
+                                                       (Sub (Sym (Data.Vector.TFCo:R:MutableVector[0])) <Control.Monad.Primitive.PrimState
+                                                                                                           (GHC.ST.ST
+                                                                                                              s)>_N <Data.Aeson.Types.Internal.Value>_N),
+                                                       Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest5)
+                                                      (GHC.Base.map
+                                                         @ Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+                                                         @ Data.Aeson.Types.Internal.Value
+                                                         Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem_$ctoJSON
+                                                         calls)
+                                                      ipv
+                                                        `cast`
+                                                      (GHC.Prim.State#
+                                                         (Control.Monad.Primitive.TFCo:R:PrimStateST[0]
+                                                              <s>_N))_R of ds2 { (#,#) ipv6 ipv7 ->
+                                               case ipv7 of wild5 { (,) v' n ->
+                                               case v'
+                                                      `cast`
+                                                    (Sub (Data.Vector.TFCo:R:MutableVector[0]) <Control.Monad.Primitive.PrimState
+                                                                                                  (GHC.ST.ST
+                                                                                                     s)>_N <Data.Aeson.Types.Internal.Value>_N) of wild1 { Data.Vector.Mutable.MVector dt dt1 dt2 ->
+                                               case n of dt5 { GHC.Types.I# dt6 ->
+                                               case GHC.Prim.unsafeFreezeArray#
+                                                      @ (Control.Monad.Primitive.PrimState
+                                                           (GHC.ST.ST s))
+                                                      @ Data.Aeson.Types.Internal.Value
+                                                      dt2
+                                                      ipv6
+                                                        `cast`
+                                                      (GHC.Prim.State#
+                                                         (Sym (Control.Monad.Primitive.TFCo:R:PrimStateST[0]
+                                                                   <s>_N)))_R of ds4 { (#,#) ipv2 ipv3 ->
+                                               (# ipv2
+                                                    `cast`
+                                                  (GHC.Prim.State#
+                                                     (Control.Monad.Primitive.TFCo:R:PrimStateST[0]
+                                                          <s>_N))_R,
+                                                  Data.Vector.Vector
+                                                    @ Data.Aeson.Types.Internal.Value
+                                                    dt
+                                                    dt6
+                                                    ipv3 #) } } } } } }) of dt { Data.Vector.Vector ipv ipv1 ipv2 ->
+                                       Data.Aeson.Types.Internal.Array dt })
+                                      (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair))))
+                             (Data.HashMap.Base.Empty
+                                @ Data.Text.Internal.Text
+                                @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                      (# dt #) } }) -}
+7b59e397799e712f4ea4bd164d92cf8f
+  newtype FBGetStartedButtonPayload
+    = FBGetStartedButtonPayload {fbsettings_getstarted_payload :: Data.Text.Internal.Text}
+cd0b157cbfb19b0fdd164aa136bc9a89
+  newtype FBSettingsGreeting
+    = FBSettingsGreeting {fbsettings_greeting_text :: Data.Text.Internal.Text}
+9b18974510ae35b3b0f40befc215ef66
+  data FBSettingsMenuItem
+    = FBSettingsMenuItemURL {fbsettings_menuitem_weburl_title :: Data.Text.Internal.Text,
+                             fbsettings_menuitem_weburl_url :: Data.Text.Internal.Text}
+    | FBSettingsMenuItemPostback {fbsettings_menuitem_postback_title :: Data.Text.Internal.Text,
+                                  fbsettings_menuitem_postback_payload :: Data.Text.Internal.Text}
+12beb045b9c9af3b6d47ace3cdbf1580
+  data FBSettingsRequest
+    = FBGreetingTextRequest {fbsettings_greeting :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting}
+    | FBGetStartedButtonRequest {fbsettings_getstarted :: [Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload]}
+    | FBPersistentMenuRequest {fbsettings_persistent :: [Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem]}
+8665b30456f74f3cb2a17e36e763a052
+  fbsettings_getstarted ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest
+    -> [Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload]
+  RecSel Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest ->
+                 case ds of wild {
+                   DEFAULT
+                   -> Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_getstarted1
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonRequest ds1
+                   -> ds1 }) -}
+d83dbdbbee8319a22acf6ec3de0fcdf2
+  fbsettings_getstarted1 ::
+    [Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload]
+  {- Strictness: b -}
+d417205834cec6f4968a144596e4ad79
+  fbsettings_getstarted_payload ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+    -> Data.Text.Internal.Text
+  RecSel Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U(U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_getstarted_payload1
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload>_R
+                 ->_R Web.Facebook.Messenger.Types.Requests.Settings.NTCo:FBGetStartedButtonPayload[0]) -}
+2ebd81ade24de016a06b8cd7223bb7c8
+  fbsettings_getstarted_payload1 ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+    -> Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U(U,U,U)>m,
+     Unfolding: InlineRule (1, True, True)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload ->
+                 ds) -}
+2607679e8cbf26c15f97648685ddd919
+  fbsettings_greeting ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest
+    -> Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting
+  RecSel Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest ->
+                 case ds of wild {
+                   DEFAULT
+                   -> Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_greeting1
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBGreetingTextRequest ds1
+                   -> ds1 }) -}
+125e87488f3bbc0641a1e51ca55572bb
+  fbsettings_greeting1 ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting
+  {- Strictness: b -}
+bfad9e2581c4bf04f218eda3405e4e0b
+  fbsettings_greeting_text ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting
+    -> Data.Text.Internal.Text
+  RecSel Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U(U,U,U)>m,
+     Unfolding: InlineRule (0, True, True)
+                Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_greeting_text1
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting>_R
+                 ->_R Web.Facebook.Messenger.Types.Requests.Settings.NTCo:FBSettingsGreeting[0]) -}
+5596df98ce7a44ff6458e935175800e3
+  fbsettings_greeting_text1 ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting
+    -> Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U(U,U,U)>m,
+     Unfolding: InlineRule (1, True, True)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting ->
+                 ds) -}
+7a32dfe710b9b637c5adbda0506a4b03
+  fbsettings_menuitem_postback_payload ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+    -> Data.Text.Internal.Text
+  RecSel Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemURL ipv ipv1
+                   -> Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_menuitem_postback_payload1
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemPostback ds1 ds2
+                   -> ds2 }) -}
+914083983545ee4e5698bc1e900ae61a
+  fbsettings_menuitem_postback_payload1 :: Data.Text.Internal.Text
+  {- Strictness: b -}
+5f48b13f004d6d73d647ce8b2c9f7ec1
+  fbsettings_menuitem_postback_title ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+    -> Data.Text.Internal.Text
+  RecSel Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemURL ipv ipv1
+                   -> Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_menuitem_postback_title1
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemPostback ds1 ds2
+                   -> ds1 }) -}
+92cd189be22f91ce0ba51afe766f015d
+  fbsettings_menuitem_postback_title1 :: Data.Text.Internal.Text
+  {- Strictness: b -}
+69cc5174f81401d523a62e315d92b91f
+  fbsettings_menuitem_weburl_title ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+    -> Data.Text.Internal.Text
+  RecSel Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemURL ds1 ds2
+                   -> ds1
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemPostback ipv ipv1
+                   -> Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_menuitem_weburl_title1 }) -}
+b5a3db6f0afaef268e8e8b622bf7c3ec
+  fbsettings_menuitem_weburl_title1 :: Data.Text.Internal.Text
+  {- Strictness: b -}
+ee7299deea2005bcdbed1bdc06f00acd
+  fbsettings_menuitem_weburl_url ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+    -> Data.Text.Internal.Text
+  RecSel Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemURL ds1 ds2
+                   -> ds2
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemPostback ipv ipv1
+                   -> Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_menuitem_weburl_url1 }) -}
+55cd773a0dcd3c696dc83e1b9b40db7b
+  fbsettings_menuitem_weburl_url1 :: Data.Text.Internal.Text
+  {- Strictness: b -}
+0ffd9f288a61286ee29d961fee56783b
+  fbsettings_persistent ::
+    Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest
+    -> [Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem]
+  RecSel Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest ->
+                 case ds of wild {
+                   DEFAULT
+                   -> Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_persistent1
+                   Web.Facebook.Messenger.Types.Requests.Settings.FBPersistentMenuRequest ds1
+                   -> ds1 }) -}
+069998fc07864bdc045e865e0aee0ebb
+  fbsettings_persistent1 ::
+    [Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem]
+  {- Strictness: b -}
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload]
+  = Web.Facebook.Messenger.Types.Requests.Settings.$fFromJSONFBGetStartedButtonPayload
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting]
+  = Web.Facebook.Messenger.Types.Requests.Settings.$fFromJSONFBSettingsGreeting
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem]
+  = Web.Facebook.Messenger.Types.Requests.Settings.$fFromJSONFBSettingsMenuItem
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest]
+  = Web.Facebook.Messenger.Types.Requests.Settings.$fFromJSONFBSettingsRequest
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload]
+  = Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBGetStartedButtonPayload
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting]
+  = Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsGreeting
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem]
+  = Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsMenuItem
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest]
+  = Web.Facebook.Messenger.Types.Requests.Settings.$fToJSONFBSettingsRequest
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: none
+require own pkg trusted: False
+

@@ -1,0 +1,636 @@
+
+==================== FINAL INTERFACE ====================
+2016-07-11 14:50:16.437184 UTC
+
+interface faceb_6XenxrYvzlWDEEj7EBwREs:Web.Facebook.Messenger.Types.Callbacks.Delivery 7103
+  interface hash: 9b2148f79c5e46133b3b86cd95cef358
+  ABI hash: 913dc9eff4f54da5e008cd9fcc5e2d05
+  export-list hash: 7bc6dba2315280c2baa4e8f12ff14e39
+  orphan hash: d7bfdbf7072339b268ad299ddee69171
+  flag hash: 7048ba1f6b030ff0479f4e3bdd9976db
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery{Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery Web.Facebook.Messenger.Types.Callbacks.Delivery.fbcb_delivery_mids Web.Facebook.Messenger.Types.Callbacks.Delivery.fbcb_delivery_seq Web.Facebook.Messenger.Types.Callbacks.Delivery.fbcb_delivery_watermark}
+module dependencies:
+package dependencies: aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG
+                      array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA
+                      attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68 base-4.8.2.0
+                      binary-0.7.5.0@binar_3uXFWMoAGBg0xKP9MHKRwi
+                      bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6
+                      containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU
+                      deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59
+                      dlist-0.7.1.2@dlist_AO7XAasbAeyL0XLKeq1Aui
+                      fail-4.9.0.0@fail_2xB1AvdW34sDm9N3JOe33G ghc-prim-0.4.0.0
+                      hashable-1.2.4.0@hasha_EalUWgp8NarBYWPbvYAD8I integer-gmp-1.0.0.0
+                      primitive-0.6.1.0@primi_EphY2c7CCxSCBKjAN0YTR3
+                      scientific-0.3.4.8@scien_Elq5IFN7LP733k4M8RTP7H
+                      semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1
+                      tagged-0.8.4@tagge_LPeicl3HxVfGUMMwMEsAE6 template-haskell-2.10.0.0
+                      text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne
+                      time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn
+                      transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF
+                      unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw
+                      vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln
+orphans: aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Generic
+         aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Instances
+         attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.ByteString.Char8
+         attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.Text.Internal
+         base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
+         binary-0.7.5.0@binar_3uXFWMoAGBg0xKP9MHKRwi:Data.Binary.Generic
+         bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Builder
+         hashable-1.2.4.0@hasha_EalUWgp8NarBYWPbvYAD8I:Data.Hashable.Generic
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Lazy
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Show
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Calendar.Gregorian
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Format.Parse
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.LocalTime.LocalTime
+         transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF:Control.Monad.Trans.Error
+         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Fusion.Bundle
+         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed
+family instance modules: attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.Internal.Types
+                         base-4.8.2.0:Control.Applicative base-4.8.2.0:Data.Either
+                         base-4.8.2.0:Data.Functor.Identity base-4.8.2.0:Data.Monoid
+                         base-4.8.2.0:Data.Type.Equality base-4.8.2.0:Data.Void
+                         base-4.8.2.0:GHC.Exts base-4.8.2.0:GHC.Generics
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntMap.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntSet.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Sequence
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base
+                         dlist-0.7.1.2@dlist_AO7XAasbAeyL0XLKeq1Aui:Data.DList
+                         primitive-0.6.1.0@primi_EphY2c7CCxSCBKjAN0YTR3:Control.Monad.Primitive
+                         semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1:Data.List.NonEmpty
+                         semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1:Data.Semigroup
+                         tagged-0.8.4@tagge_LPeicl3HxVfGUMMwMEsAE6:Data.Tagged
+                         template-haskell-2.10.0.0:Language.Haskell.TH.Syntax
+                         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text
+                         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Lazy
+                         unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw:Data.HashMap.Base
+                         unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw:Data.HashSet
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Primitive
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Storable
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed.Base
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson e3fc0a86707d11f0744855c22c003db1
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types d71ae0cda6d0b13737565a57b623211b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Class fe6a708e11304b32e33ecaa7b7f0574b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Instances d9242ecda29dd4253371b8f2ef6a3b1b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Internal 1526f1e54c3778413953c293b6e62476
+import  -/  base-4.8.2.0:Data.Functor 5c701b0af1708f0192a25dfe14ce6274
+import  -/  base-4.8.2.0:GHC.Base 1db77db5dae73d8c424c85b09fbadb89
+import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
+import  -/  text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text 677c532e2dd56476a11a0a8a53880ce7
+import  -/  text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Internal d9b6b9a9dd535595b612aea5738b7466
+f6fd1f0279a749303d9504d7b44001d6
+  $fFromJSONFBCallbackDelivery ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Callbacks.Delivery.$fFromJSONFBCallbackDelivery_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery>_N)) -}
+f6fd1f0279a749303d9504d7b44001d6
+  $fFromJSONFBCallbackDelivery_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery
+  {- Arity: 1, Strictness: <S,1*U> -}
+f6fd1f0279a749303d9504d7b44001d6
+  $fToJSONFBCallbackDelivery ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery
+                  Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$ctoJSON
+                  Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$ctoEncoding -}
+7a49a85f740c0d873596fe9c4c8e3493
+  $fToJSONFBCallbackDelivery1 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "seq"#) -}
+9bbe15650f8bb385520e6b716c8a4124
+  $fToJSONFBCallbackDelivery2 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "watermark"#) -}
+d471ecc045b9d870266101ac32b9cb9c
+  $fToJSONFBCallbackDelivery3 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "mids"#) -}
+f6fd1f0279a749303d9504d7b44001d6
+  $fToJSONFBCallbackDelivery_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <S,1*U(1*U,1*U(U),1*U(U))>,
+     Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+f6fd1f0279a749303d9504d7b44001d6
+  $fToJSONFBCallbackDelivery_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U(1*U,1*U(U),1*U(U))>m1,
+     Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ w :: Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery ->
+                 case w of ww { Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery ww1 ww2 ww3 ->
+                 case Web.Facebook.Messenger.Types.Callbacks.Delivery.$w$ctoJSON
+                        ww1
+                        ww2
+                        ww3 of ww4 { (##) ww5 ->
+                 Data.Aeson.Types.Internal.Object ww5 } }) -}
+079099a967e18540edaa8395912a6ae5
+  $fToJSONFBCallbackDelivery_$s$fToJSONMaybe_$ctoJSON ::
+    GHC.Base.Maybe [Data.Text.Internal.Text]
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=1),
+     Unfolding: InlineRule (1, False, False)
+                (\ ds :: GHC.Base.Maybe [Data.Text.Internal.Text] ->
+                 case ds of wild {
+                   GHC.Base.Nothing -> Data.Aeson.Types.Internal.Null
+                   GHC.Base.Just a109
+                   -> case Data.Vector.Generic.new
+                             @ Data.Vector.Vector
+                             @ Data.Aeson.Types.Internal.Value
+                             Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora
+                             (Data.Vector.Generic.New.unstream
+                                @ Data.Vector.Vector
+                                @ Data.Aeson.Types.Internal.Value
+                                Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora
+                                (Data.Vector.Fusion.Bundle.Monadic.unsafeFromList
+                                   @ Data.Aeson.Types.Internal.Value
+                                   @ Data.Vector.Fusion.Util.Id
+                                   @ Data.Vector.Vector
+                                   Data.Vector.Fusion.Util.$fMonadId
+                                   Data.Vector.Fusion.Bundle.Size.Unknown
+                                   (GHC.Base.build
+                                      @ Data.Aeson.Types.Internal.Value
+                                      (\ @ b1
+                                         c :: Data.Aeson.Types.Internal.Value -> b1 -> b1[OneShot]
+                                         n :: b1[OneShot] ->
+                                       GHC.Base.foldr
+                                         @ Data.Text.Internal.Text
+                                         @ b1
+                                         (GHC.Base.mapFB
+                                            @ Data.Aeson.Types.Internal.Value
+                                            @ b1
+                                            @ Data.Text.Internal.Text
+                                            c
+                                            Data.Aeson.Types.Internal.$WString)
+                                         n
+                                         a109)))) of dt { Data.Vector.Vector ipv ipv1 ipv2 ->
+                      Data.Aeson.Types.Internal.Array dt } }) -}
+a788aacdc16588831200ddf97fbf79ae
+  $fToJSONFBCallbackDelivery_$s$fVectorVectora ::
+    Data.Vector.Generic.Base.Vector
+      Data.Vector.Vector Data.Aeson.Types.Internal.Value
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Data.Vector.Vector
+                  @ Data.Aeson.Types.Internal.Value
+                  (Data.Vector.Mutable.$fMVectorMVectora
+                     @ Data.Aeson.Types.Internal.Value)
+                    `cast`
+                  (Data.Vector.Generic.Mutable.Base.MVector
+                     (Sym (Data.Vector.TFCo:R:MutableVector[0]))
+                     <Data.Aeson.Types.Internal.Value>_N)_R
+                  Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeFreeze
+                  Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeThaw
+                  Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicLength
+                  Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeSlice
+                  Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeIndexM
+                  Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeCopy
+                  Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$celemseq -}
+47ce6ded865666f7a217ac00dce32d1e
+  $fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicLength ::
+    Data.Vector.Vector Data.Aeson.Types.Internal.Value -> GHC.Types.Int
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U(A,U,A)>m,
+     Inline: INLINE (sat-args=1),
+     Unfolding: InlineRule (1, False, False)
+                (\ ds :: Data.Vector.Vector Data.Aeson.Types.Internal.Value ->
+                 case ds of wild { Data.Vector.Vector dt dt1 dt2 ->
+                 GHC.Types.I# dt1 }) -}
+e46a1a4dceac5e6aa0cd02102be97e7f
+  $fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeCopy ::
+    Control.Monad.Primitive.PrimMonad m =>
+    Data.Vector.Generic.Base.Mutable
+      Data.Vector.Vector
+      (Control.Monad.Primitive.PrimState m)
+      Data.Aeson.Types.Internal.Value
+    -> Data.Vector.Vector Data.Aeson.Types.Internal.Value -> m ()
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <S(LC(S)),1*U(A,1*C1(U))><S,1*U(U,U,U)><S,1*U(U,A,U)>,
+     Inline: INLINE (sat-args=2),
+     Unfolding: InlineRule (2, False, False)
+                (\ @ (m :: * -> *)
+                   $dPrimMonad :: Control.Monad.Primitive.PrimMonad m
+                   ds :: Data.Vector.Generic.Base.Mutable
+                           Data.Vector.Vector
+                           (Control.Monad.Primitive.PrimState m)
+                           Data.Aeson.Types.Internal.Value
+                   ds1 :: Data.Vector.Vector Data.Aeson.Types.Internal.Value ->
+                 case ds
+                        `cast`
+                      (Sub (Data.Vector.TFCo:R:MutableVector[0]) <Control.Monad.Primitive.PrimState
+                                                                    m>_N <Data.Aeson.Types.Internal.Value>_N) of wild { Data.Vector.Mutable.MVector dt dt1 dt2 ->
+                 case ds1 of wild1 { Data.Vector.Vector dt3 dt4 dt5 ->
+                 Control.Monad.Primitive.primitive
+                   @ m
+                   $dPrimMonad
+                   @ ()
+                   (\ s# :: GHC.Prim.State#
+                              (Control.Monad.Primitive.PrimState m)[OneShot] ->
+                    case GHC.Prim.copyArray#
+                           @ Data.Aeson.Types.Internal.Value
+                           @ (Control.Monad.Primitive.PrimState m)
+                           dt5
+                           dt3
+                           dt2
+                           dt
+                           dt1
+                           s# of s'# { DEFAULT ->
+                    (# s'#, GHC.Tuple.() #) }) } }) -}
+2c963e53bd2e6eeba6b34a87fa992c89
+  $fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeFreeze ::
+    Control.Monad.Primitive.PrimMonad m =>
+    Data.Vector.Generic.Base.Mutable
+      Data.Vector.Vector
+      (Control.Monad.Primitive.PrimState m)
+      Data.Aeson.Types.Internal.Value
+    -> m (Data.Vector.Vector Data.Aeson.Types.Internal.Value)
+  {- Arity: 2, HasNoCafRefs,
+     Strictness: <S(SL),U(1*U,1*C1(U))><S,1*U(U,U,U)>,
+     Inline: INLINE (sat-args=1),
+     Unfolding: InlineRule (1, False, False)
+                (\ @ (m :: * -> *)
+                   $dPrimMonad :: Control.Monad.Primitive.PrimMonad m
+                   eta :: Data.Vector.Generic.Base.Mutable
+                            Data.Vector.Vector
+                            (Control.Monad.Primitive.PrimState m)
+                            Data.Aeson.Types.Internal.Value ->
+                 case eta
+                        `cast`
+                      (Sub (Data.Vector.TFCo:R:MutableVector[0]) <Control.Monad.Primitive.PrimState
+                                                                    m>_N <Data.Aeson.Types.Internal.Value>_N) of wild { Data.Vector.Mutable.MVector dt dt1 dt2 ->
+                 GHC.Base.liftM
+                   @ (Data.Primitive.Array.Array Data.Aeson.Types.Internal.Value)
+                   @ (Data.Vector.Vector Data.Aeson.Types.Internal.Value)
+                   @ m
+                   (Control.Monad.Primitive.$p1PrimMonad @ m $dPrimMonad)
+                   (Data.Vector.$WVector
+                      @ Data.Aeson.Types.Internal.Value
+                      (GHC.Types.I# dt)
+                      (GHC.Types.I# dt1))
+                   (Control.Monad.Primitive.primitive
+                      @ m
+                      $dPrimMonad
+                      @ (Data.Primitive.Array.Array Data.Aeson.Types.Internal.Value)
+                      (\ s# :: GHC.Prim.State#
+                                 (Control.Monad.Primitive.PrimState m)[OneShot] ->
+                       case GHC.Prim.unsafeFreezeArray#
+                              @ (Control.Monad.Primitive.PrimState m)
+                              @ Data.Aeson.Types.Internal.Value
+                              dt2
+                              s# of ds1 { (#,#) ipv ipv1 ->
+                       (# ipv,
+                          Data.Primitive.Array.Array
+                            @ Data.Aeson.Types.Internal.Value
+                            ipv1 #) })) }) -}
+35f408f92739a5262741a935c885b131
+  $fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeIndexM ::
+    GHC.Base.Monad m =>
+    Data.Vector.Vector Data.Aeson.Types.Internal.Value
+    -> GHC.Types.Int -> m Data.Aeson.Types.Internal.Value
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <S(LLLC(S)L),1*U(A,A,A,1*C1(U),A)><S,1*U(U,A,U)><S,1*U(U)>,
+     Inline: INLINE (sat-args=2),
+     Unfolding: InlineRule (2, False, False)
+                (\ @ (m :: * -> *)
+                   $dMonad :: GHC.Base.Monad m
+                   ds :: Data.Vector.Vector Data.Aeson.Types.Internal.Value
+                   j :: GHC.Types.Int ->
+                 case ds of wild { Data.Vector.Vector dt dt1 dt2 ->
+                 case GHC.Num.$fNumInt_$c+
+                        (GHC.Types.I# dt)
+                        j of wild1 { GHC.Types.I# i# ->
+                 case GHC.Prim.indexArray#
+                        @ Data.Aeson.Types.Internal.Value
+                        dt2
+                        i# of ds2 { (##) ipv ->
+                 GHC.Base.return
+                   @ m
+                   $dMonad
+                   @ Data.Aeson.Types.Internal.Value
+                   ipv } } }) -}
+d40db6b5667331956d9f78eee4a6e352
+  $fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeSlice ::
+    GHC.Types.Int
+    -> GHC.Types.Int
+    -> Data.Vector.Vector Data.Aeson.Types.Internal.Value
+    -> Data.Vector.Vector Data.Aeson.Types.Internal.Value
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <S,1*U(U)><S,1*U(U)><S,1*U(U,A,U)>m,
+     Inline: INLINE (sat-args=3),
+     Unfolding: InlineRule (3, False, False)
+                (\ j :: GHC.Types.Int
+                   n :: GHC.Types.Int
+                   ds :: Data.Vector.Vector Data.Aeson.Types.Internal.Value ->
+                 case ds of wild { Data.Vector.Vector dt dt1 dt2 ->
+                 case GHC.Num.$fNumInt_$c+
+                        (GHC.Types.I# dt)
+                        j of dt3 { GHC.Types.I# dt4 ->
+                 case n of dt5 { GHC.Types.I# dt6 ->
+                 Data.Vector.Vector
+                   @ Data.Aeson.Types.Internal.Value
+                   dt4
+                   dt6
+                   dt2 } } }) -}
+1278d5e7c6ce50194d26fd69ea5ae22e
+  $fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeThaw ::
+    Control.Monad.Primitive.PrimMonad m =>
+    Data.Vector.Vector Data.Aeson.Types.Internal.Value
+    -> m (Data.Vector.Generic.Base.Mutable
+            Data.Vector.Vector
+            (Control.Monad.Primitive.PrimState m)
+            Data.Aeson.Types.Internal.Value)
+  {- Arity: 2, HasNoCafRefs,
+     Strictness: <S(SL),U(1*U,1*C1(U))><S,1*U(U,U,U)>,
+     Inline: INLINE (sat-args=1),
+     Unfolding: InlineRule (1, False, False)
+                (\ @ (m :: * -> *)
+                   $dPrimMonad :: Control.Monad.Primitive.PrimMonad m
+                   eta :: Data.Vector.Vector Data.Aeson.Types.Internal.Value ->
+                 case eta of wild { Data.Vector.Vector dt dt1 dt2 ->
+                 (GHC.Base.liftM
+                    @ (Data.Primitive.Array.MutableArray
+                         (Control.Monad.Primitive.PrimState m)
+                         Data.Aeson.Types.Internal.Value)
+                    @ (Data.Vector.Mutable.MVector
+                         (Control.Monad.Primitive.PrimState m)
+                         Data.Aeson.Types.Internal.Value)
+                    @ m
+                    (Control.Monad.Primitive.$p1PrimMonad @ m $dPrimMonad)
+                    (Data.Vector.Mutable.$WMVector
+                       @ (Control.Monad.Primitive.PrimState m)
+                       @ Data.Aeson.Types.Internal.Value
+                       (GHC.Types.I# dt)
+                       (GHC.Types.I# dt1))
+                    (Control.Monad.Primitive.primitive
+                       @ m
+                       $dPrimMonad
+                       @ (Data.Primitive.Array.MutableArray
+                            (Control.Monad.Primitive.PrimState m)
+                            Data.Aeson.Types.Internal.Value)
+                       (\ s# :: GHC.Prim.State#
+                                  (Control.Monad.Primitive.PrimState m)[OneShot] ->
+                        case GHC.Prim.unsafeThawArray#
+                               @ Data.Aeson.Types.Internal.Value
+                               @ (Control.Monad.Primitive.PrimState m)
+                               dt2
+                               s# of ds1 { (#,#) ipv ipv1 ->
+                        (# ipv,
+                           Data.Primitive.Array.MutableArray
+                             @ (Control.Monad.Primitive.PrimState m)
+                             @ Data.Aeson.Types.Internal.Value
+                             ipv1 #) })))
+                   `cast`
+                 (<m>_R (Sym (Data.Vector.TFCo:R:MutableVector[0]) <Control.Monad.Primitive.PrimState
+                                                                      m>_N <Data.Aeson.Types.Internal.Value>_N)) }) -}
+18ded8c2dd2e8f5f819ac56f29abf1b4
+  $fToJSONFBCallbackDelivery_$s$fVectorVectora_$celemseq ::
+    Data.Vector.Vector Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Value -> b -> b
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><S,1*U>,
+     Inline: INLINE (sat-args=1),
+     Unfolding: InlineRule (1, False, True)
+                (\ @ b
+                   ds :: Data.Vector.Vector Data.Aeson.Types.Internal.Value
+                   ds1 :: Data.Aeson.Types.Internal.Value
+                   x :: b ->
+                 x) -}
+9bd882cf8e6db78902df050a6af915db
+  $s$fFromJSONMaybe_$cparseJSON4 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Text"#) -}
+9a2b6be88ade874654090470bd5e873f
+  $s$fFromJSONMaybe_$cparseJSON5 ::
+    [Data.Aeson.Types.Internal.Parser Data.Text.Internal.Text]
+    -> forall (f :: * -> *) r.
+       Data.Aeson.Types.Internal.JSONPath
+       -> Data.Aeson.Types.Internal.Failure f r
+       -> Data.Aeson.Types.Internal.Success [Data.Text.Internal.Text] f r
+       -> f r
+  {- Arity: 4, HasNoCafRefs, Strictness: <S,1*U><L,U><L,U><L,C(U)> -}
+20fa83f2c674b101324d3c6f71c269b8
+  $s$fFromJSONMaybe_$cparseJSON6 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "[a]"#) -}
+86e0c7b4bc48091c3c9df0b10c8f01a8
+  $s$fFromJSONMaybe_$cparseJSON_a109 ::
+    GHC.Types.Int
+    -> Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser Data.Text.Internal.Text
+  {- Arity: 2, Strictness: <L,1*U(U)><L,1*U>,
+     Unfolding: (\ idx :: GHC.Types.Int
+                   value :: Data.Aeson.Types.Internal.Value ->
+                 let {
+                   pathElem17 :: Data.Aeson.Types.Internal.JSONPathElement
+                   = case idx of dt { GHC.Types.I# dt1 ->
+                     Data.Aeson.Types.Internal.Index dt1 }
+                 } in
+                 let {
+                   p :: Data.Aeson.Types.Internal.Parser Data.Text.Internal.Text
+                   = case value of wild {
+                       DEFAULT
+                       -> Data.Aeson.Types.Class.typeMismatch
+                            @ Data.Text.Internal.Text
+                            Web.Facebook.Messenger.Types.Callbacks.Delivery.$s$fFromJSONMaybe_$cparseJSON4
+                            wild
+                       Data.Aeson.Types.Internal.String txt
+                       -> (\ @ (f :: * -> *)
+                             @ r
+                             _path :: Data.Aeson.Types.Internal.JSONPath
+                             _kf :: Data.Aeson.Types.Internal.Failure f r
+                             ks :: Data.Aeson.Types.Internal.Success
+                                     Data.Text.Internal.Text f r ->
+                           ks txt)
+                            `cast`
+                          (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                    <Data.Text.Internal.Text>_R)) }
+                 } in
+                 (\ @ (f :: * -> *)
+                    @ r
+                    path :: Data.Aeson.Types.Internal.JSONPath
+                    kf :: Data.Aeson.Types.Internal.Failure f r
+                    ks :: Data.Aeson.Types.Internal.Success
+                            Data.Text.Internal.Text f r ->
+                  p `cast`
+                  (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                       <Data.Text.Internal.Text>_R)
+                    @ f
+                    @ r
+                    (GHC.Types.:
+                       @ Data.Aeson.Types.Internal.JSONPathElement
+                       pathElem17
+                       path)
+                    kf
+                    ks)
+                   `cast`
+                 (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                           <Data.Text.Internal.Text>_R))) -}
+96e4dc9c69e99e019ded988ca59e45ff
+  $s$fFromJSONMaybe_$cparseJSON_a110 :: [GHC.Types.Int]
+  {- Unfolding: (GHC.Enum.eftInt 0 9223372036854775807) -}
+934687cfcf23de64bff2b58637e0cd44
+  $w$ctoJSON ::
+    GHC.Base.Maybe [Data.Text.Internal.Text]
+    -> GHC.Types.Int
+    -> GHC.Types.Int
+    -> (# Data.Aeson.Types.Internal.Object #)
+  {- Arity: 3, Strictness: <L,1*U><L,1*U(U)><L,1*U(U)>, Inline: [0],
+     Unfolding: (\ ww :: GHC.Base.Maybe [Data.Text.Internal.Text]
+                   ww1 :: GHC.Types.Int
+                   ww2 :: GHC.Types.Int ->
+                 case Data.Aeson.Types.Internal.$sfromList1
+                        @ Data.Aeson.Types.Internal.Value
+                        (GHC.Types.:
+                           @ Data.Aeson.Types.Internal.Pair
+                           (Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery3,
+                            Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fToJSONMaybe_$ctoJSON
+                              ww)
+                           (GHC.Types.:
+                              @ Data.Aeson.Types.Internal.Pair
+                              (Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery2,
+                               case ww1 of wild { GHC.Types.I# i ->
+                               case GHC.Integer.Type.smallInteger i of dt { DEFAULT ->
+                               Data.Aeson.Types.Internal.Number
+                                 (Data.Scientific.Scientific dt 0) } })
+                              (GHC.Types.:
+                                 @ Data.Aeson.Types.Internal.Pair
+                                 (Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery1,
+                                  case ww2 of wild { GHC.Types.I# i ->
+                                  case GHC.Integer.Type.smallInteger i of dt { DEFAULT ->
+                                  Data.Aeson.Types.Internal.Number
+                                    (Data.Scientific.Scientific dt 0) } })
+                                 (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair))))
+                        (Data.HashMap.Base.Empty
+                           @ Data.Text.Internal.Text
+                           @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                 (# dt #) }) -}
+f6fd1f0279a749303d9504d7b44001d6
+  data FBCallbackDelivery
+    = FBCallbackDelivery {fbcb_delivery_mids :: GHC.Base.Maybe
+                                                  [Data.Text.Internal.Text],
+                          fbcb_delivery_watermark :: GHC.Types.Int,
+                          fbcb_delivery_seq :: GHC.Types.Int}
+3cfbfe044ff75fda8bc2dd808675af94
+  fbcb_delivery_mids ::
+    Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery
+    -> GHC.Base.Maybe [Data.Text.Internal.Text]
+  RecSel Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(SLL),1*U(1*U,A,A)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery ->
+                 case ds of wild { Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery ds1 ds2 ds3 ->
+                 ds1 }) -}
+6a46d81e8ef898c8c87b4e4f3514f9eb
+  fbcb_delivery_seq ::
+    Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery
+    -> GHC.Types.Int
+  RecSel Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(LLS),1*U(A,A,1*U(U))>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery ->
+                 case ds of wild { Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery ds1 ds2 ds3 ->
+                 ds3 }) -}
+48c416ee76f04e30475d7ac179c2a3c9
+  fbcb_delivery_watermark ::
+    Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery
+    -> GHC.Types.Int
+  RecSel Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(LSL),1*U(A,1*U(U),A)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery ->
+                 case ds of wild { Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery ds1 ds2 ds3 ->
+                 ds2 }) -}
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery]
+  = Web.Facebook.Messenger.Types.Callbacks.Delivery.$fFromJSONFBCallbackDelivery
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Callbacks.Delivery.FBCallbackDelivery]
+  = Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery
+"SPEC/Web.Facebook.Messenger.Types.Callbacks.Delivery $fToJSONMaybe_$ctoJSON @ [Text]" [ALWAYS] forall $dToJSON :: Data.Aeson.Types.Class.ToJSON
+                                                                                                                     [Data.Text.Internal.Text]
+  Data.Aeson.Types.Instances.$fToJSONMaybe_$ctoJSON @ [Data.Text.Internal.Text]
+                                                    $dToJSON
+  = Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fToJSONMaybe_$ctoJSON
+"SPEC/Web.Facebook.Messenger.Types.Callbacks.Delivery $fVectorVectora @ Value" [ALWAYS] forall $dMVector :: Data.Vector.Generic.Mutable.Base.MVector
+                                                                                                              (Data.Vector.Generic.Base.Mutable
+                                                                                                                 Data.Vector.Vector)
+                                                                                                              Data.Aeson.Types.Internal.Value
+  Data.Vector.$fVectorVectora @ Data.Aeson.Types.Internal.Value
+                              $dMVector
+  = Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora
+"SPEC/Web.Facebook.Messenger.Types.Callbacks.Delivery $fVectorVectora_$cbasicLength @ Value" [ALWAYS] forall $dMVector :: Data.Vector.Generic.Mutable.Base.MVector
+                                                                                                                            (Data.Vector.Generic.Base.Mutable
+                                                                                                                               Data.Vector.Vector)
+                                                                                                                            Data.Aeson.Types.Internal.Value
+  Data.Vector.$fVectorVectora_$cbasicLength @ Data.Aeson.Types.Internal.Value
+                                            $dMVector
+  = Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicLength
+"SPEC/Web.Facebook.Messenger.Types.Callbacks.Delivery $fVectorVectora_$cbasicUnsafeCopy @ Value" [ALWAYS] forall $dMVector :: Data.Vector.Generic.Mutable.Base.MVector
+                                                                                                                                (Data.Vector.Generic.Base.Mutable
+                                                                                                                                   Data.Vector.Vector)
+                                                                                                                                Data.Aeson.Types.Internal.Value
+  Data.Vector.$fVectorVectora_$cbasicUnsafeCopy @ Data.Aeson.Types.Internal.Value
+                                                $dMVector
+  = Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeCopy
+"SPEC/Web.Facebook.Messenger.Types.Callbacks.Delivery $fVectorVectora_$cbasicUnsafeFreeze @ Value" [ALWAYS] forall $dMVector :: Data.Vector.Generic.Mutable.Base.MVector
+                                                                                                                                  (Data.Vector.Generic.Base.Mutable
+                                                                                                                                     Data.Vector.Vector)
+                                                                                                                                  Data.Aeson.Types.Internal.Value
+  Data.Vector.$fVectorVectora_$cbasicUnsafeFreeze @ Data.Aeson.Types.Internal.Value
+                                                  $dMVector
+  = Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeFreeze
+"SPEC/Web.Facebook.Messenger.Types.Callbacks.Delivery $fVectorVectora_$cbasicUnsafeIndexM @ Value" [ALWAYS] forall $dMVector :: Data.Vector.Generic.Mutable.Base.MVector
+                                                                                                                                  (Data.Vector.Generic.Base.Mutable
+                                                                                                                                     Data.Vector.Vector)
+                                                                                                                                  Data.Aeson.Types.Internal.Value
+  Data.Vector.$fVectorVectora_$cbasicUnsafeIndexM @ Data.Aeson.Types.Internal.Value
+                                                  $dMVector
+  = Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeIndexM
+"SPEC/Web.Facebook.Messenger.Types.Callbacks.Delivery $fVectorVectora_$cbasicUnsafeSlice @ Value" [ALWAYS] forall $dMVector :: Data.Vector.Generic.Mutable.Base.MVector
+                                                                                                                                 (Data.Vector.Generic.Base.Mutable
+                                                                                                                                    Data.Vector.Vector)
+                                                                                                                                 Data.Aeson.Types.Internal.Value
+  Data.Vector.$fVectorVectora_$cbasicUnsafeSlice @ Data.Aeson.Types.Internal.Value
+                                                 $dMVector
+  = Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeSlice
+"SPEC/Web.Facebook.Messenger.Types.Callbacks.Delivery $fVectorVectora_$cbasicUnsafeThaw @ Value" [ALWAYS] forall $dMVector :: Data.Vector.Generic.Mutable.Base.MVector
+                                                                                                                                (Data.Vector.Generic.Base.Mutable
+                                                                                                                                   Data.Vector.Vector)
+                                                                                                                                Data.Aeson.Types.Internal.Value
+  Data.Vector.$fVectorVectora_$cbasicUnsafeThaw @ Data.Aeson.Types.Internal.Value
+                                                $dMVector
+  = Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$cbasicUnsafeThaw
+"SPEC/Web.Facebook.Messenger.Types.Callbacks.Delivery $fVectorVectora_$celemseq @ Value" [ALWAYS] forall $dMVector :: Data.Vector.Generic.Mutable.Base.MVector
+                                                                                                                        (Data.Vector.Generic.Base.Mutable
+                                                                                                                           Data.Vector.Vector)
+                                                                                                                        Data.Aeson.Types.Internal.Value
+  Data.Vector.$fVectorVectora_$celemseq @ Data.Aeson.Types.Internal.Value
+                                        $dMVector
+  = Web.Facebook.Messenger.Types.Callbacks.Delivery.$fToJSONFBCallbackDelivery_$s$fVectorVectora_$celemseq
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: none
+require own pkg trusted: False
+

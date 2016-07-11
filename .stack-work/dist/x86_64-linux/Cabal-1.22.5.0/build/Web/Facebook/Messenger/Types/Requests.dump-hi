@@ -1,0 +1,829 @@
+
+==================== FINAL INTERFACE ====================
+2016-07-11 14:52:52.310799 UTC
+
+interface faceb_6XenxrYvzlWDEEj7EBwREs:Web.Facebook.Messenger.Types.Requests 7103
+  interface hash: ad8fe831fc159d20cdcab6ce563ee8e2
+  ABI hash: f1b5ee12bdeb21c043961ee3bccdeef7
+  export-list hash: cb8a67eee9ac2df3e1d4b48dafc65902
+  orphan hash: fe0987bb31642844271d8953e1336c47
+  flag hash: a762308cab12f3b00c5309f113de71aa
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Web.Facebook.Messenger.Types.Requests.FBRequestRecipient{Web.Facebook.Messenger.Types.Requests.FBRequestRecipientID Web.Facebook.Messenger.Types.Requests.FBRequestRecipientPhone Web.Facebook.Messenger.Types.Requests.fbreq_recipient_id Web.Facebook.Messenger.Types.Requests.fbreq_recipient_phone}
+  Web.Facebook.Messenger.Types.Requests.FBSendRequest{Web.Facebook.Messenger.Types.Requests.FBSendMessageRequest Web.Facebook.Messenger.Types.Requests.FBSenderActionRequest Web.Facebook.Messenger.Types.Requests.fbreq_message Web.Facebook.Messenger.Types.Requests.fbreq_notification_type Web.Facebook.Messenger.Types.Requests.fbreq_recipient Web.Facebook.Messenger.Types.Requests.fbreq_sender_action}
+  Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineAirport{Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineAirport Web.Facebook.Messenger.Types.Requests.Airline.fbair_airport_airport_code Web.Facebook.Messenger.Types.Requests.Airline.fbair_airport_city Web.Facebook.Messenger.Types.Requests.Airline.fbair_airport_gate Web.Facebook.Messenger.Types.Requests.Airline.fbair_airport_terminal}
+  Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineBoardingPass{Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineBoardingPassBarcode Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineBoardingPassQRCode Web.Facebook.Messenger.Types.Requests.Airline.fbair_boardingpass_above_bar_code_image_url Web.Facebook.Messenger.Types.Requests.Airline.fbair_boardingpass_auxiliary_fields Web.Facebook.Messenger.Types.Requests.Airline.fbair_boardingpass_barcode_image_url Web.Facebook.Messenger.Types.Requests.Airline.fbair_boardingpass_flight_info Web.Facebook.Messenger.Types.Requests.Airline.fbair_boardingpass_header_image_url Web.Facebook.Messenger.Types.Requests.Airline.fbair_boardingpass_header_text_field Web.Facebook.Messenger.Types.Requests.Airline.fbair_boardingpass_logo_image_url Web.Facebook.Messenger.Types.Requests.Airline.fbair_boardingpass_passenger_name Web.Facebook.Messenger.Types.Requests.Airline.fbair_boardingpass_pnr_number Web.Facebook.Messenger.Types.Requests.Airline.fbair_boardingpass_qr_code Web.Facebook.Messenger.Types.Requests.Airline.fbair_boardingpass_seat Web.Facebook.Messenger.Types.Requests.Airline.fbair_boardingpass_secondary_fields Web.Facebook.Messenger.Types.Requests.Airline.fbair_boardingpass_travel_class}
+  Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineField{Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineField Web.Facebook.Messenger.Types.Requests.Airline.fbair_field_label Web.Facebook.Messenger.Types.Requests.Airline.fbair_field_value}
+  Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineFlightInfo{Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineFlightInfo Web.Facebook.Messenger.Types.Requests.Airline.fbair_cflightinfo_arrival_airport Web.Facebook.Messenger.Types.Requests.Airline.fbair_cflightinfo_departure_airport Web.Facebook.Messenger.Types.Requests.Airline.fbair_cflightinfo_flight_number Web.Facebook.Messenger.Types.Requests.Airline.fbair_cflightinfo_flight_schedule}
+  Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineFlightSchedule{Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineFlightSchedule Web.Facebook.Messenger.Types.Requests.Airline.fbair_flightschedule_arrival_time Web.Facebook.Messenger.Types.Requests.Airline.fbair_flightschedule_boarding_time Web.Facebook.Messenger.Types.Requests.Airline.fbair_flightschedule_departure_time}
+  Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineItineraryFlightInfo{Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineItineraryFlightInfo Web.Facebook.Messenger.Types.Requests.Airline.fbair_iflightinfo_aircraft_type Web.Facebook.Messenger.Types.Requests.Airline.fbair_iflightinfo_arrival_airport Web.Facebook.Messenger.Types.Requests.Airline.fbair_iflightinfo_connection_id Web.Facebook.Messenger.Types.Requests.Airline.fbair_iflightinfo_departure_airport Web.Facebook.Messenger.Types.Requests.Airline.fbair_iflightinfo_flight_number Web.Facebook.Messenger.Types.Requests.Airline.fbair_iflightinfo_flight_schedule Web.Facebook.Messenger.Types.Requests.Airline.fbair_iflightinfo_segment_id Web.Facebook.Messenger.Types.Requests.Airline.fbair_iflightinfo_travel_class}
+  Web.Facebook.Messenger.Types.Requests.Airline.FBAirlinePassengerInfo{Web.Facebook.Messenger.Types.Requests.Airline.FBAirlinePassengerInfo Web.Facebook.Messenger.Types.Requests.Airline.fbair_personalinfo_name Web.Facebook.Messenger.Types.Requests.Airline.fbair_personalinfo_passenger_id Web.Facebook.Messenger.Types.Requests.Airline.fbair_personalinfo_ticket_number}
+  Web.Facebook.Messenger.Types.Requests.Airline.FBAirlinePassengerSegmentInfo{Web.Facebook.Messenger.Types.Requests.Airline.FBAirlinePassengerSegmentInfo Web.Facebook.Messenger.Types.Requests.Airline.fbair_passengersegment_passenger_id Web.Facebook.Messenger.Types.Requests.Airline.fbair_passengersegment_product_info Web.Facebook.Messenger.Types.Requests.Airline.fbair_passengersegment_seat Web.Facebook.Messenger.Types.Requests.Airline.fbair_passengersegment_seat_type Web.Facebook.Messenger.Types.Requests.Airline.fbair_passengersegment_segment_id}
+  Web.Facebook.Messenger.Types.Requests.Airline.FBAirlinePriceInfo{Web.Facebook.Messenger.Types.Requests.Airline.FBAirlinePriceInfo Web.Facebook.Messenger.Types.Requests.Airline.fbair_priceinfo_amount Web.Facebook.Messenger.Types.Requests.Airline.fbair_priceinfo_currency Web.Facebook.Messenger.Types.Requests.Airline.fbair_priceinfo_title}
+  Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineRequestPayload{Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineBoardingPassPayload Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineCheckinPayload Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineFlightUpdateMessagePayload Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineFlightUpdateTypePayload Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineItineraryPayload Web.Facebook.Messenger.Types.Requests.Airline.fbair_bpass_boarding_pass Web.Facebook.Messenger.Types.Requests.Airline.fbair_bpass_intro_message Web.Facebook.Messenger.Types.Requests.Airline.fbair_bpass_locale Web.Facebook.Messenger.Types.Requests.Airline.fbair_bpass_theme_color Web.Facebook.Messenger.Types.Requests.Airline.fbair_checkin_checkin_url Web.Facebook.Messenger.Types.Requests.Airline.fbair_checkin_flight_info Web.Facebook.Messenger.Types.Requests.Airline.fbair_checkin_intro_message Web.Facebook.Messenger.Types.Requests.Airline.fbair_checkin_locale Web.Facebook.Messenger.Types.Requests.Airline.fbair_checkin_pnr_number Web.Facebook.Messenger.Types.Requests.Airline.fbair_checkin_theme_color Web.Facebook.Messenger.Types.Requests.Airline.fbair_flightupdate_intro_message Web.Facebook.Messenger.Types.Requests.Airline.fbair_flightupdate_locale Web.Facebook.Messenger.Types.Requests.Airline.fbair_flightupdate_pnr_number Web.Facebook.Messenger.Types.Requests.Airline.fbair_flightupdate_theme_color Web.Facebook.Messenger.Types.Requests.Airline.fbair_flightupdate_update_flight_info Web.Facebook.Messenger.Types.Requests.Airline.fbair_flightupdate_update_type Web.Facebook.Messenger.Types.Requests.Airline.fbair_itinerary_base_price Web.Facebook.Messenger.Types.Requests.Airline.fbair_itinerary_currency Web.Facebook.Messenger.Types.Requests.Airline.fbair_itinerary_flight_info Web.Facebook.Messenger.Types.Requests.Airline.fbair_itinerary_intro_message Web.Facebook.Messenger.Types.Requests.Airline.fbair_itinerary_locale Web.Facebook.Messenger.Types.Requests.Airline.fbair_itinerary_passenger_info Web.Facebook.Messenger.Types.Requests.Airline.fbair_itinerary_passenger_segment_info Web.Facebook.Messenger.Types.Requests.Airline.fbair_itinerary_pnr_number Web.Facebook.Messenger.Types.Requests.Airline.fbair_itinerary_price_info Web.Facebook.Messenger.Types.Requests.Airline.fbair_itinerary_tax Web.Facebook.Messenger.Types.Requests.Airline.fbair_itinerary_theme_color Web.Facebook.Messenger.Types.Requests.Airline.fbair_itinerary_total_price}
+  Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineUpdatePassFlightSchedule{Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineUpdatePassFlightSchedule Web.Facebook.Messenger.Types.Requests.Airline.fbair_usflightschedule_arrival_time Web.Facebook.Messenger.Types.Requests.Airline.fbair_usflightschedule_boarding_time Web.Facebook.Messenger.Types.Requests.Airline.fbair_usflightschedule_departure_time}
+  Web.Facebook.Messenger.Types.Requests.Attachment.FBRequestAttachment{Web.Facebook.Messenger.Types.Requests.Attachment.FBRequestAttachmentTemplate Web.Facebook.Messenger.Types.Requests.Attachment.FBRequestMultimediaAttachment Web.Facebook.Messenger.Types.Requests.Attachment.fbreq_attachment_multimedia_payload Web.Facebook.Messenger.Types.Requests.Attachment.fbreq_attachment_template_payload Web.Facebook.Messenger.Types.Requests.Attachment.fbreq_attachment_type}
+  Web.Facebook.Messenger.Types.Requests.Attachment.FBRequestMultimediaPayload{Web.Facebook.Messenger.Types.Requests.Attachment.FBRequestMultimediaPayload Web.Facebook.Messenger.Types.Requests.Attachment.fbreq_multimedia_payload_url}
+  Web.Facebook.Messenger.Types.Requests.Message.FBRequestMessage{Web.Facebook.Messenger.Types.Requests.Message.FBRequestMessageAttachment Web.Facebook.Messenger.Types.Requests.Message.FBRequestMessageText Web.Facebook.Messenger.Types.Requests.Message.fbreq_message_attachment Web.Facebook.Messenger.Types.Requests.Message.fbreq_message_quick_reply Web.Facebook.Messenger.Types.Requests.Message.fbreq_message_text}
+  Web.Facebook.Messenger.Types.Requests.Message.FBRequestQuickReply{Web.Facebook.Messenger.Types.Requests.Message.FBRequestQuickReply Web.Facebook.Messenger.Types.Requests.Message.fbreq_quick_reply_payload Web.Facebook.Messenger.Types.Requests.Message.fbreq_quick_reply_title}
+  Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload{Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonPayload Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_getstarted_payload}
+  Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting{Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsGreeting Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_greeting_text}
+  Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItem{Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemPostback Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsMenuItemURL Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_menuitem_postback_payload Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_menuitem_postback_title Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_menuitem_weburl_title Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_menuitem_weburl_url}
+  Web.Facebook.Messenger.Types.Requests.Settings.FBSettingsRequest{Web.Facebook.Messenger.Types.Requests.Settings.FBGetStartedButtonRequest Web.Facebook.Messenger.Types.Requests.Settings.FBGreetingTextRequest Web.Facebook.Messenger.Types.Requests.Settings.FBPersistentMenuRequest Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_getstarted Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_greeting Web.Facebook.Messenger.Types.Requests.Settings.fbsettings_persistent}
+  Web.Facebook.Messenger.Types.Requests.Templates.FBRequestGenericTemplateElement{Web.Facebook.Messenger.Types.Requests.Templates.FBRequestGenericTemplateElement Web.Facebook.Messenger.Types.Requests.Templates.fbreq_generic_template_buttons Web.Facebook.Messenger.Types.Requests.Templates.fbreq_generic_template_image_url Web.Facebook.Messenger.Types.Requests.Templates.fbreq_generic_template_item_url Web.Facebook.Messenger.Types.Requests.Templates.fbreq_generic_template_subtitle Web.Facebook.Messenger.Types.Requests.Templates.fbreq_generic_template_title}
+  Web.Facebook.Messenger.Types.Requests.Templates.FBRequestReceiptTemplateElement{Web.Facebook.Messenger.Types.Requests.Templates.FBRequestReceiptTemplateElement Web.Facebook.Messenger.Types.Requests.Templates.fbreq_receipt_template_currency Web.Facebook.Messenger.Types.Requests.Templates.fbreq_receipt_template_image_url Web.Facebook.Messenger.Types.Requests.Templates.fbreq_receipt_template_price Web.Facebook.Messenger.Types.Requests.Templates.fbreq_receipt_template_quantity Web.Facebook.Messenger.Types.Requests.Templates.fbreq_receipt_template_subtitle Web.Facebook.Messenger.Types.Requests.Templates.fbreq_receipt_template_title}
+  Web.Facebook.Messenger.Types.Requests.Templates.FBRequestTemplateAddress{Web.Facebook.Messenger.Types.Requests.Templates.FBRequestTemplateAddress Web.Facebook.Messenger.Types.Requests.Templates.fbreq_address_template_city Web.Facebook.Messenger.Types.Requests.Templates.fbreq_address_template_country Web.Facebook.Messenger.Types.Requests.Templates.fbreq_address_template_postal_code Web.Facebook.Messenger.Types.Requests.Templates.fbreq_address_template_state Web.Facebook.Messenger.Types.Requests.Templates.fbreq_address_template_street_1 Web.Facebook.Messenger.Types.Requests.Templates.fbreq_address_template_street_2}
+  Web.Facebook.Messenger.Types.Requests.Templates.FBRequestTemplateAdjustment{Web.Facebook.Messenger.Types.Requests.Templates.FBRequestTemplateAdjustment Web.Facebook.Messenger.Types.Requests.Templates.fbreq_adjustment_template_amount Web.Facebook.Messenger.Types.Requests.Templates.fbreq_adjustment_template_name}
+  Web.Facebook.Messenger.Types.Requests.Templates.FBRequestTemplateButton{Web.Facebook.Messenger.Types.Requests.Templates.FBRequestTemplateButtonPhoneNumber Web.Facebook.Messenger.Types.Requests.Templates.FBRequestTemplateButtonPostback Web.Facebook.Messenger.Types.Requests.Templates.FBRequestTemplateButtonWebURL Web.Facebook.Messenger.Types.Requests.Templates.fbreq_button_phone_payload Web.Facebook.Messenger.Types.Requests.Templates.fbreq_button_phone_title Web.Facebook.Messenger.Types.Requests.Templates.fbreq_button_postback_payload Web.Facebook.Messenger.Types.Requests.Templates.fbreq_button_postback_title Web.Facebook.Messenger.Types.Requests.Templates.fbreq_button_weburl_title Web.Facebook.Messenger.Types.Requests.Templates.fbreq_button_weburl_url}
+  Web.Facebook.Messenger.Types.Requests.Templates.FBRequestTemplatePayload{Web.Facebook.Messenger.Types.Requests.Templates.FBRequestButtonTemplatePayload Web.Facebook.Messenger.Types.Requests.Templates.FBRequestGenericTemplatePayload Web.Facebook.Messenger.Types.Requests.Templates.FBRequestReceiptTemplatePayload Web.Facebook.Messenger.Types.Requests.Templates.fbreq_template_button_buttons Web.Facebook.Messenger.Types.Requests.Templates.fbreq_template_button_text Web.Facebook.Messenger.Types.Requests.Templates.fbreq_template_generic_elements Web.Facebook.Messenger.Types.Requests.Templates.fbreq_template_receipt_address Web.Facebook.Messenger.Types.Requests.Templates.fbreq_template_receipt_adjustments Web.Facebook.Messenger.Types.Requests.Templates.fbreq_template_receipt_currency Web.Facebook.Messenger.Types.Requests.Templates.fbreq_template_receipt_elements Web.Facebook.Messenger.Types.Requests.Templates.fbreq_template_receipt_order_number Web.Facebook.Messenger.Types.Requests.Templates.fbreq_template_receipt_order_url Web.Facebook.Messenger.Types.Requests.Templates.fbreq_template_receipt_payment_method Web.Facebook.Messenger.Types.Requests.Templates.fbreq_template_receipt_recipient_name Web.Facebook.Messenger.Types.Requests.Templates.fbreq_template_receipt_summary Web.Facebook.Messenger.Types.Requests.Templates.fbreq_template_receipt_timestamp}
+  Web.Facebook.Messenger.Types.Requests.Templates.FBRequestTemplateSummary{Web.Facebook.Messenger.Types.Requests.Templates.FBRequestTemplateSummary Web.Facebook.Messenger.Types.Requests.Templates.fbreq_summary_template_shipping_cost Web.Facebook.Messenger.Types.Requests.Templates.fbreq_summary_template_subtotal Web.Facebook.Messenger.Types.Requests.Templates.fbreq_summary_template_total_cost Web.Facebook.Messenger.Types.Requests.Templates.fbreq_summary_template_total_tax}
+module dependencies: Web.Facebook.Messenger.Types.Requests.Airline
+                     Web.Facebook.Messenger.Types.Requests.Attachment
+                     Web.Facebook.Messenger.Types.Requests.Message
+                     Web.Facebook.Messenger.Types.Requests.Settings
+                     Web.Facebook.Messenger.Types.Requests.Templates
+                     Web.Facebook.Messenger.Types.Static
+package dependencies: aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG
+                      array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA
+                      attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68 base-4.8.2.0
+                      binary-0.7.5.0@binar_3uXFWMoAGBg0xKP9MHKRwi
+                      bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6
+                      containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU
+                      deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59
+                      dlist-0.7.1.2@dlist_AO7XAasbAeyL0XLKeq1Aui
+                      fail-4.9.0.0@fail_2xB1AvdW34sDm9N3JOe33G ghc-prim-0.4.0.0
+                      hashable-1.2.4.0@hasha_EalUWgp8NarBYWPbvYAD8I integer-gmp-1.0.0.0
+                      primitive-0.6.1.0@primi_EphY2c7CCxSCBKjAN0YTR3
+                      scientific-0.3.4.8@scien_Elq5IFN7LP733k4M8RTP7H
+                      semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1
+                      tagged-0.8.4@tagge_LPeicl3HxVfGUMMwMEsAE6 template-haskell-2.10.0.0
+                      text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne
+                      time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn
+                      transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF
+                      unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw
+                      vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln
+orphans: aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Generic
+         aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Instances
+         attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.ByteString.Char8
+         attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.Text.Internal
+         base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
+         binary-0.7.5.0@binar_3uXFWMoAGBg0xKP9MHKRwi:Data.Binary.Generic
+         bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Builder
+         hashable-1.2.4.0@hasha_EalUWgp8NarBYWPbvYAD8I:Data.Hashable.Generic
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Lazy
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Show
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Calendar.Gregorian
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Format.Parse
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.LocalTime.LocalTime
+         transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF:Control.Monad.Trans.Error
+         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Fusion.Bundle
+         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed
+family instance modules: attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.Internal.Types
+                         base-4.8.2.0:Control.Applicative base-4.8.2.0:Data.Either
+                         base-4.8.2.0:Data.Functor.Identity base-4.8.2.0:Data.Monoid
+                         base-4.8.2.0:Data.Type.Equality base-4.8.2.0:Data.Void
+                         base-4.8.2.0:GHC.Exts base-4.8.2.0:GHC.Generics
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntMap.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntSet.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Sequence
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base
+                         dlist-0.7.1.2@dlist_AO7XAasbAeyL0XLKeq1Aui:Data.DList
+                         primitive-0.6.1.0@primi_EphY2c7CCxSCBKjAN0YTR3:Control.Monad.Primitive
+                         semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1:Data.List.NonEmpty
+                         semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1:Data.Semigroup
+                         tagged-0.8.4@tagge_LPeicl3HxVfGUMMwMEsAE6:Data.Tagged
+                         template-haskell-2.10.0.0:Language.Haskell.TH.Syntax
+                         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text
+                         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Lazy
+                         unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw:Data.HashMap.Base
+                         unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw:Data.HashSet
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Primitive
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Storable
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed.Base
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson e3fc0a86707d11f0744855c22c003db1
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types d71ae0cda6d0b13737565a57b623211b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Class fe6a708e11304b32e33ecaa7b7f0574b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Instances d9242ecda29dd4253371b8f2ef6a3b1b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Internal 1526f1e54c3778413953c293b6e62476
+import  -/  base-4.8.2.0:Control.Applicative a8ebf5ad4932b411ad7725da68be9801
+import  -/  base-4.8.2.0:Data.Functor 5c701b0af1708f0192a25dfe14ce6274
+import  -/  base-4.8.2.0:GHC.Base 1db77db5dae73d8c424c85b09fbadb89
+import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
+import  -/  Web.Facebook.Messenger.Types.Requests.Airline 311776eb7af56f95ede18be68bca38b8
+  exports: a02ddf73c1a42bcd4851e55dc58ed6d7
+  FBAirlineAirport 1a307666b75a17b04a16ef6bccf6f7d4
+  FBAirlineAirport 897fa865a184a4e350b876bd3f8e0998
+  FBAirlineBoardingPass 70f62a83c8f2627121b877feb9d165e9
+  FBAirlineBoardingPassBarcode 71187b686f7fe36a3a6114574c1c2c4c
+  FBAirlineBoardingPassPayload 035c74e5fe2a73edffbbe17ef8eee775
+  FBAirlineBoardingPassQRCode 15b8c03bd31d67a1bca6f2809669deab
+  FBAirlineCheckinPayload c5c45a4b56881f8c4608374e3fc253fa
+  FBAirlineField c1830571f91ca42aae5ddf807f09231c
+  FBAirlineField 9b91bb06dc254a13810967069be7ed56
+  FBAirlineFlightInfo 304e022226dd2f296d7cee29bde73ccc
+  FBAirlineFlightInfo ee33c30c1f9a53900ea05dc9de7fb4ec
+  FBAirlineFlightSchedule a3b58ff350346e280156da40f0b039f2
+  FBAirlineFlightSchedule ef413360b61181ca34a3d1d8b2e7c95c
+  FBAirlineFlightUpdateMessagePayload 079166290035abc123b6c226388e9f89
+  FBAirlineFlightUpdateTypePayload a6e7bf180d6a895b3d1a6bb3bef5eea4
+  FBAirlineItineraryFlightInfo 50319d7a9ee1d72243dedade4b0ad291
+  FBAirlineItineraryFlightInfo 3baff1d8c33f564f635e589578dfb578
+  FBAirlineItineraryPayload 2f498b22f5a25f14ac91327c2378157b
+  FBAirlinePassengerInfo c43137c61c748e5a5ae27341ea34849c
+  FBAirlinePassengerInfo 70e5e78992ea03bc8f4e15a32a416847
+  FBAirlinePassengerSegmentInfo 1ce6d48b33eda62403a248b03a8d6305
+  FBAirlinePassengerSegmentInfo 97ddb2e5d2e05a7d937988c508cf2491
+  FBAirlinePriceInfo 0ff0aed1921f56cfe46e2d7b6d4a0e7f
+  FBAirlinePriceInfo a6b17b680848d02ebb0dd77e3e3e7eea
+  FBAirlineRequestPayload cf4fd064a69c06d64a525e9ecd5a1394
+  FBAirlineUpdatePassFlightSchedule 12dbaf8e19f50168203d68fa321d3da6
+  FBAirlineUpdatePassFlightSchedule 011b5bc803cff2ccb5b569b01fe8ba34
+  fbair_airport_airport_code 2502f9cba11c49bbcd111fd43e29a0a5
+  fbair_airport_city 8f0430b5af2a5aca247a424bd75d7b0d
+  fbair_airport_gate b96c0d58f193bfb88c28d6cfe0964086
+  fbair_airport_terminal 7194af9d916dc793a289e492833cf7d8
+  fbair_boardingpass_above_bar_code_image_url b3fc3830991d82af76c962bb59a348c2
+  fbair_boardingpass_auxiliary_fields 5011fc85fb80a9b3e738021b675f2b4c
+  fbair_boardingpass_barcode_image_url 11a3449b3264269c8c9774f3a0b52df7
+  fbair_boardingpass_flight_info 076447cd7deaf0ed58a07783de30ad4d
+  fbair_boardingpass_header_image_url 44ba76faad03b9b469ebaa49f4bf4435
+  fbair_boardingpass_header_text_field df69afb8c6fe739c5f74e48ebd8b705c
+  fbair_boardingpass_logo_image_url 75253ac6b2bf713a63912fdaec8a6ba9
+  fbair_boardingpass_passenger_name 865bed9d7d1b2fec04163aa55e5ca2c2
+  fbair_boardingpass_pnr_number a9a004e2ee0df3c2cd10fb273a2723e1
+  fbair_boardingpass_qr_code e2265ac853b2379a4c85a68febbfbe22
+  fbair_boardingpass_seat 180dc155c95104b93ec3bcde04595bfa
+  fbair_boardingpass_secondary_fields 2950c0fe7b76264b04860dd9385f70c7
+  fbair_boardingpass_travel_class 2068b1eb437b40bfa7cf873cb99bf5c9
+  fbair_bpass_boarding_pass 8435b7202d659894f3a1806f38127b6b
+  fbair_bpass_intro_message f6ab219e590de6b0195b3fe45c6ee6cf
+  fbair_bpass_locale ecfbfa51b5b489880b2e2ece941e7159
+  fbair_bpass_theme_color 89b805e8e161146ce77ef0fd31458226
+  fbair_cflightinfo_arrival_airport e4a1e931da7eb9dd6bf09fdbb3953be5
+  fbair_cflightinfo_departure_airport 1dde80b2e99d0087e2b0f931b6f32cb4
+  fbair_cflightinfo_flight_number 4e0c8cacdce4bc711149416377faa11b
+  fbair_cflightinfo_flight_schedule ec673ac1d530c487250c9b924df11329
+  fbair_checkin_checkin_url fd84e1cf1cafc900918afbac210357f1
+  fbair_checkin_flight_info c67011a5069b4ff80a2505a910d77670
+  fbair_checkin_intro_message d4e4709745a8a98db18b81d8cf7e7c2f
+  fbair_checkin_locale 010d54f7fc8d83b2e6dcce0be48aef7e
+  fbair_checkin_pnr_number 14ff95f5d79fb24c641e7555685b77be
+  fbair_checkin_theme_color d39cd4850c53afd6ad132e770d706c86
+  fbair_field_label cba2901001568fd0c6b15010f7850274
+  fbair_field_value 789d2793ded63f24244423d9440d1276
+  fbair_flightschedule_arrival_time 628f1a2199e49ea09d5c5603bd384ee7
+  fbair_flightschedule_boarding_time dd61f184b44e4d1ea6b2c52d561c3abe
+  fbair_flightschedule_departure_time 4b9cf4a921d0d85acb487a28cee4c6b7
+  fbair_flightupdate_intro_message 1b24c4f3b44881a02ef0e097900a055b
+  fbair_flightupdate_locale 7932a0c780260a0fe0211feeee605102
+  fbair_flightupdate_pnr_number e9754bab6552c689e543cbb7ec8b0c79
+  fbair_flightupdate_theme_color c4296c1fbe9593907ed608c816be8aa2
+  fbair_flightupdate_update_flight_info 633a7ddb9b2a7fa5b7aeb75f5c2ee01d
+  fbair_flightupdate_update_type 850ba24ec81bedd60cb11442272d2d2d
+  fbair_iflightinfo_aircraft_type a87c0917554d311916fa622bed4e1d9f
+  fbair_iflightinfo_arrival_airport ca4d45e3d4169c3f742383841fa20fac
+  fbair_iflightinfo_connection_id 02fc33e61e912b2aeefc98bdfb4c9ed4
+  fbair_iflightinfo_departure_airport f4007473f510ca1163f75dbf22577b1a
+  fbair_iflightinfo_flight_number 138c542a775a85f01ce0fd1cf735f8d7
+  fbair_iflightinfo_flight_schedule 5c6a46087004dc458ae2eaac157fe7a3
+  fbair_iflightinfo_segment_id 54b30e20d9da40bf5e2d1186c639ee26
+  fbair_iflightinfo_travel_class 0c219f063208c66341814405f986f41f
+  fbair_itinerary_base_price 76e54f094c0d2d503c7817dc0e91cb9e
+  fbair_itinerary_currency df2507b9bd454d09c7176c18d7f591fa
+  fbair_itinerary_flight_info 2abcf00606fe348b52523e6380caced3
+  fbair_itinerary_intro_message 1e593e593d9f42310b6083cc8a087c26
+  fbair_itinerary_locale e1537ebc569a2fe0423540dceee486f1
+  fbair_itinerary_passenger_info b817e24f416a291971e7158df2449a2b
+  fbair_itinerary_passenger_segment_info b590989477e12aa05989104ed3543f8b
+  fbair_itinerary_pnr_number d4fc4c9e2b56c42bb76d1dac9b7c317b
+  fbair_itinerary_price_info 439405d4d28307ddf40114bddc2b2087
+  fbair_itinerary_tax c2d5a812d91687ed3554a3fafaa983fc
+  fbair_itinerary_theme_color d14b0d61debe27d1a4e0a5abb5f27c7c
+  fbair_itinerary_total_price a57fa8172479b90058a2eff682776929
+  fbair_passengersegment_passenger_id c8f216952626ba61468bb6d9d2751eb6
+  fbair_passengersegment_product_info 24a1bd0726c15411bef883139a73406f
+  fbair_passengersegment_seat 89966d00c66e586e17cb8a2cff3f322c
+  fbair_passengersegment_seat_type f72c618110dca28305cd256173e4aa52
+  fbair_passengersegment_segment_id 11530d7e205b8e286700c02c5deb0736
+  fbair_personalinfo_name 2fafc7f69f722b69c473918dcf4aa091
+  fbair_personalinfo_passenger_id 9d01b3157c12d2c4733aa29c690e011c
+  fbair_personalinfo_ticket_number 1b1457f4928f899d116e3ec776cf710d
+  fbair_priceinfo_amount 37f3db267fd236564bb956e1124b5906
+  fbair_priceinfo_currency cb7b1c9ce51874431eb165e809f69e61
+  fbair_priceinfo_title 5548c207ddfbd33d528fe051808e67ea
+  fbair_usflightschedule_arrival_time 4ca9a23225d56deb69f718048a10db95
+  fbair_usflightschedule_boarding_time 180dd2b1608a2c8ed53cbb48bb6a38de
+  fbair_usflightschedule_departure_time 65688e394192265f8454cf97a459dfa8
+import  -/  Web.Facebook.Messenger.Types.Requests.Attachment b05e6ea7ab55b2cdfee79aa8a3a5f5d0
+  FBRequestAttachment 431a58481591ac88d4d87b8faeea5e09
+  FBRequestAttachmentTemplate b9d829686f412dc0cc793ea45bca01cd
+  FBRequestMultimediaAttachment 8f2afb70c2132cc301a0b854023adfe4
+  FBRequestMultimediaPayload 8cdc145af5dc65f11b8bb935a4f5551c
+  FBRequestMultimediaPayload 5bf283bc589bb74306a6354120ba8529
+  fbreq_attachment_multimedia_payload b64f223e3a4cccfa250ea781f06ece41
+  fbreq_attachment_template_payload b67a61a4c79d078ecd7253b169819ca5
+  fbreq_attachment_type 72ec0c2b9ac4e3f0ee7ab008c3f88bf6
+  fbreq_multimedia_payload_url e9980cb971c9e475315f54ee1b026b69
+import  -/  Web.Facebook.Messenger.Types.Requests.Message 2e8f9a5b679adc56b033625d2e2a7d18
+  exports: 2d97cc1ed62c4fcba24d809052273ea7
+  FBRequestMessage 3d3ca511ab9cf6211a5dcee32bd92e1f
+  FBRequestMessageAttachment 42b3255f355b9815b504b637ae580fdf
+  FBRequestMessageText d08ad5e4177e8cd7fec7b0f1bd17770d
+  FBRequestQuickReply 526a6d97dcf8d901ae0115a41030c9ed
+  FBRequestQuickReply 91c9b23b009d8172384e2110b31301b4
+  fbreq_message_attachment 5711ae175270c5184aafe858b9c4c1ac
+  fbreq_message_quick_reply a1c03318ef482eeafec0ecfeb62cba5f
+  fbreq_message_text 9f08bb095773e29fbe289666e44e128a
+  fbreq_quick_reply_payload 5d7c2a0fe4708e1aee201f363d0fd7ba
+  fbreq_quick_reply_title 38a85eaeac60c6e7d036e4dc99b97819
+import  -/  Web.Facebook.Messenger.Types.Requests.Settings 5804473669acf903c7b2f1ce145c118d
+  exports: e2ecdfa6daf8db69fb80ba049df9daf9
+  FBGetStartedButtonPayload c232b13884fea2016b90f89de04b5a38
+  FBGetStartedButtonPayload 7b59e397799e712f4ea4bd164d92cf8f
+  FBGetStartedButtonRequest 8f39435292d843ae226a68328f6f37f9
+  FBGreetingTextRequest c26b6acccc0ba6232a27b240379e646c
+  FBPersistentMenuRequest e53f91c94fcff3cb1b4c8d7d522b5d9c
+  FBSettingsGreeting 4950865ac93715bc42649589ce068515
+  FBSettingsGreeting cd0b157cbfb19b0fdd164aa136bc9a89
+  FBSettingsMenuItem 9b18974510ae35b3b0f40befc215ef66
+  FBSettingsMenuItemPostback 2882e99f51e21193803ae9847f1f2722
+  FBSettingsMenuItemURL e36195f41585b4d73c9e608f5c0c9dde
+  FBSettingsRequest 12beb045b9c9af3b6d47ace3cdbf1580
+  fbsettings_getstarted 8665b30456f74f3cb2a17e36e763a052
+  fbsettings_getstarted_payload d417205834cec6f4968a144596e4ad79
+  fbsettings_greeting 2607679e8cbf26c15f97648685ddd919
+  fbsettings_greeting_text bfad9e2581c4bf04f218eda3405e4e0b
+  fbsettings_menuitem_postback_payload 7a32dfe710b9b637c5adbda0506a4b03
+  fbsettings_menuitem_postback_title 5f48b13f004d6d73d647ce8b2c9f7ec1
+  fbsettings_menuitem_weburl_title 69cc5174f81401d523a62e315d92b91f
+  fbsettings_menuitem_weburl_url ee7299deea2005bcdbed1bdc06f00acd
+  fbsettings_persistent 0ffd9f288a61286ee29d961fee56783b
+import  -/  Web.Facebook.Messenger.Types.Requests.Templates f033e2fe8cc2a88817f30d15737460f3
+  FBRequestButtonTemplatePayload b4cce5583bc75d2f51d5f3ab84718dc5
+  FBRequestGenericTemplateElement 1a82c04c4ff3f6b6a20919fce538189c
+  FBRequestGenericTemplateElement 09a8c10bc24c75f1231a9727feb0cefc
+  FBRequestGenericTemplatePayload 214fa580cae9a7b4a132d464dd7dab49
+  FBRequestReceiptTemplateElement 6c27d9f6514efc89bd3e16061d513b4b
+  FBRequestReceiptTemplateElement 015cee1afb9470a359ab854eff31ff88
+  FBRequestReceiptTemplatePayload 9563e4751acce151b5ea5a043f51c208
+  FBRequestTemplateAddress c2872636a9bae49634dbfad7764222dc
+  FBRequestTemplateAddress 6b9fe8b0f658499e9a531446b8eea313
+  FBRequestTemplateAdjustment b744ef0c0dd6c79d18fcc2c9c90d5619
+  FBRequestTemplateAdjustment 7a2ff6e8c3d1d28a2bd6face309e2d30
+  FBRequestTemplateButton f0fea157708ab80240e27a58df2acb43
+  FBRequestTemplateButtonPhoneNumber 536150ffd27f66deb333f8dc0f996200
+  FBRequestTemplateButtonPostback 0d4f23860c1daf47d90032c09639538b
+  FBRequestTemplateButtonWebURL b7178b38b1ced05414671344c669cbe6
+  FBRequestTemplatePayload c04e6502dd4c5915deb5ef15546226e0
+  FBRequestTemplateSummary 0d1907b8c2694754e275bde530905e29
+  FBRequestTemplateSummary 91d5bbe88c23d4435765b93b4e6d98da
+  fbreq_address_template_city ed6e4d096acb2bca164a51dda94c09fa
+  fbreq_address_template_country f44eb3b8ce928aa6488f4a80c4a279e6
+  fbreq_address_template_postal_code 2ece2e7b3c5630cbb33ea213b175df39
+  fbreq_address_template_state 5a595ba0378716633462fb8f7b411eff
+  fbreq_address_template_street_1 62bec55c6dd405a01685c54ae93c1c65
+  fbreq_address_template_street_2 5d0bc5723da9145e4bb718016483ac45
+  fbreq_adjustment_template_amount d6ff04215b92a9120d7193fe50926990
+  fbreq_adjustment_template_name 23bc8d6690223d21fd61041a7f0affee
+  fbreq_button_phone_payload 73b1c6bbdd01c128343be544713ee323
+  fbreq_button_phone_title 0da1bdd2529451f9f7774ee9bf6f045c
+  fbreq_button_postback_payload b3d8060a6c7fd735517e63826e51a5b9
+  fbreq_button_postback_title 97c4797d457d4ddb23612e0a8a9f3d21
+  fbreq_button_weburl_title ce054c12c2945e2b8ef2b9504c9e6c7a
+  fbreq_button_weburl_url f1dd498fa8898d5436de20736b58ef7d
+  fbreq_generic_template_buttons 4f83bd12e3862b47b97b9e76ba9d60c2
+  fbreq_generic_template_image_url d5c103c64028ba6b4eb620a4d25448a2
+  fbreq_generic_template_item_url 777bef6d6b1366fd3186045df9675e48
+  fbreq_generic_template_subtitle a518bdcf89cdc3fb27414538933f3267
+  fbreq_generic_template_title d4d7fba03e3e60030d4fda4b2b6e3dbb
+  fbreq_receipt_template_currency 181213eace9a16d961010ed011f87eec
+  fbreq_receipt_template_image_url 2cf077daa425c5a3415715c59970c936
+  fbreq_receipt_template_price 40a8431133dac14b4a005f7b2a556678
+  fbreq_receipt_template_quantity acba800d5ac766f1e895000db6c9e11b
+  fbreq_receipt_template_subtitle ab5ba9cecfe4ca780cd1bbf7dd151185
+  fbreq_receipt_template_title eccec01eb464b8f5245daaf8864c74fb
+  fbreq_summary_template_shipping_cost 126e4ce1544cdf5ceca7d6f9a05dd58b
+  fbreq_summary_template_subtotal d84a46008f2f5c998e8182b25e2a1d3d
+  fbreq_summary_template_total_cost 73025d479a070043abbdba05455dc518
+  fbreq_summary_template_total_tax a855873f82fd15aac5aeb3eb13247eac
+  fbreq_template_button_buttons 574a354887e1c6363041216b3057a988
+  fbreq_template_button_text ea7b8bd16ec07868809e200dd393ea37
+  fbreq_template_generic_elements 2762c84f6a45c95d75bb7125fe81f7f7
+  fbreq_template_receipt_address e043eafdfa18b71bd47ada367a84acdd
+  fbreq_template_receipt_adjustments 0eea7117495ea5976ac43f188d225777
+  fbreq_template_receipt_currency 01a6d8ebd3161ec999b3b36f12b99077
+  fbreq_template_receipt_elements 79a533010ab6d6b6d4be44c6947e7329
+  fbreq_template_receipt_order_number f69bccf27fe017449395388887980334
+  fbreq_template_receipt_order_url 24e9f724f8516bb8ecc5c205eeb90d63
+  fbreq_template_receipt_payment_method 25cdf50ed846dd9515713dc48a94a868
+  fbreq_template_receipt_recipient_name e032db67b47d2abcaf38ff63f6b4c950
+  fbreq_template_receipt_summary 9068b1e719af039eb26f1cae4b16aede
+  fbreq_template_receipt_timestamp 209fba215db510eda374e10797b422ad
+import  -/  Web.Facebook.Messenger.Types.Static 60c67560bc2fb6bc21a5c4e39249219e
+  exports: 36cff62803e57614aab7cc6f9f1c234e
+  FBRequestNotificationType ac42cd003b86f684eb4bf61f4da8ed5f
+  FBRequestSenderActionType ad85ffda3c5eddf8d8fe218ff06ec599
+import  -/  ghc-prim-0.4.0.0:GHC.Classes e1f4ff80f7b5262008a595d29986fb18
+import  -/  text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text 677c532e2dd56476a11a0a8a53880ce7
+import  -/  text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Internal d9b6b9a9dd535595b612aea5738b7466
+import  -/  unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw:Data.HashMap.Base bf4c2337aa6dd8f3749b6836409188e0
+import  -/  unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw:Data.HashMap.Strict c129b382ae147554b04f919b2efb4a86
+5c9162df07dd275080ac6a858c3841e1
+  $fFromJSONFBAirlineRequest ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Requests.FBAirlineRequest
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Requests.$fFromJSONFBAirlineRequest_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Requests.FBAirlineRequest>_N)) -}
+5c9162df07dd275080ac6a858c3841e1
+  $fFromJSONFBAirlineRequest_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Requests.FBAirlineRequest
+  {- Arity: 1, Strictness: <S,1*U> -}
+812e173ac7560a21ec9a7f05f57584c1
+  $fFromJSONFBRequestRecipient ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Requests.$fFromJSONFBRequestRecipient_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Requests.FBRequestRecipient>_N)) -}
+812e173ac7560a21ec9a7f05f57584c1
+  $fFromJSONFBRequestRecipient_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+  {- Arity: 1, Strictness: <S,1*U> -}
+39803974e53fe26813b727f23e6f15b5
+  $fFromJSONFBSendRequest ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Requests.FBSendRequest
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Requests.$fFromJSONFBSendRequest_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Requests.FBSendRequest>_N)) -}
+39803974e53fe26813b727f23e6f15b5
+  $fFromJSONFBSendRequest_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Requests.FBSendRequest
+  {- Arity: 1, Strictness: <S,1*U> -}
+5c9162df07dd275080ac6a858c3841e1
+  $fToJSONFBAirlineRequest ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Requests.FBAirlineRequest
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Requests.FBAirlineRequest
+                  Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest_$ctoJSON
+                  Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest_$ctoEncoding -}
+7f4af17748621f0cc077390896d43c0d
+  $fToJSONFBAirlineRequest1 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "payload"#) -}
+4db420b9c11f1b313798bb0dc632e0f2
+  $fToJSONFBAirlineRequest2 :: Data.Aeson.Types.Internal.Pair
+  {- Strictness: m,
+     Unfolding: ((Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest4,
+                  Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest3)) -}
+8ee1c758b5b15a0763793521130f74bc
+  $fToJSONFBAirlineRequest3 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "template"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+1a8e7b5345815393e6a78a756720dab2
+  $fToJSONFBAirlineRequest4 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "type"#) -}
+0dfe0b056fc993d777210fecfd3e1fc8
+  $fToJSONFBAirlineRequest5 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "attachment"#) -}
+f2af2f8fa4df221a2fedb1497de13040
+  $fToJSONFBAirlineRequest6 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "message"#) -}
+98c389693895d75e57973a721337052b
+  $fToJSONFBAirlineRequest7 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "phone"#) -}
+eadfe06b5f8a3d4f1a71fd87bb3f9867
+  $fToJSONFBAirlineRequest8 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "id"#) -}
+952edccc9d6cb448029307ce63c17572
+  $fToJSONFBAirlineRequest9 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "recipient"#) -}
+5c9162df07dd275080ac6a858c3841e1
+  $fToJSONFBAirlineRequest_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Requests.FBAirlineRequest
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <S,1*U(1*U,1*U)>,
+     Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Requests.FBAirlineRequest ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Requests.FBAirlineRequest>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+5c9162df07dd275080ac6a858c3841e1
+  $fToJSONFBAirlineRequest_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Requests.FBAirlineRequest
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U(1*U,1*U)>m1, Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ w :: Web.Facebook.Messenger.Types.Requests.FBAirlineRequest ->
+                 case w of ww { Web.Facebook.Messenger.Types.Requests.FBAirlineRequest ww1 ww2 ->
+                 case Web.Facebook.Messenger.Types.Requests.$w$ctoJSON
+                        ww1
+                        ww2 of ww3 { (##) ww4 ->
+                 Data.Aeson.Types.Internal.Object ww4 } }) -}
+812e173ac7560a21ec9a7f05f57584c1
+  $fToJSONFBAirlineRequest_$ctoJSON1 ::
+    Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U>m1, Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ w :: Web.Facebook.Messenger.Types.Requests.FBRequestRecipient ->
+                 case Web.Facebook.Messenger.Types.Requests.$w$ctoJSON1
+                        w of ww { (##) ww1 ->
+                 Data.Aeson.Types.Internal.Object ww1 }) -}
+812e173ac7560a21ec9a7f05f57584c1
+  $fToJSONFBRequestRecipient ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+                  Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest_$ctoJSON1
+                  Web.Facebook.Messenger.Types.Requests.$fToJSONFBRequestRecipient_$ctoEncoding -}
+812e173ac7560a21ec9a7f05f57584c1
+  $fToJSONFBRequestRecipient_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Requests.FBRequestRecipient ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest_$ctoJSON1
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Requests.FBRequestRecipient>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+39803974e53fe26813b727f23e6f15b5
+  $fToJSONFBSendRequest ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Requests.FBSendRequest
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Requests.FBSendRequest
+                  Web.Facebook.Messenger.Types.Requests.$fToJSONFBSendRequest_$ctoJSON
+                  Web.Facebook.Messenger.Types.Requests.$fToJSONFBSendRequest_$ctoEncoding -}
+bd83f86365fa033e35f70c6dabfb45ea
+  $fToJSONFBSendRequest1 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "sender_action"#) -}
+56ac7e2a3e0c1585c758b1f970ca0944
+  $fToJSONFBSendRequest2 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString#
+                   "notification_type"#) -}
+39803974e53fe26813b727f23e6f15b5
+  $fToJSONFBSendRequest_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Requests.FBSendRequest
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Requests.FBSendRequest ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Requests.$fToJSONFBSendRequest_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Requests.FBSendRequest>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+39803974e53fe26813b727f23e6f15b5
+  $fToJSONFBSendRequest_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Requests.FBSendRequest
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U>m1, Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ w :: Web.Facebook.Messenger.Types.Requests.FBSendRequest ->
+                 case Web.Facebook.Messenger.Types.Requests.$w$ctoJSON2
+                        w of ww { (##) ww1 ->
+                 Data.Aeson.Types.Internal.Object ww1 }) -}
+a32ec15489fc84d1a175b5b2d915011a
+  $fToJSONFBSendRequest_$s$fToJSONMaybe_$ctoJSON ::
+    GHC.Base.Maybe
+      Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=1),
+     Unfolding: InlineRule (1, False, False)
+                (\ ds :: GHC.Base.Maybe
+                           Web.Facebook.Messenger.Types.Static.FBRequestNotificationType ->
+                 case ds of wild {
+                   GHC.Base.Nothing -> Data.Aeson.Types.Internal.Null
+                   GHC.Base.Just a109
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestNotificationType_$ctoJSON
+                        a109 }) -}
+062565bde2385f3faf0da60f109da644
+  $w$ctoJSON ::
+    Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+    -> Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineRequestPayload
+    -> (# Data.Aeson.Types.Internal.Object #)
+  {- Arity: 2, Strictness: <L,1*U><L,1*U>, Inline: [0],
+     Unfolding: (\ ww :: Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+                   ww1 :: Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineRequestPayload ->
+                 case Data.Aeson.Types.Internal.$sfromList1
+                        @ Data.Aeson.Types.Internal.Value
+                        (GHC.Types.:
+                           @ Data.Aeson.Types.Internal.Pair
+                           (Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest9,
+                            Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest_$ctoJSON1
+                              ww)
+                           (GHC.Types.:
+                              @ Data.Aeson.Types.Internal.Pair
+                              (Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest6,
+                               case Data.Aeson.Types.Internal.$sfromList1
+                                      @ Data.Aeson.Types.Internal.Value
+                                      (GHC.Types.:
+                                         @ Data.Aeson.Types.Internal.Pair
+                                         (Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest5,
+                                          case Data.Aeson.Types.Internal.$sfromList1
+                                                 @ Data.Aeson.Types.Internal.Value
+                                                 (GHC.Types.:
+                                                    @ Data.Aeson.Types.Internal.Pair
+                                                    Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest2
+                                                    (GHC.Types.:
+                                                       @ Data.Aeson.Types.Internal.Pair
+                                                       (Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest1,
+                                                        Web.Facebook.Messenger.Types.Requests.Airline.$fToJSONFBAirlineRequestPayload_$ctoJSON
+                                                          ww1)
+                                                       (GHC.Types.[]
+                                                          @ Data.Aeson.Types.Internal.Pair)))
+                                                 (Data.HashMap.Base.Empty
+                                                    @ Data.Text.Internal.Text
+                                                    @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                                          Data.Aeson.Types.Internal.Object dt })
+                                         (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair))
+                                      (Data.HashMap.Base.Empty
+                                         @ Data.Text.Internal.Text
+                                         @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                               Data.Aeson.Types.Internal.Object dt })
+                              (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair)))
+                        (Data.HashMap.Base.Empty
+                           @ Data.Text.Internal.Text
+                           @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                 (# dt #) }) -}
+812e173ac7560a21ec9a7f05f57584c1
+  $w$ctoJSON1 ::
+    Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+    -> (# Data.Aeson.Types.Internal.Object #)
+  {- Arity: 1, Strictness: <S,1*U>, Inline: [0],
+     Unfolding: (\ w :: Web.Facebook.Messenger.Types.Requests.FBRequestRecipient ->
+                 case w of wild {
+                   Web.Facebook.Messenger.Types.Requests.FBRequestRecipientID ident
+                   -> case Data.Aeson.Types.Internal.$sfromList1
+                             @ Data.Aeson.Types.Internal.Value
+                             (GHC.Types.:
+                                @ Data.Aeson.Types.Internal.Pair
+                                (Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest8,
+                                 Data.Aeson.Types.Internal.$WString ident)
+                                (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair))
+                             (Data.HashMap.Base.Empty
+                                @ Data.Text.Internal.Text
+                                @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                      (# dt #) }
+                   Web.Facebook.Messenger.Types.Requests.FBRequestRecipientPhone phone
+                   -> case Data.Aeson.Types.Internal.$sfromList1
+                             @ Data.Aeson.Types.Internal.Value
+                             (GHC.Types.:
+                                @ Data.Aeson.Types.Internal.Pair
+                                (Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest7,
+                                 Data.Aeson.Types.Internal.$WString phone)
+                                (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair))
+                             (Data.HashMap.Base.Empty
+                                @ Data.Text.Internal.Text
+                                @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                      (# dt #) } }) -}
+39803974e53fe26813b727f23e6f15b5
+  $w$ctoJSON2 ::
+    Web.Facebook.Messenger.Types.Requests.FBSendRequest
+    -> (# Data.Aeson.Types.Internal.Object #)
+  {- Arity: 1, Strictness: <S,1*U>, Inline: [0],
+     Unfolding: (\ w :: Web.Facebook.Messenger.Types.Requests.FBSendRequest ->
+                 case w of wild {
+                   Web.Facebook.Messenger.Types.Requests.FBSendMessageRequest recipient message notification_type
+                   -> case Data.Aeson.Types.Internal.$sfromList1
+                             @ Data.Aeson.Types.Internal.Value
+                             (GHC.Types.:
+                                @ Data.Aeson.Types.Internal.Pair
+                                (Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest9,
+                                 Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest_$ctoJSON1
+                                   recipient)
+                                (GHC.Types.:
+                                   @ Data.Aeson.Types.Internal.Pair
+                                   (Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest6,
+                                    Web.Facebook.Messenger.Types.Requests.Message.$fToJSONFBRequestMessage_$ctoJSON
+                                      message)
+                                   (GHC.Types.:
+                                      @ Data.Aeson.Types.Internal.Pair
+                                      (Web.Facebook.Messenger.Types.Requests.$fToJSONFBSendRequest2,
+                                       Web.Facebook.Messenger.Types.Requests.$fToJSONFBSendRequest_$s$fToJSONMaybe_$ctoJSON
+                                         notification_type)
+                                      (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair))))
+                             (Data.HashMap.Base.Empty
+                                @ Data.Text.Internal.Text
+                                @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                      (# dt #) }
+                   Web.Facebook.Messenger.Types.Requests.FBSenderActionRequest recipient saction
+                   -> case Data.Aeson.Types.Internal.$sfromList1
+                             @ Data.Aeson.Types.Internal.Value
+                             (GHC.Types.:
+                                @ Data.Aeson.Types.Internal.Pair
+                                (Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest9,
+                                 Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest_$ctoJSON1
+                                   recipient)
+                                (GHC.Types.:
+                                   @ Data.Aeson.Types.Internal.Pair
+                                   (Web.Facebook.Messenger.Types.Requests.$fToJSONFBSendRequest1,
+                                    Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestSenderActionType_$ctoJSON
+                                      saction)
+                                   (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair)))
+                             (Data.HashMap.Base.Empty
+                                @ Data.Text.Internal.Text
+                                @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                      (# dt #) } }) -}
+5c9162df07dd275080ac6a858c3841e1
+  data FBAirlineRequest
+    = FBAirlineRequest {fbair_recipient :: Web.Facebook.Messenger.Types.Requests.FBRequestRecipient,
+                        fbair_payload :: Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineRequestPayload}
+812e173ac7560a21ec9a7f05f57584c1
+  data FBRequestRecipient
+    = FBRequestRecipientID {fbreq_recipient_id :: Data.Text.Internal.Text}
+    | FBRequestRecipientPhone {fbreq_recipient_phone :: Data.Text.Internal.Text}
+39803974e53fe26813b727f23e6f15b5
+  data FBSendRequest
+    = FBSendMessageRequest {fbreq_recipient :: Web.Facebook.Messenger.Types.Requests.FBRequestRecipient,
+                            fbreq_message :: Web.Facebook.Messenger.Types.Requests.Message.FBRequestMessage,
+                            fbreq_notification_type :: GHC.Base.Maybe
+                                                         Web.Facebook.Messenger.Types.Static.FBRequestNotificationType}
+    | FBSenderActionRequest {fbreq_recipient :: Web.Facebook.Messenger.Types.Requests.FBRequestRecipient,
+                             fbreq_sender_action :: Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType}
+b422452fc02d21e27cc558323cf96ba5
+  fbair_payload ::
+    Web.Facebook.Messenger.Types.Requests.FBAirlineRequest
+    -> Web.Facebook.Messenger.Types.Requests.Airline.FBAirlineRequestPayload
+  RecSel Web.Facebook.Messenger.Types.Requests.FBAirlineRequest
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(LS),1*U(A,1*U)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.FBAirlineRequest ->
+                 case ds of wild { Web.Facebook.Messenger.Types.Requests.FBAirlineRequest ds1 ds2 ->
+                 ds2 }) -}
+b820cf2384e9d459b9f0dcafcda36cfb
+  fbair_recipient ::
+    Web.Facebook.Messenger.Types.Requests.FBAirlineRequest
+    -> Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+  RecSel Web.Facebook.Messenger.Types.Requests.FBAirlineRequest
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(SL),1*U(1*U,A)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.FBAirlineRequest ->
+                 case ds of wild { Web.Facebook.Messenger.Types.Requests.FBAirlineRequest ds1 ds2 ->
+                 ds1 }) -}
+e2a3380d540f309059595661daa373da
+  fbreq_message ::
+    Web.Facebook.Messenger.Types.Requests.FBSendRequest
+    -> Web.Facebook.Messenger.Types.Requests.Message.FBRequestMessage
+  RecSel Web.Facebook.Messenger.Types.Requests.FBSendRequest
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.FBSendRequest ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Requests.FBSendMessageRequest ds1 ds2 ds3
+                   -> ds2
+                   Web.Facebook.Messenger.Types.Requests.FBSenderActionRequest ipv ipv1
+                   -> Web.Facebook.Messenger.Types.Requests.fbreq_message1 }) -}
+865756060f732e163dd84b84d733a0fa
+  fbreq_message1 ::
+    Web.Facebook.Messenger.Types.Requests.Message.FBRequestMessage
+  {- Strictness: b -}
+1624ee77d885a17870e71386efa9fabb
+  fbreq_notification_type ::
+    Web.Facebook.Messenger.Types.Requests.FBSendRequest
+    -> GHC.Base.Maybe
+         Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+  RecSel Web.Facebook.Messenger.Types.Requests.FBSendRequest
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.FBSendRequest ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Requests.FBSendMessageRequest ds1 ds2 ds3
+                   -> ds3
+                   Web.Facebook.Messenger.Types.Requests.FBSenderActionRequest ipv ipv1
+                   -> Web.Facebook.Messenger.Types.Requests.fbreq_notification_type1 }) -}
+be004386260b6cc6a33e900539d604ab
+  fbreq_notification_type1 ::
+    GHC.Base.Maybe
+      Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+  {- Strictness: b -}
+7d723dc7a69c1b2c146a0bc4f4eefbb8
+  fbreq_recipient ::
+    Web.Facebook.Messenger.Types.Requests.FBSendRequest
+    -> Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+  RecSel Web.Facebook.Messenger.Types.Requests.FBSendRequest
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.FBSendRequest ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Requests.FBSendMessageRequest ds1 ds2 ds3
+                   -> ds1
+                   Web.Facebook.Messenger.Types.Requests.FBSenderActionRequest ds1 ds2
+                   -> ds1 }) -}
+67e37c2bd741f9fada6ddda517bdc026
+  fbreq_recipient_id ::
+    Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+    -> Data.Text.Internal.Text
+  RecSel Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.FBRequestRecipient ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Requests.FBRequestRecipientID ds1
+                   -> ds1
+                   Web.Facebook.Messenger.Types.Requests.FBRequestRecipientPhone ipv
+                   -> Web.Facebook.Messenger.Types.Requests.fbreq_recipient_id1 }) -}
+fbdb8b33e8573bcfbf9f8f49ac61331b
+  fbreq_recipient_id1 :: Data.Text.Internal.Text
+  {- Strictness: b -}
+3775926fcbf7d0642641dfda9eac2496
+  fbreq_recipient_phone ::
+    Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+    -> Data.Text.Internal.Text
+  RecSel Web.Facebook.Messenger.Types.Requests.FBRequestRecipient
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.FBRequestRecipient ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Requests.FBRequestRecipientID ipv
+                   -> Web.Facebook.Messenger.Types.Requests.fbreq_recipient_phone1
+                   Web.Facebook.Messenger.Types.Requests.FBRequestRecipientPhone ds1
+                   -> ds1 }) -}
+ff3a53eb5049a69caa4127d4a41644e9
+  fbreq_recipient_phone1 :: Data.Text.Internal.Text
+  {- Strictness: b -}
+95ffb68f55945451643a47a5ad25f021
+  fbreq_sender_action ::
+    Web.Facebook.Messenger.Types.Requests.FBSendRequest
+    -> Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+  RecSel Web.Facebook.Messenger.Types.Requests.FBSendRequest
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Requests.FBSendRequest ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Requests.FBSendMessageRequest ipv ipv1 ipv2
+                   -> Web.Facebook.Messenger.Types.Requests.fbreq_sender_action1
+                   Web.Facebook.Messenger.Types.Requests.FBSenderActionRequest ds1 ds2
+                   -> ds2 }) -}
+8659b285ab64a071e13d2ed07cba5bdb
+  fbreq_sender_action1 ::
+    Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+  {- Strictness: b -}
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Requests.FBAirlineRequest]
+  = Web.Facebook.Messenger.Types.Requests.$fFromJSONFBAirlineRequest
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Requests.FBRequestRecipient]
+  = Web.Facebook.Messenger.Types.Requests.$fFromJSONFBRequestRecipient
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Requests.FBSendRequest]
+  = Web.Facebook.Messenger.Types.Requests.$fFromJSONFBSendRequest
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Requests.FBAirlineRequest]
+  = Web.Facebook.Messenger.Types.Requests.$fToJSONFBAirlineRequest
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Requests.FBRequestRecipient]
+  = Web.Facebook.Messenger.Types.Requests.$fToJSONFBRequestRecipient
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Requests.FBSendRequest]
+  = Web.Facebook.Messenger.Types.Requests.$fToJSONFBSendRequest
+"SPEC/Web.Facebook.Messenger.Types.Requests $fToJSONMaybe_$ctoJSON @ FBRequestNotificationType" [ALWAYS] forall $dToJSON :: Data.Aeson.Types.Class.ToJSON
+                                                                                                                              Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+  Data.Aeson.Types.Instances.$fToJSONMaybe_$ctoJSON @ Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+                                                    $dToJSON
+  = Web.Facebook.Messenger.Types.Requests.$fToJSONFBSendRequest_$s$fToJSONMaybe_$ctoJSON
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: none
+require own pkg trusted: False
+

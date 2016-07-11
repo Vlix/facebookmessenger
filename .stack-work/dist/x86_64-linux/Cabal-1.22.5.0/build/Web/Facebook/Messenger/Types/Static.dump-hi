@@ -1,0 +1,1497 @@
+
+==================== FINAL INTERFACE ====================
+2016-07-11 14:51:38.021306 UTC
+
+interface faceb_6XenxrYvzlWDEEj7EBwREs:Web.Facebook.Messenger.Types.Static 7103
+  interface hash: 814262a93d43979c1fb2b91771cd9713
+  ABI hash: 60c67560bc2fb6bc21a5c4e39249219e
+  export-list hash: 36cff62803e57614aab7cc6f9f1c234e
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: a762308cab12f3b00c5309f113de71aa
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType{Web.Facebook.Messenger.Types.Static.BUSINESS Web.Facebook.Messenger.Types.Static.ECONOMY Web.Facebook.Messenger.Types.Static.FIRST_CLASS}
+  Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType{Web.Facebook.Messenger.Types.Static.CANCELLATION Web.Facebook.Messenger.Types.Static.DELAY Web.Facebook.Messenger.Types.Static.GATE_CHANGE}
+  Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType{Web.Facebook.Messenger.Types.Static.AUDIO Web.Facebook.Messenger.Types.Static.FILE Web.Facebook.Messenger.Types.Static.IMAGE Web.Facebook.Messenger.Types.Static.VIDEO}
+  Web.Facebook.Messenger.Types.Static.FBRequestNotificationType{Web.Facebook.Messenger.Types.Static.NO_PUSH Web.Facebook.Messenger.Types.Static.REGULAR Web.Facebook.Messenger.Types.Static.SILENT_PUSH}
+  Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType{Web.Facebook.Messenger.Types.Static.MARK_SEEN Web.Facebook.Messenger.Types.Static.TYPING_OFF Web.Facebook.Messenger.Types.Static.TYPING_ON}
+module dependencies:
+package dependencies: aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG
+                      array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA
+                      attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68 base-4.8.2.0
+                      binary-0.7.5.0@binar_3uXFWMoAGBg0xKP9MHKRwi
+                      bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6
+                      containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU
+                      deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59
+                      dlist-0.7.1.2@dlist_AO7XAasbAeyL0XLKeq1Aui
+                      fail-4.9.0.0@fail_2xB1AvdW34sDm9N3JOe33G ghc-prim-0.4.0.0
+                      hashable-1.2.4.0@hasha_EalUWgp8NarBYWPbvYAD8I integer-gmp-1.0.0.0
+                      primitive-0.6.1.0@primi_EphY2c7CCxSCBKjAN0YTR3
+                      scientific-0.3.4.8@scien_Elq5IFN7LP733k4M8RTP7H
+                      semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1
+                      tagged-0.8.4@tagge_LPeicl3HxVfGUMMwMEsAE6 template-haskell-2.10.0.0
+                      text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne
+                      time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn
+                      transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF
+                      unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw
+                      vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln
+orphans: aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Generic
+         aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Instances
+         attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.ByteString.Char8
+         attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.Text.Internal
+         base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
+         binary-0.7.5.0@binar_3uXFWMoAGBg0xKP9MHKRwi:Data.Binary.Generic
+         bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Builder
+         hashable-1.2.4.0@hasha_EalUWgp8NarBYWPbvYAD8I:Data.Hashable.Generic
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Lazy
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Show
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Calendar.Gregorian
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Format.Parse
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.LocalTime.LocalTime
+         transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF:Control.Monad.Trans.Error
+         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Fusion.Bundle
+         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed
+family instance modules: attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.Internal.Types
+                         base-4.8.2.0:Control.Applicative base-4.8.2.0:Data.Either
+                         base-4.8.2.0:Data.Functor.Identity base-4.8.2.0:Data.Monoid
+                         base-4.8.2.0:Data.Type.Equality base-4.8.2.0:Data.Void
+                         base-4.8.2.0:GHC.Exts base-4.8.2.0:GHC.Generics
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntMap.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntSet.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Sequence
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base
+                         dlist-0.7.1.2@dlist_AO7XAasbAeyL0XLKeq1Aui:Data.DList
+                         primitive-0.6.1.0@primi_EphY2c7CCxSCBKjAN0YTR3:Control.Monad.Primitive
+                         semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1:Data.List.NonEmpty
+                         semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1:Data.Semigroup
+                         tagged-0.8.4@tagge_LPeicl3HxVfGUMMwMEsAE6:Data.Tagged
+                         template-haskell-2.10.0.0:Language.Haskell.TH.Syntax
+                         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text
+                         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Lazy
+                         unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw:Data.HashMap.Base
+                         unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw:Data.HashSet
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Primitive
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Storable
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed.Base
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson e3fc0a86707d11f0744855c22c003db1
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types d71ae0cda6d0b13737565a57b623211b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Class fe6a708e11304b32e33ecaa7b7f0574b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Internal 1526f1e54c3778413953c293b6e62476
+import  -/  base-4.8.2.0:GHC.Base 1db77db5dae73d8c424c85b09fbadb89
+import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
+2215cd9ed304deb07ecc6b7c96be5273
+  $fFromJSONFBAirlineTravelClassType ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineTravelClassType_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType>_N)) -}
+2215cd9ed304deb07ecc6b7c96be5273
+  $fFromJSONFBAirlineTravelClassType1 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType f r ->
+                 ks Web.Facebook.Messenger.Types.Static.ECONOMY) -}
+2215cd9ed304deb07ecc6b7c96be5273
+  $fFromJSONFBAirlineTravelClassType2 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType f r ->
+                 ks Web.Facebook.Messenger.Types.Static.BUSINESS) -}
+2215cd9ed304deb07ecc6b7c96be5273
+  $fFromJSONFBAirlineTravelClassType3 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType f r ->
+                 ks Web.Facebook.Messenger.Types.Static.FIRST_CLASS) -}
+2215cd9ed304deb07ecc6b7c96be5273
+  $fFromJSONFBAirlineTravelClassType4 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType f r
+    -> f r
+  {- Arity: 3, Strictness: <L,1*U><C(C(S)),1*C1(C1(U))><L,A>,
+     Unfolding: InlineRule (3, True, False)
+                (\ @ (f :: * -> *)
+                   @ r
+                   path :: Data.Aeson.Types.Internal.JSONPath
+                   kf :: Data.Aeson.Types.Internal.Failure f r
+                   _ks :: Data.Aeson.Types.Internal.Success
+                            Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType f r ->
+                 kf
+                   (GHC.List.reverse @ Data.Aeson.Types.Internal.JSONPathElement path)
+                   Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineTravelClassType5) -}
+0a3d05c035a2f5a4302e7a5de85db9c0
+  $fFromJSONFBAirlineTravelClassType5 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "expected FBAirlineTravelClassType String"#) -}
+6f419acdc62ec59cf89f1c08d2c4b22f
+  $fFromJSONFBAirlineTravelClassType6 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "first_class"#) -}
+c3b774fed3aeecd2d1f3120045c6e233
+  $fFromJSONFBAirlineTravelClassType7 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "business"#) -}
+83c0d22da6ed1760a97505c4bd281871
+  $fFromJSONFBAirlineTravelClassType8 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "economy"#) -}
+9be20fccef8701e8acb0df5c396761f8
+  $fFromJSONFBAirlineTravelClassType9 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "FBAirlineTravelClassType"#) -}
+2215cd9ed304deb07ecc6b7c96be5273
+  $fFromJSONFBAirlineTravelClassType_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: Data.Aeson.Types.Internal.Value ->
+                 case ds of wild {
+                   DEFAULT
+                   -> Data.Aeson.Types.Class.typeMismatch
+                        @ Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType
+                        Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineTravelClassType9
+                        wild
+                   Data.Aeson.Types.Internal.String ds1
+                   -> case ds1 of wild1 { Data.Text.Internal.Text dt dt1 dt2 ->
+                      case Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineTravelClassType8 of wild2 { Data.Text.Internal.Text dt3 dt4 dt5 ->
+                      let {
+                        $j :: GHC.Prim.Void#
+                              -> Data.Aeson.Types.Internal.Parser
+                                   Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType
+                          {- Arity: 1, Strictness: <L,A> -}
+                        = \ w :: GHC.Prim.Void#[OneShot] ->
+                          case Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineTravelClassType7 of wild3 { Data.Text.Internal.Text dt7 dt8 dt9 ->
+                          let {
+                            $j1 :: GHC.Prim.Void#
+                                   -> Data.Aeson.Types.Internal.Parser
+                                        Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType
+                              {- Arity: 1, Strictness: <L,A> -}
+                            = \ w1 :: GHC.Prim.Void#[OneShot] ->
+                              case Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineTravelClassType6 of wild4 { Data.Text.Internal.Text dt10 dt11 dt12 ->
+                              case GHC.Prim.tagToEnum#
+                                     @ GHC.Types.Bool
+                                     (GHC.Prim.==# dt2 dt12) of wild5 {
+                                GHC.Types.False
+                                -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineTravelClassType4
+                                     `cast`
+                                   (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                             <Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType>_R))
+                                GHC.Types.True
+                                -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.ByteArray#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.State#
+                                                                                                                   GHC.Prim.RealWorld
+                                                                                                              -> (# GHC.Prim.State#
+                                                                                                                      GHC.Prim.RealWorld,
+                                                                                                                    GHC.Prim.Int# #)}
+                                          dt
+                                          (GHC.Prim.int2Word# dt1)
+                                          dt10
+                                          (GHC.Prim.int2Word# dt11)
+                                          (GHC.Prim.int2Word# dt2)
+                                          GHC.Prim.realWorld# of wild6 { (#,#) ds11 ds12 ->
+                                   case GHC.Prim.narrow32Int# ds12 of wild7 {
+                                     DEFAULT
+                                     -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineTravelClassType4
+                                          `cast`
+                                        (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                                  <Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType>_R))
+                                     0
+                                     -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineTravelClassType3
+                                          `cast`
+                                        (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                                  <Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType>_R)) } } } }
+                          } in
+                          case GHC.Prim.tagToEnum#
+                                 @ GHC.Types.Bool
+                                 (GHC.Prim.==# dt2 dt9) of wild4 {
+                            GHC.Types.False -> $j1 GHC.Prim.void#
+                            GHC.Types.True
+                            -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.ByteArray#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.State#
+                                                                                                               GHC.Prim.RealWorld
+                                                                                                          -> (# GHC.Prim.State#
+                                                                                                                  GHC.Prim.RealWorld,
+                                                                                                                GHC.Prim.Int# #)}
+                                      dt
+                                      (GHC.Prim.int2Word# dt1)
+                                      dt7
+                                      (GHC.Prim.int2Word# dt8)
+                                      (GHC.Prim.int2Word# dt2)
+                                      GHC.Prim.realWorld# of wild5 { (#,#) ds11 ds12 ->
+                               case GHC.Prim.narrow32Int# ds12 of wild6 {
+                                 DEFAULT -> $j1 GHC.Prim.void#
+                                 0
+                                 -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineTravelClassType2
+                                      `cast`
+                                    (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                              <Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType>_R)) } } } }
+                      } in
+                      case GHC.Prim.tagToEnum#
+                             @ GHC.Types.Bool
+                             (GHC.Prim.==# dt2 dt5) of wild3 {
+                        GHC.Types.False -> $j GHC.Prim.void#
+                        GHC.Types.True
+                        -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.ByteArray#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.State#
+                                                                                                           GHC.Prim.RealWorld
+                                                                                                      -> (# GHC.Prim.State#
+                                                                                                              GHC.Prim.RealWorld,
+                                                                                                            GHC.Prim.Int# #)}
+                                  dt
+                                  (GHC.Prim.int2Word# dt1)
+                                  dt3
+                                  (GHC.Prim.int2Word# dt4)
+                                  (GHC.Prim.int2Word# dt2)
+                                  GHC.Prim.realWorld# of wild4 { (#,#) ds11 ds12 ->
+                           case GHC.Prim.narrow32Int# ds12 of wild5 {
+                             DEFAULT -> $j GHC.Prim.void#
+                             0
+                             -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineTravelClassType1
+                                  `cast`
+                                (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                          <Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType>_R)) } } } } } }) -}
+b2b155df0cf3d02edb41a333a023c1ca
+  $fFromJSONFBAirlineUpdateType ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineUpdateType_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType>_N)) -}
+b2b155df0cf3d02edb41a333a023c1ca
+  $fFromJSONFBAirlineUpdateType1 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType f r ->
+                 ks Web.Facebook.Messenger.Types.Static.DELAY) -}
+b2b155df0cf3d02edb41a333a023c1ca
+  $fFromJSONFBAirlineUpdateType2 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType f r ->
+                 ks Web.Facebook.Messenger.Types.Static.GATE_CHANGE) -}
+b2b155df0cf3d02edb41a333a023c1ca
+  $fFromJSONFBAirlineUpdateType3 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType f r ->
+                 ks Web.Facebook.Messenger.Types.Static.CANCELLATION) -}
+b2b155df0cf3d02edb41a333a023c1ca
+  $fFromJSONFBAirlineUpdateType4 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType f r
+    -> f r
+  {- Arity: 3, Strictness: <L,1*U><C(C(S)),1*C1(C1(U))><L,A>,
+     Unfolding: InlineRule (3, True, False)
+                (\ @ (f :: * -> *)
+                   @ r
+                   path :: Data.Aeson.Types.Internal.JSONPath
+                   kf :: Data.Aeson.Types.Internal.Failure f r
+                   _ks :: Data.Aeson.Types.Internal.Success
+                            Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType f r ->
+                 kf
+                   (GHC.List.reverse @ Data.Aeson.Types.Internal.JSONPathElement path)
+                   Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineUpdateType5) -}
+39e1b5251f79e056fd1a8a0055bc89a6
+  $fFromJSONFBAirlineUpdateType5 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "expected FBAirlineUpdateType String"#) -}
+be64f0f83140f13a9c6284a4c3647ff3
+  $fFromJSONFBAirlineUpdateType6 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "cancellation"#) -}
+ff19f9781a745cbb5cf53d7a88364c06
+  $fFromJSONFBAirlineUpdateType7 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "gate_change"#) -}
+5ead8c12e04bca6f8ad246ca2523c27c
+  $fFromJSONFBAirlineUpdateType8 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "delay"#) -}
+15b3973600723eb40cfb51f6c818135d
+  $fFromJSONFBAirlineUpdateType9 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "FBAirlineUpdateType"#) -}
+b2b155df0cf3d02edb41a333a023c1ca
+  $fFromJSONFBAirlineUpdateType_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: Data.Aeson.Types.Internal.Value ->
+                 case ds of wild {
+                   DEFAULT
+                   -> Data.Aeson.Types.Class.typeMismatch
+                        @ Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType
+                        Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineUpdateType9
+                        wild
+                   Data.Aeson.Types.Internal.String ds1
+                   -> case ds1 of wild1 { Data.Text.Internal.Text dt dt1 dt2 ->
+                      case Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineUpdateType8 of wild2 { Data.Text.Internal.Text dt3 dt4 dt5 ->
+                      let {
+                        $j :: GHC.Prim.Void#
+                              -> Data.Aeson.Types.Internal.Parser
+                                   Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType
+                          {- Arity: 1, Strictness: <L,A> -}
+                        = \ w :: GHC.Prim.Void#[OneShot] ->
+                          case Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineUpdateType7 of wild3 { Data.Text.Internal.Text dt7 dt8 dt9 ->
+                          let {
+                            $j1 :: GHC.Prim.Void#
+                                   -> Data.Aeson.Types.Internal.Parser
+                                        Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType
+                              {- Arity: 1, Strictness: <L,A> -}
+                            = \ w1 :: GHC.Prim.Void#[OneShot] ->
+                              case Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineUpdateType6 of wild4 { Data.Text.Internal.Text dt10 dt11 dt12 ->
+                              case GHC.Prim.tagToEnum#
+                                     @ GHC.Types.Bool
+                                     (GHC.Prim.==# dt2 dt12) of wild5 {
+                                GHC.Types.False
+                                -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineUpdateType4
+                                     `cast`
+                                   (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                             <Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType>_R))
+                                GHC.Types.True
+                                -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.ByteArray#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.State#
+                                                                                                                   GHC.Prim.RealWorld
+                                                                                                              -> (# GHC.Prim.State#
+                                                                                                                      GHC.Prim.RealWorld,
+                                                                                                                    GHC.Prim.Int# #)}
+                                          dt
+                                          (GHC.Prim.int2Word# dt1)
+                                          dt10
+                                          (GHC.Prim.int2Word# dt11)
+                                          (GHC.Prim.int2Word# dt2)
+                                          GHC.Prim.realWorld# of wild6 { (#,#) ds11 ds12 ->
+                                   case GHC.Prim.narrow32Int# ds12 of wild7 {
+                                     DEFAULT
+                                     -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineUpdateType4
+                                          `cast`
+                                        (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                                  <Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType>_R))
+                                     0
+                                     -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineUpdateType3
+                                          `cast`
+                                        (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                                  <Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType>_R)) } } } }
+                          } in
+                          case GHC.Prim.tagToEnum#
+                                 @ GHC.Types.Bool
+                                 (GHC.Prim.==# dt2 dt9) of wild4 {
+                            GHC.Types.False -> $j1 GHC.Prim.void#
+                            GHC.Types.True
+                            -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.ByteArray#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.State#
+                                                                                                               GHC.Prim.RealWorld
+                                                                                                          -> (# GHC.Prim.State#
+                                                                                                                  GHC.Prim.RealWorld,
+                                                                                                                GHC.Prim.Int# #)}
+                                      dt
+                                      (GHC.Prim.int2Word# dt1)
+                                      dt7
+                                      (GHC.Prim.int2Word# dt8)
+                                      (GHC.Prim.int2Word# dt2)
+                                      GHC.Prim.realWorld# of wild5 { (#,#) ds11 ds12 ->
+                               case GHC.Prim.narrow32Int# ds12 of wild6 {
+                                 DEFAULT -> $j1 GHC.Prim.void#
+                                 0
+                                 -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineUpdateType2
+                                      `cast`
+                                    (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                              <Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType>_R)) } } } }
+                      } in
+                      case GHC.Prim.tagToEnum#
+                             @ GHC.Types.Bool
+                             (GHC.Prim.==# dt2 dt5) of wild3 {
+                        GHC.Types.False -> $j GHC.Prim.void#
+                        GHC.Types.True
+                        -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.ByteArray#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.State#
+                                                                                                           GHC.Prim.RealWorld
+                                                                                                      -> (# GHC.Prim.State#
+                                                                                                              GHC.Prim.RealWorld,
+                                                                                                            GHC.Prim.Int# #)}
+                                  dt
+                                  (GHC.Prim.int2Word# dt1)
+                                  dt3
+                                  (GHC.Prim.int2Word# dt4)
+                                  (GHC.Prim.int2Word# dt2)
+                                  GHC.Prim.realWorld# of wild4 { (#,#) ds11 ds12 ->
+                           case GHC.Prim.narrow32Int# ds12 of wild5 {
+                             DEFAULT -> $j GHC.Prim.void#
+                             0
+                             -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineUpdateType1
+                                  `cast`
+                                (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                          <Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType>_R)) } } } } } }) -}
+dcbfe48b42672919af6121209309b6b5
+  $fFromJSONFBRequestAttachmentType ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestAttachmentType_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType>_N)) -}
+dcbfe48b42672919af6121209309b6b5
+  $fFromJSONFBRequestAttachmentType1 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType f r ->
+                 ks Web.Facebook.Messenger.Types.Static.IMAGE) -}
+dcbfe48b42672919af6121209309b6b5
+  $fFromJSONFBRequestAttachmentType2 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType f r ->
+                 ks Web.Facebook.Messenger.Types.Static.AUDIO) -}
+dcbfe48b42672919af6121209309b6b5
+  $fFromJSONFBRequestAttachmentType3 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType f r ->
+                 ks Web.Facebook.Messenger.Types.Static.VIDEO) -}
+dcbfe48b42672919af6121209309b6b5
+  $fFromJSONFBRequestAttachmentType4 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType f r ->
+                 ks Web.Facebook.Messenger.Types.Static.FILE) -}
+eb696e73b365006f9726bcbe9517cb34
+  $fFromJSONFBRequestAttachmentType5 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "file"#) -}
+bb065f640ec7846134ddbc4b35b51c05
+  $fFromJSONFBRequestAttachmentType6 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "video"#) -}
+762817923cb34abc8903ec97d0792daf
+  $fFromJSONFBRequestAttachmentType7 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "audio"#) -}
+390936212bd11ad0bb98ff5c6679ee0c
+  $fFromJSONFBRequestAttachmentType8 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "image"#) -}
+da2723a683dbfe98dc0ee69c317d4978
+  $fFromJSONFBRequestAttachmentType9 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "FBRequestAttachmentType"#) -}
+dcbfe48b42672919af6121209309b6b5
+  $fFromJSONFBRequestAttachmentType_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: Data.Aeson.Types.Internal.Value ->
+                 case ds of wild {
+                   DEFAULT
+                   -> Data.Aeson.Types.Class.typeMismatch
+                        @ Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType
+                        Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestAttachmentType9
+                        wild
+                   Data.Aeson.Types.Internal.String ds1
+                   -> case ds1 of wild1 { Data.Text.Internal.Text dt dt1 dt2 ->
+                      case Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestAttachmentType8 of wild2 { Data.Text.Internal.Text dt3 dt4 dt5 ->
+                      let {
+                        $j :: GHC.Prim.Void#
+                              -> Data.Aeson.Types.Internal.Parser
+                                   Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType
+                          {- Arity: 1, Strictness: <L,A> -}
+                        = \ w :: GHC.Prim.Void#[OneShot] ->
+                          case Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestAttachmentType7 of wild3 { Data.Text.Internal.Text dt7 dt8 dt9 ->
+                          let {
+                            $j1 :: GHC.Prim.Void#
+                                   -> Data.Aeson.Types.Internal.Parser
+                                        Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType
+                              {- Arity: 1, Strictness: <L,A> -}
+                            = \ w1 :: GHC.Prim.Void#[OneShot] ->
+                              case Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestAttachmentType6 of wild4 { Data.Text.Internal.Text dt10 dt11 dt12 ->
+                              let {
+                                $j2 :: GHC.Prim.Void#
+                                       -> Data.Aeson.Types.Internal.Parser
+                                            Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType
+                                  {- Arity: 1, Strictness: <L,A> -}
+                                = \ w2 :: GHC.Prim.Void#[OneShot] ->
+                                  case Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestAttachmentType5 of wild5 { Data.Text.Internal.Text dt13 dt14 dt15 ->
+                                  case GHC.Prim.tagToEnum#
+                                         @ GHC.Types.Bool
+                                         (GHC.Prim.==# dt2 dt15) of wild6 {
+                                    GHC.Types.False
+                                    -> Data.Aeson.Types.Class.typeMismatch
+                                         @ Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType
+                                         Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestAttachmentType9
+                                         wild
+                                    GHC.Types.True
+                                    -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                                  -> GHC.Prim.Word#
+                                                                                                                  -> GHC.Prim.ByteArray#
+                                                                                                                  -> GHC.Prim.Word#
+                                                                                                                  -> GHC.Prim.Word#
+                                                                                                                  -> GHC.Prim.State#
+                                                                                                                       GHC.Prim.RealWorld
+                                                                                                                  -> (# GHC.Prim.State#
+                                                                                                                          GHC.Prim.RealWorld,
+                                                                                                                        GHC.Prim.Int# #)}
+                                              dt
+                                              (GHC.Prim.int2Word# dt1)
+                                              dt13
+                                              (GHC.Prim.int2Word# dt14)
+                                              (GHC.Prim.int2Word# dt2)
+                                              GHC.Prim.realWorld# of wild7 { (#,#) ds11 ds12 ->
+                                       case GHC.Prim.narrow32Int# ds12 of wild8 {
+                                         DEFAULT
+                                         -> Data.Aeson.Types.Class.typeMismatch
+                                              @ Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType
+                                              Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestAttachmentType9
+                                              wild
+                                         0
+                                         -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestAttachmentType4
+                                              `cast`
+                                            (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                                      <Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType>_R)) } } } }
+                              } in
+                              case GHC.Prim.tagToEnum#
+                                     @ GHC.Types.Bool
+                                     (GHC.Prim.==# dt2 dt12) of wild5 {
+                                GHC.Types.False -> $j2 GHC.Prim.void#
+                                GHC.Types.True
+                                -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.ByteArray#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.State#
+                                                                                                                   GHC.Prim.RealWorld
+                                                                                                              -> (# GHC.Prim.State#
+                                                                                                                      GHC.Prim.RealWorld,
+                                                                                                                    GHC.Prim.Int# #)}
+                                          dt
+                                          (GHC.Prim.int2Word# dt1)
+                                          dt10
+                                          (GHC.Prim.int2Word# dt11)
+                                          (GHC.Prim.int2Word# dt2)
+                                          GHC.Prim.realWorld# of wild6 { (#,#) ds11 ds12 ->
+                                   case GHC.Prim.narrow32Int# ds12 of wild7 {
+                                     DEFAULT -> $j2 GHC.Prim.void#
+                                     0
+                                     -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestAttachmentType3
+                                          `cast`
+                                        (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                                  <Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType>_R)) } } } }
+                          } in
+                          case GHC.Prim.tagToEnum#
+                                 @ GHC.Types.Bool
+                                 (GHC.Prim.==# dt2 dt9) of wild4 {
+                            GHC.Types.False -> $j1 GHC.Prim.void#
+                            GHC.Types.True
+                            -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.ByteArray#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.State#
+                                                                                                               GHC.Prim.RealWorld
+                                                                                                          -> (# GHC.Prim.State#
+                                                                                                                  GHC.Prim.RealWorld,
+                                                                                                                GHC.Prim.Int# #)}
+                                      dt
+                                      (GHC.Prim.int2Word# dt1)
+                                      dt7
+                                      (GHC.Prim.int2Word# dt8)
+                                      (GHC.Prim.int2Word# dt2)
+                                      GHC.Prim.realWorld# of wild5 { (#,#) ds11 ds12 ->
+                               case GHC.Prim.narrow32Int# ds12 of wild6 {
+                                 DEFAULT -> $j1 GHC.Prim.void#
+                                 0
+                                 -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestAttachmentType2
+                                      `cast`
+                                    (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                              <Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType>_R)) } } } }
+                      } in
+                      case GHC.Prim.tagToEnum#
+                             @ GHC.Types.Bool
+                             (GHC.Prim.==# dt2 dt5) of wild3 {
+                        GHC.Types.False -> $j GHC.Prim.void#
+                        GHC.Types.True
+                        -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.ByteArray#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.State#
+                                                                                                           GHC.Prim.RealWorld
+                                                                                                      -> (# GHC.Prim.State#
+                                                                                                              GHC.Prim.RealWorld,
+                                                                                                            GHC.Prim.Int# #)}
+                                  dt
+                                  (GHC.Prim.int2Word# dt1)
+                                  dt3
+                                  (GHC.Prim.int2Word# dt4)
+                                  (GHC.Prim.int2Word# dt2)
+                                  GHC.Prim.realWorld# of wild4 { (#,#) ds11 ds12 ->
+                           case GHC.Prim.narrow32Int# ds12 of wild5 {
+                             DEFAULT -> $j GHC.Prim.void#
+                             0
+                             -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestAttachmentType1
+                                  `cast`
+                                (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                          <Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType>_R)) } } } } } }) -}
+ac42cd003b86f684eb4bf61f4da8ed5f
+  $fFromJSONFBRequestNotificationType ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestNotificationType_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Static.FBRequestNotificationType>_N)) -}
+ac42cd003b86f684eb4bf61f4da8ed5f
+  $fFromJSONFBRequestNotificationType1 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBRequestNotificationType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+                           f
+                           r ->
+                 ks Web.Facebook.Messenger.Types.Static.REGULAR) -}
+ac42cd003b86f684eb4bf61f4da8ed5f
+  $fFromJSONFBRequestNotificationType2 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBRequestNotificationType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+                           f
+                           r ->
+                 ks Web.Facebook.Messenger.Types.Static.SILENT_PUSH) -}
+ac42cd003b86f684eb4bf61f4da8ed5f
+  $fFromJSONFBRequestNotificationType3 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBRequestNotificationType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+                           f
+                           r ->
+                 ks Web.Facebook.Messenger.Types.Static.NO_PUSH) -}
+c3758089792aa04469c6c35373f4ef57
+  $fFromJSONFBRequestNotificationType4 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "NO_PUSH"#) -}
+eb03ca5a5a0b43d9f267336f741e4bbe
+  $fFromJSONFBRequestNotificationType5 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "SILENT_PUSH"#) -}
+e29323e52595f1a3787edbadbbc3fcdc
+  $fFromJSONFBRequestNotificationType6 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "REGULAR"#) -}
+4676bfb38bf39ae54d4f8e85c2195ca8
+  $fFromJSONFBRequestNotificationType7 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "FBRequestNotificationType"#) -}
+ac42cd003b86f684eb4bf61f4da8ed5f
+  $fFromJSONFBRequestNotificationType_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: Data.Aeson.Types.Internal.Value ->
+                 case ds of wild {
+                   DEFAULT
+                   -> Data.Aeson.Types.Class.typeMismatch
+                        @ Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+                        Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestNotificationType7
+                        wild
+                   Data.Aeson.Types.Internal.String ds1
+                   -> case ds1 of wild1 { Data.Text.Internal.Text dt dt1 dt2 ->
+                      case Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestNotificationType6 of wild2 { Data.Text.Internal.Text dt3 dt4 dt5 ->
+                      let {
+                        $j :: GHC.Prim.Void#
+                              -> Data.Aeson.Types.Internal.Parser
+                                   Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+                          {- Arity: 1, Strictness: <L,A> -}
+                        = \ w :: GHC.Prim.Void#[OneShot] ->
+                          case Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestNotificationType5 of wild3 { Data.Text.Internal.Text dt7 dt8 dt9 ->
+                          let {
+                            $j1 :: GHC.Prim.Void#
+                                   -> Data.Aeson.Types.Internal.Parser
+                                        Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+                              {- Arity: 1, Strictness: <L,A> -}
+                            = \ w1 :: GHC.Prim.Void#[OneShot] ->
+                              case Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestNotificationType4 of wild4 { Data.Text.Internal.Text dt10 dt11 dt12 ->
+                              case GHC.Prim.tagToEnum#
+                                     @ GHC.Types.Bool
+                                     (GHC.Prim.==# dt2 dt12) of wild5 {
+                                GHC.Types.False
+                                -> Data.Aeson.Types.Class.typeMismatch
+                                     @ Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+                                     Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestNotificationType7
+                                     wild
+                                GHC.Types.True
+                                -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.ByteArray#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.State#
+                                                                                                                   GHC.Prim.RealWorld
+                                                                                                              -> (# GHC.Prim.State#
+                                                                                                                      GHC.Prim.RealWorld,
+                                                                                                                    GHC.Prim.Int# #)}
+                                          dt
+                                          (GHC.Prim.int2Word# dt1)
+                                          dt10
+                                          (GHC.Prim.int2Word# dt11)
+                                          (GHC.Prim.int2Word# dt2)
+                                          GHC.Prim.realWorld# of wild6 { (#,#) ds11 ds12 ->
+                                   case GHC.Prim.narrow32Int# ds12 of wild7 {
+                                     DEFAULT
+                                     -> Data.Aeson.Types.Class.typeMismatch
+                                          @ Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+                                          Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestNotificationType7
+                                          wild
+                                     0
+                                     -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestNotificationType3
+                                          `cast`
+                                        (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                                  <Web.Facebook.Messenger.Types.Static.FBRequestNotificationType>_R)) } } } }
+                          } in
+                          case GHC.Prim.tagToEnum#
+                                 @ GHC.Types.Bool
+                                 (GHC.Prim.==# dt2 dt9) of wild4 {
+                            GHC.Types.False -> $j1 GHC.Prim.void#
+                            GHC.Types.True
+                            -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.ByteArray#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.State#
+                                                                                                               GHC.Prim.RealWorld
+                                                                                                          -> (# GHC.Prim.State#
+                                                                                                                  GHC.Prim.RealWorld,
+                                                                                                                GHC.Prim.Int# #)}
+                                      dt
+                                      (GHC.Prim.int2Word# dt1)
+                                      dt7
+                                      (GHC.Prim.int2Word# dt8)
+                                      (GHC.Prim.int2Word# dt2)
+                                      GHC.Prim.realWorld# of wild5 { (#,#) ds11 ds12 ->
+                               case GHC.Prim.narrow32Int# ds12 of wild6 {
+                                 DEFAULT -> $j1 GHC.Prim.void#
+                                 0
+                                 -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestNotificationType2
+                                      `cast`
+                                    (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                              <Web.Facebook.Messenger.Types.Static.FBRequestNotificationType>_R)) } } } }
+                      } in
+                      case GHC.Prim.tagToEnum#
+                             @ GHC.Types.Bool
+                             (GHC.Prim.==# dt2 dt5) of wild3 {
+                        GHC.Types.False -> $j GHC.Prim.void#
+                        GHC.Types.True
+                        -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.ByteArray#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.State#
+                                                                                                           GHC.Prim.RealWorld
+                                                                                                      -> (# GHC.Prim.State#
+                                                                                                              GHC.Prim.RealWorld,
+                                                                                                            GHC.Prim.Int# #)}
+                                  dt
+                                  (GHC.Prim.int2Word# dt1)
+                                  dt3
+                                  (GHC.Prim.int2Word# dt4)
+                                  (GHC.Prim.int2Word# dt2)
+                                  GHC.Prim.realWorld# of wild4 { (#,#) ds11 ds12 ->
+                           case GHC.Prim.narrow32Int# ds12 of wild5 {
+                             DEFAULT -> $j GHC.Prim.void#
+                             0
+                             -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestNotificationType1
+                                  `cast`
+                                (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                          <Web.Facebook.Messenger.Types.Static.FBRequestNotificationType>_R)) } } } } } }) -}
+ad85ffda3c5eddf8d8fe218ff06ec599
+  $fFromJSONFBRequestSenderActionType ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestSenderActionType_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType>_N)) -}
+ad85ffda3c5eddf8d8fe218ff06ec599
+  $fFromJSONFBRequestSenderActionType1 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+                           f
+                           r ->
+                 ks Web.Facebook.Messenger.Types.Static.MARK_SEEN) -}
+ad85ffda3c5eddf8d8fe218ff06ec599
+  $fFromJSONFBRequestSenderActionType2 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+                           f
+                           r ->
+                 ks Web.Facebook.Messenger.Types.Static.TYPING_ON) -}
+ad85ffda3c5eddf8d8fe218ff06ec599
+  $fFromJSONFBRequestSenderActionType3 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType f r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+                           f
+                           r ->
+                 ks Web.Facebook.Messenger.Types.Static.TYPING_OFF) -}
+ef1d1cc7ca201c2202bebee21db55b96
+  $fFromJSONFBRequestSenderActionType4 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "typing_off"#) -}
+f293961831d7beac7c1cfef2d0ccb2d9
+  $fFromJSONFBRequestSenderActionType5 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "typing_on"#) -}
+29b824f19284e21bcae50961dfe559db
+  $fFromJSONFBRequestSenderActionType6 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "mark_seen"#) -}
+4ea36b786cf276f2687c65c02a310904
+  $fFromJSONFBRequestSenderActionType7 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "FBRequestSenderActionType"#) -}
+ad85ffda3c5eddf8d8fe218ff06ec599
+  $fFromJSONFBRequestSenderActionType_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: Data.Aeson.Types.Internal.Value ->
+                 case ds of wild {
+                   DEFAULT
+                   -> Data.Aeson.Types.Class.typeMismatch
+                        @ Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+                        Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestSenderActionType7
+                        wild
+                   Data.Aeson.Types.Internal.String ds1
+                   -> case ds1 of wild1 { Data.Text.Internal.Text dt dt1 dt2 ->
+                      case Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestSenderActionType6 of wild2 { Data.Text.Internal.Text dt3 dt4 dt5 ->
+                      let {
+                        $j :: GHC.Prim.Void#
+                              -> Data.Aeson.Types.Internal.Parser
+                                   Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+                          {- Arity: 1, Strictness: <L,A> -}
+                        = \ w :: GHC.Prim.Void#[OneShot] ->
+                          case Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestSenderActionType5 of wild3 { Data.Text.Internal.Text dt7 dt8 dt9 ->
+                          let {
+                            $j1 :: GHC.Prim.Void#
+                                   -> Data.Aeson.Types.Internal.Parser
+                                        Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+                              {- Arity: 1, Strictness: <L,A> -}
+                            = \ w1 :: GHC.Prim.Void#[OneShot] ->
+                              case Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestSenderActionType4 of wild4 { Data.Text.Internal.Text dt10 dt11 dt12 ->
+                              case GHC.Prim.tagToEnum#
+                                     @ GHC.Types.Bool
+                                     (GHC.Prim.==# dt2 dt12) of wild5 {
+                                GHC.Types.False
+                                -> Data.Aeson.Types.Class.typeMismatch
+                                     @ Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+                                     Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestSenderActionType7
+                                     wild
+                                GHC.Types.True
+                                -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.ByteArray#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.Word#
+                                                                                                              -> GHC.Prim.State#
+                                                                                                                   GHC.Prim.RealWorld
+                                                                                                              -> (# GHC.Prim.State#
+                                                                                                                      GHC.Prim.RealWorld,
+                                                                                                                    GHC.Prim.Int# #)}
+                                          dt
+                                          (GHC.Prim.int2Word# dt1)
+                                          dt10
+                                          (GHC.Prim.int2Word# dt11)
+                                          (GHC.Prim.int2Word# dt2)
+                                          GHC.Prim.realWorld# of wild6 { (#,#) ds11 ds12 ->
+                                   case GHC.Prim.narrow32Int# ds12 of wild7 {
+                                     DEFAULT
+                                     -> Data.Aeson.Types.Class.typeMismatch
+                                          @ Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+                                          Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestSenderActionType7
+                                          wild
+                                     0
+                                     -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestSenderActionType3
+                                          `cast`
+                                        (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                                  <Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType>_R)) } } } }
+                          } in
+                          case GHC.Prim.tagToEnum#
+                                 @ GHC.Types.Bool
+                                 (GHC.Prim.==# dt2 dt9) of wild4 {
+                            GHC.Types.False -> $j1 GHC.Prim.void#
+                            GHC.Types.True
+                            -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.ByteArray#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.State#
+                                                                                                               GHC.Prim.RealWorld
+                                                                                                          -> (# GHC.Prim.State#
+                                                                                                                  GHC.Prim.RealWorld,
+                                                                                                                GHC.Prim.Int# #)}
+                                      dt
+                                      (GHC.Prim.int2Word# dt1)
+                                      dt7
+                                      (GHC.Prim.int2Word# dt8)
+                                      (GHC.Prim.int2Word# dt2)
+                                      GHC.Prim.realWorld# of wild5 { (#,#) ds11 ds12 ->
+                               case GHC.Prim.narrow32Int# ds12 of wild6 {
+                                 DEFAULT -> $j1 GHC.Prim.void#
+                                 0
+                                 -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestSenderActionType2
+                                      `cast`
+                                    (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                              <Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType>_R)) } } } }
+                      } in
+                      case GHC.Prim.tagToEnum#
+                             @ GHC.Types.Bool
+                             (GHC.Prim.==# dt2 dt5) of wild3 {
+                        GHC.Types.False -> $j GHC.Prim.void#
+                        GHC.Types.True
+                        -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.ByteArray#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.State#
+                                                                                                           GHC.Prim.RealWorld
+                                                                                                      -> (# GHC.Prim.State#
+                                                                                                              GHC.Prim.RealWorld,
+                                                                                                            GHC.Prim.Int# #)}
+                                  dt
+                                  (GHC.Prim.int2Word# dt1)
+                                  dt3
+                                  (GHC.Prim.int2Word# dt4)
+                                  (GHC.Prim.int2Word# dt2)
+                                  GHC.Prim.realWorld# of wild4 { (#,#) ds11 ds12 ->
+                           case GHC.Prim.narrow32Int# ds12 of wild5 {
+                             DEFAULT -> $j GHC.Prim.void#
+                             0
+                             -> Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestSenderActionType1
+                                  `cast`
+                                (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                          <Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType>_R)) } } } } } }) -}
+2215cd9ed304deb07ecc6b7c96be5273
+  $fToJSONFBAirlineTravelClassType ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType
+                  Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineTravelClassType_$ctoJSON
+                  Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineTravelClassType_$ctoEncoding -}
+0ec3e3d1e19290a489e3a827d6dd8aa6
+  $fToJSONFBAirlineTravelClassType1 ::
+    Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "first_class"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+64376a5ee6ba37a7e5ff58f06d783510
+  $fToJSONFBAirlineTravelClassType2 ::
+    Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "business"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+5b432bff57384311c8ff786b68d7c22d
+  $fToJSONFBAirlineTravelClassType3 ::
+    Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "economy"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+2215cd9ed304deb07ecc6b7c96be5273
+  $fToJSONFBAirlineTravelClassType_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineTravelClassType_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+2215cd9ed304deb07ecc6b7c96be5273
+  $fToJSONFBAirlineTravelClassType_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Static.ECONOMY
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineTravelClassType3
+                   Web.Facebook.Messenger.Types.Static.BUSINESS
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineTravelClassType2
+                   Web.Facebook.Messenger.Types.Static.FIRST_CLASS
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineTravelClassType1 }) -}
+b2b155df0cf3d02edb41a333a023c1ca
+  $fToJSONFBAirlineUpdateType ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType
+                  Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineUpdateType_$ctoJSON
+                  Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineUpdateType_$ctoEncoding -}
+4f738533c82b7fb02ca2daa7ae21a662
+  $fToJSONFBAirlineUpdateType1 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "cancellation"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+6272b7d9ee95e7587b7f86385137ed24
+  $fToJSONFBAirlineUpdateType2 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "gate_change"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+83ab88664040fe9eae164372434bb518
+  $fToJSONFBAirlineUpdateType3 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "delay"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+b2b155df0cf3d02edb41a333a023c1ca
+  $fToJSONFBAirlineUpdateType_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineUpdateType_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+b2b155df0cf3d02edb41a333a023c1ca
+  $fToJSONFBAirlineUpdateType_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Static.DELAY
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineUpdateType3
+                   Web.Facebook.Messenger.Types.Static.GATE_CHANGE
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineUpdateType2
+                   Web.Facebook.Messenger.Types.Static.CANCELLATION
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineUpdateType1 }) -}
+dcbfe48b42672919af6121209309b6b5
+  $fToJSONFBRequestAttachmentType ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType
+                  Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestAttachmentType_$ctoJSON
+                  Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestAttachmentType_$ctoEncoding -}
+b1ae868039c0a12655c9dac3bde99cb4
+  $fToJSONFBRequestAttachmentType1 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "file"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+d2aeb66e2a41b37378baff4890e05087
+  $fToJSONFBRequestAttachmentType2 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "audio"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+686363d6e6e59c1d7348bef8b03b0a3b
+  $fToJSONFBRequestAttachmentType3 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "video"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+a0010efd3d529e3e017e4e904c205706
+  $fToJSONFBRequestAttachmentType4 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "image"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+dcbfe48b42672919af6121209309b6b5
+  $fToJSONFBRequestAttachmentType_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestAttachmentType_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+dcbfe48b42672919af6121209309b6b5
+  $fToJSONFBRequestAttachmentType_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Static.IMAGE
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestAttachmentType4
+                   Web.Facebook.Messenger.Types.Static.VIDEO
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestAttachmentType3
+                   Web.Facebook.Messenger.Types.Static.AUDIO
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestAttachmentType2
+                   Web.Facebook.Messenger.Types.Static.FILE
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestAttachmentType1 }) -}
+ac42cd003b86f684eb4bf61f4da8ed5f
+  $fToJSONFBRequestNotificationType ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+                  Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestNotificationType_$ctoJSON
+                  Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestNotificationType_$ctoEncoding -}
+d40fa669a4d975544a2851714e75ef16
+  $fToJSONFBRequestNotificationType1 ::
+    Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "NO_PUSH"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+7a25b25737a5648ae59fe1e5bec8f038
+  $fToJSONFBRequestNotificationType2 ::
+    Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "SILENT_PUSH"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+03278fa11a667759b42ac822b8fa3170
+  $fToJSONFBRequestNotificationType3 ::
+    Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "REGULAR"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+ac42cd003b86f684eb4bf61f4da8ed5f
+  $fToJSONFBRequestNotificationType_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Static.FBRequestNotificationType ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestNotificationType_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Static.FBRequestNotificationType>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+ac42cd003b86f684eb4bf61f4da8ed5f
+  $fToJSONFBRequestNotificationType_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Static.FBRequestNotificationType
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Static.FBRequestNotificationType ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Static.REGULAR
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestNotificationType3
+                   Web.Facebook.Messenger.Types.Static.SILENT_PUSH
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestNotificationType2
+                   Web.Facebook.Messenger.Types.Static.NO_PUSH
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestNotificationType1 }) -}
+ad85ffda3c5eddf8d8fe218ff06ec599
+  $fToJSONFBRequestSenderActionType ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+                  Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestSenderActionType_$ctoJSON
+                  Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestSenderActionType_$ctoEncoding -}
+1937b3cfc8b898c27f98a546eb7e2f90
+  $fToJSONFBRequestSenderActionType1 ::
+    Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "typing_off"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+ac35124fa4d7c0f798bb3fcbcf09128a
+  $fToJSONFBRequestSenderActionType2 ::
+    Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "typing_on"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+f72fe12e08c7082f4fb3af496fb40937
+  $fToJSONFBRequestSenderActionType3 ::
+    Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "mark_seen"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+ad85ffda3c5eddf8d8fe218ff06ec599
+  $fToJSONFBRequestSenderActionType_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestSenderActionType_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+ad85ffda3c5eddf8d8fe218ff06ec599
+  $fToJSONFBRequestSenderActionType_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Static.MARK_SEEN
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestSenderActionType3
+                   Web.Facebook.Messenger.Types.Static.TYPING_ON
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestSenderActionType2
+                   Web.Facebook.Messenger.Types.Static.TYPING_OFF
+                   -> Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestSenderActionType1 }) -}
+2215cd9ed304deb07ecc6b7c96be5273
+  data FBAirlineTravelClassType = ECONOMY | BUSINESS | FIRST_CLASS
+    Promotable
+b2b155df0cf3d02edb41a333a023c1ca
+  data FBAirlineUpdateType = DELAY | GATE_CHANGE | CANCELLATION
+    Promotable
+dcbfe48b42672919af6121209309b6b5
+  data FBRequestAttachmentType = IMAGE | VIDEO | AUDIO | FILE
+    Promotable
+ac42cd003b86f684eb4bf61f4da8ed5f
+  data FBRequestNotificationType = REGULAR | SILENT_PUSH | NO_PUSH
+    Promotable
+ad85ffda3c5eddf8d8fe218ff06ec599
+  data FBRequestSenderActionType = MARK_SEEN | TYPING_ON | TYPING_OFF
+    Promotable
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType]
+  = Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineTravelClassType
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType]
+  = Web.Facebook.Messenger.Types.Static.$fFromJSONFBAirlineUpdateType
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType]
+  = Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestAttachmentType
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Static.FBRequestNotificationType]
+  = Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestNotificationType
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType]
+  = Web.Facebook.Messenger.Types.Static.$fFromJSONFBRequestSenderActionType
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Static.FBAirlineTravelClassType]
+  = Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineTravelClassType
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Static.FBAirlineUpdateType]
+  = Web.Facebook.Messenger.Types.Static.$fToJSONFBAirlineUpdateType
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Static.FBRequestAttachmentType]
+  = Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestAttachmentType
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Static.FBRequestNotificationType]
+  = Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestNotificationType
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Static.FBRequestSenderActionType]
+  = Web.Facebook.Messenger.Types.Static.$fToJSONFBRequestSenderActionType
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: none
+require own pkg trusted: False
+

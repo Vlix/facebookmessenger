@@ -1,0 +1,417 @@
+
+==================== FINAL INTERFACE ====================
+2016-07-11 14:50:15.537431 UTC
+
+interface faceb_6XenxrYvzlWDEEj7EBwREs:Web.Facebook.Messenger.Types.Callbacks.AccountLink 7103
+  interface hash: dff3f6003986ac9e638a243ee65d0151
+  ABI hash: 3083fa5073580c6e96a3407c366fd7ef
+  export-list hash: 273be0b0ffb6939c6f78c68bb72f4684
+  orphan hash: 455eff744aa4a30462e4e441503d1686
+  flag hash: 7048ba1f6b030ff0479f4e3bdd9976db
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink{Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink Web.Facebook.Messenger.Types.Callbacks.AccountLink.fbcb_account_code Web.Facebook.Messenger.Types.Callbacks.AccountLink.fbcb_account_status}
+  Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus{Web.Facebook.Messenger.Types.Callbacks.AccountLink.LINKED Web.Facebook.Messenger.Types.Callbacks.AccountLink.UNLINKED}
+module dependencies:
+package dependencies: aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG
+                      array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA
+                      attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68 base-4.8.2.0
+                      binary-0.7.5.0@binar_3uXFWMoAGBg0xKP9MHKRwi
+                      bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6
+                      containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU
+                      deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59
+                      dlist-0.7.1.2@dlist_AO7XAasbAeyL0XLKeq1Aui
+                      fail-4.9.0.0@fail_2xB1AvdW34sDm9N3JOe33G ghc-prim-0.4.0.0
+                      hashable-1.2.4.0@hasha_EalUWgp8NarBYWPbvYAD8I integer-gmp-1.0.0.0
+                      primitive-0.6.1.0@primi_EphY2c7CCxSCBKjAN0YTR3
+                      scientific-0.3.4.8@scien_Elq5IFN7LP733k4M8RTP7H
+                      semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1
+                      tagged-0.8.4@tagge_LPeicl3HxVfGUMMwMEsAE6 template-haskell-2.10.0.0
+                      text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne
+                      time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn
+                      transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF
+                      unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw
+                      vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln
+orphans: aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Generic
+         aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Instances
+         attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.ByteString.Char8
+         attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.Text.Internal
+         base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
+         binary-0.7.5.0@binar_3uXFWMoAGBg0xKP9MHKRwi:Data.Binary.Generic
+         bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Builder
+         hashable-1.2.4.0@hasha_EalUWgp8NarBYWPbvYAD8I:Data.Hashable.Generic
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Lazy
+         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Show
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Calendar.Gregorian
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.Format.Parse
+         time-1.5.0.1@time_FTheb6LSxyX1UABIbBXRfn:Data.Time.LocalTime.LocalTime
+         transformers-0.4.2.0@trans_GZTjP9K5WFq01xC9BAGQpF:Control.Monad.Trans.Error
+         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Fusion.Bundle
+         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed
+family instance modules: attoparsec-0.13.0.2@attop_2OfdLYhETMv8S2kp3UkC68:Data.Attoparsec.Internal.Types
+                         base-4.8.2.0:Control.Applicative base-4.8.2.0:Data.Either
+                         base-4.8.2.0:Data.Functor.Identity base-4.8.2.0:Data.Monoid
+                         base-4.8.2.0:Data.Type.Equality base-4.8.2.0:Data.Void
+                         base-4.8.2.0:GHC.Exts base-4.8.2.0:GHC.Generics
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntMap.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.IntSet.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Sequence
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base
+                         dlist-0.7.1.2@dlist_AO7XAasbAeyL0XLKeq1Aui:Data.DList
+                         primitive-0.6.1.0@primi_EphY2c7CCxSCBKjAN0YTR3:Control.Monad.Primitive
+                         semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1:Data.List.NonEmpty
+                         semigroups-0.18.1@semig_LaeT7FLzCl4KIQUoVrPYl1:Data.Semigroup
+                         tagged-0.8.4@tagge_LPeicl3HxVfGUMMwMEsAE6:Data.Tagged
+                         template-haskell-2.10.0.0:Language.Haskell.TH.Syntax
+                         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text
+                         text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Lazy
+                         unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw:Data.HashMap.Base
+                         unordered-containers-0.2.7.1@unord_5iWC5HdL16JGHXLbsgBJnw:Data.HashSet
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Primitive
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Storable
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed
+                         vector-0.11.0.0@vecto_LmZ3LQW4ivu8MsQuVgukln:Data.Vector.Unboxed.Base
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson e3fc0a86707d11f0744855c22c003db1
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types d71ae0cda6d0b13737565a57b623211b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Class fe6a708e11304b32e33ecaa7b7f0574b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Instances d9242ecda29dd4253371b8f2ef6a3b1b
+import  -/  aeson-0.11.2.0@aeson_2zFfVvgQrX6CdMgjlHENYG:Data.Aeson.Types.Internal 1526f1e54c3778413953c293b6e62476
+import  -/  base-4.8.2.0:Data.Functor 5c701b0af1708f0192a25dfe14ce6274
+import  -/  base-4.8.2.0:GHC.Base 1db77db5dae73d8c424c85b09fbadb89
+import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
+import  -/  text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text 677c532e2dd56476a11a0a8a53880ce7
+import  -/  text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne:Data.Text.Internal d9b6b9a9dd535595b612aea5738b7466
+5744263d3787fedc56bc263b560c0ce8
+  $fFromJSONFBCallbackAccountLink ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fFromJSONFBCallbackAccountLink_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink>_N)) -}
+1ea1da49596974ed44cde1d090a36256
+  $fFromJSONFBCallbackAccountLinkStatus ::
+    Data.Aeson.Types.Class.FromJSON
+      Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+  DFunId[0]
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, True)
+                Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fFromJSONFBCallbackAccountLinkStatus_$cparseJSON
+                  `cast`
+                (Sym (Data.Aeson.Types.Class.NTCo:FromJSON[0]
+                          <Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus>_N)) -}
+1ea1da49596974ed44cde1d090a36256
+  $fFromJSONFBCallbackAccountLinkStatus1 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+         f
+         r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+                           f
+                           r ->
+                 ks Web.Facebook.Messenger.Types.Callbacks.AccountLink.LINKED) -}
+1ea1da49596974ed44cde1d090a36256
+  $fFromJSONFBCallbackAccountLinkStatus2 ::
+    Data.Aeson.Types.Internal.JSONPath
+    -> Data.Aeson.Types.Internal.Failure f r
+    -> Data.Aeson.Types.Internal.Success
+         Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+         f
+         r
+    -> f r
+  {- Arity: 3, HasNoCafRefs, Strictness: <L,A><L,A><C(S),1*C1(U)>,
+     Unfolding: InlineRule (3, True, True)
+                (\ @ (f :: * -> *)
+                   @ r
+                   _path :: Data.Aeson.Types.Internal.JSONPath
+                   _kf :: Data.Aeson.Types.Internal.Failure f r
+                   ks :: Data.Aeson.Types.Internal.Success
+                           Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+                           f
+                           r ->
+                 ks Web.Facebook.Messenger.Types.Callbacks.AccountLink.UNLINKED) -}
+7b3ee0d2455598c797625f375063ae93
+  $fFromJSONFBCallbackAccountLinkStatus3 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "unlinked"#) -}
+6bb9428141f4ef83e22ead16bcad5806
+  $fFromJSONFBCallbackAccountLinkStatus4 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "linked"#) -}
+be63b7ee6479bf3863ae3661d6cea404
+  $fFromJSONFBCallbackAccountLinkStatus5 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "FBCallbackAccountLinkStatus"#) -}
+1ea1da49596974ed44cde1d090a36256
+  $fFromJSONFBCallbackAccountLinkStatus_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: Data.Aeson.Types.Internal.Value ->
+                 case ds of wild {
+                   DEFAULT
+                   -> Data.Aeson.Types.Class.typeMismatch
+                        @ Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+                        Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fFromJSONFBCallbackAccountLinkStatus5
+                        wild
+                   Data.Aeson.Types.Internal.String ds1
+                   -> case ds1 of wild1 { Data.Text.Internal.Text dt dt1 dt2 ->
+                      case Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fFromJSONFBCallbackAccountLinkStatus4 of wild2 { Data.Text.Internal.Text dt3 dt4 dt5 ->
+                      let {
+                        $j :: GHC.Prim.Void#
+                              -> Data.Aeson.Types.Internal.Parser
+                                   Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+                          {- Arity: 1, Strictness: <L,A> -}
+                        = \ w :: GHC.Prim.Void#[OneShot] ->
+                          case Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fFromJSONFBCallbackAccountLinkStatus3 of wild3 { Data.Text.Internal.Text dt7 dt8 dt9 ->
+                          case GHC.Prim.tagToEnum#
+                                 @ GHC.Types.Bool
+                                 (GHC.Prim.==# dt2 dt9) of wild4 {
+                            GHC.Types.False
+                            -> Data.Aeson.Types.Class.typeMismatch
+                                 @ Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+                                 Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fFromJSONFBCallbackAccountLinkStatus5
+                                 wild
+                            GHC.Types.True
+                            -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.ByteArray#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.Word#
+                                                                                                          -> GHC.Prim.State#
+                                                                                                               GHC.Prim.RealWorld
+                                                                                                          -> (# GHC.Prim.State#
+                                                                                                                  GHC.Prim.RealWorld,
+                                                                                                                GHC.Prim.Int# #)}
+                                      dt
+                                      (GHC.Prim.int2Word# dt1)
+                                      dt7
+                                      (GHC.Prim.int2Word# dt8)
+                                      (GHC.Prim.int2Word# dt2)
+                                      GHC.Prim.realWorld# of wild5 { (#,#) ds11 ds12 ->
+                               case GHC.Prim.narrow32Int# ds12 of wild6 {
+                                 DEFAULT
+                                 -> Data.Aeson.Types.Class.typeMismatch
+                                      @ Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+                                      Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fFromJSONFBCallbackAccountLinkStatus5
+                                      wild
+                                 0
+                                 -> Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fFromJSONFBCallbackAccountLinkStatus2
+                                      `cast`
+                                    (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                              <Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus>_R)) } } } }
+                      } in
+                      case GHC.Prim.tagToEnum#
+                             @ GHC.Types.Bool
+                             (GHC.Prim.==# dt2 dt5) of wild3 {
+                        GHC.Types.False -> $j GHC.Prim.void#
+                        GHC.Types.True
+                        -> case {__pkg_ccall text-1.2.2.1@text_HmqVQnZSpjaC156ABqPhne _hs_text_memcmp GHC.Prim.ByteArray#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.ByteArray#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.Word#
+                                                                                                      -> GHC.Prim.State#
+                                                                                                           GHC.Prim.RealWorld
+                                                                                                      -> (# GHC.Prim.State#
+                                                                                                              GHC.Prim.RealWorld,
+                                                                                                            GHC.Prim.Int# #)}
+                                  dt
+                                  (GHC.Prim.int2Word# dt1)
+                                  dt3
+                                  (GHC.Prim.int2Word# dt4)
+                                  (GHC.Prim.int2Word# dt2)
+                                  GHC.Prim.realWorld# of wild4 { (#,#) ds11 ds12 ->
+                           case GHC.Prim.narrow32Int# ds12 of wild5 {
+                             DEFAULT -> $j GHC.Prim.void#
+                             0
+                             -> Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fFromJSONFBCallbackAccountLinkStatus1
+                                  `cast`
+                                (Sym (Data.Aeson.Types.Internal.NTCo:Parser[0]
+                                          <Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus>_R)) } } } } } }) -}
+5744263d3787fedc56bc263b560c0ce8
+  $fFromJSONFBCallbackAccountLink_$cparseJSON ::
+    Data.Aeson.Types.Internal.Value
+    -> Data.Aeson.Types.Internal.Parser
+         Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink
+  {- Arity: 1, Strictness: <S,1*U> -}
+5744263d3787fedc56bc263b560c0ce8
+  $fToJSONFBCallbackAccountLink ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink
+                  Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLink_$ctoJSON
+                  Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLink_$ctoEncoding -}
+3c2d599eff9937bb14b7e53937ecf434
+  $fToJSONFBCallbackAccountLink1 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString#
+                   "authorization_code"#) -}
+f816fd65b34a2740fedee71880af638f
+  $fToJSONFBCallbackAccountLink2 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "unlinked"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+5fde48ec62bb770948c7a13c2de44f4e
+  $fToJSONFBCallbackAccountLink3 :: Data.Aeson.Types.Internal.Value
+  {- Unfolding: (case Data.Text.Show.unpackCString#
+                        "linked"# of dt { Data.Text.Internal.Text ipv ipv1 ipv2 ->
+                 Data.Aeson.Types.Internal.String dt }) -}
+54e9db36b4fae8e4add418f4b74d1b3f
+  $fToJSONFBCallbackAccountLink4 :: Data.Text.Internal.Text
+  {- Unfolding: (Data.Text.Show.unpackCString# "status"#) -}
+1ea1da49596974ed44cde1d090a36256
+  $fToJSONFBCallbackAccountLinkStatus ::
+    Data.Aeson.Types.Class.ToJSON
+      Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+                  Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLinkStatus_$ctoJSON
+                  Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLinkStatus_$ctoEncoding -}
+1ea1da49596974ed44cde1d090a36256
+  $fToJSONFBCallbackAccountLinkStatus_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <S,1*U>, Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLinkStatus_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+1ea1da49596974ed44cde1d090a36256
+  $fToJSONFBCallbackAccountLinkStatus_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus ->
+                 case ds of wild {
+                   Web.Facebook.Messenger.Types.Callbacks.AccountLink.LINKED
+                   -> Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLink3
+                   Web.Facebook.Messenger.Types.Callbacks.AccountLink.UNLINKED
+                   -> Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLink2 }) -}
+5744263d3787fedc56bc263b560c0ce8
+  $fToJSONFBCallbackAccountLink_$ctoEncoding ::
+    Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink
+    -> Data.Aeson.Types.Internal.Encoding
+  {- Arity: 1, Strictness: <S,1*U(1*U,1*U)>,
+     Inline: INLINE (sat-args=0),
+     Unfolding: InlineRule (0, False, False)
+                (\ eta :: Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink ->
+                 Data.Aeson.Encode.Builder.encodeToBuilder
+                   (Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLink_$ctoJSON
+                      eta))
+                  `cast`
+                (<Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink>_R
+                 ->_R Sym (Data.Aeson.Types.Internal.NTCo:Encoding[0])) -}
+5744263d3787fedc56bc263b560c0ce8
+  $fToJSONFBCallbackAccountLink_$ctoJSON ::
+    Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, Strictness: <S,1*U(1*U,1*U)>m1, Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ w :: Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink ->
+                 case w of ww { Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink ww1 ww2 ->
+                 case Data.Aeson.Types.Internal.$sfromList1
+                        @ Data.Aeson.Types.Internal.Value
+                        (GHC.Types.:
+                           @ Data.Aeson.Types.Internal.Pair
+                           (Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLink4,
+                            case ww1 of wild {
+                              Web.Facebook.Messenger.Types.Callbacks.AccountLink.LINKED
+                              -> Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLink3
+                              Web.Facebook.Messenger.Types.Callbacks.AccountLink.UNLINKED
+                              -> Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLink2 })
+                           (GHC.Types.:
+                              @ Data.Aeson.Types.Internal.Pair
+                              (Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLink1,
+                               Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLink_$s$fToJSONMaybe_$ctoJSON
+                                 ww2)
+                              (GHC.Types.[] @ Data.Aeson.Types.Internal.Pair)))
+                        (Data.HashMap.Base.Empty
+                           @ Data.Text.Internal.Text
+                           @ Data.Aeson.Types.Internal.Value) of dt { DEFAULT ->
+                 Data.Aeson.Types.Internal.Object dt } }) -}
+123bbd6eb8d2ef759298d3953f7ab552
+  $fToJSONFBCallbackAccountLink_$s$fToJSONMaybe_$ctoJSON ::
+    GHC.Base.Maybe Data.Text.Internal.Text
+    -> Data.Aeson.Types.Internal.Value
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>,
+     Inline: INLINE (sat-args=1),
+     Unfolding: InlineRule (1, False, False)
+                (\ ds :: GHC.Base.Maybe Data.Text.Internal.Text ->
+                 case ds of wild {
+                   GHC.Base.Nothing -> Data.Aeson.Types.Internal.Null
+                   GHC.Base.Just a109 -> Data.Aeson.Types.Internal.$WString a109 }) -}
+5744263d3787fedc56bc263b560c0ce8
+  data FBCallbackAccountLink
+    = FBCallbackAccountLink {fbcb_account_status :: Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus,
+                             fbcb_account_code :: GHC.Base.Maybe Data.Text.Internal.Text}
+1ea1da49596974ed44cde1d090a36256
+  data FBCallbackAccountLinkStatus = LINKED | UNLINKED
+    Promotable
+ede87c698a495178051a8cc65f8c4192
+  fbcb_account_code ::
+    Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink
+    -> GHC.Base.Maybe Data.Text.Internal.Text
+  RecSel Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(LS),1*U(A,1*U)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink ->
+                 case ds of wild { Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink ds1 ds2 ->
+                 ds2 }) -}
+16c5767ea013f4630217ee2ba7df4e8b
+  fbcb_account_status ::
+    Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink
+    -> Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus
+  RecSel Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(SL),1*U(1*U,A)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink ->
+                 case ds of wild { Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink ds1 ds2 ->
+                 ds1 }) -}
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink]
+  = Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fFromJSONFBCallbackAccountLink
+instance Data.Aeson.Types.Class.FromJSON [Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus]
+  = Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fFromJSONFBCallbackAccountLinkStatus
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLink]
+  = Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLink
+instance Data.Aeson.Types.Class.ToJSON [Web.Facebook.Messenger.Types.Callbacks.AccountLink.FBCallbackAccountLinkStatus]
+  = Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLinkStatus
+"SPEC/Web.Facebook.Messenger.Types.Callbacks.AccountLink $fToJSONMaybe_$ctoJSON @ Text" [ALWAYS] forall $dToJSON :: Data.Aeson.Types.Class.ToJSON
+                                                                                                                      Data.Text.Internal.Text
+  Data.Aeson.Types.Instances.$fToJSONMaybe_$ctoJSON @ Data.Text.Internal.Text
+                                                    $dToJSON
+  = Web.Facebook.Messenger.Types.Callbacks.AccountLink.$fToJSONFBCallbackAccountLink_$s$fToJSONMaybe_$ctoJSON
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: none
+require own pkg trusted: False
+
