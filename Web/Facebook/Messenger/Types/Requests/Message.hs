@@ -19,11 +19,11 @@ import Web.Facebook.Messenger.Types.Requests.Attachment
 data FBRequestMessage =
   FBRequestMessageText
     { fbreq_message_text        :: Text -- Message text (UTF8 - 320 character limit)
-    , fbreq_message_quick_reply :: [FBRequestQuickReply] -- Array of quick_reply to be sent with messages (max 10)
+    , fbreq_message_quick_reply :: Maybe [FBRequestQuickReply] -- Array of quick_reply to be sent with messages (max 10)
     }
   | FBRequestMessageAttachment
     { fbreq_message_attachment  :: FBRequestAttachment   -- Attachment object
-    , fbreq_message_quick_reply :: [FBRequestQuickReply] -- Array of quick_reply to be sent with messages (max 10)
+    , fbreq_message_quick_reply :: Maybe [FBRequestQuickReply] -- Array of quick_reply to be sent with messages (max 10)
     }
 
 data FBRequestQuickReply = FBRequestQuickReply
@@ -52,9 +52,9 @@ instance ToJSON FBRequestQuickReply where
 
 instance FromJSON FBRequestMessage where
     parseJSON (Object o) = FBRequestMessageText <$> o .: "text"
-                                                <*> o .:? "quick_replies" .!= []
+                                                <*> o .:? "quick_replies"
                        <|> FBRequestMessageAttachment <$> o .: "attachment"
-                                                      <*> o .:? "quick_replies" .!= []
+                                                      <*> o .:? "quick_replies"
     parseJSON wat = typeMismatch "FBRequestMessage" wat
 
 instance FromJSON FBRequestQuickReply where

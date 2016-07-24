@@ -8,16 +8,21 @@ data FBRequestSenderActionType = MARK_SEEN  -- Mark last message as read
                                | TYPING_ON  -- Turn typing indicators on
                                | TYPING_OFF -- Turn typing indicators off
                             -- Typing indicators are automatically turned off after 20 seconds
+  deriving Show
 
 data FBRequestNotificationType = REGULAR     -- Emits a sound/vibration and a phone notification
                                | SILENT_PUSH -- Emits a phone notification
                                | NO_PUSH     -- Emits neither
+  deriving Show
 
 data FBRequestAttachmentType = IMAGE | VIDEO | AUDIO | FILE
+  deriving Show
 
 data FBAirlineTravelClassType = ECONOMY | BUSINESS | FIRST_CLASS
+  deriving Show
 
 data FBAirlineUpdateType = DELAY | GATE_CHANGE | CANCELLATION
+  deriving Show
 
 
 -- JSON instances

@@ -181,8 +181,9 @@ mkReceiptTemplate quickreplies recipient notification receipt =
                          notification
 -}
 
-mkQuickReplies :: [(Text,Text)] -> [FBRequestQuickReply]
-mkQuickReplies replies = fmap go replies
+mkQuickReplies :: [(Text,Text)] -> Maybe [FBRequestQuickReply]
+mkQuickReplies [] = Nothing
+mkQuickReplies replies = Just $ fmap go replies
   where
     go (title,payload) = FBRequestQuickReply title payload
 

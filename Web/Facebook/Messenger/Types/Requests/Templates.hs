@@ -9,7 +9,8 @@ import Data.Aeson.Types     (typeMismatch)
 
 import qualified Data.HashMap.Strict        as HM
 
-
+import Web.Facebook.Messenger.Types.Static            (FBAirlineUpdateType)
+import Web.Facebook.Messenger.Types.Requests.Airline
 -- ------------------ --
 --  TEMPLATE REQUEST  --
 -- ------------------ --
@@ -35,6 +36,53 @@ data FBRequestTemplatePayload = FBRequestGenericTemplatePayload
                                 , fbreq_template_receipt_adjustments    :: Maybe [FBRequestTemplateAdjustment]
                             -- Payment adjustments (allow a way to insert adjusted pricing (e.g., sales))
                                 }
+                             | FBAirlineItineraryPayload
+                                { fbair_itinerary_intro_message          :: Text       -- Introduction message
+                                , fbair_itinerary_locale                 :: Text
+                              -- ISO 639-1 language code and a ISO 3166-1 alpha-2 region code (e.g. en_US)
+                              -- See this document (https://developers.facebook.com/docs/internationalization#locales) for FB's accepted locales
+                                , fbair_itinerary_theme_color            :: Maybe Text -- Background color of the attachment (RGB hexadecimal string. default #009ddc)
+                                , fbair_itinerary_pnr_number             :: Text       -- Passenger name record number (Booking Number)
+                                , fbair_itinerary_passenger_info         :: [FBAirlinePassengerInfo]        -- Information about a passenger
+                                , fbair_itinerary_flight_info            :: [FBAirlineItineraryFlightInfo]  -- Information about a flight
+                                , fbair_itinerary_passenger_segment_info :: [FBAirlinePassengerSegmentInfo] -- Information unique to passenger/segment pair
+                                , fbair_itinerary_price_info             :: Maybe [FBAirlinePriceInfo]      -- Itemization of the total price (limited to 4)
+                                , fbair_itinerary_base_price             :: Maybe Double -- Base price amount
+                                , fbair_itinerary_tax                    :: Maybe Double -- Tax amount
+                                , fbair_itinerary_total_price            :: Double       -- Total price for the booking
+                                , fbair_itinerary_currency               :: Text
+                              -- Pricing currency, must be a three digit ISO-4217-3 code (e.g. USD)
+                              -- (https://developers.facebook.com/docs/payments/reference/supportedcurrencies)
+                                }
+                             | FBAirlineCheckinPayload
+                                { fbair_checkin_intro_message :: Text -- Introduction message
+                                , fbair_checkin_locale        :: Text -- (e.g. en_US)
+                                , fbair_checkin_theme_color   :: Maybe Text -- (default #009ddc)
+                                , fbair_checkin_pnr_number    :: Text -- Passenger name record number (Booking Number)
+                                , fbair_checkin_flight_info   :: FBAirlineFlightInfo -- Information about a flight
+                                , fbair_checkin_checkin_url   :: Text -- URL for passengers to check-in
+                                }
+                             | FBAirlineBoardingPassPayload
+                                { fbair_bpass_intro_message :: Text -- Introduction message
+                                , fbair_bpass_locale        :: Text -- (e.g. en_US)
+                                , fbair_bpass_theme_color   :: Maybe Text -- (default #009ddc)
+                                , fbair_bpass_boarding_pass :: FBAirlineBoardingPass -- Boarding passes for passengers
+                                }
+                             | FBAirlineFlightUpdateMessagePayload
+                                { fbair_flightupdate_intro_message      :: Text -- Introduction message
+                                , fbair_flightupdate_locale             :: Text -- (e.g. en_US)
+                                , fbair_flightupdate_theme_color        :: Maybe Text -- (default #009ddc)
+                                , fbair_flightupdate_pnr_number         :: Text -- Passenger name record number (Booking Number)
+                                , fbair_flightupdate_update_flight_info :: FBAirlineFlightInfo -- Information about a flight
+                                }
+                              | FBAirlineFlightUpdateTypePayload
+                                { fbair_flightupdate_update_type        :: FBAirlineUpdateType -- DELAY, GATE_CHANGE or CANCELLATION
+                                , fbair_flightupdate_locale             :: Text -- (e.g. en_US)
+                                , fbair_flightupdate_theme_color        :: Maybe Text -- RGB hexadecimal string (default #009ddc)
+                                , fbair_flightupdate_pnr_number         :: Text -- Passenger name record number (Booking Number)
+                                , fbair_flightupdate_update_flight_info :: FBAirlineFlightInfo -- Information about a flight
+                                }
+
 
 data FBRequestGenericTemplateElement = FBRequestGenericTemplateElement
     { fbreq_generic_template_title     :: Text       -- Bubble title (80 char limit)
@@ -110,6 +158,49 @@ instance ToJSON FBRequestTemplatePayload where
                                                                      , "summary" .= summary
                                                                      , "adjustments" .= adjustments
                                                                      ]
+    toJSON (FBAirlineItineraryPayload intro locale theme pnr pinfo finfo psinfo
+                                      priceinfo bprice tax totalprice currency) = object [ "template_type" .= String "airline_itinerary"
+                                                                                         , "intro_message" .= intro
+                                                                                         , "locale" .= locale
+                                                                                         , "theme_color" .= theme
+                                                                                         , "pnr_number" .= pnr
+                                                                                         , "passenger_info" .= pinfo
+                                                                                         , "flight_info" .= finfo
+                                                                                         , "passenger_segment_info" .= psinfo
+                                                                                         , "price_info" .= priceinfo
+                                                                                         , "base_price" .= bprice
+                                                                                         , "tax" .= tax
+                                                                                         , "total_price" .= totalprice
+                                                                                         , "currency" .= currency
+                                                                                         ]
+    toJSON (FBAirlineCheckinPayload intro locale theme pnr finfo checkin) = object [ "template_type" .= String "airline_checkin"
+                                                                                   , "intro_message" .= intro
+                                                                                   , "locale" .= locale
+                                                                                   , "theme_color" .= theme
+                                                                                   , "pnr_number" .= pnr
+                                                                                   , "flight_info" .= finfo
+                                                                                   , "checkin_url" .= checkin
+                                                                                   ]
+    toJSON (FBAirlineBoardingPassPayload intro locale theme boarding) = object [ "template_type" .= String "airline_boardingpass"
+                                                                               , "intro_message" .= intro
+                                                                               , "locale" .= locale
+                                                                               , "theme_color" .= theme
+                                                                               , "boarding_pass" .= boarding
+                                                                               ]
+    toJSON (FBAirlineFlightUpdateMessagePayload intro locale theme pnr update') = object [ "template_type" .= String "airline_update"
+                                                                                        , "intro_message" .= intro
+                                                                                        , "locale" .= locale
+                                                                                        , "theme_color" .= theme
+                                                                                        , "pnr_number" .= pnr
+                                                                                        , "update_flight_info" .= update'
+                                                                                        ]
+    toJSON (FBAirlineFlightUpdateTypePayload typ locale theme pnr update') = object [ "template_type" .= String "airline_update"
+                                                                                   , "update_type" .= typ
+                                                                                   , "locale" .= locale
+                                                                                   , "theme_color" .= theme
+                                                                                   , "pnr_number" .= pnr
+                                                                                   , "update_flight_info" .= update'
+                                                                                   ]
 
 instance ToJSON FBRequestGenericTemplateElement where
     toJSON (FBRequestGenericTemplateElement title item_url image_url subtitle buttons) = object [ "title" .= title
@@ -175,6 +266,38 @@ instance FromJSON FBRequestTemplatePayload where
                                                            <*> o .:? "address"
                                                            <*> o .: "summary"
                                                            <*> o .:? "adjustments"
+                       <|> FBAirlineFlightUpdateTypePayload <$> o .: "update_type"
+                                                            <*> o .: "locale"
+                                                            <*> o .:? "theme_color"
+                                                            <*> o .: "pnr_number"
+                                                            <*> o .: "update_flight_info"
+                       <|> FBAirlineBoardingPassPayload <$> o .: "intro_message"
+                                                        <*> o .: "locale"
+                                                        <*> o .:? "theme_color"
+                                                        <*> o .: "boarding_pass"
+                       <|> FBAirlineFlightUpdateMessagePayload <$> o .: "intro_message"
+                                                               <*> o .: "locale"
+                                                               <*> o .:? "theme_color"
+                                                               <*> o .: "pnr_number"
+                                                               <*> o .: "update_flight_info"
+                       <|> FBAirlineCheckinPayload <$> o .: "intro_message"
+                                                   <*> o .: "locale"
+                                                   <*> o .:? "theme_color"
+                                                   <*> o .: "pnr_number"
+                                                   <*> o .: "flight_info"
+                                                   <*> o .: "checkin_url"
+                       <|> FBAirlineItineraryPayload <$> o .: "intro_message"
+                                                     <*> o .: "locale"
+                                                     <*> o .:? "theme_color"
+                                                     <*> o .: "pnr_number"
+                                                     <*> o .: "passenger_info"
+                                                     <*> o .: "flight_info"
+                                                     <*> o .: "passenger_segment_info"
+                                                     <*> o .:? "price_info"
+                                                     <*> o .:? "base_price"
+                                                     <*> o .:? "tax"
+                                                     <*> o .: "total_price"
+                                                     <*> o .: "currency"
     parseJSON wat = typeMismatch "FBRequestTemplatePayload" wat
 
 instance FromJSON FBRequestGenericTemplateElement where

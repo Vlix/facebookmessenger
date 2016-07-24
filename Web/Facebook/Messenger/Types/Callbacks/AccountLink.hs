@@ -16,7 +16,7 @@ data FBCallbackAccountLink = FBCallbackAccountLink
     }
 
 data FBCallbackAccountLinkStatus = LINKED | UNLINKED
-
+    deriving Show
 
 -- --------------------------- --
 --  ACCOUNT LINKING INSTANCES  --

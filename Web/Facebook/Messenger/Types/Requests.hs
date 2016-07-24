@@ -38,12 +38,6 @@ data FBRequestRecipient = FBRequestRecipientID    { fbreq_recipient_id    :: Tex
                       -- These IDs are page-scoped IDs (PSID). This means that the IDs are unique for a given page.
                         | FBRequestRecipientPhone { fbreq_recipient_phone :: Text } -- format -> +1(212)555-2368
 
--- Seperate FBAirlineRequest type to avoid adding superfluous data types
-data FBAirlineRequest = FBAirlineRequest
-    { fbair_recipient :: FBRequestRecipient      -- ID of recipient
-    , fbair_payload   :: FBAirlineRequestPayload -- Template payload
-    }
-
 -- ------------------------ --
 --  SEND MESSAGE INSTANCES  --
 -- ------------------------ --
@@ -74,21 +68,3 @@ instance FromJSON FBRequestRecipient where
     parseJSON (Object o) = FBRequestRecipientID    <$> o .: "id"
                        <|> FBRequestRecipientPhone <$> o .: "phone"
     parseJSON wat = typeMismatch "FBRequestRecipient" wat
-
-
-instance ToJSON FBAirlineRequest where
-    toJSON (FBAirlineRequest recipient payload) = object [ "recipient" .= recipient
-                                                         , "message" .= message
-                                                         ]
-      where
-        attachment = object [ "type" .= String "template"
-                            , "payload" .= payload
-                            ]
-        message = object [ "attachment" .= attachment ]
-
-instance FromJSON FBAirlineRequest where
-    parseJSON (Object o) | Just (Object msg) <- HM.lookup "message" o
-                         , Just (Object attach) <- HM.lookup "attachment" msg
-                         , HM.lookup "type" attach == Just (String "template")
-                         = FBAirlineRequest <$> o .: "recipient" <*> attach .: "payload"
-    parseJSON wat = typeMismatch "FBAirlineRequest" wat
