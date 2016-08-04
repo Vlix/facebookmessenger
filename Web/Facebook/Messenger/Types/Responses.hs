@@ -11,12 +11,17 @@ import Data.Aeson.Types     (typeMismatch)
 --  FACEBOOK RESPONSES  --
 -- -------------------- --
 
-data FBMessageResponse = FBMessageResponse
+data FBMessageResponse =
+    FBMessageResponse
     { fbres_message_recipient_id :: Text -- Unique ID for the user
     , fbres_message_message_id   :: Text -- Unique ID for the message
     }
+  | FBSenderActionResponse
+    { fbres_message_recipient_id :: Text } -- Unique ID for the user 
+  deriving (Eq, Show)
 
 newtype FacebookErrorResponse = FacebookErrorResponse { fbres_message_error :: FBErrorResponse } 
+  deriving (Eq, Show)
 
 data FBErrorResponse = FBErrorResponse
     { fbres_error_message    :: Text
@@ -25,8 +30,10 @@ data FBErrorResponse = FBErrorResponse
     --, fbres_error_error_data :: Maybe Text
     , fbres_error_fbtrace_id :: Maybe Text
     }
+  deriving Eq
 
 newtype FBSuccessResponse = FBSuccessResponse { fbres_settings_result :: Text } -- At successful request
+  deriving (Eq, Show)
 
 data FacebookUserAPIResponse = FacebookUserAPIResponse
     { fbres_userapi_first_name  :: Maybe Text -- First Name
@@ -36,6 +43,7 @@ data FacebookUserAPIResponse = FacebookUserAPIResponse
     , fbres_userapi_timezone    :: Maybe Int  -- GMT +/- Int 
     , fbres_userapi_gender      :: Maybe Text
     }
+  deriving (Eq, Show)
 
 
 -- SHOW INSTANCE OF ERROR RESPONSE --
@@ -54,6 +62,7 @@ instance Show FBErrorResponse where
 instance FromJSON FBMessageResponse where
     parseJSON (Object o) = FBMessageResponse <$> o .: "recipient_id"
                                              <*> o .: "message_id"
+                       <|> FBSenderActionResponse <$> o .: "recipient_id"
     parseJSON wat = typeMismatch "FBMessageResponse" wat
 
 instance FromJSON FacebookErrorResponse where
@@ -82,8 +91,9 @@ instance FromJSON FacebookUserAPIResponse where
 
 instance ToJSON FBMessageResponse where
     toJSON (FBMessageResponse recipient_id message_id) = object [ "recipient_id" .= recipient_id
-                                                                      , "message_id" .= message_id
-                                                                      ]
+                                                                , "message_id" .= message_id
+                                                                ]
+    toJSON (FBSenderActionResponse recipient_id) = object [ "recipient_id" .= recipient_id ]
 
 instance ToJSON FBErrorResponse where
     toJSON (FBErrorResponse message typ code fbtrace_id) = object [ "message" .= message

@@ -16,21 +16,26 @@ import Web.Facebook.Messenger.Types.Callbacks.Messaging
 --       FACEBOOK CALLBACKS       --
 -- ============================== --
 
-data FBCallback = FBCallback { fbcb_object :: Text              -- Value will be `page`
-                             , fbcb_entry  :: [FBCallbackEntry] -- Array containing event data
-                             }
-
-data FBCallbackEntry = FBCallbackEntry
-    { fbcb_entry_id        :: Text                  -- Page ID of page
-    , fbcb_entry_time      :: Int                   -- Time of update (epoch time in milliseconds)
-    , fbcb_entry_messaging :: [FBCallbackMessaging] -- Array containing objects related to messaging
+data FBCallback =
+  FBCallback
+    { fbcb_object :: Text              -- Value will be `page`
+    , fbcb_entry  :: [FBCallbackEntry] -- Array containing event data
     }
-    -- For some reason Facebook gives the id arguments of a postback `entry` object as a `Number`
-    | FBCallbackEntryPostback
+  deriving (Eq, Show)
+
+data FBCallbackEntry =
+  FBCallbackEntryPostback
     { fbcb_entrypostback_id :: Int
     , fbcb_entry_time       :: Int
     , fbcb_entry_messaging  :: [FBCallbackMessaging]
     }
+    -- For some reason Facebook gives the id arguments of a postback `entry` object as a `Number`
+  | FBCallbackEntry
+    { fbcb_entry_id        :: Text                  -- Page ID of page
+    , fbcb_entry_time      :: Int                   -- Time of update (epoch time in milliseconds)
+    , fbcb_entry_messaging :: [FBCallbackMessaging] -- Array containing objects related to messaging
+    }
+  deriving (Eq, Show)
 
 
 -- ------------------------ --

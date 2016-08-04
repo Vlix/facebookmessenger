@@ -63,11 +63,14 @@ data FBCallbackMessaging =
         , fbcb_echo_recipient :: FBCallbackRecipient
         , fbcb_echo_timestamp :: Int
         , fbcb_echo_message   :: FBCallbackEcho }
+  deriving (Eq, Show)
 
 -- ALL MESSAGING HAS THESE TWO --
 newtype FBCallbackSender = FBCallbackSender { fbcb_sender_id :: Text } -- Sender user ID
+  deriving (Eq, Show)
 
 newtype FBCallbackRecipient = FBCallbackRecipient { fbcb_recipient_id :: Text } -- Recipient user ID
+  deriving (Eq, Show)
 
 -- When representing a user, these IDs are page-scoped IDs (PSID). This means that the IDs of users are unique for a given page.
 

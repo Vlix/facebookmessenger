@@ -15,6 +15,7 @@ data FBCallbackDelivery = FBCallbackDelivery
     , fbcb_delivery_watermark :: Int -- All messages that were sent before this timestamp were delivered
     , fbcb_delivery_seq       :: Int -- Sequence number
     }
+  deriving (Eq, Show)
 
 
 -- -------------------- --

@@ -24,9 +24,11 @@ data FBRequestAttachment =
     }
   | FBRequestAttachmentTemplate
     { fbreq_attachment_template_payload :: FBRequestTemplatePayload }
+  deriving (Eq, Show)
 
 newtype FBRequestMultimediaPayload =
     FBRequestMultimediaPayload { fbreq_multimedia_payload_url :: Text } -- URL of payload
+  deriving (Eq, Show)
 
 
 -- ---------------------- --

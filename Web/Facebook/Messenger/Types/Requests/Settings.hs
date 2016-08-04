@@ -18,12 +18,15 @@ data FBSettingsRequest =
     { fbsettings_getstarted :: [FBGetStartedButtonPayload] } -- can only be one (for some reason it's an array...)
   | FBPersistentMenuRequest
     { fbsettings_persistent :: [FBSettingsMenuItem] } -- limited to 5 (title limit 30 for persistent menu)
+  deriving (Eq, Show)
 
 newtype FBSettingsGreeting =
     FBSettingsGreeting { fbsettings_greeting_text :: Text } -- Greeting text (UTF8 160 char limit)
+  deriving (Eq, Show)
 
 newtype FBGetStartedButtonPayload =
     FBGetStartedButtonPayload { fbsettings_getstarted_payload :: Text } -- This data will be sent back to you via webhook.
+  deriving (Eq, Show)
 
 data FBSettingsMenuItem = FBSettingsMenuItemURL { fbsettings_menuitem_weburl_title :: Text -- 30 char limit
                                                 , fbsettings_menuitem_weburl_url   :: Text }
@@ -31,6 +34,7 @@ data FBSettingsMenuItem = FBSettingsMenuItemURL { fbsettings_menuitem_weburl_tit
                         | FBSettingsMenuItemPostback { fbsettings_menuitem_postback_title :: Text -- 30 char limimt
                                                      , fbsettings_menuitem_postback_payload :: Text }
                                             -- This data will be sent back to you via webhook (1000 char limit)
+  deriving (Eq, Show)
 
 
 -- ------------------------ --

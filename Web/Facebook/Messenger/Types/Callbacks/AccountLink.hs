@@ -14,9 +14,10 @@ data FBCallbackAccountLink = FBCallbackAccountLink
     { fbcb_account_status :: FBCallbackAccountLinkStatus -- LINKED or UNLINKED
     , fbcb_account_code   :: Maybe Text -- Value of pass-through authorization_code provided in the Linking Account flow
     }
+  deriving (Eq, Show)
 
 data FBCallbackAccountLinkStatus = LINKED | UNLINKED
-    deriving Show
+  deriving (Eq, Show)
 
 -- --------------------------- --
 --  ACCOUNT LINKING INSTANCES  --

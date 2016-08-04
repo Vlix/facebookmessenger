@@ -12,6 +12,7 @@ import Data.Aeson.Types     (typeMismatch)
 
 newtype FBCallbackPostback =
     FBCallbackPostback { fbcb_postback_payload :: Text } -- Payload parameter that was defined with the button
+  deriving (Eq, Show)
 
 
 -- --------------- --
@@ -20,6 +21,7 @@ newtype FBCallbackPostback =
 
 newtype FBCallbackOptin =
     FBCallbackOptin { fbcb_optin_ref :: Text } -- `data-ref` parameter that was defined with the entry point
+  deriving (Eq, Show)
 
 
 -- -------------------- --

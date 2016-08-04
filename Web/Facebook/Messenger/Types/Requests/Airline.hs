@@ -19,6 +19,7 @@ data FBAirlinePassengerInfo = FBAirlinePassengerInfo
     , fbair_personalinfo_ticket_number :: Maybe Text -- Ticket number
     , fbair_personalinfo_name          :: Text -- Full name of passenger, including title
     }
+  deriving (Eq, Show)
 
 data FBAirlineItineraryFlightInfo = FBAirlineItineraryFlightInfo
     { fbair_iflightinfo_connection_id     :: Text -- Used to group segments of a connection together (must be unique in itinerary)
@@ -30,6 +31,7 @@ data FBAirlineItineraryFlightInfo = FBAirlineItineraryFlightInfo
     , fbair_iflightinfo_flight_schedule   :: FBAirlineFlightSchedule  -- Schedule for the flight
     , fbair_iflightinfo_travel_class      :: FBAirlineTravelClassType -- Travel class (ECONOMY, BUSINESS or FIRST_CLASS)
     }
+  deriving (Eq, Show)
 
 data FBAirlineAirport = FBAirlineAirport
     { fbair_airport_airport_code :: Text -- Airport code (e.g. SFO/AMS/TYO)
@@ -37,6 +39,7 @@ data FBAirlineAirport = FBAirlineAirport
     , fbair_airport_terminal     :: Maybe Text -- Terminal number
     , fbair_airport_gate         :: Maybe Text -- Gate number
     }
+  deriving (Eq, Show)
 
 -- all times in schedule must be in the ISO 8601-based format YYYY-MM-DDThh:mm (e.g. 2015-09-26T10:30)
 data FBAirlineFlightSchedule = FBAirlineFlightSchedule
@@ -45,6 +48,7 @@ data FBAirlineFlightSchedule = FBAirlineFlightSchedule
     , fbair_flightschedule_arrival_time   :: Text -- Arrival time in arrival airport timezone
     }
   -- Must all be in the ISO 8601-based format YYYY-MM-DDThh:mm (e.g. 2015-09-26T10:30)
+  deriving (Eq, Show)
 
 data FBAirlineUpdatePassFlightSchedule = FBAirlineUpdatePassFlightSchedule
     { fbair_usflightschedule_boarding_time  :: Maybe Text -- Boarding time in departure airport timezone
@@ -52,6 +56,7 @@ data FBAirlineUpdatePassFlightSchedule = FBAirlineUpdatePassFlightSchedule
     , fbair_usflightschedule_arrival_time   :: Maybe Text -- Arrival time in arrival airport timezone
     }
   -- Must all be in the ISO 8601-based format YYYY-MM-DDThh:mm (e.g. 2015-09-26T10:30)
+  deriving (Eq, Show)
 
 data FBAirlinePriceInfo = FBAirlinePriceInfo
     { fbair_priceinfo_title    :: Text   -- Price info title
@@ -59,6 +64,7 @@ data FBAirlinePriceInfo = FBAirlinePriceInfo
     , fbair_priceinfo_currency :: Maybe Text -- Pricing currency (must be ISO-4217-3 code)
     }
   -- https://developers.facebook.com/docs/payments/reference/supportedcurrencies
+  deriving (Eq, Show)
 
 data FBAirlineFlightInfo = FBAirlineFlightInfo
     { fbair_cflightinfo_flight_number     :: Text             -- Flight number
@@ -66,6 +72,7 @@ data FBAirlineFlightInfo = FBAirlineFlightInfo
     , fbair_cflightinfo_arrival_airport   :: FBAirlineAirport -- Arrival airport
     , fbair_cflightinfo_flight_schedule   :: FBAirlineFlightSchedule -- Schedule for the flight
     }
+  deriving (Eq, Show)
 
 data FBAirlineBoardingPass =
   FBAirlineBoardingPassQRCode
@@ -96,6 +103,7 @@ data FBAirlineBoardingPass =
     , fbair_boardingpass_above_bar_code_image_url :: Text -- URL of thin image above the barcode
     , fbair_boardingpass_flight_info              :: FBAirlineFlightInfo -- Information about the flight
     }
+  deriving (Eq, Show)
 
 data FBAirlinePassengerSegmentInfo = FBAirlinePassengerSegmentInfo
     { fbair_passengersegment_segment_id   :: Text -- Used to identify a flight segment (must be unique in itinerary)
@@ -104,11 +112,13 @@ data FBAirlinePassengerSegmentInfo = FBAirlinePassengerSegmentInfo
     , fbair_passengersegment_seat_type    :: Text -- Seat type for the passenger (e.g. Economy comfort)
     , fbair_passengersegment_product_info :: Text -- List of products the passenger purchased (limited to 4)
     }
+  deriving (Eq, Show)
 
 data FBAirlineField = FBAirlineField
     { fbair_field_label :: Text -- Label for the additional field
     , fbair_field_value :: Text -- Value for the additional field
     }
+  deriving (Eq, Show)
 
 
 -- ----------------------- --

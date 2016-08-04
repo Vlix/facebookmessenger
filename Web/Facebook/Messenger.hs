@@ -2,18 +2,18 @@ module Web.Facebook.Messenger
     ( handleFacebookMessaging
     , mkFBSenderAction
     , mkFBMessageText
-    , mkFBMessageTextQ
     , mkFBAttachmentImage
-    , mkFBAttachmentImageQ
     , mkFBAttachmentAudio
-    , mkFBAttachmentAudioQ
     , mkFBAttachmentVideo
-    , mkFBAttachmentVideoQ
     , mkFBAttachmentFile
-    , mkFBAttachmentFileQ
     , mkFBGenericTemplate
-    , mkFBGenericTemplateQ
     , mkFBButtonTemplate
+    , mkFBMessageTextQ
+    , mkFBAttachmentImageQ
+    , mkFBAttachmentAudioQ
+    , mkFBAttachmentVideoQ
+    , mkFBAttachmentFileQ
+    , mkFBGenericTemplateQ
     , mkFBButtonTemplateQ
     , module Web.Facebook.Messenger.Types
     -- All functions with prime ' use the RecipientPhone number instead of its PSID (Page-Scoped ID)

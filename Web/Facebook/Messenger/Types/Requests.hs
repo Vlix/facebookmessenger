@@ -33,10 +33,12 @@ data FBSendRequest =
     { fbreq_recipient     :: FBRequestRecipient        -- Recipient object
     , fbreq_sender_action :: FBRequestSenderActionType -- Message state: TYPING_ON, TYPING_OFF, MARK_SEEN
     }
+  deriving (Eq, Show)
 
 data FBRequestRecipient = FBRequestRecipientID    { fbreq_recipient_id    :: Text } -- (PS)ID of recipient
                       -- These IDs are page-scoped IDs (PSID). This means that the IDs are unique for a given page.
                         | FBRequestRecipientPhone { fbreq_recipient_phone :: Text } -- format -> +1(212)555-2368
+  deriving (Eq, Show)
 
 -- ------------------------ --
 --  SEND MESSAGE INSTANCES  --

@@ -14,6 +14,7 @@ data FBCallbackRead = FBCallbackRead
     { fbcb_read_watermark :: Int -- All messages that were sent before this timestamp were read
     , fbcb_read_seq       :: Int -- Sequence number
     }
+  deriving (Eq, Show)
 
 
 -- ---------------- --

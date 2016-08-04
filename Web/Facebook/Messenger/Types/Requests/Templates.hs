@@ -82,6 +82,7 @@ data FBRequestTemplatePayload = FBRequestGenericTemplatePayload
                                 , fbair_flightupdate_pnr_number         :: Text -- Passenger name record number (Booking Number)
                                 , fbair_flightupdate_update_flight_info :: FBAirlineFlightInfo -- Information about a flight
                                 }
+  deriving (Eq, Show)
 
 
 data FBRequestGenericTemplateElement = FBRequestGenericTemplateElement
@@ -91,6 +92,7 @@ data FBRequestGenericTemplateElement = FBRequestGenericTemplateElement
     , fbreq_generic_template_subtitle  :: Maybe Text -- Bubble subtitle (80 char limit)
     , fbreq_generic_template_buttons   :: Maybe [FBRequestTemplateButton] -- Set of buttons that appear as call-to-actions (3 button limit)
     }
+  deriving (Eq, Show)
 
 data FBRequestReceiptTemplateElement = FBRequestReceiptTemplateElement
     { fbreq_receipt_template_title     :: Text       -- Title of item
@@ -100,16 +102,18 @@ data FBRequestReceiptTemplateElement = FBRequestReceiptTemplateElement
     , fbreq_receipt_template_currency  :: Maybe Text -- Currency of price
     , fbreq_receipt_template_image_url :: Maybe Text -- 1.91:1 image ratio
     }
+  deriving (Eq, Show)
 
-data FBRequestTemplateButton = FBRequestTemplateButtonWebURL { fbreq_button_weburl_title :: Text -- 20 char limimt
-                                                             , fbreq_button_weburl_url   :: Text }
+data FBRequestTemplateButton = FBRequestTemplateButtonWebURL { fbreq_button_title      :: Text -- 20 char limimt
+                                                             , fbreq_button_weburl_url :: Text }
                                                           -- This URL is opened in a mobile browser when the button is tapped
-                             | FBRequestTemplateButtonPostback { fbreq_button_postback_title   :: Text -- 20 char limimt
+                             | FBRequestTemplateButtonPostback { fbreq_button_title            :: Text -- 20 char limimt
                                                                , fbreq_button_postback_payload :: Text } -- 1000 char limit
                                                           -- This data will be sent back to you via webhook.
-                             | FBRequestTemplateButtonPhoneNumber { fbreq_button_phone_title   :: Text -- 20 char limit
+                             | FBRequestTemplateButtonPhoneNumber { fbreq_button_title         :: Text -- 20 char limit
                                                                   , fbreq_button_phone_payload :: Text }
                                                           -- This must be a well formatted phone number. (+31654321098 or +31(6)54321098 ?)
+  deriving (Eq, Show)
 
 data FBRequestTemplateAddress = FBRequestTemplateAddress
     { fbreq_address_template_street_1    :: Text       -- Street address, line 1
@@ -119,6 +123,7 @@ data FBRequestTemplateAddress = FBRequestTemplateAddress
     , fbreq_address_template_state       :: Text       -- State abbreviation
     , fbreq_address_template_country     :: Text       -- Two-letter country abbreviation
     }
+  deriving (Eq, Show)
 
 data FBRequestTemplateSummary = FBRequestTemplateSummary
     { fbreq_summary_template_subtotal      :: Maybe Double -- Subtotal
@@ -126,11 +131,13 @@ data FBRequestTemplateSummary = FBRequestTemplateSummary
     , fbreq_summary_template_total_tax     :: Maybe Double -- Total tax
     , fbreq_summary_template_total_cost    :: Double       -- Total cost
     }
+  deriving (Eq, Show)
 
 data FBRequestTemplateAdjustment = FBRequestTemplateAdjustment
     { fbreq_adjustment_template_name   :: Maybe Text -- Name of adjustment
     , fbreq_adjustment_template_amount :: Maybe Int  -- Adjustment amount
     }
+  deriving (Eq, Show)
 
 
 -- -------------------- --

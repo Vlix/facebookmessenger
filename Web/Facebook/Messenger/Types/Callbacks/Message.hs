@@ -24,8 +24,10 @@ data FBCallbackMessage =
         , fbcb_msg_seq         :: Int  -- Message sequence number
         , fbcb_msg_attachments :: [FBCallbackAttachment] -- Array containing attachment data
         }
+  deriving (Eq, Show)
 
 newtype FBCallbackQuickReply = FBCallbackQuickReply { fbcb_quick_reply_payload :: Text }
+  deriving (Eq, Show)
 
 data FBCallbackAttachment =
   FBCallbackMultimediaAttachment
@@ -33,17 +35,21 @@ data FBCallbackAttachment =
     , fbcb_attachment_payload :: FBCallbackMultimediaAttachmentPayload }
   | FBCallbackCoordinatesAttachment
     { fbcb_attachment_coordinates :: FBCallbackCoordinatesAttachmentPayload }
+  deriving (Eq, Show)
 
 newtype FBCallbackMultimediaAttachmentPayload  =
     FBCallbackMultimediaAttachmentPayload { fbcb_multimedia_payload_url :: Text } -- URL of the file
+  deriving (Eq, Show)
 
 newtype FBCallbackCoordinatesAttachmentPayload =
     FBCallbackCoordinatesAttachmentPayload { fbcb_coordinates_payload :: FBCallbackAttachmentCoordinates }
+  deriving (Eq, Show)
 
 data FBCallbackAttachmentCoordinates = FBCallbackAttachmentCoordinates
     { fbcb_coords_lat  :: Double -- Latitude
     , fbcb_coords_long :: Double -- Longitude
     }
+  deriving (Eq, Show)
 
 
 -- ------------------- --

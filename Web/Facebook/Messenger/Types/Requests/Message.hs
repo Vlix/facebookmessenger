@@ -25,11 +25,13 @@ data FBRequestMessage =
     { fbreq_message_attachment  :: FBRequestAttachment   -- Attachment object
     , fbreq_message_quick_reply :: Maybe [FBRequestQuickReply] -- Array of quick_reply to be sent with messages (max 10)
     }
+  deriving (Eq, Show)
 
 data FBRequestQuickReply = FBRequestQuickReply
     { fbreq_quick_reply_title   :: Text -- Caption of button (20 char limit)
     , fbreq_quick_reply_payload :: Text -- Custom data that will be sent back to you via webhook (1000 char limit)
     }
+  deriving (Eq, Show)
 
 
 -- ------------------- --
