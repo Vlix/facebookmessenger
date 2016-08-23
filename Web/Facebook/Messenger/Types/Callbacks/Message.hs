@@ -5,7 +5,7 @@ import Control.Applicative  ((<|>))
 import Data.Text
 import Data.Aeson
 import Data.Aeson.Types     (typeMismatch)
-import Web.Facebook.Messenger.Types.Static  (FBRequestAttachmentType)
+import Web.Facebook.Messenger.Types.Static  (FBAttachmentType)
 
 
 -- ------------------ --
@@ -31,7 +31,7 @@ newtype FBCallbackQuickReply = FBCallbackQuickReply { fbcb_quick_reply_payload :
 
 data FBCallbackAttachment =
   FBCallbackMultimediaAttachment
-    { fbcb_attachment_type    :: FBRequestAttachmentType
+    { fbcb_attachment_type    :: FBAttachmentType
     , fbcb_attachment_payload :: FBCallbackMultimediaAttachmentPayload }
   | FBCallbackCoordinatesAttachment
     { fbcb_attachment_coordinates :: FBCallbackCoordinatesAttachmentPayload }

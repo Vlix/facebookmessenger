@@ -15,7 +15,7 @@ data FBRequestNotificationType = REGULAR     -- Emits a sound/vibration and a ph
                                | NO_PUSH     -- Emits neither
   deriving (Eq, Show)
 
-data FBRequestAttachmentType = IMAGE | VIDEO | AUDIO | FILE
+data FBAttachmentType = IMAGE | VIDEO | AUDIO | FILE
   deriving (Eq, Show)
 
 data FBAirlineTravelClassType = ECONOMY | BUSINESS | FIRST_CLASS
@@ -51,18 +51,18 @@ instance FromJSON FBRequestNotificationType where
     parseJSON wat = typeMismatch "FBRequestNotificationType" wat
 
 
-instance ToJSON FBRequestAttachmentType where
+instance ToJSON FBAttachmentType where
     toJSON IMAGE    = String "image"
     toJSON VIDEO    = String "video"
     toJSON AUDIO    = String "audio"
     toJSON FILE     = String "file"
 
-instance FromJSON FBRequestAttachmentType where
+instance FromJSON FBAttachmentType where
     parseJSON (String "image")    = pure IMAGE
     parseJSON (String "audio")    = pure AUDIO
     parseJSON (String "video")    = pure VIDEO
     parseJSON (String "file")     = pure FILE
-    parseJSON wat = typeMismatch "FBRequestAttachmentType" wat
+    parseJSON wat = typeMismatch "FBAttachmentType" wat
 
 
 instance ToJSON FBAirlineTravelClassType where

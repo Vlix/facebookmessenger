@@ -80,7 +80,11 @@ newtype FBCallbackRecipient = FBCallbackRecipient { fbcb_recipient_id :: Text } 
 -- --------------------- --
 
 instance FromJSON FBCallbackMessaging where
-    parseJSON (Object o) = FBCallbackMessagingMessage <$> o .: "sender"
+    parseJSON (Object o) = FBCallbackMessagingEcho <$> o .: "sender"
+                                                   <*> o .: "recipient"
+                                                   <*> o .: "timestamp"
+                                                   <*> o .: "message"
+                       <|> FBCallbackMessagingMessage <$> o .: "sender"
                                                       <*> o .: "recipient"
                                                       <*> o .: "timestamp"
                                                       <*> o .: "message"
@@ -103,10 +107,6 @@ instance FromJSON FBCallbackMessaging where
                                                    <*> o .: "recipient"
                                                    <*> o .: "timestamp"
                                                    <*> o .: "read"
-                       <|> FBCallbackMessagingEcho <$> o .: "sender"
-                                                   <*> o .: "recipient"
-                                                   <*> o .: "timestamp"
-                                                   <*> o .: "message"
     parseJSON wat = typeMismatch "FBCallbackMessaging" wat
 
 -- ALL MESSAGING HAS THESE TWO --

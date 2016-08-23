@@ -19,7 +19,7 @@ import Web.Facebook.Messenger.Types.Static
 
 data FBRequestAttachment =
   FBRequestMultimediaAttachment
-    { fbreq_attachment_type               :: FBRequestAttachmentType    -- IMAGE, AUDIO, VIDEO, or FILE
+    { fbreq_attachment_type               :: FBAttachmentType    -- IMAGE, AUDIO, VIDEO, or FILE
     , fbreq_attachment_multimedia_payload :: FBRequestMultimediaPayload
     }
   | FBRequestAttachmentTemplate
