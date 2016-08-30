@@ -1,5 +1,5 @@
 module Web.Facebook.Messenger.Types 
-    ( FacebookCallbackHandlers (..)
+    ( CallbackHandlers (..)
     , module Web.Facebook.Messenger.Types.Responses
     , module Web.Facebook.Messenger.Types.Callbacks
     , module Web.Facebook.Messenger.Types.Requests
@@ -30,13 +30,13 @@ type Sequence       = Int
 type Url            = Text
 type Message        = Text
 
-data FacebookCallbackHandlers a = FacebookCallbackHandlers
-    { fb_messageHandler     :: SenderID -> RecipientID -> Timestamp -> MID -> Sequence -> Text -> Maybe FBCallbackQuickReply -> a
-    , fb_attachmentHandler  :: SenderID -> RecipientID -> Timestamp -> MID -> Sequence -> [FBCallbackAttachment] -> a
-    , fb_postbackHandler    :: SenderID -> RecipientID -> Timestamp -> Text -> a
-    , fb_authHandler        :: SenderID -> RecipientID -> Timestamp -> Text -> a
-    , fb_deliveryHandler    :: SenderID -> RecipientID -> FBCallbackDelivery -> a
-    , fb_accountLinkHandler :: SenderID -> RecipientID -> Timestamp -> FBCallbackAccountLink -> a
-    , fb_readHandler        :: SenderID -> RecipientID -> Timestamp -> FBCallbackRead -> a
-    , fb_echoHandler        :: SenderID -> RecipientID -> Timestamp -> FBCallbackEcho -> a
+data CallbackHandlers a = CallbackHandlers
+    { messageHandler     :: SenderID -> RecipientID -> Timestamp -> MID -> Sequence -> Text -> Maybe CallbackQuickReply -> a
+    , attachmentHandler  :: SenderID -> RecipientID -> Timestamp -> MID -> Sequence -> [CallbackAttachment] -> a
+    , postbackHandler    :: SenderID -> RecipientID -> Timestamp -> Text -> a
+    , authHandler        :: SenderID -> RecipientID -> Timestamp -> Text -> a
+    , deliveryHandler    :: SenderID -> RecipientID -> Delivery -> a
+    , accountLinkHandler :: SenderID -> RecipientID -> Timestamp -> AccountLink -> a
+    , readHandler        :: SenderID -> RecipientID -> Timestamp -> ReadCallback -> a
+    , echoHandler        :: SenderID -> RecipientID -> Timestamp -> Echo -> a
     }

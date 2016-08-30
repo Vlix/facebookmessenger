@@ -1,6 +1,6 @@
 module Web.Facebook.Messenger.Types.Callbacks
-    ( FBCallback (..)
-    , FBCallbackEntry (..)
+    ( Callback (..)
+    , CallbackEntry (..)
     , module Web.Facebook.Messenger.Types.Callbacks.Messaging
     ) where
 
@@ -16,24 +16,24 @@ import Web.Facebook.Messenger.Types.Callbacks.Messaging
 --       FACEBOOK CALLBACKS       --
 -- ============================== --
 
-data FBCallback =
-  FBCallback
-    { fbcb_object :: Text              -- Value will be `page`
-    , fbcb_entry  :: [FBCallbackEntry] -- Array containing event data
+data Callback =
+  Callback
+    { cb_object :: Text              -- Value will be `page`
+    , cb_entry  :: [CallbackEntry] -- Array containing event data
     }
   deriving (Eq, Show)
 
-data FBCallbackEntry =
-  FBCallbackEntryPostback
-    { fbcb_entrypostback_id :: Int
-    , fbcb_entry_time       :: Int
-    , fbcb_entry_messaging  :: [FBCallbackMessaging]
+data CallbackEntry =
+  CallbackEntryPostback
+    { cb_entrypostback_id :: Int
+    , cb_entry_time       :: Int
+    , cb_entry_messaging  :: [CallbackMessaging]
     }
     -- For some reason Facebook gives the id arguments of a postback `entry` object as a `Number`
-  | FBCallbackEntry
-    { fbcb_entry_id        :: Text                  -- Page ID of page
-    , fbcb_entry_time      :: Int                   -- Time of update (epoch time in milliseconds)
-    , fbcb_entry_messaging :: [FBCallbackMessaging] -- Array containing objects related to messaging
+  | CallbackEntry
+    { cb_entry_id        :: Text                  -- Page ID of page
+    , cb_entry_time      :: Int                   -- Time of update (epoch time in milliseconds)
+    , cb_entry_messaging :: [CallbackMessaging] -- Array containing objects related to messaging
     }
   deriving (Eq, Show)
 
@@ -42,32 +42,32 @@ data FBCallbackEntry =
 --    FACEBOOK INSTANCES    --
 -- ------------------------ --
 
-instance FromJSON FBCallback where
-    parseJSON (Object o) = FBCallback <$> o .: "object"
-                                      <*> o .: "entry"
-    parseJSON wat = typeMismatch "FBCallback" wat
+instance FromJSON Callback where
+    parseJSON (Object o) = Callback <$> o .: "object"
+                                    <*> o .: "entry"
+    parseJSON wat = typeMismatch "Callback" wat
 
-instance FromJSON FBCallbackEntry where
-    parseJSON (Object o) = FBCallbackEntry <$> o .: "id"
-                                           <*> o .: "time"
-                                           <*> o .: "messaging"
-                       <|> FBCallbackEntryPostback <$> o .: "id"
-                                                   <*> o .: "time"
-                                                   <*> o .: "messaging"
-    parseJSON wat = typeMismatch "FBCallbackEntryPostback" wat
+instance FromJSON CallbackEntry where
+    parseJSON (Object o) = CallbackEntry <$> o .: "id"
+                                         <*> o .: "time"
+                                         <*> o .: "messaging"
+                       <|> CallbackEntryPostback <$> o .: "id"
+                                                 <*> o .: "time"
+                                                 <*> o .: "messaging"
+    parseJSON wat = typeMismatch "CallbackEntryPostback" wat
 
 
-instance ToJSON FBCallback where
-    toJSON (FBCallback obj entry) = object [ "object" .= obj
-                                           , "entry" .= entry
-                                           ]
+instance ToJSON Callback where
+    toJSON (Callback obj entry) = object [ "object" .= obj
+                                         , "entry" .= entry
+                                         ]
 
-instance ToJSON FBCallbackEntry where
-    toJSON (FBCallbackEntry ident time messaging) = object [ "id" .= ident
-                                                           , "time" .= time
-                                                           , "messaging" .= messaging
-                                                           ]
-    toJSON (FBCallbackEntryPostback ident time messaging) = object [ "id" .= ident
-                                                                   , "time" .= time
-                                                                   , "messaging" .= messaging
-                                                                   ]
+instance ToJSON CallbackEntry where
+    toJSON (CallbackEntry ident time messaging) = object [ "id" .= ident
+                                                         , "time" .= time
+                                                         , "messaging" .= messaging
+                                                         ]
+    toJSON (CallbackEntryPostback ident time messaging) = object [ "id" .= ident
+                                                                 , "time" .= time
+                                                                 , "messaging" .= messaging
+                                                                 ]

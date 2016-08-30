@@ -10,35 +10,35 @@ import Data.Aeson.Types     (typeMismatch)
 --  ACCOUNT LINKING CALLBACK  --
 -- -------------------------- --
 
-data FBCallbackAccountLink = FBCallbackAccountLink
-    { fbcb_account_status :: FBCallbackAccountLinkStatus -- LINKED or UNLINKED
-    , fbcb_account_code   :: Maybe Text -- Value of pass-through authorization_code provided in the Linking Account flow
+data AccountLink = AccountLink
+    { account_status :: AccountLinkStatus -- LINKED or UNLINKED
+    , account_code   :: Maybe Text -- Value of pass-through authorization_code provided in the Linking Account flow
     }
   deriving (Eq, Show)
 
-data FBCallbackAccountLinkStatus = LINKED | UNLINKED
+data AccountLinkStatus = LINKED | UNLINKED
   deriving (Eq, Show)
 
 -- --------------------------- --
 --  ACCOUNT LINKING INSTANCES  --
 -- --------------------------- --
 
-instance FromJSON FBCallbackAccountLink where
-    parseJSON (Object o) = FBCallbackAccountLink <$> o .: "status"
-                                                 <*> o .:? "authorization_code"
-    parseJSON wat = typeMismatch "FBCallbackAccountLink" wat
+instance FromJSON AccountLink where
+    parseJSON (Object o) = AccountLink <$> o .: "status"
+                                       <*> o .:? "authorization_code"
+    parseJSON wat = typeMismatch "AccountLink" wat
 
-instance FromJSON FBCallbackAccountLinkStatus where
+instance FromJSON AccountLinkStatus where
     parseJSON (String "linked")   = pure LINKED
     parseJSON (String "unlinked") = pure UNLINKED
-    parseJSON wat = typeMismatch "FBCallbackAccountLinkStatus" wat
+    parseJSON wat = typeMismatch "AccountLinkStatus" wat
 
 
-instance ToJSON FBCallbackAccountLink where
-    toJSON (FBCallbackAccountLink status code) = object [ "status" .= status
-                                                        , "authorization_code" .= code
-                                                        ]
+instance ToJSON AccountLink where
+    toJSON (AccountLink status code) = object [ "status" .= status
+                                              , "authorization_code" .= code
+                                              ]
 
-instance ToJSON FBCallbackAccountLinkStatus where
+instance ToJSON AccountLinkStatus where
     toJSON LINKED   = String "linked"
     toJSON UNLINKED = String "unlinked"

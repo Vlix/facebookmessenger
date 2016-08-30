@@ -11,44 +11,44 @@ import Data.Aeson.Types     (typeMismatch)
 --  FACEBOOK RESPONSES  --
 -- -------------------- --
 
-data FBMessageResponse =
-    FBMessageResponse
-    { fbres_message_recipient_id :: Text -- Unique ID for the user
-    , fbres_message_message_id   :: Text -- Unique ID for the message
+data MessageResponse =
+    MessageResponse
+    { res_message_recipient_id :: Text -- Unique ID for the user
+    , res_message_message_id   :: Text -- Unique ID for the message
     }
-  | FBSenderActionResponse
-    { fbres_message_recipient_id :: Text } -- Unique ID for the user 
+  | SenderActionResponse
+    { res_message_recipient_id :: Text } -- Unique ID for the user 
   deriving (Eq, Show)
 
-newtype FacebookErrorResponse = FacebookErrorResponse { fbres_message_error :: FBErrorResponse } 
+newtype ErrorRes = ErrorRes { res_error :: ErrorResponse } 
   deriving (Eq, Show)
 
-data FBErrorResponse = FBErrorResponse
-    { fbres_error_message    :: Text
-    , fbres_error_type       :: Text
-    , fbres_error_code       :: Int
-    --, fbres_error_error_data :: Maybe Text
-    , fbres_error_fbtrace_id :: Maybe Text
+data ErrorResponse = ErrorResponse
+    { error_message    :: Text
+    , error_type       :: Text
+    , error_code       :: Int
+    --, error_data :: Maybe Text
+    , error_fbtrace_id :: Maybe Text
     }
   deriving Eq
 
-newtype FBSuccessResponse = FBSuccessResponse { fbres_settings_result :: Text } -- At successful request
+newtype SuccessResponse = SuccessResponse { res_result :: Text } -- At successful request
   deriving (Eq, Show)
 
-data FacebookUserAPIResponse = FacebookUserAPIResponse
-    { fbres_userapi_first_name  :: Maybe Text -- First Name
-    , fbres_userapi_last_name   :: Maybe Text -- Last Name
-    , fbres_userapi_profile_pic :: Maybe Text -- URL to profile pic
-    , fbres_userapi_locale      :: Maybe Text -- format: en_US
-    , fbres_userapi_timezone    :: Maybe Int  -- GMT +/- Int 
-    , fbres_userapi_gender      :: Maybe Text
+data UserAPIResponse = UserAPIResponse
+    { userapi_first_name  :: Maybe Text -- First Name
+    , userapi_last_name   :: Maybe Text -- Last Name
+    , userapi_profile_pic :: Maybe Text -- URL to profile pic
+    , userapi_locale      :: Maybe Text -- format: en_US
+    , userapi_timezone    :: Maybe Int  -- GMT +/- Int 
+    , userapi_gender      :: Maybe Text
     }
   deriving (Eq, Show)
 
 
 -- SHOW INSTANCE OF ERROR RESPONSE --
-instance Show FBErrorResponse where
-    show (FBErrorResponse msg typ code traceid) =
+instance Show ErrorResponse where
+    show (ErrorResponse msg typ code traceid) =
         "Facebook Error Response: \"" ++ show msg ++ "\" - Error code: " ++ show code ++ " - Error type: " ++ show typ ++ maybetrace traceid
       where
         maybetrace Nothing      = ""
@@ -59,54 +59,57 @@ instance Show FBErrorResponse where
 --  RESPONSE INSTANCES  --
 -- -------------------- --
 
-instance FromJSON FBMessageResponse where
-    parseJSON (Object o) = FBMessageResponse <$> o .: "recipient_id"
-                                             <*> o .: "message_id"
-                       <|> FBSenderActionResponse <$> o .: "recipient_id"
-    parseJSON wat = typeMismatch "FBMessageResponse" wat
+instance FromJSON MessageResponse where
+    parseJSON (Object o) = MessageResponse <$> o .: "recipient_id"
+                                           <*> o .: "message_id"
+                       <|> SenderActionResponse <$> o .: "recipient_id"
+    parseJSON wat = typeMismatch "MessageResponse" wat
 
-instance FromJSON FacebookErrorResponse where
-    parseJSON (Object o) = FacebookErrorResponse <$> o .: "error"
-    parseJSON wat        = typeMismatch "FacebookErrorResponse" wat
+instance FromJSON ErrorRes where
+    parseJSON (Object o) = ErrorRes <$> o .: "error"
+    parseJSON wat        = typeMismatch "ErrorResponse" wat
 
-instance FromJSON FBErrorResponse where
-    parseJSON (Object o) = FBErrorResponse <$> o .: "message"
-                                           <*> o .: "type"
-                                           <*> o .: "code"
-                                           <*> o .:? "fbtrace_id"
-    parseJSON wat = typeMismatch "FBErrorResponse" wat
+instance FromJSON ErrorResponse where
+    parseJSON (Object o) = ErrorResponse <$> o .: "message"
+                                         <*> o .: "type"
+                                         <*> o .: "code"
+                                         <*> o .:? "fbtrace_id"
+    parseJSON wat = typeMismatch "ErrorResponse" wat
 
-instance FromJSON FBSuccessResponse where
-    parseJSON (Object o) = FBSuccessResponse <$> o .: "result"
-    parseJSON wat = typeMismatch "FBSuccessResponse" wat
+instance FromJSON SuccessResponse where
+    parseJSON (Object o) = SuccessResponse <$> o .: "result"
+    parseJSON wat = typeMismatch "SuccessResponse" wat
 
-instance FromJSON FacebookUserAPIResponse where
-    parseJSON (Object o) = FacebookUserAPIResponse <$> o .:? "first_name"
-                                                   <*> o .:? "last_name"
-                                                   <*> o .:? "profile_pic"
-                                                   <*> o .:? "locale"
-                                                   <*> o .:? "timezone"
-                                                   <*> o .:? "gender"
-    parseJSON wat = typeMismatch "FacebookUserAPIResponse" wat
+instance FromJSON UserAPIResponse where
+    parseJSON (Object o) = UserAPIResponse <$> o .:? "first_name"
+                                           <*> o .:? "last_name"
+                                           <*> o .:? "profile_pic"
+                                           <*> o .:? "locale"
+                                           <*> o .:? "timezone"
+                                           <*> o .:? "gender"
+    parseJSON wat = typeMismatch "UserAPIResponse" wat
 
-instance ToJSON FBMessageResponse where
-    toJSON (FBMessageResponse recipient_id message_id) = object [ "recipient_id" .= recipient_id
-                                                                , "message_id" .= message_id
+instance ToJSON MessageResponse where
+    toJSON (MessageResponse recipient_id message_id) = object [ "recipient_id" .= recipient_id
+                                                              , "message_id" .= message_id
+                                                              ]
+    toJSON (SenderActionResponse recipient_id) = object [ "recipient_id" .= recipient_id ]
+
+instance ToJSON ErrorRes where
+    toJSON (ErrorRes err) = object [ "error" .= err ]
+
+instance ToJSON ErrorResponse where
+    toJSON (ErrorResponse message typ code fbtrace_id) = object [ "message" .= message
+                                                                , "type" .= typ
+                                                                , "code" .= code
+                                                                , "fbtrace_id" .= fbtrace_id
                                                                 ]
-    toJSON (FBSenderActionResponse recipient_id) = object [ "recipient_id" .= recipient_id ]
 
-instance ToJSON FBErrorResponse where
-    toJSON (FBErrorResponse message typ code fbtrace_id) = object [ "message" .= message
-                                                                  , "type" .= typ
-                                                                  , "code" .= code
-                                                                  , "fbtrace_id" .= fbtrace_id
-                                                                  ]
+instance ToJSON SuccessResponse where
+    toJSON (SuccessResponse result) = object [ "result" .= result ]
 
-instance ToJSON FBSuccessResponse where
-    toJSON (FBSuccessResponse result) = object [ "result" .= result ]
-
-instance ToJSON FacebookUserAPIResponse where
-    toJSON (FacebookUserAPIResponse first_name last_name profile_pic locale timezone gender) =
+instance ToJSON UserAPIResponse where
+    toJSON (UserAPIResponse first_name last_name profile_pic locale timezone gender) =
         object [ "first_name" .= first_name
                , "last_name" .= last_name
                , "profile_pic" .= profile_pic

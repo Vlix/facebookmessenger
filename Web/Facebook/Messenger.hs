@@ -1,37 +1,37 @@
 module Web.Facebook.Messenger
-    ( handleFacebookMessaging
-    , mkFBSenderAction
-    , mkFBMessageText
-    , mkFBAttachmentImage
-    , mkFBAttachmentAudio
-    , mkFBAttachmentVideo
-    , mkFBAttachmentFile
-    , mkFBGenericTemplate
-    , mkFBButtonTemplate
-    , mkFBMessageTextQ
-    , mkFBAttachmentImageQ
-    , mkFBAttachmentAudioQ
-    , mkFBAttachmentVideoQ
-    , mkFBAttachmentFileQ
-    , mkFBGenericTemplateQ
-    , mkFBButtonTemplateQ
+    ( handleMessaging
+    , senderAction
+    , messageText
+    , attachmentImage
+    , attachmentAudio
+    , attachmentVideo
+    , attachmentFile
+    , genericTemplate
+    , buttonTemplate
+    , messageTextQ
+    , attachmentImageQ
+    , attachmentAudioQ
+    , attachmentVideoQ
+    , attachmentFileQ
+    , genericTemplateQ
+    , buttonTemplateQ
     , module Web.Facebook.Messenger.Types
     -- All functions with prime ' use the RecipientPhone number instead of its PSID (Page-Scoped ID)
-    , mkFBSenderAction'
-    , mkFBMessageText'
-    , mkFBAttachmentImage'
-    , mkFBAttachmentAudio'
-    , mkFBAttachmentVideo'
-    , mkFBAttachmentFile'
-    , mkFBGenericTemplate'
-    , mkFBMessageTextQ'
-    , mkFBAttachmentImageQ'
-    , mkFBAttachmentAudioQ'
-    , mkFBAttachmentVideoQ'
-    , mkFBAttachmentFileQ'
-    , mkFBGenericTemplateQ'
-    , mkFBButtonTemplate'
-    , mkFBButtonTemplateQ'
+    , senderAction'
+    , messageText'
+    , attachmentImage'
+    , attachmentAudio'
+    , attachmentVideo'
+    , attachmentFile'
+    , genericTemplate'
+    , messageTextQ'
+    , attachmentImageQ'
+    , attachmentAudioQ'
+    , attachmentVideoQ'
+    , attachmentFileQ'
+    , genericTemplateQ'
+    , buttonTemplate'
+    , buttonTemplateQ'
     ) where
 
 import Data.Text
@@ -40,197 +40,198 @@ import Web.Facebook.Messenger.Types
 
 
 
-handleFacebookMessaging :: FacebookCallbackHandlers a -> FBCallbackMessaging -> a
-handleFacebookMessaging fbcbh (FBCallbackMessagingMessage (FBCallbackSender sident)
-                                                          (FBCallbackRecipient rident)
-                                                          time
-                                                          (FBCallbackMessage mid seq' message quickreply)
-                              ) = fb_messageHandler fbcbh sident rident time mid seq' message quickreply
+handleMessaging :: CallbackHandlers a -> CallbackMessaging -> a
+handleMessaging fbcbh (CallbackMessagingMessage (CallbackSender sident)
+                                                (CallbackRecipient rident)
+                                                time
+                                                (CallbackMessageText mid seq' message quickreply)
+                      ) = messageHandler fbcbh sident rident time mid seq' message quickreply
                 
-handleFacebookMessaging fbcbh (FBCallbackMessagingMessage (FBCallbackSender sident)
-                                                          (FBCallbackRecipient rident)
-                                                          time
-                                                          (FBCallbackAttachment mid seq' attachments)
-                              ) = fb_attachmentHandler fbcbh sident rident time mid seq' attachments
+handleMessaging fbcbh (CallbackMessagingMessage (CallbackSender sident)
+                                                (CallbackRecipient rident)
+                                                time
+                                                (CallbackMessageAttachment mid seq' attachments)
+                      ) = attachmentHandler fbcbh sident rident time mid seq' attachments
 
-handleFacebookMessaging fbcbh (FBCallbackMessagingAuth (FBCallbackSender sident)
-                                                       (FBCallbackRecipient rident)
-                                                       time
-                                                       (FBCallbackOptin ref)
-                              ) = fb_authHandler fbcbh sident rident time ref
+handleMessaging fbcbh (CallbackMessagingAuth (CallbackSender sident)
+                                             (CallbackRecipient rident)
+                                             time
+                                             (Optin ref)
+                      ) = authHandler fbcbh sident rident time ref
 
-handleFacebookMessaging fbcbh (FBCallbackMessagingDelivery (FBCallbackSender sident)
-                                                           (FBCallbackRecipient rident)
-                                                           delivery
-                              ) = fb_deliveryHandler fbcbh sident rident delivery
+handleMessaging fbcbh (CallbackMessagingDelivery (CallbackSender sident)
+                                                 (CallbackRecipient rident)
+                                                 delivery
 
-handleFacebookMessaging fbcbh (FBCallbackMessagingPostback (FBCallbackSender sident)
-                                                           (FBCallbackRecipient rident)
-                                                           time
-                                                           (FBCallbackPostback payload)
-                              ) = fb_postbackHandler fbcbh sident rident time payload
+                      ) = deliveryHandler fbcbh sident rident delivery
 
-handleFacebookMessaging fbcbh (FBCallbackMessagingAccountLink (FBCallbackSender sident)
-                                                              (FBCallbackRecipient rident)
-                                                              time
-                                                              accountlink
-                              ) = fb_accountLinkHandler fbcbh sident rident time accountlink
+handleMessaging fbcbh (CallbackMessagingPostback (CallbackSender sident)
+                                                 (CallbackRecipient rident)
+                                                 time
+                                                 (Postback payload)
+                      ) = postbackHandler fbcbh sident rident time payload
 
-handleFacebookMessaging fbcbh (FBCallbackMessagingRead (FBCallbackSender sident)
-                                                       (FBCallbackRecipient rident)
-                                                       time
-                                                       read'
-                              ) = fb_readHandler fbcbh sident rident time read'
+handleMessaging fbcbh (CallbackMessagingAccountLink (CallbackSender sident)
+                                                    (CallbackRecipient rident)
+                                                    time
+                                                    accountlink
+                      ) = accountLinkHandler fbcbh sident rident time accountlink
 
-handleFacebookMessaging fbcbh (FBCallbackMessagingEcho (FBCallbackSender sident)
-                                                       (FBCallbackRecipient rident)
-                                                       time
-                                                       echo
-                              ) = fb_echoHandler fbcbh sident rident time echo
+handleMessaging fbcbh (CallbackMessagingRead (CallbackSender sident)
+                                             (CallbackRecipient rident)
+                                             time
+                                             read'
+                      ) = readHandler fbcbh sident rident time read'
+
+handleMessaging fbcbh (CallbackMessagingEcho (CallbackSender sident)
+                                             (CallbackRecipient rident)
+                                             time
+                                             echo
+                      ) = echoHandler fbcbh sident rident time echo
 
 
-mkFBSenderAction :: FBRequestSenderActionType -> RecipientID -> FBSendRequest
-mkFBSenderAction typ = mkSenderAction typ . FBRequestRecipientID
+senderAction :: SenderActionType -> RecipientID -> SendRequest
+senderAction typ = mkSenderAction typ . RecipientID
 
-mkFBMessageText :: Maybe FBRequestNotificationType -> Message -> RecipientID -> FBSendRequest
-mkFBMessageText mtyp msg = mkMessageText [] mtyp msg . FBRequestRecipientID
+messageText :: Maybe NotificationType -> Message -> RecipientID -> SendRequest
+messageText mtyp msg = mkMessageText [] mtyp msg . RecipientID
 
-mkFBMessageTextQ :: [(Text,Text)] -> Maybe FBRequestNotificationType -> Message -> RecipientID -> FBSendRequest
-mkFBMessageTextQ quickreplies mtyp msg = mkMessageText quickreplies mtyp msg . FBRequestRecipientID
+messageTextQ :: [(Text,Text)] -> Maybe NotificationType -> Message -> RecipientID -> SendRequest
+messageTextQ quickreplies mtyp msg = mkMessageText quickreplies mtyp msg . RecipientID
 
-mkFBAttachmentImage :: Maybe FBRequestNotificationType -> Url -> RecipientID -> FBSendRequest
-mkFBAttachmentImage mtyp url = mkAttachment [] IMAGE mtyp url . FBRequestRecipientID
+attachmentImage :: Maybe NotificationType -> Url -> RecipientID -> SendRequest
+attachmentImage mtyp url = mkAttachment [] IMAGE mtyp url . RecipientID
 
-mkFBAttachmentImageQ :: [(Text,Text)] -> Maybe FBRequestNotificationType -> Url -> RecipientID -> FBSendRequest
-mkFBAttachmentImageQ quickreplies mtyp url = mkAttachment quickreplies IMAGE mtyp url . FBRequestRecipientID
+attachmentImageQ :: [(Text,Text)] -> Maybe NotificationType -> Url -> RecipientID -> SendRequest
+attachmentImageQ quickreplies mtyp url = mkAttachment quickreplies IMAGE mtyp url . RecipientID
 
-mkFBAttachmentAudio :: Maybe FBRequestNotificationType -> Url -> RecipientID -> FBSendRequest
-mkFBAttachmentAudio mtyp url = mkAttachment [] AUDIO mtyp url . FBRequestRecipientID
+attachmentAudio :: Maybe NotificationType -> Url -> RecipientID -> SendRequest
+attachmentAudio mtyp url = mkAttachment [] AUDIO mtyp url . RecipientID
 
-mkFBAttachmentAudioQ :: [(Text,Text)] -> Maybe FBRequestNotificationType -> Url -> RecipientID -> FBSendRequest
-mkFBAttachmentAudioQ quickreplies mtyp url = mkAttachment quickreplies AUDIO mtyp url . FBRequestRecipientID
+attachmentAudioQ :: [(Text,Text)] -> Maybe NotificationType -> Url -> RecipientID -> SendRequest
+attachmentAudioQ quickreplies mtyp url = mkAttachment quickreplies AUDIO mtyp url . RecipientID
 
-mkFBAttachmentVideo :: Maybe FBRequestNotificationType -> Url -> RecipientID -> FBSendRequest
-mkFBAttachmentVideo mtyp url = mkAttachment [] VIDEO mtyp url . FBRequestRecipientID
+attachmentVideo :: Maybe NotificationType -> Url -> RecipientID -> SendRequest
+attachmentVideo mtyp url = mkAttachment [] VIDEO mtyp url . RecipientID
 
-mkFBAttachmentVideoQ :: [(Text,Text)] -> Maybe FBRequestNotificationType -> Url -> RecipientID -> FBSendRequest
-mkFBAttachmentVideoQ quickreplies mtyp url = mkAttachment quickreplies VIDEO mtyp url . FBRequestRecipientID
+attachmentVideoQ :: [(Text,Text)] -> Maybe NotificationType -> Url -> RecipientID -> SendRequest
+attachmentVideoQ quickreplies mtyp url = mkAttachment quickreplies VIDEO mtyp url . RecipientID
 
-mkFBAttachmentFile :: Maybe FBRequestNotificationType -> Url -> RecipientID -> FBSendRequest
-mkFBAttachmentFile mtyp url = mkAttachment [] FILE mtyp url . FBRequestRecipientID
+attachmentFile :: Maybe NotificationType -> Url -> RecipientID -> SendRequest
+attachmentFile mtyp url = mkAttachment [] FILE mtyp url . RecipientID
 
-mkFBAttachmentFileQ :: [(Text,Text)] -> Maybe FBRequestNotificationType -> Url -> RecipientID -> FBSendRequest
-mkFBAttachmentFileQ quickreplies mtyp url = mkAttachment quickreplies FILE mtyp url . FBRequestRecipientID
+attachmentFileQ :: [(Text,Text)] -> Maybe NotificationType -> Url -> RecipientID -> SendRequest
+attachmentFileQ quickreplies mtyp url = mkAttachment quickreplies FILE mtyp url . RecipientID
 
-mkFBGenericTemplate :: Maybe FBRequestNotificationType -> [FBRequestGenericTemplateElement] -> RecipientID -> FBSendRequest
-mkFBGenericTemplate mtyp elems = mkGenericTemplate [] mtyp elems . FBRequestRecipientID
+genericTemplate :: Maybe NotificationType -> [GenericTemplateElement] -> RecipientID -> SendRequest
+genericTemplate mtyp elems = mkGenericTemplate [] mtyp elems . RecipientID
 
-mkFBGenericTemplateQ :: [(Text,Text)] -> Maybe FBRequestNotificationType -> [FBRequestGenericTemplateElement] -> RecipientID -> FBSendRequest
-mkFBGenericTemplateQ quickreplies mtyp elems = mkGenericTemplate quickreplies mtyp elems . FBRequestRecipientID
+genericTemplateQ :: [(Text,Text)] -> Maybe NotificationType -> [GenericTemplateElement] -> RecipientID -> SendRequest
+genericTemplateQ quickreplies mtyp elems = mkGenericTemplate quickreplies mtyp elems . RecipientID
 
-mkFBButtonTemplate :: Message -> Maybe FBRequestNotificationType -> [FBRequestTemplateButton] -> RecipientID -> FBSendRequest
-mkFBButtonTemplate message mtyp elems = mkButtonTemplate [] message mtyp elems . FBRequestRecipientID
+buttonTemplate :: Message -> Maybe NotificationType -> [TemplateButton] -> RecipientID -> SendRequest
+buttonTemplate message mtyp elems = mkButtonTemplate [] message mtyp elems . RecipientID
 
-mkFBButtonTemplateQ :: [(Text,Text)] -> Message -> Maybe FBRequestNotificationType -> [FBRequestTemplateButton] -> RecipientID -> FBSendRequest
-mkFBButtonTemplateQ quickreplies message mtyp elems = mkButtonTemplate quickreplies message mtyp elems . FBRequestRecipientID
+buttonTemplateQ :: [(Text,Text)] -> Message -> Maybe NotificationType -> [TemplateButton] -> RecipientID -> SendRequest
+buttonTemplateQ quickreplies message mtyp elems = mkButtonTemplate quickreplies message mtyp elems . RecipientID
 
 -- HelperFunctions to the HelperFunctions
 
-mkSenderAction :: FBRequestSenderActionType -> FBRequestRecipient -> FBSendRequest
-mkSenderAction action recipient = FBSenderActionRequest recipient action
+mkSenderAction :: SenderActionType -> RequestRecipient -> SendRequest
+mkSenderAction action recipient = SenderActionRequest recipient action
 
-mkMessageText :: [(Text,Text)] -> Maybe FBRequestNotificationType -> Message -> FBRequestRecipient -> FBSendRequest
+mkMessageText :: [(Text,Text)] -> Maybe NotificationType -> Message -> RequestRecipient -> SendRequest
 mkMessageText quickreplies notification message recipient =
-    FBSendMessageRequest recipient
-                         (FBRequestMessageText message $ mkQuickReplies quickreplies)
-                         notification
+    SendMessageRequest recipient
+                       (RequestMessageText message $ mkQuickReplies quickreplies)
+                       notification
 
-mkAttachment :: [(Text,Text)] -> FBAttachmentType -> Maybe FBRequestNotificationType -> Url -> FBRequestRecipient -> FBSendRequest
+mkAttachment :: [(Text,Text)] -> AttachmentType -> Maybe NotificationType -> Url -> RequestRecipient -> SendRequest
 mkAttachment quickreplies attachtype notification url recipient =
-    FBSendMessageRequest recipient
-                         (FBRequestMessageAttachment 
-                            (FBRequestMultimediaAttachment attachtype $ FBRequestMultimediaPayload url)
-                            $ mkQuickReplies quickreplies)
-                         notification
+    SendMessageRequest recipient
+                       (RequestMessageAttachment 
+                          (RequestMultimediaAttachment attachtype $ RequestMultimediaPayload url)
+                          $ mkQuickReplies quickreplies)
+                       notification
 
-mkGenericTemplate :: [(Text,Text)] -> Maybe FBRequestNotificationType -> [FBRequestGenericTemplateElement] -> FBRequestRecipient -> FBSendRequest
+mkGenericTemplate :: [(Text,Text)] -> Maybe NotificationType -> [GenericTemplateElement] -> RequestRecipient -> SendRequest
 mkGenericTemplate quickreplies notification elements recipient =
-    FBSendMessageRequest recipient
-                         (FBRequestMessageAttachment
-                            (FBRequestAttachmentTemplate
-                                (FBRequestGenericTemplatePayload elements))
-                            $ mkQuickReplies quickreplies)
-                         notification
+    SendMessageRequest recipient
+                       (RequestMessageAttachment
+                          (RequestAttachmentTemplate
+                              (GenericTemplatePayload elements))
+                          $ mkQuickReplies quickreplies)
+                       notification
 
-mkButtonTemplate :: [(Text,Text)] -> Message -> Maybe FBRequestNotificationType -> [FBRequestTemplateButton] -> FBRequestRecipient -> FBSendRequest
+mkButtonTemplate :: [(Text,Text)] -> Message -> Maybe NotificationType -> [TemplateButton] -> RequestRecipient -> SendRequest
 mkButtonTemplate quickreplies message notification buttons recipient =
-    FBSendMessageRequest recipient
-                         (FBRequestMessageAttachment
-                            (FBRequestAttachmentTemplate
-                                (FBRequestButtonTemplatePayload message buttons))
-                            $ mkQuickReplies quickreplies)
-                         notification
+    SendMessageRequest recipient
+                       (RequestMessageAttachment
+                          (RequestAttachmentTemplate
+                              (ButtonTemplatePayload message buttons))
+                          $ mkQuickReplies quickreplies)
+                       notification
 
 {- SHOULD BE A BETTER WAY OF MAKING THIS EASIER, THOUGH NOT NEEDED YET
-mkReceiptTemplate :: [(Text,Text)] -> FBRequestRecipient -> Maybe FBRequestNotificationType -> FBRequestTemplatePayload -> FBSendRequest
+mkReceiptTemplate :: [(Text,Text)] -> RequestRecipient -> Maybe NotificationType -> FBRequestTemplatePayload -> SendRequest
 mkReceiptTemplate quickreplies recipient notification receipt =
-    FBSendMessageRequest recipient
-                         (FBRequestMessageAttachment
-                            (FBRequestAttachmentTemplate receipt)
+    SendMessageRequest recipient
+                         (MessageAttachment
+                            (AttachmentTemplate receipt)
                             $ mkQuickReplies quickreplies)
                          notification
 -}
 
-mkQuickReplies :: [(Text,Text)] -> Maybe [FBRequestQuickReply]
+mkQuickReplies :: [(Text,Text)] -> Maybe [RequestQuickReply]
 mkQuickReplies [] = Nothing
 mkQuickReplies replies = Just $ fmap go replies
   where
-    go (title,payload) = FBRequestQuickReply title payload
+    go (title,payload) = RequestQuickReply title payload
 
 
 -- PHONE VARIANTS --
 
-mkFBSenderAction' :: FBRequestSenderActionType -> RecipientPhone -> FBSendRequest
-mkFBSenderAction' typ = mkSenderAction typ . FBRequestRecipientPhone
+senderAction' :: SenderActionType -> RecipientPhone -> SendRequest
+senderAction' typ = mkSenderAction typ . RecipientPhone
 
-mkFBMessageText' :: Maybe FBRequestNotificationType -> Message -> RecipientPhone -> FBSendRequest
-mkFBMessageText' mtyp msg = mkMessageText [] mtyp msg . FBRequestRecipientPhone
+messageText' :: Maybe NotificationType -> Message -> RecipientPhone -> SendRequest
+messageText' mtyp msg = mkMessageText [] mtyp msg . RecipientPhone
 
-mkFBAttachmentImage' :: Maybe FBRequestNotificationType -> Url -> RecipientPhone -> FBSendRequest
-mkFBAttachmentImage' mtyp url = mkAttachment [] IMAGE mtyp url . FBRequestRecipientPhone
+attachmentImage' :: Maybe NotificationType -> Url -> RecipientPhone -> SendRequest
+attachmentImage' mtyp url = mkAttachment [] IMAGE mtyp url . RecipientPhone
 
-mkFBAttachmentAudio' :: Maybe FBRequestNotificationType -> Url -> RecipientPhone -> FBSendRequest
-mkFBAttachmentAudio' mtyp url = mkAttachment [] AUDIO mtyp url . FBRequestRecipientPhone
+attachmentAudio' :: Maybe NotificationType -> Url -> RecipientPhone -> SendRequest
+attachmentAudio' mtyp url = mkAttachment [] AUDIO mtyp url . RecipientPhone
 
-mkFBAttachmentVideo' :: Maybe FBRequestNotificationType -> Url -> RecipientPhone -> FBSendRequest
-mkFBAttachmentVideo' mtyp url = mkAttachment [] VIDEO mtyp url . FBRequestRecipientPhone
+attachmentVideo' :: Maybe NotificationType -> Url -> RecipientPhone -> SendRequest
+attachmentVideo' mtyp url = mkAttachment [] VIDEO mtyp url . RecipientPhone
 
-mkFBAttachmentFile' :: Maybe FBRequestNotificationType -> Url -> RecipientPhone -> FBSendRequest
-mkFBAttachmentFile' mtyp url = mkAttachment [] FILE mtyp url . FBRequestRecipientPhone
+attachmentFile' :: Maybe NotificationType -> Url -> RecipientPhone -> SendRequest
+attachmentFile' mtyp url = mkAttachment [] FILE mtyp url . RecipientPhone
 
-mkFBGenericTemplate' :: Maybe FBRequestNotificationType -> [FBRequestGenericTemplateElement] -> RecipientPhone -> FBSendRequest
-mkFBGenericTemplate' mtyp elems = mkGenericTemplate [] mtyp elems . FBRequestRecipientPhone
+genericTemplate' :: Maybe NotificationType -> [GenericTemplateElement] -> RecipientPhone -> SendRequest
+genericTemplate' mtyp elems = mkGenericTemplate [] mtyp elems . RecipientPhone
 
-mkFBButtonTemplate' :: Message -> Maybe FBRequestNotificationType -> [FBRequestTemplateButton] -> RecipientPhone -> FBSendRequest
-mkFBButtonTemplate' msg mtyp buttons = mkButtonTemplate [] msg mtyp buttons . FBRequestRecipientPhone
+buttonTemplate' :: Message -> Maybe NotificationType -> [TemplateButton] -> RecipientPhone -> SendRequest
+buttonTemplate' msg mtyp buttons = mkButtonTemplate [] msg mtyp buttons . RecipientPhone
 
-mkFBMessageTextQ' :: [(Text,Text)] -> Maybe FBRequestNotificationType -> Message -> RecipientPhone -> FBSendRequest
-mkFBMessageTextQ' quickreplies mtyp msg = mkMessageText quickreplies mtyp msg . FBRequestRecipientPhone
+messageTextQ' :: [(Text,Text)] -> Maybe NotificationType -> Message -> RecipientPhone -> SendRequest
+messageTextQ' quickreplies mtyp msg = mkMessageText quickreplies mtyp msg . RecipientPhone
 
-mkFBAttachmentImageQ' :: [(Text,Text)] -> Maybe FBRequestNotificationType -> Url -> RecipientPhone -> FBSendRequest
-mkFBAttachmentImageQ' quickreplies mtyp url = mkAttachment quickreplies IMAGE mtyp url . FBRequestRecipientPhone
+attachmentImageQ' :: [(Text,Text)] -> Maybe NotificationType -> Url -> RecipientPhone -> SendRequest
+attachmentImageQ' quickreplies mtyp url = mkAttachment quickreplies IMAGE mtyp url . RecipientPhone
 
-mkFBAttachmentAudioQ' :: [(Text,Text)] -> Maybe FBRequestNotificationType -> Url -> RecipientPhone -> FBSendRequest
-mkFBAttachmentAudioQ' quickreplies mtyp url = mkAttachment quickreplies AUDIO mtyp url . FBRequestRecipientPhone
+attachmentAudioQ' :: [(Text,Text)] -> Maybe NotificationType -> Url -> RecipientPhone -> SendRequest
+attachmentAudioQ' quickreplies mtyp url = mkAttachment quickreplies AUDIO mtyp url . RecipientPhone
 
-mkFBAttachmentVideoQ' :: [(Text,Text)] -> Maybe FBRequestNotificationType -> Url -> RecipientPhone -> FBSendRequest
-mkFBAttachmentVideoQ' quickreplies mtyp url = mkAttachment quickreplies VIDEO mtyp url . FBRequestRecipientPhone
+attachmentVideoQ' :: [(Text,Text)] -> Maybe NotificationType -> Url -> RecipientPhone -> SendRequest
+attachmentVideoQ' quickreplies mtyp url = mkAttachment quickreplies VIDEO mtyp url . RecipientPhone
 
-mkFBAttachmentFileQ' :: [(Text,Text)] -> Maybe FBRequestNotificationType -> Url -> RecipientPhone -> FBSendRequest
-mkFBAttachmentFileQ' quickreplies mtyp url = mkAttachment quickreplies FILE mtyp url . FBRequestRecipientPhone
+attachmentFileQ' :: [(Text,Text)] -> Maybe NotificationType -> Url -> RecipientPhone -> SendRequest
+attachmentFileQ' quickreplies mtyp url = mkAttachment quickreplies FILE mtyp url . RecipientPhone
 
-mkFBGenericTemplateQ' :: [(Text,Text)] -> Maybe FBRequestNotificationType -> [FBRequestGenericTemplateElement] -> RecipientPhone -> FBSendRequest
-mkFBGenericTemplateQ' quickreplies mtyp elems = mkGenericTemplate quickreplies mtyp elems . FBRequestRecipientPhone
+genericTemplateQ' :: [(Text,Text)] -> Maybe NotificationType -> [GenericTemplateElement] -> RecipientPhone -> SendRequest
+genericTemplateQ' quickreplies mtyp elems = mkGenericTemplate quickreplies mtyp elems . RecipientPhone
 
-mkFBButtonTemplateQ' :: [(Text,Text)] -> Message -> Maybe FBRequestNotificationType -> [FBRequestTemplateButton] -> RecipientPhone -> FBSendRequest
-mkFBButtonTemplateQ' quickreplies msg mtyp buttons = mkButtonTemplate quickreplies msg mtyp buttons . FBRequestRecipientPhone
+buttonTemplateQ' :: [(Text,Text)] -> Message -> Maybe NotificationType -> [TemplateButton] -> RecipientPhone -> SendRequest
+buttonTemplateQ' quickreplies msg mtyp buttons = mkButtonTemplate quickreplies msg mtyp buttons . RecipientPhone

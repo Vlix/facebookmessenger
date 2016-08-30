@@ -10,8 +10,8 @@ import Data.Aeson.Types     (typeMismatch)
 --  POSTBACK CALLBACK  --
 -- ------------------- --
 
-newtype FBCallbackPostback =
-    FBCallbackPostback { fbcb_postback_payload :: Text } -- Payload parameter that was defined with the button
+newtype Postback =
+    Postback { postback_payload :: Text } -- Payload parameter that was defined with the button
   deriving (Eq, Show)
 
 
@@ -19,8 +19,8 @@ newtype FBCallbackPostback =
 --  AUTH CALLBACK  --
 -- --------------- --
 
-newtype FBCallbackOptin =
-    FBCallbackOptin { fbcb_optin_ref :: Text } -- `data-ref` parameter that was defined with the entry point
+newtype Optin =
+    Optin { optin_ref :: Text } -- `data-ref` parameter that was defined with the entry point
   deriving (Eq, Show)
 
 
@@ -28,21 +28,21 @@ newtype FBCallbackOptin =
 --  POSTBACK INSTANCES  --
 -- -------------------- --
 
-instance ToJSON FBCallbackPostback where
-    toJSON (FBCallbackPostback payload) = object [ "payload" .= payload ]
+instance ToJSON Postback where
+    toJSON (Postback payload) = object [ "payload" .= payload ]
 
-instance FromJSON FBCallbackPostback where
-    parseJSON (Object o) = FBCallbackPostback <$> o .: "payload"
-    parseJSON wat = typeMismatch "FBCallbackPostback" wat
+instance FromJSON Postback where
+    parseJSON (Object o) = Postback <$> o .: "payload"
+    parseJSON wat = typeMismatch "Postback" wat
 
 
 -- -------------------- --
 --  AUTH INSTANCES  --
 -- -------------------- --
 
-instance ToJSON FBCallbackOptin where
-    toJSON (FBCallbackOptin ref) = object [ "ref" .= ref ]
+instance ToJSON Optin where
+    toJSON (Optin ref) = object [ "ref" .= ref ]
 
-instance FromJSON FBCallbackOptin where
-    parseJSON (Object o) = FBCallbackOptin <$> o .: "ref"
-    parseJSON wat = typeMismatch "FBCallbackOptin" wat
+instance FromJSON Optin where
+    parseJSON (Object o) = Optin <$> o .: "ref"
+    parseJSON wat = typeMismatch "Optin" wat

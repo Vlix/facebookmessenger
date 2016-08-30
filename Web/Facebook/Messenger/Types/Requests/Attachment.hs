@@ -1,6 +1,6 @@
 module Web.Facebook.Messenger.Types.Requests.Attachment
-    ( FBRequestAttachment (..)
-    , FBRequestMultimediaPayload (..)
+    ( RequestAttachment (..)
+    , RequestMultimediaPayload (..)
     , module Web.Facebook.Messenger.Types.Requests.Templates
     ) where
 
@@ -17,17 +17,17 @@ import Web.Facebook.Messenger.Types.Static
 --  ATTACHMENT REQUEST  --
 -- -------------------- --
 
-data FBRequestAttachment =
-  FBRequestMultimediaAttachment
-    { fbreq_attachment_type               :: FBAttachmentType    -- IMAGE, AUDIO, VIDEO, or FILE
-    , fbreq_attachment_multimedia_payload :: FBRequestMultimediaPayload
+data RequestAttachment =
+  RequestMultimediaAttachment
+    { req_attachment_type               :: AttachmentType    -- IMAGE, AUDIO, VIDEO, or FILE
+    , req_attachment_multimedia_payload :: RequestMultimediaPayload
     }
-  | FBRequestAttachmentTemplate
-    { fbreq_attachment_template_payload :: FBRequestTemplatePayload }
+  | RequestAttachmentTemplate
+    { req_attachment_template_payload :: TemplatePayload }
   deriving (Eq, Show)
 
-newtype FBRequestMultimediaPayload =
-    FBRequestMultimediaPayload { fbreq_multimedia_payload_url :: Text } -- URL of payload
+newtype RequestMultimediaPayload =
+    RequestMultimediaPayload { req_multimedia_payload_url :: Text } -- URL of payload
   deriving (Eq, Show)
 
 
@@ -35,22 +35,22 @@ newtype FBRequestMultimediaPayload =
 --  ATTACHMENT INSTANCES  --
 -- ---------------------- --
 
-instance ToJSON FBRequestAttachment where
-    toJSON (FBRequestMultimediaAttachment typ payload) = object [ "type" .= typ
-                                                                , "payload" .= payload ]
-    toJSON (FBRequestAttachmentTemplate payload) = object [ "type" .= String "template"
-                                                          , "payload" .= payload ]
+instance ToJSON RequestAttachment where
+    toJSON (RequestMultimediaAttachment typ payload) = object [ "type" .= typ
+                                                              , "payload" .= payload ]
+    toJSON (RequestAttachmentTemplate payload) = object [ "type" .= String "template"
+                                                        , "payload" .= payload ]
 
-instance ToJSON FBRequestMultimediaPayload where
-    toJSON (FBRequestMultimediaPayload url) = object [ "url" .= url ]
+instance ToJSON RequestMultimediaPayload where
+    toJSON (RequestMultimediaPayload url) = object [ "url" .= url ]
 
 
-instance FromJSON FBRequestAttachment where
-    parseJSON (Object o) = FBRequestMultimediaAttachment <$> o .: "type"
-                                                         <*> o .: "payload"
-                       <|> FBRequestAttachmentTemplate <$> o .: "payload"
-    parseJSON wat = typeMismatch "FBRequestAttachment" wat
+instance FromJSON RequestAttachment where
+    parseJSON (Object o) = RequestMultimediaAttachment <$> o .: "type"
+                                                       <*> o .: "payload"
+                       <|> RequestAttachmentTemplate <$> o .: "payload"
+    parseJSON wat = typeMismatch "RequestAttachment" wat
 
-instance FromJSON FBRequestMultimediaPayload where
-    parseJSON (Object o) = FBRequestMultimediaPayload <$> o .: "url"
-    parseJSON wat = typeMismatch "FBRequestMultimediaPayload" wat
+instance FromJSON RequestMultimediaPayload where
+    parseJSON (Object o) = RequestMultimediaPayload <$> o .: "url"
+    parseJSON wat = typeMismatch "RequestMultimediaPayload" wat

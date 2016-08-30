@@ -11,28 +11,28 @@ import Data.Aeson.Types     (typeMismatch)
 -- ---------------------- --
 
 -- POST request to --->  https://graph.facebook.com/v2.6/me/thread_settings?access_token=PAGE_ACCESS_TOKEN
-data FBSettingsRequest =
-  FBGreetingTextRequest
-    { fbsettings_greeting :: FBSettingsGreeting }
-  | FBGetStartedButtonRequest
-    { fbsettings_getstarted :: [FBGetStartedButtonPayload] } -- can only be one (for some reason it's an array...)
-  | FBPersistentMenuRequest
-    { fbsettings_persistent :: [FBSettingsMenuItem] } -- limited to 5 (title limit 30 for persistent menu)
+data SettingsRequest =
+  GreetingText
+    { greeting :: SettingsGreeting }
+  | GetStartedButton
+    { getstarted :: [GetStartedButtonPayload] } -- can only be one (for some reason it's an array...)
+  | PersistentMenu
+    { persistent :: [PersistentMenuItem] } -- limited to 5 (title limit 30 for persistent menu)
   deriving (Eq, Show)
 
-newtype FBSettingsGreeting =
-    FBSettingsGreeting { fbsettings_greeting_text :: Text } -- Greeting text (UTF8 160 char limit)
+newtype SettingsGreeting =
+    SettingsGreeting { greeting_text :: Text } -- Greeting text (UTF8 160 char limit)
   deriving (Eq, Show)
 
-newtype FBGetStartedButtonPayload =
-    FBGetStartedButtonPayload { fbsettings_getstarted_payload :: Text } -- This data will be sent back to you via webhook.
+newtype GetStartedButtonPayload =
+    GetStartedButtonPayload { getstarted_payload :: Text } -- This data will be sent back to you via webhook.
   deriving (Eq, Show)
 
-data FBSettingsMenuItem = FBSettingsMenuItemURL { fbsettings_menuitem_weburl_title :: Text -- 30 char limit
-                                                , fbsettings_menuitem_weburl_url   :: Text }
+data PersistentMenuItem = PersistentMenuItemURL { menuitem_title :: Text -- 30 char limit
+                                                , menuitem_url   :: Text }
                                             -- This URL is opened in a mobile browser when the button is tapped
-                        | FBSettingsMenuItemPostback { fbsettings_menuitem_postback_title :: Text -- 30 char limimt
-                                                     , fbsettings_menuitem_postback_payload :: Text }
+                        | PersistentMenuItemPostback { menuitem_title :: Text -- 30 char limimt
+                                                     , menuitem_payload :: Text }
                                             -- This data will be sent back to you via webhook (1000 char limit)
   deriving (Eq, Show)
 
@@ -41,52 +41,52 @@ data FBSettingsMenuItem = FBSettingsMenuItemURL { fbsettings_menuitem_weburl_tit
 --  SEND SETTING INSTANCES  --
 -- ------------------------ --
 
-instance ToJSON FBSettingsRequest where
-    toJSON (FBGreetingTextRequest greeting) = object [ "setting_type" .= String "greeting"
-                                                     , "greeting" .= greeting
-                                                     ]
-    toJSON (FBGetStartedButtonRequest calls) = object [ "setting_type" .= String "call_to_actions"
-                                                      , "thread_state" .= String "new_thread"
-                                                      , "call_to_actions" .= calls
-                                                      ]
-    toJSON (FBPersistentMenuRequest calls) = object [ "setting_type" .= String "call_to_actions"
-                                                    , "thread_state" .= String "existing_thread"
-                                                    , "call_to_actions" .= calls
-                                                    ]
+instance ToJSON SettingsRequest where
+    toJSON (GreetingText greeting) = object [ "setting_type" .= String "greeting"
+                                            , "greeting" .= greeting
+                                            ]
+    toJSON (GetStartedButton calls) = object [ "setting_type" .= String "call_to_actions"
+                                             , "thread_state" .= String "new_thread"
+                                             , "call_to_actions" .= calls
+                                             ]
+    toJSON (PersistentMenu calls) = object [ "setting_type" .= String "call_to_actions"
+                                           , "thread_state" .= String "existing_thread"
+                                           , "call_to_actions" .= calls
+                                           ]
 
-instance ToJSON FBSettingsGreeting where
-    toJSON (FBSettingsGreeting txt) = object [ "text" .= txt ]
+instance ToJSON SettingsGreeting where
+    toJSON (SettingsGreeting txt) = object [ "text" .= txt ]
 
-instance ToJSON FBGetStartedButtonPayload where
-    toJSON (FBGetStartedButtonPayload payload) = object [ "payload" .= payload ]
+instance ToJSON GetStartedButtonPayload where
+    toJSON (GetStartedButtonPayload payload) = object [ "payload" .= payload ]
 
 
-instance ToJSON FBSettingsMenuItem where
-    toJSON (FBSettingsMenuItemURL title url) = object [ "type" .= String "web_url"
+instance ToJSON PersistentMenuItem where
+    toJSON (PersistentMenuItemURL title url) = object [ "type" .= String "web_url"
                                                       , "title" .= title
                                                       , "url" .= url ]
-    toJSON (FBSettingsMenuItemPostback title payload) = object [ "type" .= String "postback"
+    toJSON (PersistentMenuItemPostback title payload) = object [ "type" .= String "postback"
                                                                , "title" .= title
                                                                , "payload" .= payload ]
 
 
-instance FromJSON FBSettingsRequest where
-    parseJSON (Object o) = FBGreetingTextRequest <$> o .: "greeting"
-                       <|> FBGetStartedButtonRequest <$> o .: "call_to_actions"
-                       <|> FBPersistentMenuRequest <$> o .: "call_to_actions"
-    parseJSON wat = typeMismatch "FBSettingsRequest" wat
+instance FromJSON SettingsRequest where
+    parseJSON (Object o) = GreetingText <$> o .: "greeting"
+                       <|> GetStartedButton <$> o .: "call_to_actions"
+                       <|> PersistentMenu <$> o .: "call_to_actions"
+    parseJSON wat = typeMismatch "SettingsRequest" wat
 
-instance FromJSON FBSettingsGreeting where
-    parseJSON (Object o) = FBSettingsGreeting <$> o .: "text"
-    parseJSON wat        = typeMismatch "FBSettingsGreeting" wat
+instance FromJSON SettingsGreeting where
+    parseJSON (Object o) = SettingsGreeting <$> o .: "text"
+    parseJSON wat        = typeMismatch "SettingsGreeting" wat
 
-instance FromJSON FBGetStartedButtonPayload where
-    parseJSON (Object o) = FBGetStartedButtonPayload <$> o .: "payload"
-    parseJSON wat        = typeMismatch "FBGetStartedButtonPayload" wat
+instance FromJSON GetStartedButtonPayload where
+    parseJSON (Object o) = GetStartedButtonPayload <$> o .: "payload"
+    parseJSON wat        = typeMismatch "GetStartedButtonPayload" wat
 
-instance FromJSON FBSettingsMenuItem where
-    parseJSON (Object o) = FBSettingsMenuItemURL <$> o .: "title"
+instance FromJSON PersistentMenuItem where
+    parseJSON (Object o) = PersistentMenuItemURL <$> o .: "title"
                                                  <*> o .: "url"
-                       <|> FBSettingsMenuItemPostback <$> o .: "title"
+                       <|> PersistentMenuItemPostback <$> o .: "title"
                                                       <*> o .: "payload"
-    parseJSON wat = typeMismatch "FBSettingsMenuItem" wat
+    parseJSON wat = typeMismatch "PersistentMenuItem" wat

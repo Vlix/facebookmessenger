@@ -1,7 +1,7 @@
 module Web.Facebook.Messenger.Types.Callbacks.Messaging 
-    ( FBCallbackMessaging (..)
-    , FBCallbackSender (..)
-    , FBCallbackRecipient (..)
+    ( CallbackMessaging (..)
+    , CallbackSender (..)
+    , CallbackRecipient (..)
     , module Web.Facebook.Messenger.Types.Callbacks.Message
     , module Web.Facebook.Messenger.Types.Callbacks.PostbackAuth
     , module Web.Facebook.Messenger.Types.Callbacks.Delivery
@@ -28,48 +28,48 @@ import Web.Facebook.Messenger.Types.Callbacks.Echo
 -- ------------------ --
 
 -- The different kinds of callbacks Facebook sends through WebHook
-data FBCallbackMessaging =
-    FBCallbackMessagingMessage
-        { fbcb_message_sender    :: FBCallbackSender
-        , fbcb_message_recipient :: FBCallbackRecipient
-        , fbcb_message_timestamp :: Int
-        , fbcb_message_message   :: FBCallbackMessage }
-  | FBCallbackMessagingPostback
-        { fbcb_postback_sender    :: FBCallbackSender
-        , fbcb_postback_recipient :: FBCallbackRecipient
-        , fbcb_postback_timestamp :: Int
-        , fbcb_postback_postback  :: FBCallbackPostback }
-  | FBCallbackMessagingAuth
-        { fbcb_auth_sender    :: FBCallbackSender
-        , fbcb_auth_recipient :: FBCallbackRecipient
-        , fbcb_auth_timestamp :: Int
-        , fbcb_auth_optin     :: FBCallbackOptin }
-  | FBCallbackMessagingAccountLink
-        { fbcb_account_sender    :: FBCallbackSender
-        , fbcb_account_recipient :: FBCallbackRecipient
-        , fbcb_account_timestamp :: Int
-        , fbcb_account_linking   :: FBCallbackAccountLink }
-  | FBCallbackMessagingDelivery
-        { fbcb_delivery_sender    :: FBCallbackSender
-        , fbcb_delivery_recipient :: FBCallbackRecipient
-        , fbcb_delivery_delivery  :: FBCallbackDelivery }
-  | FBCallbackMessagingRead
-        { fbcb_read_sender    :: FBCallbackSender
-        , fbcb_read_recipient :: FBCallbackRecipient
-        , fbcb_read_timestamp :: Int
-        , fbcb_read_read      :: FBCallbackRead }
-  | FBCallbackMessagingEcho
-        { fbcb_echo_sender    :: FBCallbackSender
-        , fbcb_echo_recipient :: FBCallbackRecipient
-        , fbcb_echo_timestamp :: Int
-        , fbcb_echo_message   :: FBCallbackEcho }
+data CallbackMessaging =
+    CallbackMessagingMessage
+        { cb_message_sender    :: CallbackSender
+        , cb_message_recipient :: CallbackRecipient
+        , cb_message_timestamp :: Int
+        , cb_message_message   :: CallbackMessage }
+  | CallbackMessagingPostback
+        { cb_postback_sender    :: CallbackSender
+        , cb_postback_recipient :: CallbackRecipient
+        , cb_postback_timestamp :: Int
+        , cb_postback_postback  :: Postback }
+  | CallbackMessagingAuth
+        { cb_auth_sender    :: CallbackSender
+        , cb_auth_recipient :: CallbackRecipient
+        , cb_auth_timestamp :: Int
+        , cb_auth_optin     :: Optin }
+  | CallbackMessagingAccountLink
+        { cb_account_sender    :: CallbackSender
+        , cb_account_recipient :: CallbackRecipient
+        , cb_account_timestamp :: Int
+        , cb_account_linking   :: AccountLink }
+  | CallbackMessagingDelivery
+        { cb_delivery_sender    :: CallbackSender
+        , cb_delivery_recipient :: CallbackRecipient
+        , cb_delivery_delivery  :: Delivery }
+  | CallbackMessagingRead
+        { cb_read_sender    :: CallbackSender
+        , cb_read_recipient :: CallbackRecipient
+        , cb_read_timestamp :: Int
+        , cb_read_read      :: ReadCallback }
+  | CallbackMessagingEcho
+        { cb_echo_sender    :: CallbackSender
+        , cb_echo_recipient :: CallbackRecipient
+        , cb_echo_timestamp :: Int
+        , cb_echo_message   :: Echo }
   deriving (Eq, Show)
 
 -- ALL MESSAGING HAS THESE TWO --
-newtype FBCallbackSender = FBCallbackSender { fbcb_sender_id :: Text } -- Sender user ID
+newtype CallbackSender = CallbackSender { cb_sender_id :: Text } -- Sender user ID
   deriving (Eq, Show)
 
-newtype FBCallbackRecipient = FBCallbackRecipient { fbcb_recipient_id :: Text } -- Recipient user ID
+newtype CallbackRecipient = CallbackRecipient { cb_recipient_id :: Text } -- Recipient user ID
   deriving (Eq, Show)
 
 -- When representing a user, these IDs are page-scoped IDs (PSID). This means that the IDs of users are unique for a given page.
@@ -79,85 +79,85 @@ newtype FBCallbackRecipient = FBCallbackRecipient { fbcb_recipient_id :: Text } 
 --  MESSAGING INSTANCES  --
 -- --------------------- --
 
-instance FromJSON FBCallbackMessaging where
-    parseJSON (Object o) = FBCallbackMessagingEcho <$> o .: "sender"
-                                                   <*> o .: "recipient"
-                                                   <*> o .: "timestamp"
-                                                   <*> o .: "message"
-                       <|> FBCallbackMessagingMessage <$> o .: "sender"
-                                                      <*> o .: "recipient"
-                                                      <*> o .: "timestamp"
-                                                      <*> o .: "message"
-                       <|> FBCallbackMessagingPostback <$> o .: "sender"
-                                                       <*> o .: "recipient"
-                                                       <*> o .: "timestamp"
-                                                       <*> o .: "postback"
-                       <|> FBCallbackMessagingAuth <$> o .: "sender"
-                                                   <*> o .: "recipient"
-                                                   <*> o .: "timestamp"
-                                                   <*> o .: "optin"
-                       <|> FBCallbackMessagingAccountLink <$> o .: "sender"
-                                                          <*> o .: "recipient"
-                                                          <*> o .: "timestamp"
-                                                          <*> o .: "account_linking"
-                       <|> FBCallbackMessagingDelivery <$> o .: "sender"
-                                                       <*> o .: "recipient"
-                                                       <*> o .: "delivery"
-                       <|> FBCallbackMessagingRead <$> o .: "sender"
-                                                   <*> o .: "recipient"
-                                                   <*> o .: "timestamp"
-                                                   <*> o .: "read"
-    parseJSON wat = typeMismatch "FBCallbackMessaging" wat
+instance FromJSON CallbackMessaging where
+    parseJSON (Object o) = CallbackMessagingEcho <$> o .: "sender"
+                                                 <*> o .: "recipient"
+                                                 <*> o .: "timestamp"
+                                                 <*> o .: "message"
+                       <|> CallbackMessagingMessage <$> o .: "sender"
+                                                    <*> o .: "recipient"
+                                                    <*> o .: "timestamp"
+                                                    <*> o .: "message"
+                       <|> CallbackMessagingPostback <$> o .: "sender"
+                                                     <*> o .: "recipient"
+                                                     <*> o .: "timestamp"
+                                                     <*> o .: "postback"
+                       <|> CallbackMessagingAuth <$> o .: "sender"
+                                                 <*> o .: "recipient"
+                                                 <*> o .: "timestamp"
+                                                 <*> o .: "optin"
+                       <|> CallbackMessagingAccountLink <$> o .: "sender"
+                                                        <*> o .: "recipient"
+                                                        <*> o .: "timestamp"
+                                                        <*> o .: "account_linking"
+                       <|> CallbackMessagingDelivery <$> o .: "sender"
+                                                     <*> o .: "recipient"
+                                                     <*> o .: "delivery"
+                       <|> CallbackMessagingRead <$> o .: "sender"
+                                                 <*> o .: "recipient"
+                                                 <*> o .: "timestamp"
+                                                 <*> o .: "read"
+    parseJSON wat = typeMismatch "CallbackMessaging" wat
 
 -- ALL MESSAGING HAS THESE TWO --
-instance FromJSON FBCallbackSender where
-    parseJSON (Object o) = FBCallbackSender <$> o .: "id"
-    parseJSON wat = typeMismatch "FBCallbackSender" wat
+instance FromJSON CallbackSender where
+    parseJSON (Object o) = CallbackSender <$> o .: "id"
+    parseJSON wat = typeMismatch "CallbackSender" wat
 
-instance FromJSON FBCallbackRecipient where
-    parseJSON (Object o) = FBCallbackRecipient <$> o .: "id"
-    parseJSON wat = typeMismatch "FBCallbackRecipient" wat
+instance FromJSON CallbackRecipient where
+    parseJSON (Object o) = CallbackRecipient <$> o .: "id"
+    parseJSON wat = typeMismatch "CallbackRecipient" wat
 
 
-instance ToJSON FBCallbackMessaging where
-    toJSON (FBCallbackMessagingMessage sender recipient timestamp message) = object [ "sender" .= sender
+instance ToJSON CallbackMessaging where
+    toJSON (CallbackMessagingMessage sender recipient timestamp message) = object [ "sender" .= sender
+                                                                                  , "recipient" .= recipient
+                                                                                  , "timestamp" .= timestamp
+                                                                                  , "message" .= message
+                                                                                  ]
+    toJSON (CallbackMessagingPostback sender recipient timestamp postback) = object [ "sender" .= sender
                                                                                     , "recipient" .= recipient
                                                                                     , "timestamp" .= timestamp
-                                                                                    , "message" .= message
-                                                                                    ]
-    toJSON (FBCallbackMessagingPostback sender recipient timestamp postback) = object [ "sender" .= sender
+                                                                                    , "postback" .= postback
+                                                                                    ]                                                                             
+    toJSON (CallbackMessagingAuth sender recipient timestamp optin) = object [ "sender" .= sender
+                                                                             , "recipient" .= recipient
+                                                                             , "timestamp" .= timestamp
+                                                                             , "optin" .= optin
+                                                                             ]
+    toJSON (CallbackMessagingAccountLink sender recipient timestamp linking) = object [ "sender" .= sender
                                                                                       , "recipient" .= recipient
                                                                                       , "timestamp" .= timestamp
-                                                                                      , "postback" .= postback
-                                                                                      ]                                                                             
-    toJSON (FBCallbackMessagingAuth sender recipient timestamp optin) = object [ "sender" .= sender
+                                                                                      , "account_linking" .= linking
+                                                                                      ]
+    toJSON (CallbackMessagingDelivery sender recipient delivery) = object [ "sender" .= sender
+                                                                          , "recipient" .= recipient
+                                                                          , "delivery" .= delivery
+                                                                          ]
+    toJSON (CallbackMessagingRead sender recipient timestamp read') = object [ "sender" .= sender
+                                                                             , "recipient" .= recipient
+                                                                             , "timestamp" .= timestamp
+                                                                             , "read" .= read'
+                                                                             ]
+    toJSON (CallbackMessagingEcho sender recipient timestamp message) = object [ "sender" .= sender
                                                                                , "recipient" .= recipient
                                                                                , "timestamp" .= timestamp
-                                                                               , "optin" .= optin
+                                                                               , "message" .= message
                                                                                ]
-    toJSON (FBCallbackMessagingAccountLink sender recipient timestamp linking) = object [ "sender" .= sender
-                                                                                        , "recipient" .= recipient
-                                                                                        , "timestamp" .= timestamp
-                                                                                        , "account_linking" .= linking
-                                                                                        ]
-    toJSON (FBCallbackMessagingDelivery sender recipient delivery) = object [ "sender" .= sender
-                                                                            , "recipient" .= recipient
-                                                                            , "delivery" .= delivery
-                                                                            ]
-    toJSON (FBCallbackMessagingRead sender recipient timestamp read') = object [ "sender" .= sender
-                                                                               , "recipient" .= recipient
-                                                                               , "timestamp" .= timestamp
-                                                                               , "read" .= read'
-                                                                               ]
-    toJSON (FBCallbackMessagingEcho sender recipient timestamp message) = object [ "sender" .= sender
-                                                                                 , "recipient" .= recipient
-                                                                                 , "timestamp" .= timestamp
-                                                                                 , "message" .= message
-                                                                                 ]
 
 -- ALL MESSAGING HAS THESE TWO -- 
-instance ToJSON FBCallbackSender where
-    toJSON (FBCallbackSender ident) = object [ "id" .= ident ]
+instance ToJSON CallbackSender where
+    toJSON (CallbackSender ident) = object [ "id" .= ident ]
 
-instance ToJSON FBCallbackRecipient where
-    toJSON (FBCallbackRecipient ident) = object [ "id" .= ident ]
+instance ToJSON CallbackRecipient where
+    toJSON (CallbackRecipient ident) = object [ "id" .= ident ]

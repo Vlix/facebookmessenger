@@ -10,9 +10,9 @@ import Data.Aeson.Types     (typeMismatch)
 --  READ CALLBACK  --
 -- --------------- --
 
-data FBCallbackRead = FBCallbackRead
-    { fbcb_read_watermark :: Int -- All messages that were sent before this timestamp were read
-    , fbcb_read_seq       :: Int -- Sequence number
+data ReadCallback = ReadCallback
+    { read_watermark :: Int -- All messages that were sent before this timestamp were read
+    , read_seq       :: Int -- Sequence number
     }
   deriving (Eq, Show)
 
@@ -21,13 +21,13 @@ data FBCallbackRead = FBCallbackRead
 --  READ INSTANCES  --
 -- ---------------- --
 
-instance FromJSON FBCallbackRead where
-    parseJSON (Object o) = FBCallbackRead <$> o .: "watermark"
-                                          <*> o .: "seq"
-    parseJSON wat = typeMismatch "FBCallbackRead" wat
+instance FromJSON ReadCallback where
+    parseJSON (Object o) = ReadCallback <$> o .: "watermark"
+                                <*> o .: "seq"
+    parseJSON wat = typeMismatch "ReadCallback" wat
 
 
-instance ToJSON FBCallbackRead where
-    toJSON (FBCallbackRead watermark seq') = object [ "watermark" .= watermark
-                                                    , "seq" .= seq'
-                                                    ] 
+instance ToJSON ReadCallback where
+    toJSON (ReadCallback watermark seq') = object [ "watermark" .= watermark
+                                          , "seq" .= seq'
+                                          ] 
