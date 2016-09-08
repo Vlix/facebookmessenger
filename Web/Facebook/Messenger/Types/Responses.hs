@@ -11,6 +11,7 @@ import Data.Aeson.Types     (typeMismatch)
 --  FACEBOOK RESPONSES  --
 -- -------------------- --
 
+-- | This is a response to a standard Send API Request
 data MessageResponse =
     MessageResponse
     { res_message_recipient_id :: Text -- Unique ID for the user
@@ -20,6 +21,7 @@ data MessageResponse =
     { res_message_recipient_id :: Text } -- Unique ID for the user 
   deriving (Eq, Show)
 
+-- | This is a standard Error response
 newtype ErrorRes = ErrorRes { res_error :: ErrorResponse } 
   deriving (Eq, Show)
 
@@ -32,9 +34,11 @@ data ErrorResponse = ErrorResponse
     }
   deriving Eq
 
+-- | This is a response to the Thread Settings requests
 newtype SuccessResponse = SuccessResponse { res_result :: Text } -- At successful request
   deriving (Eq, Show)
 
+-- | This is a response to User Profile Reference requests
 data UserAPIResponse = UserAPIResponse
     { userapi_first_name  :: Maybe Text -- First Name
     , userapi_last_name   :: Maybe Text -- Last Name
@@ -45,6 +49,12 @@ data UserAPIResponse = UserAPIResponse
     }
   deriving (Eq, Show)
 
+-- | This is a response to an Account Linking request
+data AccountLinkingResponse =
+    AccountLinkingResponse
+    { linking_id        :: Text
+    , linking_recipient :: Text
+    } deriving (Eq, Show)
 
 -- SHOW INSTANCE OF ERROR RESPONSE --
 instance Show ErrorResponse where
@@ -54,6 +64,7 @@ instance Show ErrorResponse where
         maybetrace Nothing      = ""
         maybetrace (Just ident) = " >>> Trace ID: " ++ show ident
 -- SHOW INSTANCE OF ERROR RESPONSE --
+
 
 -- -------------------- --
 --  RESPONSE INSTANCES  --
@@ -89,6 +100,12 @@ instance FromJSON UserAPIResponse where
                                            <*> o .:? "gender"
     parseJSON wat = typeMismatch "UserAPIResponse" wat
 
+instance FromJSON AccountLinkingResponse where
+    parseJSON (Object o) = AccountLinkingResponse <$> o .: "id"
+                                                  <*> o .: "recipient"
+    parseJSON wat = typeMismatch "AccountLinkingResponse" wat
+
+
 instance ToJSON MessageResponse where
     toJSON (MessageResponse recipient_id message_id) = object [ "recipient_id" .= recipient_id
                                                               , "message_id" .= message_id
@@ -117,6 +134,11 @@ instance ToJSON UserAPIResponse where
                , "timezone" .= timezone
                , "gender" .= gender
                ]
+
+instance ToJSON AccountLinkingResponse where
+    toJSON (AccountLinkingResponse ident recipient) = object [ "id"        .= ident
+                                                             , "recipient" .= recipient
+                                                             ]
 
 {-
 
