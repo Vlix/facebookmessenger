@@ -90,7 +90,7 @@ handleMessaging fbcbh (CallbackMessagingEcho (CallbackSender sident)
                       ) = echoHandler fbcbh sident rident time echo
 
 
-senderAction :: SenderActionType -> RecipientID -> SendRequest
+senderAction :: SenderActionType -> RecipientID -> SenderActionRequest
 senderAction typ = mkSenderAction typ . RecipientID
 
 messageText :: Maybe NotificationType -> Message -> RecipientID -> SendRequest
@@ -137,7 +137,7 @@ buttonTemplateQ quickreplies message mtyp elems = mkButtonTemplate quickreplies 
 
 -- HelperFunctions to the HelperFunctions
 
-mkSenderAction :: SenderActionType -> RequestRecipient -> SendRequest
+mkSenderAction :: SenderActionType -> RequestRecipient -> SenderActionRequest
 mkSenderAction action recipient = SenderActionRequest recipient action
 
 mkMessageText :: [(Text,Text)] -> Maybe NotificationType -> Message -> RequestRecipient -> SendRequest
@@ -191,7 +191,7 @@ mkQuickReplies replies = Just $ fmap go replies
 
 -- PHONE VARIANTS --
 
-senderAction' :: SenderActionType -> RecipientPhone -> SendRequest
+senderAction' :: SenderActionType -> RecipientPhone -> SenderActionRequest
 senderAction' typ = mkSenderAction typ . RecipientPhone
 
 messageText' :: Maybe NotificationType -> Message -> RecipientPhone -> SendRequest

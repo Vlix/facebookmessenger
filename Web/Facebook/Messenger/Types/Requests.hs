@@ -1,6 +1,7 @@
 module Web.Facebook.Messenger.Types.Requests
-    ( SendRequest (..)
-    , RequestRecipient (..)
+    ( SendRequest         (..)
+    , SenderActionRequest (..)
+    , RequestRecipient    (..)
     , module Web.Facebook.Messenger.Types.Requests.Message
     , module Web.Facebook.Messenger.Types.Requests.Settings
     , module Web.Facebook.Messenger.Types.Requests.Airline
@@ -28,10 +29,12 @@ data SendRequest =
     { req_recipient         :: RequestRecipient -- Recipient object
     , req_message           :: RequestMessage   -- Message object
     , req_notification_type :: Maybe NotificationType -- Optional; by default, messages will be REGULAR push notification type
-    }
-  | SenderActionRequest
-    { req_recipient     :: RequestRecipient        -- Recipient object
-    , req_sender_action :: SenderActionType -- Message state: TYPING_ON, TYPING_OFF, MARK_SEEN
+    } deriving (Eq, Show)
+
+data SenderActionRequest =
+  SenderActionRequest
+    { sar_recipient     :: RequestRecipient -- Recipient object
+    , sar_sender_action :: SenderActionType -- Message state: TYPING_ON, TYPING_OFF, MARK_SEEN
     }
   deriving (Eq, Show)
 
@@ -49,6 +52,8 @@ instance ToJSON SendRequest where
                                                                              , "message" .= message
                                                                              , "notification_type" .= notification_type
                                                                              ]
+
+instance ToJSON SenderActionRequest where
     toJSON (SenderActionRequest recipient saction) = object [ "recipient" .= recipient
                                                             , "sender_action" .= saction
                                                             ]
@@ -62,9 +67,12 @@ instance FromJSON SendRequest where
     parseJSON (Object o) = SendMessageRequest <$> o .: "recipient"
                                               <*> o .: "message"
                                               <*> o .:? "notification_type"
-                       <|> SenderActionRequest <$> o .: "recipient"
-                                               <*> o .: "sender_action"
     parseJSON wat = typeMismatch "SendMessageRequest" wat
+
+instance FromJSON SenderActionRequest where
+    parseJSON (Object o) = SenderActionRequest <$> o .: "recipient"
+                                             <*> o .: "sender_action"
+    parseJSON wat = typeMismatch "SenderActionRequest" wat
 
 instance FromJSON RequestRecipient where
     parseJSON (Object o) = RecipientID    <$> o .: "id"

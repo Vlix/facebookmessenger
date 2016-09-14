@@ -16,9 +16,11 @@ data MessageResponse =
     MessageResponse
     { res_message_recipient_id :: Text -- Unique ID for the user
     , res_message_message_id   :: Text -- Unique ID for the message
-    }
-  | SenderActionResponse
-    { res_message_recipient_id :: Text } -- Unique ID for the user 
+    } deriving (Eq, Show)
+
+data SenderActionResponse =
+  SenderActionResponse
+    { sar_message_recipient_id :: Text } -- Unique ID for the user 
   deriving (Eq, Show)
 
 -- | This is a standard Error response
@@ -73,8 +75,11 @@ instance Show ErrorResponse where
 instance FromJSON MessageResponse where
     parseJSON (Object o) = MessageResponse <$> o .: "recipient_id"
                                            <*> o .: "message_id"
-                       <|> SenderActionResponse <$> o .: "recipient_id"
     parseJSON wat = typeMismatch "MessageResponse" wat
+
+instance FromJSON SenderActionResponse where
+    parseJSON (Object o) = SenderActionResponse <$> o .: "recipient_id"
+    parseJSON wat = typeMismatch "SenderActionResponse" wat
 
 instance FromJSON ErrorRes where
     parseJSON (Object o) = ErrorRes <$> o .: "error"
@@ -110,6 +115,8 @@ instance ToJSON MessageResponse where
     toJSON (MessageResponse recipient_id message_id) = object [ "recipient_id" .= recipient_id
                                                               , "message_id" .= message_id
                                                               ]
+
+instance ToJSON SenderActionResponse where
     toJSON (SenderActionResponse recipient_id) = object [ "recipient_id" .= recipient_id ]
 
 instance ToJSON ErrorRes where
