@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                facebookmessenger
-version:             0.2.1.1
+version:             0.3.0.0
 synopsis:            Data types, From- and ToJSON instances and helper functions for the Facebook Messenger Platform
 -- description:         
 license:             MIT
