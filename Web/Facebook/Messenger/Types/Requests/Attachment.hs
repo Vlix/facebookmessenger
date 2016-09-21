@@ -26,8 +26,11 @@ data RequestAttachment =
     { req_attachment_template_payload :: TemplatePayload }
   deriving (Eq, Show)
 
-newtype RequestMultimediaPayload =
-    RequestMultimediaPayload { req_multimedia_payload_url :: Text } -- URL of payload
+data RequestMultimediaPayload =
+    RequestMultimediaPayload { req_multimedia_payload_url         :: Text -- URL of payload
+                             , req_multimedia_payload_is_reusable :: Maybe Bool -- Makes resending attachments easier
+                             }
+  | RequestReusedMultimediaPayload { req_reused_attachment_id :: Text } -- ID of the reusable attachment
   deriving (Eq, Show)
 
 
@@ -42,8 +45,10 @@ instance ToJSON RequestAttachment where
                                                         , "payload" .= payload ]
 
 instance ToJSON RequestMultimediaPayload where
-    toJSON (RequestMultimediaPayload url) = object [ "url" .= url ]
-
+    toJSON (RequestMultimediaPayload url reuse) = object [ "url"         .= url
+                                                         , "is_reusable" .= reuse
+                                                         ]
+    toJSON (RequestReusedMultimediaPayload ident) = object [ "attachment_id" .= ident ]
 
 instance FromJSON RequestAttachment where
     parseJSON (Object o) = RequestMultimediaAttachment <$> o .: "type"
@@ -53,4 +58,6 @@ instance FromJSON RequestAttachment where
 
 instance FromJSON RequestMultimediaPayload where
     parseJSON (Object o) = RequestMultimediaPayload <$> o .: "url"
+                                                    <*> o .:? "is_reusable"
+                       <|> RequestReusedMultimediaPayload <$> o .: "attachment_id"
     parseJSON wat = typeMismatch "RequestMultimediaPayload" wat

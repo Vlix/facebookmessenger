@@ -12,6 +12,7 @@ module Web.Facebook.Messenger.Types
     , Sequence
     , Url
     , Message
+    , QuickReply        (..)
     ) where
 
 import Data.Text
@@ -30,9 +31,14 @@ type Sequence       = Int
 type Url            = Text
 type Message        = Text
 
+data QuickReply = QR Text Text (Maybe Text)
+                | LocQR (Maybe Text)
+  deriving (Eq, Show)
+
 data CallbackHandlers a = CallbackHandlers
     { messageHandler     :: SenderID -> RecipientID -> Timestamp -> MID -> Sequence -> Text -> Maybe CallbackQuickReply -> a
     , attachmentHandler  :: SenderID -> RecipientID -> Timestamp -> MID -> Sequence -> [CallbackAttachment] -> a
+    , locationHandler    :: SenderID -> RecipientID -> Timestamp -> MID -> Sequence -> [CallbackLocation] -> a
     , postbackHandler    :: SenderID -> RecipientID -> Timestamp -> Text -> a
     , authHandler        :: SenderID -> RecipientID -> Timestamp -> Text -> a
     , deliveryHandler    :: SenderID -> RecipientID -> Delivery -> a

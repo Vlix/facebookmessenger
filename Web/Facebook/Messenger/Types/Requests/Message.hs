@@ -4,12 +4,13 @@ module Web.Facebook.Messenger.Types.Requests.Message
     , module Web.Facebook.Messenger.Types.Requests.Attachment
     ) where
 
-import Control.Applicative  ((<|>))
-import Data.Text
-import Data.Aeson
-import Data.Aeson.Types     (typeMismatch)
+import           Control.Applicative  ((<|>))
+import           Data.Text
+import           Data.Aeson
+import           Data.Aeson.Types     (typeMismatch)
+import qualified Data.HashMap.Strict  as HM
 
-import Web.Facebook.Messenger.Types.Requests.Attachment
+import           Web.Facebook.Messenger.Types.Requests.Attachment
 
 
 -- ----------------- --
@@ -27,10 +28,14 @@ data RequestMessage =
     }
   deriving (Eq, Show)
 
-data RequestQuickReply = RequestQuickReply
-    { req_quick_reply_title   :: Text -- Caption of button (20 char limit)
-    , req_quick_reply_payload :: Text -- Custom data that will be sent back to you via webhook (1000 char limit)
+data RequestQuickReply =
+  RequestQuickReply
+    { req_quick_reply_title     :: Text -- Caption of button (20 char limit)
+    , req_quick_reply_payload   :: Text -- Custom data that will be sent back to you via webhook (1000 char limit)
+    , req_quick_reply_image_url :: Maybe Text -- URL of image for text quick replies (Image for image_url should be at least 24x24 and will be cropped and resized)
     }
+  | LocationQuickReply
+    { req_quick_reply_image_url :: Maybe Text }
   deriving (Eq, Show)
 
 
@@ -47,11 +52,14 @@ instance ToJSON RequestMessage where
                                                                ]
 
 instance ToJSON RequestQuickReply where
-    toJSON (RequestQuickReply title payload) = object [ "content_type" .= String "text"
-                                                      , "title" .= title
-                                                      , "payload" .= payload
-                                                      ]
-
+    toJSON (RequestQuickReply title payload imageurl) = object [ "content_type" .= String "text"
+                                                               , "title"        .= title
+                                                               , "payload"      .= payload
+                                                               , "image_url"    .= imageurl
+                                                               ]
+    toJSON (LocationQuickReply imageurl) = object [ "content_type" .= String "location"
+                                                  , "image_url"    .= imageurl
+                                                  ]
 
 instance FromJSON RequestMessage where
     parseJSON (Object o) = RequestMessageText <$> o .: "text"
@@ -61,6 +69,10 @@ instance FromJSON RequestMessage where
     parseJSON wat = typeMismatch "RequestMessage" wat
 
 instance FromJSON RequestQuickReply where
-    parseJSON (Object o) = RequestQuickReply <$> o .: "title"
-                                             <*> o .: "payload"
+    parseJSON (Object o) = case HM.lookup "content_type" o of
+        Just "text" -> RequestQuickReply <$> o .: "title"
+                                         <*> o .: "payload"
+                                         <*> o .:? "image_url"
+        Just "location" -> LocationQuickReply <$> o .:? "image_url"
+        _ -> fail "QuickReply object expected \"text\" or \"location\" in [content_type] argument"
     parseJSON wat = typeMismatch "RequestQuickReply" wat

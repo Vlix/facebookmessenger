@@ -9,79 +9,84 @@ import Data.Aeson.Types     (typeMismatch)
 
 import qualified Data.HashMap.Strict        as HM
 
-import Web.Facebook.Messenger.Types.Static            (AirlineUpdateType)
+import Web.Facebook.Messenger.Types.Static            (AirlineUpdateType, WebViewHeightRatioType)
 import Web.Facebook.Messenger.Types.Requests.Airline
 -- ------------------ --
 --  TEMPLATE REQUEST  --
 -- ------------------ --
 
 data TemplatePayload = GenericTemplatePayload
-                                { template_generic_elements :: [GenericTemplateElement] }
-                                  -- Data for each bubble in message (10 bubble limit)
-                             | ButtonTemplatePayload
-                                { template_button_text    :: Text -- Text that appears in main body (UTF8 320 char limit)
-                                , template_button_buttons :: [TemplateButton] }
-                            -- Set of buttons that appear as call-to-actions (3 buttons limit)
-                             | ReceiptTemplatePayload
-                                { template_receipt_recipient_name :: Text -- Recipient's name
-                                , template_receipt_order_number   :: Text -- Order number (MUST BE UNIQUE)
-                                , template_receipt_currency       :: Text -- Currency for order
-                                , template_receipt_payment_method :: Text -- Payment method details. This can be a custom string. ex: "Visa 1234".
-                                , template_receipt_timestamp      :: Maybe Text -- Timestamp of order
-                                , template_receipt_order_url      :: Maybe Text -- URL of order
-                                , template_receipt_elements       :: [ReceiptTemplateElement]
-                            -- Items in order (max 100, sort order not quaranteed)
-                                , template_receipt_address        :: Maybe TemplateAddress -- Shipping address (optional)
-                                , template_receipt_summary        :: TemplateSummary -- Payment summary
-                                , template_receipt_adjustments    :: Maybe [TemplateAdjustment]
-                            -- Payment adjustments (allow a way to insert adjusted pricing (e.g., sales))
-                                }
-                             | AirlineItineraryPayload
-                                { air_itinerary_intro_message          :: Text       -- Introduction message
-                                , air_itinerary_locale                 :: Text
-                              -- ISO 639-1 language code and a ISO 3166-1 alpha-2 region code (e.g. en_US)
-                              -- See this document (https://developers.facebook.com/docs/internationalization#locales) for FB's accepted locales
-                                , air_itinerary_theme_color            :: Maybe Text -- Background color of the attachment (RGB hexadecimal string. default #009ddc)
-                                , air_itinerary_pnr_number             :: Text       -- Passenger name record number (Booking Number)
-                                , air_itinerary_passenger_info         :: [AirlinePassengerInfo]        -- Information about a passenger
-                                , air_itinerary_flight_info            :: [AirlineItineraryFlightInfo]  -- Information about a flight
-                                , air_itinerary_passenger_segment_info :: [AirlinePassengerSegmentInfo] -- Information unique to passenger/segment pair
-                                , air_itinerary_price_info             :: Maybe [AirlinePriceInfo]      -- Itemization of the total price (limited to 4)
-                                , air_itinerary_base_price             :: Maybe Double -- Base price amount
-                                , air_itinerary_tax                    :: Maybe Double -- Tax amount
-                                , air_itinerary_total_price            :: Double       -- Total price for the booking
-                                , air_itinerary_currency               :: Text
-                              -- Pricing currency, must be a three digit ISO-4217-3 code (e.g. USD)
-                              -- (https://developers.facebook.com/docs/payments/reference/supportedcurrencies)
-                                }
-                             | AirlineCheckinPayload
-                                { air_checkin_intro_message :: Text -- Introduction message
-                                , air_checkin_locale        :: Text -- (e.g. en_US)
-                                , air_checkin_theme_color   :: Maybe Text -- (default #009ddc)
-                                , air_checkin_pnr_number    :: Text -- Passenger name record number (Booking Number)
-                                , air_checkin_flight_info   :: AirlineFlightInfo -- Information about a flight
-                                , air_checkin_checkin_url   :: Text -- URL for passengers to check-in
-                                }
-                             | AirlineBoardingPassPayload
-                                { air_bpass_intro_message :: Text -- Introduction message
-                                , air_bpass_locale        :: Text -- (e.g. en_US)
-                                , air_bpass_theme_color   :: Maybe Text -- (default #009ddc)
-                                , air_bpass_boarding_pass :: AirlineBoardingPass -- Boarding passes for passengers
-                                }
-                             | AirlineFlightUpdateMessagePayload
-                                { air_flightupdate_intro_message      :: Text -- Introduction message
-                                , air_flightupdate_locale             :: Text -- (e.g. en_US)
-                                , air_flightupdate_theme_color        :: Maybe Text -- (default #009ddc)
-                                , air_flightupdate_pnr_number         :: Text -- Passenger name record number (Booking Number)
-                                , air_flightupdate_update_flight_info :: AirlineFlightInfo -- Information about a flight
-                                }
-                              | AirlineFlightUpdateTypePayload
-                                { air_flightupdate_update_type        :: AirlineUpdateType -- DELAY, GATE_CHANGE or CANCELLATION
-                                , air_flightupdate_locale             :: Text -- (e.g. en_US)
-                                , air_flightupdate_theme_color        :: Maybe Text -- RGB hexadecimal string (default #009ddc)
-                                , air_flightupdate_pnr_number         :: Text -- Passenger name record number (Booking Number)
-                                , air_flightupdate_update_flight_info :: AirlineFlightInfo -- Information about a flight
-                                }
+     { template_generic_elements    :: [GenericTemplateElement]
+     , template_generic_is_reusable :: Maybe Bool
+     }
+       -- Data for each bubble in message (10 bubble limit)
+  | ButtonTemplatePayload
+     { template_button_text         :: Text -- Text that appears in main body (UTF8 320 char limit)
+     , template_button_buttons      :: [TemplateButton]
+     , template_generic_is_reusable :: Maybe Bool
+     }
+ -- Set of buttons that appear as call-to-actions (3 buttons limit)
+  | ReceiptTemplatePayload
+     { template_receipt_recipient_name :: Text -- Recipient's name
+     , template_receipt_order_number   :: Text -- Order number (MUST BE UNIQUE)
+     , template_receipt_currency       :: Text -- Currency for order
+     , template_receipt_payment_method :: Text -- Payment method details. This can be a custom string. ex: "Visa 1234".
+     , template_receipt_timestamp      :: Maybe Text -- Timestamp of order
+     , template_receipt_order_url      :: Maybe Text -- URL of order
+     , template_receipt_elements       :: [ReceiptTemplateElement]
+ -- Items in order (max 100, sort order not quaranteed)
+     , template_receipt_address        :: Maybe TemplateAddress -- Shipping address (optional)
+     , template_receipt_summary        :: TemplateSummary -- Payment summary
+     , template_receipt_adjustments    :: Maybe [TemplateAdjustment]
+     , template_generic_is_reusable    :: Maybe Bool
+ -- Payment adjustments (allow a way to insert adjusted pricing (e.g., sales))
+     }
+  | AirlineItineraryPayload
+     { air_itinerary_intro_message          :: Text       -- Introduction message
+     , air_itinerary_locale                 :: Text
+   -- ISO 639-1 language code and a ISO 3166-1 alpha-2 region code (e.g. en_US)
+   -- See this document (https://developers.facebook.com/docs/internationalization#locales) for FB's accepted locales
+     , air_itinerary_theme_color            :: Maybe Text -- Background color of the attachment (RGB hexadecimal string. default #009ddc)
+     , air_itinerary_pnr_number             :: Text       -- Passenger name record number (Booking Number)
+     , air_itinerary_passenger_info         :: [AirlinePassengerInfo]        -- Information about a passenger
+     , air_itinerary_flight_info            :: [AirlineItineraryFlightInfo]  -- Information about a flight
+     , air_itinerary_passenger_segment_info :: [AirlinePassengerSegmentInfo] -- Information unique to passenger/segment pair
+     , air_itinerary_price_info             :: Maybe [AirlinePriceInfo]      -- Itemization of the total price (limited to 4)
+     , air_itinerary_base_price             :: Maybe Double -- Base price amount
+     , air_itinerary_tax                    :: Maybe Double -- Tax amount
+     , air_itinerary_total_price            :: Double       -- Total price for the booking
+     , air_itinerary_currency               :: Text
+   -- Pricing currency, must be a three digit ISO-4217-3 code (e.g. USD)
+   -- (https://developers.facebook.com/docs/payments/reference/supportedcurrencies)
+     }
+  | AirlineCheckinPayload
+     { air_checkin_intro_message :: Text -- Introduction message
+     , air_checkin_locale        :: Text -- (e.g. en_US)
+     , air_checkin_theme_color   :: Maybe Text -- (default #009ddc)
+     , air_checkin_pnr_number    :: Text -- Passenger name record number (Booking Number)
+     , air_checkin_flight_info   :: AirlineFlightInfo -- Information about a flight
+     , air_checkin_checkin_url   :: Text -- URL for passengers to check-in
+     }
+  | AirlineBoardingPassPayload
+     { air_bpass_intro_message :: Text -- Introduction message
+     , air_bpass_locale        :: Text -- (e.g. en_US)
+     , air_bpass_theme_color   :: Maybe Text -- (default #009ddc)
+     , air_bpass_boarding_pass :: AirlineBoardingPass -- Boarding passes for passengers
+     }
+  | AirlineFlightUpdateMessagePayload
+     { air_flightupdate_intro_message      :: Text -- Introduction message
+     , air_flightupdate_locale             :: Text -- (e.g. en_US)
+     , air_flightupdate_theme_color        :: Maybe Text -- (default #009ddc)
+     , air_flightupdate_pnr_number         :: Text -- Passenger name record number (Booking Number)
+     , air_flightupdate_update_flight_info :: AirlineFlightInfo -- Information about a flight
+     }
+   | AirlineFlightUpdateTypePayload
+     { air_flightupdate_update_type        :: AirlineUpdateType -- DELAY, GATE_CHANGE or CANCELLATION
+     , air_flightupdate_locale             :: Text -- (e.g. en_US)
+     , air_flightupdate_theme_color        :: Maybe Text -- RGB hexadecimal string (default #009ddc)
+     , air_flightupdate_pnr_number         :: Text -- Passenger name record number (Booking Number)
+     , air_flightupdate_update_flight_info :: AirlineFlightInfo -- Information about a flight
+     }
   deriving (Eq, Show)
 
 
@@ -104,15 +109,17 @@ data ReceiptTemplateElement = ReceiptTemplateElement
     }
   deriving (Eq, Show)
 
-data TemplateButton = TemplateButtonWebURL { button_title      :: Text -- 20 char limimt
-                                           , button_weburl_url :: Text }
-                                    -- This URL is opened in a mobile browser when the button is tapped
+data TemplateButton = TemplateButtonWebURL { button_title          :: Text -- 20 char limimt
+                                           , button_weburl_url     :: Text -- -- This URL is opened in a mobile browser when the button is tapped
+                                           , button_weburl_webview :: Maybe WebViewHeightRatioType -- Height of the Webview. (default is FULL)
+                                           }
                     | TemplateButtonPostback { button_title            :: Text -- 20 char limimt
                                              , button_postback_payload :: Text } -- 1000 char limit
                                     -- This data will be sent back to you via webhook.
                     | TemplateButtonPhoneNumber { button_title         :: Text -- 20 char limit
                                                 , button_phone_payload :: Text }
                                     -- This must be a well formatted phone number. (+31654321098 or +31(6)54321098 ?)
+                    | TemplateShareButton
   deriving (Eq, Show)
 
 data TemplateAddress = TemplateAddress
@@ -145,129 +152,136 @@ data TemplateAdjustment = TemplateAdjustment
 -- -------------------- --
 
 instance ToJSON TemplatePayload where
-    toJSON (GenericTemplatePayload elements) = object [ "template_type" .= String "generic"
-                                                      , "elements" .= elements
-                                                      ]
-    toJSON (ButtonTemplatePayload text buttons) = object [ "template_type" .= String "button"
-                                                         , "text" .= text
-                                                         , "buttons" .= buttons
-                                                         ]
+    toJSON (GenericTemplatePayload elements reuse) = object [ "template_type" .= String "generic"
+                                                            , "elements"      .= elements
+                                                            , "is_reusable"   .= reuse
+                                                            ]
+    toJSON (ButtonTemplatePayload text buttons reuse) = object [ "template_type" .= String "button"
+                                                               , "text"          .= text
+                                                               , "buttons"       .= buttons
+                                                               , "is_reusable"   .= reuse
+                                                               ]
     toJSON (ReceiptTemplatePayload recipient_name order_number currency payment_method
                                    timestamp      order_url    elements address
-                                   summary        adjustments) = object [ "template_type" .= String "receipt"
-                                                                        , "recipient_name" .= recipient_name
-                                                                        , "order_number" .= order_number
-                                                                        , "currency" .= currency
-                                                                        , "payment_method" .= payment_method
-                                                                        , "timestamp" .= timestamp
-                                                                        , "order_url" .= order_url
-                                                                        , "elements" .= elements
-                                                                        , "address" .= address
-                                                                        , "summary" .= summary
-                                                                        , "adjustments" .= adjustments
-                                                                        ]
+                                   summary        adjustments reuse) = object [ "template_type"  .= String "receipt"
+                                                                              , "recipient_name" .= recipient_name
+                                                                              , "order_number"   .= order_number
+                                                                              , "currency"       .= currency
+                                                                              , "payment_method" .= payment_method
+                                                                              , "timestamp"      .= timestamp
+                                                                              , "order_url"      .= order_url
+                                                                              , "elements"       .= elements
+                                                                              , "address"        .= address
+                                                                              , "summary"        .= summary
+                                                                              , "adjustments"    .= adjustments
+                                                                              , "is_reusable"    .= reuse
+                                                                              ]
     toJSON (AirlineItineraryPayload intro  locale theme      pnr
                                     pinfo  finfo  psinfo     priceinfo
-                                    bprice tax    totalprice currency) = object [ "template_type" .= String "airline_itinerary"
-                                                                                , "intro_message" .= intro
-                                                                                , "locale" .= locale
-                                                                                , "theme_color" .= theme
-                                                                                , "pnr_number" .= pnr
-                                                                                , "passenger_info" .= pinfo
-                                                                                , "flight_info" .= finfo
+                                    bprice tax    totalprice currency) = object [ "template_type"          .= String "airline_itinerary"
+                                                                                , "intro_message"          .= intro
+                                                                                , "locale"                 .= locale
+                                                                                , "theme_color"            .= theme
+                                                                                , "pnr_number"             .= pnr
+                                                                                , "passenger_info"         .= pinfo
+                                                                                , "flight_info"            .= finfo
                                                                                 , "passenger_segment_info" .= psinfo
-                                                                                , "price_info" .= priceinfo
-                                                                                , "base_price" .= bprice
-                                                                                , "tax" .= tax
-                                                                                , "total_price" .= totalprice
-                                                                                , "currency" .= currency
+                                                                                , "price_info"             .= priceinfo
+                                                                                , "base_price"             .= bprice
+                                                                                , "tax"                    .= tax
+                                                                                , "total_price"            .= totalprice
+                                                                                , "currency"               .= currency
                                                                                 ]
     toJSON (AirlineCheckinPayload intro locale theme pnr finfo checkin) = object [ "template_type" .= String "airline_checkin"
                                                                                  , "intro_message" .= intro
-                                                                                 , "locale" .= locale
-                                                                                 , "theme_color" .= theme
-                                                                                 , "pnr_number" .= pnr
-                                                                                 , "flight_info" .= finfo
-                                                                                 , "checkin_url" .= checkin
+                                                                                 , "locale"        .= locale
+                                                                                 , "theme_color"   .= theme
+                                                                                 , "pnr_number"    .= pnr
+                                                                                 , "flight_info"   .= finfo
+                                                                                 , "checkin_url"   .= checkin
                                                                                  ]
     toJSON (AirlineBoardingPassPayload intro locale theme boarding) = object [ "template_type" .= String "airline_boardingpass"
                                                                              , "intro_message" .= intro
-                                                                             , "locale" .= locale
-                                                                             , "theme_color" .= theme
+                                                                             , "locale"        .= locale
+                                                                             , "theme_color"   .= theme
                                                                              , "boarding_pass" .= boarding
                                                                              ]
-    toJSON (AirlineFlightUpdateMessagePayload intro locale theme pnr update') = object [ "template_type" .= String "airline_update"
-                                                                                       , "intro_message" .= intro
-                                                                                       , "locale" .= locale
-                                                                                       , "theme_color" .= theme
-                                                                                       , "pnr_number" .= pnr
+    toJSON (AirlineFlightUpdateMessagePayload intro locale theme pnr update') = object [ "template_type"      .= String "airline_update"
+                                                                                       , "intro_message"      .= intro
+                                                                                       , "locale"             .= locale
+                                                                                       , "theme_color"        .= theme
+                                                                                       , "pnr_number"         .= pnr
                                                                                        , "update_flight_info" .= update'
                                                                                        ]
-    toJSON (AirlineFlightUpdateTypePayload typ locale theme pnr update') = object [ "template_type" .= String "airline_update"
-                                                                                  , "update_type" .= typ
-                                                                                  , "locale" .= locale
-                                                                                  , "theme_color" .= theme
-                                                                                  , "pnr_number" .= pnr
+    toJSON (AirlineFlightUpdateTypePayload typ locale theme pnr update') = object [ "template_type"      .= String "airline_update"
+                                                                                  , "update_type"        .= typ
+                                                                                  , "locale"             .= locale
+                                                                                  , "theme_color"        .= theme
+                                                                                  , "pnr_number"         .= pnr
                                                                                   , "update_flight_info" .= update'
                                                                                   ]
 
 instance ToJSON GenericTemplateElement where
-    toJSON (GenericTemplateElement title item_url image_url subtitle buttons) = object [ "title" .= title
-                                                                                       , "item_url" .= item_url
+    toJSON (GenericTemplateElement title item_url image_url subtitle buttons) = object [ "title"     .= title
+                                                                                       , "item_url"  .= item_url
                                                                                        , "image_url" .= image_url
-                                                                                       , "subtitle" .= subtitle
-                                                                                       , "buttons" .= buttons
+                                                                                       , "subtitle"  .= subtitle
+                                                                                       , "buttons"   .= buttons
                                                                                        ]
 
 instance ToJSON ReceiptTemplateElement where
-    toJSON (ReceiptTemplateElement title subtitle quantity price currency image_url) = object [ "title" .= title
-                                                                                              , "subtitle" .= subtitle
-                                                                                              , "quantity" .= quantity
-                                                                                              , "price" .= price
-                                                                                              , "currency" .= currency
+    toJSON (ReceiptTemplateElement title subtitle quantity price currency image_url) = object [ "title"     .= title
+                                                                                              , "subtitle"  .= subtitle
+                                                                                              , "quantity"  .= quantity
+                                                                                              , "price"     .= price
+                                                                                              , "currency"  .= currency
                                                                                               , "image_url" .= image_url
                                                                                               ]
 
 instance ToJSON TemplateButton where
-    toJSON (TemplateButtonWebURL title url) = object [ "type" .= String "web_url"
-                                                     , "title" .= title
-                                                     , "url" .= url
-                                                     ]
-    toJSON (TemplateButtonPostback title payload) = object [ "type" .= String "postback"
-                                                           , "title" .= title
+    toJSON (TemplateButtonWebURL title url webview) = object [ "type"                 .= String "web_url"
+                                                             , "title"                .= title
+                                                             , "url"                  .= url
+                                                             , "webview_height_ratio" .= webview
+                                                             ]
+    toJSON (TemplateButtonPostback title payload) = object [ "type"    .= String "postback"
+                                                           , "title"   .= title
                                                            , "payload" .= payload
                                                            ]
-    toJSON (TemplateButtonPhoneNumber title payload) = object [ "type" .= String "phone_number"
-                                                              , "title" .= title
+    toJSON (TemplateButtonPhoneNumber title payload) = object [ "type"    .= String "phone_number"
+                                                              , "title"   .= title
                                                               , "payload" .= payload
                                                               ]
+    toJSON TemplateShareButton = object [ "type" .= String "element_share" ]
 
 instance ToJSON TemplateAddress where
-    toJSON (TemplateAddress street_1 street_2 city postal_code state country) = object [ "street_1" .= street_1
-                                                                                       , "street_2" .= street_2
-                                                                                       , "city" .= city
+    toJSON (TemplateAddress street_1 street_2 city postal_code state country) = object [ "street_1"    .= street_1
+                                                                                       , "street_2"    .= street_2
+                                                                                       , "city"        .= city
                                                                                        , "postal_code" .= postal_code
-                                                                                       , "state" .= state
-                                                                                       , "country" .= country
+                                                                                       , "state"       .= state
+                                                                                       , "country"     .= country
                                                                                        ]
 
 instance ToJSON TemplateSummary where
-    toJSON (TemplateSummary subtotal shipping_cost total_tax total_cost) = object [ "subtotal" .= subtotal
+    toJSON (TemplateSummary subtotal shipping_cost total_tax total_cost) = object [ "subtotal"      .= subtotal
                                                                                   , "shipping_cost" .= shipping_cost
-                                                                                  , "total_tax" .= total_tax
-                                                                                  , "total_cost" .= total_cost
+                                                                                  , "total_tax"     .= total_tax
+                                                                                  , "total_cost"    .= total_cost
                                                                                   ]
 
 instance ToJSON TemplateAdjustment where
-    toJSON (TemplateAdjustment name amount) = object [ "name" .= name
+    toJSON (TemplateAdjustment name amount) = object [ "name"   .= name
                                                      , "amount" .= amount
                                                      ]
 
 
 instance FromJSON TemplatePayload where
     parseJSON (Object o) = GenericTemplatePayload <$> o .: "elements"
+                                                  <*> o .:? "is_reusable"
                        <|> ButtonTemplatePayload <$> o .: "text"
                                                  <*> o .: "buttons"
+                                                 <*> o .:? "is_reusable"
                        <|> ReceiptTemplatePayload <$> o .: "recipient_name"
                                                   <*> o .: "order_number"
                                                   <*> o .: "currency"
@@ -278,6 +292,7 @@ instance FromJSON TemplatePayload where
                                                   <*> o .:? "address"
                                                   <*> o .: "summary"
                                                   <*> o .:? "adjustments"
+                                                  <*> o .:? "is_reusable"
                        <|> AirlineFlightUpdateTypePayload <$> o .: "update_type"
                                                           <*> o .: "locale"
                                                           <*> o .:? "theme_color"
@@ -330,13 +345,15 @@ instance FromJSON ReceiptTemplateElement where
     parseJSON wat = typeMismatch "ReceiptTemplateElement" wat
 
 instance FromJSON TemplateButton where
-    parseJSON (Object o) | Just typ <- HM.lookup "type" o,
-                           typ == "phone_number" = TemplateButtonPhoneNumber <$> o .: "title"
-                                                                             <*> o .: "payload"
-                         | otherwise             = TemplateButtonWebURL <$> o .: "title"
-                                                                        <*> o .: "url"
-                                               <|> TemplateButtonPostback <$> o .: "title"
-                                                                          <*> o .: "payload"
+    parseJSON (Object o) = case HM.lookup "type" o of
+        Just "element_share" -> pure TemplateShareButton
+        Just "phone_number" -> TemplateButtonPhoneNumber <$> o .: "title"
+                                                         <*> o .: "payload"
+        _ -> TemplateButtonWebURL <$> o .: "title"
+                                  <*> o .: "url"
+                                  <*> o .:? "webview_height_ratio"
+         <|> TemplateButtonPostback <$> o .: "title"
+                                    <*> o .: "payload"
     parseJSON wat = typeMismatch "TemplateButton" wat
 
 instance FromJSON TemplateAddress where

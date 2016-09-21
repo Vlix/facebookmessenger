@@ -14,8 +14,9 @@ import Data.Aeson.Types     (typeMismatch)
 -- | This is a response to a standard Send API Request
 data MessageResponse =
     MessageResponse
-    { res_message_recipient_id :: Text -- Unique ID for the user
-    , res_message_message_id   :: Text -- Unique ID for the message
+    { res_message_recipient_id  :: Text -- Unique ID for the user
+    , res_message_message_id    :: Text -- Unique ID for the message
+    , res_message_attachment_id :: Maybe Text -- Unique ID for the reusable attachment
     } deriving (Eq, Show)
 
 data SenderActionResponse =
@@ -75,6 +76,7 @@ instance Show ErrorResponse where
 instance FromJSON MessageResponse where
     parseJSON (Object o) = MessageResponse <$> o .: "recipient_id"
                                            <*> o .: "message_id"
+                                           <*> o .:? "attachment_id"
     parseJSON wat = typeMismatch "MessageResponse" wat
 
 instance FromJSON SenderActionResponse where
@@ -112,9 +114,10 @@ instance FromJSON AccountLinkingResponse where
 
 
 instance ToJSON MessageResponse where
-    toJSON (MessageResponse recipient_id message_id) = object [ "recipient_id" .= recipient_id
-                                                              , "message_id" .= message_id
-                                                              ]
+    toJSON (MessageResponse recipient_id message_id attachment_id) = object [ "recipient_id"  .= recipient_id
+                                                                            , "message_id"    .= message_id
+                                                                            , "attachment_id" .= attachment_id
+                                                                            ]
 
 instance ToJSON SenderActionResponse where
     toJSON (SenderActionResponse recipient_id) = object [ "recipient_id" .= recipient_id ]
@@ -123,9 +126,9 @@ instance ToJSON ErrorRes where
     toJSON (ErrorRes err) = object [ "error" .= err ]
 
 instance ToJSON ErrorResponse where
-    toJSON (ErrorResponse message typ code fbtrace_id) = object [ "message" .= message
-                                                                , "type" .= typ
-                                                                , "code" .= code
+    toJSON (ErrorResponse message typ code fbtrace_id) = object [ "message"    .= message
+                                                                , "type"       .= typ
+                                                                , "code"       .= code
                                                                 , "fbtrace_id" .= fbtrace_id
                                                                 ]
 
@@ -134,12 +137,12 @@ instance ToJSON SuccessResponse where
 
 instance ToJSON UserAPIResponse where
     toJSON (UserAPIResponse first_name last_name profile_pic locale timezone gender) =
-        object [ "first_name" .= first_name
-               , "last_name" .= last_name
+        object [ "first_name"  .= first_name
+               , "last_name"   .= last_name
                , "profile_pic" .= profile_pic
-               , "locale" .= locale
-               , "timezone" .= timezone
-               , "gender" .= gender
+               , "locale"      .= locale
+               , "timezone"    .= timezone
+               , "gender"      .= gender
                ]
 
 instance ToJSON AccountLinkingResponse where
