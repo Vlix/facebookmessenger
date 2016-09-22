@@ -101,8 +101,8 @@ attachmentFile quickreplies mtyp url reusable = mkAttachment quickreplies FILE m
 genericTemplate :: [QuickReply] -> Maybe NotificationType -> [GenericTemplateElement] -> Maybe Bool -> RecipientID -> SendRequest
 genericTemplate quickreplies mtyp elems reusable = mkGenericTemplate quickreplies mtyp elems reusable . RecipientID
 
-buttonTemplate :: {-[QuickReply] ->-} Message -> Maybe NotificationType -> [TemplateButton] -> Maybe Bool -> RecipientID -> SendRequest
-buttonTemplate {-quickreplies-} message mtyp elems reusable = mkButtonTemplate {-quickreplies-} message mtyp elems reusable . RecipientID
+buttonTemplate :: {-[QuickReply] ->-} Message -> Maybe NotificationType -> [TemplateButton] -> {-Maybe Bool ->-} RecipientID -> SendRequest
+buttonTemplate {-quickreplies-} message mtyp elems {-reusable-} = mkButtonTemplate {-quickreplies-} message mtyp elems {-reusable-} . RecipientID
 
 -- HelperFunctions to the HelperFunctions
 
@@ -132,12 +132,12 @@ mkGenericTemplate quickreplies notification elements reusable recipient =
                           $ mkQuickReplies quickreplies)
                        notification
 
-mkButtonTemplate :: {-[QuickReply] ->-} Message -> Maybe NotificationType -> [TemplateButton] -> Maybe Bool -> RequestRecipient -> SendRequest
-mkButtonTemplate {-quickreplies-} message notification buttons reusable recipient =
+mkButtonTemplate :: {-[QuickReply] ->-} Message -> Maybe NotificationType -> [TemplateButton] {--> Maybe Bool-} -> RequestRecipient -> SendRequest
+mkButtonTemplate {-quickreplies-} message notification buttons {-reusable-} recipient =
     SendMessageRequest recipient
                        (RequestMessageAttachment
                           (RequestAttachmentTemplate
-                              (ButtonTemplatePayload message buttons reusable))
+                              (ButtonTemplatePayload message buttons {-reusable-}))
                           {-$ mkQuickReplies quickreplies-} Nothing)
                        notification
 
@@ -182,5 +182,5 @@ attachmentFile' quickreplies mtyp url reusable = mkAttachment quickreplies FILE 
 genericTemplate' :: [QuickReply] -> Maybe NotificationType -> [GenericTemplateElement] -> Maybe Bool -> RecipientPhone -> SendRequest
 genericTemplate' quickreplies mtyp elems reusable = mkGenericTemplate quickreplies mtyp elems reusable . RecipientPhone
 
-buttonTemplate' :: {-[QuickReply] ->-} Message -> Maybe NotificationType -> [TemplateButton] -> Maybe Bool -> RecipientPhone -> SendRequest
-buttonTemplate' {-quickreplies-} msg mtyp buttons reusable = mkButtonTemplate {-quickreplies-} msg mtyp buttons reusable . RecipientPhone
+buttonTemplate' :: {-[QuickReply] ->-} Message -> Maybe NotificationType -> [TemplateButton] {--> Maybe Bool-} -> RecipientPhone -> SendRequest
+buttonTemplate' {-quickreplies-} msg mtyp buttons {-reusable-} = mkButtonTemplate {-quickreplies-} msg mtyp buttons {-reusable-} . RecipientPhone

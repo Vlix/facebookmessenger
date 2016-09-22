@@ -48,13 +48,13 @@ data RequestRecipient = RecipientID    { req_recipient_id    :: Text } -- (PS)ID
 -- ------------------------ --
 
 instance ToJSON SendRequest where
-    toJSON (SendMessageRequest recipient message notification_type) = object [ "recipient" .= recipient
-                                                                             , "message" .= message
+    toJSON (SendMessageRequest recipient message notification_type) = object [ "recipient"         .= recipient
+                                                                             , "message"           .= message
                                                                              , "notification_type" .= notification_type
                                                                              ]
 
 instance ToJSON SenderActionRequest where
-    toJSON (SenderActionRequest recipient saction) = object [ "recipient" .= recipient
+    toJSON (SenderActionRequest recipient saction) = object [ "recipient"     .= recipient
                                                             , "sender_action" .= saction
                                                             ]
 
@@ -71,7 +71,7 @@ instance FromJSON SendRequest where
 
 instance FromJSON SenderActionRequest where
     parseJSON (Object o) = SenderActionRequest <$> o .: "recipient"
-                                             <*> o .: "sender_action"
+                                               <*> o .: "sender_action"
     parseJSON wat = typeMismatch "SenderActionRequest" wat
 
 instance FromJSON RequestRecipient where

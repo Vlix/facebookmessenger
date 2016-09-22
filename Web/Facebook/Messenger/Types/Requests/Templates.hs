@@ -23,7 +23,7 @@ data TemplatePayload = GenericTemplatePayload
   | ButtonTemplatePayload
      { template_button_text         :: Text -- Text that appears in main body (UTF8 320 char limit)
      , template_button_buttons      :: [TemplateButton]
-     , template_generic_is_reusable :: Maybe Bool
+--     , template_generic_is_reusable :: Maybe Bool
      }
  -- Set of buttons that appear as call-to-actions (3 buttons limit)
   | ReceiptTemplatePayload
@@ -156,10 +156,10 @@ instance ToJSON TemplatePayload where
                                                             , "elements"      .= elements
                                                             , "is_reusable"   .= reuse
                                                             ]
-    toJSON (ButtonTemplatePayload text buttons reuse) = object [ "template_type" .= String "button"
+    toJSON (ButtonTemplatePayload text buttons {-reuse-}) = object [ "template_type" .= String "button"
                                                                , "text"          .= text
                                                                , "buttons"       .= buttons
-                                                               , "is_reusable"   .= reuse
+                                                               --, "is_reusable"   .= reuse
                                                                ]
     toJSON (ReceiptTemplatePayload recipient_name order_number currency payment_method
                                    timestamp      order_url    elements address
@@ -281,7 +281,7 @@ instance FromJSON TemplatePayload where
                                                   <*> o .:? "is_reusable"
                        <|> ButtonTemplatePayload <$> o .: "text"
                                                  <*> o .: "buttons"
-                                                 <*> o .:? "is_reusable"
+                                                 -- <*> o .:? "is_reusable"
                        <|> ReceiptTemplatePayload <$> o .: "recipient_name"
                                                   <*> o .: "order_number"
                                                   <*> o .: "currency"
