@@ -138,6 +138,6 @@ instance ToJSON CallbackLocationPayload where
     toJSON (CallbackLocationPayload coords) = object [ "coordinates" .= coords ]
 
 instance ToJSON CallbackCoordinates where
-    toJSON (CallbackCoordinates lat long) = object [ "lat" .= lat
+    toJSON (CallbackCoordinates lat long) = object [ "lat"  .= lat
                                                    , "long" .= long
                                                    ]

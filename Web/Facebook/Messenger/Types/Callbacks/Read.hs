@@ -23,11 +23,11 @@ data ReadCallback = ReadCallback
 
 instance FromJSON ReadCallback where
     parseJSON (Object o) = ReadCallback <$> o .: "watermark"
-                                <*> o .: "seq"
+                                        <*> o .: "seq"
     parseJSON wat = typeMismatch "ReadCallback" wat
 
 
 instance ToJSON ReadCallback where
     toJSON (ReadCallback watermark seq') = object [ "watermark" .= watermark
-                                          , "seq" .= seq'
-                                          ] 
+                                                  , "seq" .= seq'
+                                                  ] 

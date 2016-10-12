@@ -41,7 +41,7 @@ data CallbackHandlers a = CallbackHandlers
     , locationHandler    :: SenderID -> RecipientID -> Timestamp -> MID -> Sequence -> [CallbackLocation] -> a
     , postbackHandler    :: SenderID -> RecipientID -> Timestamp -> Text -> a
     , authHandler        :: SenderID -> RecipientID -> Timestamp -> Text -> a
-    , deliveryHandler    :: SenderID -> RecipientID -> Delivery -> a
+    , deliveryHandler    :: SenderID -> RecipientID -> Delivery  -> a
     , accountLinkHandler :: SenderID -> RecipientID -> Timestamp -> AccountLink -> a
     , readHandler        :: SenderID -> RecipientID -> Timestamp -> ReadCallback -> a
     , echoHandler        :: SenderID -> RecipientID -> Timestamp -> Echo -> a

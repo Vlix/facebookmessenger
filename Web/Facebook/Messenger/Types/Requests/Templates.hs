@@ -119,6 +119,7 @@ data TemplateButton = TemplateButtonWebURL { button_title          :: Text -- 20
                     | TemplateButtonPhoneNumber { button_title         :: Text -- 20 char limit
                                                 , button_phone_payload :: Text }
                                     -- This must be a well formatted phone number. (+31654321098 or +31(6)54321098 ?)
+                    | TemplateButtonAccountLink { button_url :: Text }
                     | TemplateShareButton
   deriving (Eq, Show)
 
@@ -157,10 +158,10 @@ instance ToJSON TemplatePayload where
                                                             , "is_reusable"   .= reuse
                                                             ]
     toJSON (ButtonTemplatePayload text buttons {-reuse-}) = object [ "template_type" .= String "button"
-                                                               , "text"          .= text
-                                                               , "buttons"       .= buttons
-                                                               --, "is_reusable"   .= reuse
-                                                               ]
+                                                                   , "text"          .= text
+                                                                   , "buttons"       .= buttons
+                                                                   --, "is_reusable"   .= reuse
+                                                                   ]
     toJSON (ReceiptTemplatePayload recipient_name order_number currency payment_method
                                    timestamp      order_url    elements address
                                    summary        adjustments reuse) = object [ "template_type"  .= String "receipt"
@@ -252,6 +253,9 @@ instance ToJSON TemplateButton where
                                                               , "title"   .= title
                                                               , "payload" .= payload
                                                               ]
+    toJSON (TemplateButtonAccountLink url) = object [ "type" .= String "account_link"
+                                                    , "url"  .= url
+                                                    ]
     toJSON TemplateShareButton = object [ "type" .= String "element_share" ]
 
 instance ToJSON TemplateAddress where
@@ -347,6 +351,7 @@ instance FromJSON ReceiptTemplateElement where
 instance FromJSON TemplateButton where
     parseJSON (Object o) = case HM.lookup "type" o of
         Just "element_share" -> pure TemplateShareButton
+        Just "account_link" -> TemplateButtonAccountLink <$> o .: "url"
         Just "phone_number" -> TemplateButtonPhoneNumber <$> o .: "title"
                                                          <*> o .: "payload"
         _ -> TemplateButtonWebURL <$> o .: "title"

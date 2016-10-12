@@ -88,36 +88,36 @@ instance FromJSON Fallback where
 
 instance ToJSON Echo where
     toJSON (EchoText isecho appid metadata
-                     mid    seq'  txt     quickreply) = object [ "is_echo" .= isecho
-                                                               , "app_id" .= appid
-                                                               , "metadata" .= metadata
+                     mid    seq'  txt     quickreply) = object [ "is_echo"     .= isecho
+                                                               , "app_id"      .= appid
+                                                               , "metadata"    .= metadata
                                                                , "quick-reply" .= quickreply
-                                                               , "mid" .= mid
-                                                               , "seq" .= seq'
-                                                               , "text" .= txt
+                                                               , "mid"         .= mid
+                                                               , "seq"         .= seq'
+                                                               , "text"        .= txt
                                                                ]
     toJSON (EchoAttachment isecho appid metadata
-                           mid    seq'  attachments quickreply) = object [ "is_echo" .= isecho
-                                                                         , "app_id" .= appid
-                                                                         , "metadata" .= metadata
+                           mid    seq'  attachments quickreply) = object [ "is_echo"     .= isecho
+                                                                         , "app_id"      .= appid
+                                                                         , "metadata"    .= metadata
                                                                          , "quick-reply" .= quickreply
-                                                                         , "mid" .= mid
-                                                                         , "seq" .= seq'
+                                                                         , "mid"         .= mid
+                                                                         , "seq"         .= seq'
                                                                          , "attachments" .= attachments
                                                                          ]
     toJSON (EchoFallback isecho appid metadata
-                         mid    seq'  fallback quickreply) = object [ "is_echo" .= isecho
-                                                                    , "app_id" .= appid
-                                                                    , "metadata" .= metadata
+                         mid    seq'  fallback quickreply) = object [ "is_echo"     .= isecho
+                                                                    , "app_id"      .= appid
+                                                                    , "metadata"    .= metadata
                                                                     , "quick-reply" .= quickreply
-                                                                    , "mid" .= mid
-                                                                    , "seq" .= seq'
-                                                                    , "fallback" .= fallback
+                                                                    , "mid"         .= mid
+                                                                    , "seq"         .= seq'
+                                                                    , "fallback"    .= fallback
                                                                     ]
 
 instance ToJSON Fallback where
-    toJSON (Fallback title url payload) = object [ "type" .= String "fallback"
-                                                 , "title" .= title
-                                                 , "url" .= url
+    toJSON (Fallback title url payload) = object [ "type"    .= String "fallback"
+                                                 , "title"   .= title
+                                                 , "url"     .= url
                                                  , "payload" .= payload
                                                  ]

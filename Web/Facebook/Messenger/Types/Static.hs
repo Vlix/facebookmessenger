@@ -73,17 +73,17 @@ instance FromJSON WebViewHeightRatioType where
 
 
 instance ToJSON AttachmentType where
-    toJSON IMAGE    = String "image"
-    toJSON VIDEO    = String "video"
-    toJSON AUDIO    = String "audio"
-    toJSON FILE     = String "file"
+    toJSON IMAGE = String "image"
+    toJSON VIDEO = String "video"
+    toJSON AUDIO = String "audio"
+    toJSON FILE  = String "file"
 
 instance FromJSON AttachmentType where
-    parseJSON (String "image")    = pure IMAGE
-    parseJSON (String "audio")    = pure AUDIO
-    parseJSON (String "video")    = pure VIDEO
-    parseJSON (String "file")     = pure FILE
-    parseJSON (String wat)        = fail $ "Wrong String for AttachmentType: " <> show wat
+    parseJSON (String "image") = pure IMAGE
+    parseJSON (String "audio") = pure AUDIO
+    parseJSON (String "video") = pure VIDEO
+    parseJSON (String "file")  = pure FILE
+    parseJSON (String wat)     = fail $ "Wrong String for AttachmentType: " <> show wat
     parseJSON wat = typeMismatch "AttachmentType" wat
 
 

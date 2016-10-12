@@ -120,39 +120,39 @@ instance FromJSON CallbackRecipient where
 
 
 instance ToJSON CallbackMessaging where
-    toJSON (CallbackMessagingMessage sender recipient timestamp message) = object [ "sender" .= sender
+    toJSON (CallbackMessagingMessage sender recipient timestamp message) = object [ "sender"    .= sender
                                                                                   , "recipient" .= recipient
                                                                                   , "timestamp" .= timestamp
-                                                                                  , "message" .= message
+                                                                                  , "message"   .= message
                                                                                   ]
-    toJSON (CallbackMessagingPostback sender recipient timestamp postback) = object [ "sender" .= sender
+    toJSON (CallbackMessagingPostback sender recipient timestamp postback) = object [ "sender"    .= sender
                                                                                     , "recipient" .= recipient
                                                                                     , "timestamp" .= timestamp
-                                                                                    , "postback" .= postback
+                                                                                    , "postback"  .= postback
                                                                                     ]                                                                             
-    toJSON (CallbackMessagingAuth sender recipient timestamp optin) = object [ "sender" .= sender
+    toJSON (CallbackMessagingAuth sender recipient timestamp optin) = object [ "sender"    .= sender
                                                                              , "recipient" .= recipient
                                                                              , "timestamp" .= timestamp
-                                                                             , "optin" .= optin
+                                                                             , "optin"     .= optin
                                                                              ]
-    toJSON (CallbackMessagingAccountLink sender recipient timestamp linking) = object [ "sender" .= sender
-                                                                                      , "recipient" .= recipient
-                                                                                      , "timestamp" .= timestamp
+    toJSON (CallbackMessagingAccountLink sender recipient timestamp linking) = object [ "sender"          .= sender
+                                                                                      , "recipient"       .= recipient
+                                                                                      , "timestamp"       .= timestamp
                                                                                       , "account_linking" .= linking
                                                                                       ]
-    toJSON (CallbackMessagingDelivery sender recipient delivery) = object [ "sender" .= sender
+    toJSON (CallbackMessagingDelivery sender recipient delivery) = object [ "sender"    .= sender
                                                                           , "recipient" .= recipient
-                                                                          , "delivery" .= delivery
+                                                                          , "delivery"  .= delivery
                                                                           ]
-    toJSON (CallbackMessagingRead sender recipient timestamp read') = object [ "sender" .= sender
+    toJSON (CallbackMessagingRead sender recipient timestamp read') = object [ "sender"    .= sender
                                                                              , "recipient" .= recipient
                                                                              , "timestamp" .= timestamp
-                                                                             , "read" .= read'
+                                                                             , "read"      .= read'
                                                                              ]
-    toJSON (CallbackMessagingEcho sender recipient timestamp message) = object [ "sender" .= sender
+    toJSON (CallbackMessagingEcho sender recipient timestamp message) = object [ "sender"    .= sender
                                                                                , "recipient" .= recipient
                                                                                , "timestamp" .= timestamp
-                                                                               , "message" .= message
+                                                                               , "message"   .= message
                                                                                ]
 
 -- ALL MESSAGING HAS THESE TWO -- 

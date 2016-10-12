@@ -30,7 +30,7 @@ instance FromJSON Delivery where
 
 
 instance ToJSON Delivery where
-    toJSON (Delivery mids watermark seeq) = object [ "mids" .= mids
+    toJSON (Delivery mids watermark seeq) = object [ "mids"      .= mids
                                                    , "watermark" .= watermark
-                                                   , "seq" .= seeq
+                                                   , "seq"       .= seeq
                                                    ]

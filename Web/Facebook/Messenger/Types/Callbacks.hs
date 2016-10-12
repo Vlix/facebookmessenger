@@ -59,15 +59,15 @@ instance FromJSON CallbackEntry where
 
 instance ToJSON Callback where
     toJSON (Callback obj entry) = object [ "object" .= obj
-                                         , "entry" .= entry
+                                         , "entry"  .= entry
                                          ]
 
 instance ToJSON CallbackEntry where
-    toJSON (CallbackEntry ident time messaging) = object [ "id" .= ident
-                                                         , "time" .= time
+    toJSON (CallbackEntry ident time messaging) = object [ "id"        .= ident
+                                                         , "time"      .= time
                                                          , "messaging" .= messaging
                                                          ]
-    toJSON (CallbackEntryPostback ident time messaging) = object [ "id" .= ident
-                                                                 , "time" .= time
+    toJSON (CallbackEntryPostback ident time messaging) = object [ "id"        .= ident
+                                                                 , "time"      .= time
                                                                  , "messaging" .= messaging
                                                                  ]

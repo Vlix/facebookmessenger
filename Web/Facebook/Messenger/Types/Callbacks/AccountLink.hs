@@ -35,7 +35,7 @@ instance FromJSON AccountLinkStatus where
 
 
 instance ToJSON AccountLink where
-    toJSON (AccountLink status code) = object [ "status" .= status
+    toJSON (AccountLink status code) = object [ "status"             .= status
                                               , "authorization_code" .= code
                                               ]
 

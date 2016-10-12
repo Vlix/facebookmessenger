@@ -31,7 +31,7 @@ newtype GetStartedButtonPayload =
 data PersistentMenuItem = PersistentMenuItemURL { menuitem_title :: Text -- 30 char limit
                                                 , menuitem_url   :: Text }
                                             -- This URL is opened in a mobile browser when the button is tapped
-                        | PersistentMenuItemPostback { menuitem_title :: Text -- 30 char limimt
+                        | PersistentMenuItemPostback { menuitem_title   :: Text -- 30 char limimt
                                                      , menuitem_payload :: Text }
                                             -- This data will be sent back to you via webhook (1000 char limit)
   deriving (Eq, Show)
@@ -43,14 +43,14 @@ data PersistentMenuItem = PersistentMenuItemURL { menuitem_title :: Text -- 30 c
 
 instance ToJSON SettingsRequest where
     toJSON (GreetingText greeting) = object [ "setting_type" .= String "greeting"
-                                            , "greeting" .= greeting
+                                            , "greeting"     .= greeting
                                             ]
-    toJSON (GetStartedButton calls) = object [ "setting_type" .= String "call_to_actions"
-                                             , "thread_state" .= String "new_thread"
+    toJSON (GetStartedButton calls) = object [ "setting_type"    .= String "call_to_actions"
+                                             , "thread_state"    .= String "new_thread"
                                              , "call_to_actions" .= calls
                                              ]
-    toJSON (PersistentMenu calls) = object [ "setting_type" .= String "call_to_actions"
-                                           , "thread_state" .= String "existing_thread"
+    toJSON (PersistentMenu calls) = object [ "setting_type"    .= String "call_to_actions"
+                                           , "thread_state"    .= String "existing_thread"
                                            , "call_to_actions" .= calls
                                            ]
 
@@ -62,11 +62,11 @@ instance ToJSON GetStartedButtonPayload where
 
 
 instance ToJSON PersistentMenuItem where
-    toJSON (PersistentMenuItemURL title url) = object [ "type" .= String "web_url"
+    toJSON (PersistentMenuItemURL title url) = object [ "type"  .= String "web_url"
                                                       , "title" .= title
-                                                      , "url" .= url ]
-    toJSON (PersistentMenuItemPostback title payload) = object [ "type" .= String "postback"
-                                                               , "title" .= title
+                                                      , "url"   .= url ]
+    toJSON (PersistentMenuItemPostback title payload) = object [ "type"    .= String "postback"
+                                                               , "title"   .= title
                                                                , "payload" .= payload ]
 
 

@@ -44,10 +44,10 @@ data RequestQuickReply =
 -- ------------------- --
 
 instance ToJSON RequestMessage where
-    toJSON (RequestMessageText text qreplies) = object [ "text" .= text
+    toJSON (RequestMessageText text qreplies) = object [ "text"          .= text
                                                        , "quick_replies" .= qreplies
                                                        ]
-    toJSON (RequestMessageAttachment attach qreplies) = object [ "attachment" .= attach
+    toJSON (RequestMessageAttachment attach qreplies) = object [ "attachment"    .= attach
                                                                , "quick_replies" .= qreplies
                                                                ]
 

@@ -126,90 +126,90 @@ data AirlineField = AirlineField
 -- ----------------------- --
 
 instance ToJSON AirlinePassengerInfo where
-    toJSON (AirlinePassengerInfo ident ticket name) = object [ "passenger_id" .= ident
+    toJSON (AirlinePassengerInfo ident ticket name) = object [ "passenger_id"  .= ident
                                                              , "ticket_number" .= ticket
-                                                             , "name" .= name
+                                                             , "name"          .= name
                                                              ] 
 
 instance ToJSON AirlineItineraryFlightInfo where
-    toJSON (AirlineItineraryFlightInfo connection segment number aircraft dep arriv schedule travel) = object [ "connection_id" .= connection
-                                                                                                              , "segment_id" .= segment
-                                                                                                              , "flight_number" .= number
-                                                                                                              , "aircraft_type" .= aircraft
+    toJSON (AirlineItineraryFlightInfo connection segment number aircraft dep arriv schedule travel) = object [ "connection_id"     .= connection
+                                                                                                              , "segment_id"        .= segment
+                                                                                                              , "flight_number"     .= number
+                                                                                                              , "aircraft_type"     .= aircraft
                                                                                                               , "departure_airport" .= dep
-                                                                                                              , "arrival_airport" .= arriv
-                                                                                                              , "flight_schedule" .= schedule
-                                                                                                              , "travel_class" .= travel
+                                                                                                              , "arrival_airport"   .= arriv
+                                                                                                              , "flight_schedule"   .= schedule
+                                                                                                              , "travel_class"      .= travel
                                                                                                               ]
 
 instance ToJSON AirlineAirport where
     toJSON (AirlineAirport code city terminal gate) = object [ "airport_code" .= code
-                                                             , "city" .= city
-                                                             , "terminal" .= terminal
-                                                             , "gate" .= gate
+                                                             , "city"         .= city
+                                                             , "terminal"     .= terminal
+                                                             , "gate"         .= gate
                                                              ]
 
 instance ToJSON AirlineFlightSchedule where
-    toJSON (AirlineFlightSchedule boarding departure arrival) = object [ "boarding_time" .= boarding
+    toJSON (AirlineFlightSchedule boarding departure arrival) = object [ "boarding_time"  .= boarding
                                                                        , "departure_time" .= departure
-                                                                       , "arrival_time" .= arrival
+                                                                       , "arrival_time"   .= arrival
                                                                        ]
 
 instance ToJSON AirlineUpdatePassFlightSchedule where
-    toJSON (AirlineUpdatePassFlightSchedule boarding departure arrival) = object [ "boarding_time" .= boarding
+    toJSON (AirlineUpdatePassFlightSchedule boarding departure arrival) = object [ "boarding_time"  .= boarding
                                                                                  , "departure_time" .= departure
-                                                                                 , "arrival_time" .= arrival
+                                                                                 , "arrival_time"   .= arrival
                                                                                  ]
 
 instance ToJSON AirlinePriceInfo where
-    toJSON (AirlinePriceInfo title amount currency) = object [ "title" .= title
-                                                             , "amount" .= amount
+    toJSON (AirlinePriceInfo title amount currency) = object [ "title"    .= title
+                                                             , "amount"   .= amount
                                                              , "currency" .= currency
                                                              ]
 
 instance ToJSON AirlinePassengerSegmentInfo where
-    toJSON (AirlinePassengerSegmentInfo segment passenger seat typ pinfo) = object [ "segment_id" .= segment
+    toJSON (AirlinePassengerSegmentInfo segment passenger seat typ pinfo) = object [ "segment_id"   .= segment
                                                                                    , "passenger_id" .= passenger
-                                                                                   , "seat" .= seat
-                                                                                   , "seat_type" .= typ
+                                                                                   , "seat"         .= seat
+                                                                                   , "seat_type"    .= typ
                                                                                    , "product_info" .= pinfo
                                                                                    ]
 
 instance ToJSON AirlineFlightInfo where
-    toJSON (AirlineFlightInfo number depart arrive schedule) = object [ "flight_number" .= number
+    toJSON (AirlineFlightInfo number depart arrive schedule) = object [ "flight_number"     .= number
                                                                       , "departure_airport" .= depart
-                                                                      , "arrival_airport" .= arrive
-                                                                      , "flight_schedule" .= schedule
+                                                                      , "arrival_airport"   .= arrive
+                                                                      , "flight_schedule"   .= schedule
                                                                       ]
 
 instance ToJSON AirlineBoardingPass where
     toJSON (AirlineBoardingPassQRCode passenger pnr travel seat aux secondary 
-                                      logo headerurl headertext qr aboveimg finfo) = object [ "passenger_name" .= passenger
-                                                                                            , "pnr_number" .= pnr
-                                                                                            , "travel_class" .= travel
-                                                                                            , "seat" .= seat
-                                                                                            , "auxiliary_fields" .= aux
-                                                                                            , "secondary_fields" .= secondary
-                                                                                            , "logo_image_url" .= logo
-                                                                                            , "header_image_url" .= headerurl
+                                      logo headerurl headertext qr aboveimg finfo) = object [ "passenger_name"    .= passenger
+                                                                                            , "pnr_number"        .= pnr
+                                                                                            , "travel_class"      .= travel
+                                                                                            , "seat"              .= seat
+                                                                                            , "auxiliary_fields"  .= aux
+                                                                                            , "secondary_fields"  .= secondary
+                                                                                            , "logo_image_url"    .= logo
+                                                                                            , "header_image_url"  .= headerurl
                                                                                             , "header_text_field" .= headertext
-                                                                                            , "qr_code" .= qr
+                                                                                            , "qr_code"           .= qr
                                                                                             , "above_bar_code_image_url" .= aboveimg
-                                                                                            , "flight_info" .= finfo
+                                                                                            , "flight_info"       .= finfo
                                                                                             ]
     toJSON (AirlineBoardingPassBarcode passenger pnr travel seat aux secondary logo
-                                       headerurl headertext barcode aboveimg finfo) = object [ "passenger_name" .= passenger
-                                                                                             , "pnr_number" .= pnr
-                                                                                             , "travel_class" .= travel
-                                                                                             , "seat" .= seat
-                                                                                             , "auxiliary_fields" .= aux
-                                                                                             , "secondary_fields" .= secondary
-                                                                                             , "logo_image_url" .= logo
-                                                                                             , "header_image_url" .= headerurl
+                                       headerurl headertext barcode aboveimg finfo) = object [ "passenger_name"    .= passenger
+                                                                                             , "pnr_number"        .= pnr
+                                                                                             , "travel_class"      .= travel
+                                                                                             , "seat"              .= seat
+                                                                                             , "auxiliary_fields"  .= aux
+                                                                                             , "secondary_fields"  .= secondary
+                                                                                             , "logo_image_url"    .= logo
+                                                                                             , "header_image_url"  .= headerurl
                                                                                              , "header_text_field" .= headertext
                                                                                              , "barcode_image_url" .= barcode
                                                                                              , "above_bar_code_image_url" .= aboveimg
-                                                                                             , "flight_info" .= finfo
+                                                                                             , "flight_info"       .= finfo
                                                                                              ]
 
 instance ToJSON AirlineField where

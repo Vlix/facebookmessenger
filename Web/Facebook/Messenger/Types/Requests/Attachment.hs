@@ -39,9 +39,9 @@ data RequestMultimediaPayload =
 -- ---------------------- --
 
 instance ToJSON RequestAttachment where
-    toJSON (RequestMultimediaAttachment typ payload) = object [ "type" .= typ
+    toJSON (RequestMultimediaAttachment typ payload) = object [ "type"    .= typ
                                                               , "payload" .= payload ]
-    toJSON (RequestAttachmentTemplate payload) = object [ "type" .= String "template"
+    toJSON (RequestAttachmentTemplate payload) = object [ "type"    .= String "template"
                                                         , "payload" .= payload ]
 
 instance ToJSON RequestMultimediaPayload where
