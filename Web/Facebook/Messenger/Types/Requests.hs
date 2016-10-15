@@ -1,7 +1,8 @@
 module Web.Facebook.Messenger.Types.Requests
-    ( SendRequest         (..)
-    , SenderActionRequest (..)
-    , RequestRecipient    (..)
+    ( SendRequest          (..)
+    , SenderActionRequest  (..)
+    , RequestRecipient     (..)
+    , AccountUnlinkRequest (..)
     , module Web.Facebook.Messenger.Types.Requests.Message
     , module Web.Facebook.Messenger.Types.Requests.Settings
     , module Web.Facebook.Messenger.Types.Requests.Airline
@@ -38,6 +39,11 @@ data SenderActionRequest =
     }
   deriving (Eq, Show)
 
+data AccountUnlinkRequest =
+  AccountUnlinkRequest
+    { accun_psid :: Text }
+  deriving (Eq, Show)
+
 data RequestRecipient = RecipientID    { req_recipient_id    :: Text } -- (PS)ID of recipient
                     -- These IDs are page-scoped IDs (PSID). This means that the IDs are unique for a given page.
                       | RecipientPhone { req_recipient_phone :: Text } -- format -> +1(212)555-2368
@@ -58,6 +64,9 @@ instance ToJSON SenderActionRequest where
                                                             , "sender_action" .= saction
                                                             ]
 
+instance ToJSON AccountUnlinkRequest where
+    toJSON (AccountUnlinkRequest psid) = object [ "psid" .= psid ]
+
 instance ToJSON RequestRecipient where
     toJSON (RecipientID ident)    = object [ "id" .= ident ]
     toJSON (RecipientPhone phone) = object [ "phone" .= phone ]
@@ -73,6 +82,10 @@ instance FromJSON SenderActionRequest where
     parseJSON (Object o) = SenderActionRequest <$> o .: "recipient"
                                                <*> o .: "sender_action"
     parseJSON wat = typeMismatch "SenderActionRequest" wat
+
+instance FromJSON AccountUnlinkRequest where
+    parseJSON (Object o) = AccountUnlinkRequest <$> o .: "psid"
+    parseJSON wat = typeMismatch "AccountUnlinkRequest" wat
 
 instance FromJSON RequestRecipient where
     parseJSON (Object o) = RecipientID    <$> o .: "id"
