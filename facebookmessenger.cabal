@@ -36,8 +36,8 @@ library
                        Web.Facebook.Messenger.Types.Static
   -- other-modules:
   -- other-extensions:    
-  build-depends:       base                         >=4.8         && <4.9
-                     , aeson                        >=0.11        && <0.12
+  build-depends:       base                         >= 4.8        && < 4.9
+                     , aeson                        >= 0.11       && < 0.12
                      , unordered-containers         >= 0.2.5.0
                      , text                         >= 0.11       && < 2.0
                  
