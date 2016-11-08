@@ -16,9 +16,7 @@ import Web.Facebook.Messenger.Types.Requests.Airline
 -- ------------------ --
 
 data TemplatePayload = GenericTemplatePayload
-     { template_generic_elements    :: [GenericTemplateElement]
-     , template_generic_is_reusable :: Maybe Bool
-     }
+     { template_generic_elements    :: [GenericTemplateElement] }
        -- Data for each bubble in message (10 bubble limit)
   | ButtonTemplatePayload
      { template_button_text         :: Text -- Text that appears in main body (UTF8 320 char limit)
@@ -153,10 +151,9 @@ data TemplateAdjustment = TemplateAdjustment
 -- -------------------- --
 
 instance ToJSON TemplatePayload where
-    toJSON (GenericTemplatePayload elements reuse) = object [ "template_type" .= String "generic"
-                                                            , "elements"      .= elements
-                                                            , "is_reusable"   .= reuse
-                                                            ]
+    toJSON (GenericTemplatePayload elements) = object [ "template_type" .= String "generic"
+                                                      , "elements"      .= elements
+                                                      ]
     toJSON (ButtonTemplatePayload text buttons {-reuse-}) = object [ "template_type" .= String "button"
                                                                    , "text"          .= text
                                                                    , "buttons"       .= buttons
@@ -282,7 +279,6 @@ instance ToJSON TemplateAdjustment where
 
 instance FromJSON TemplatePayload where
     parseJSON (Object o) = GenericTemplatePayload <$> o .: "elements"
-                                                  <*> o .:? "is_reusable"
                        <|> ButtonTemplatePayload <$> o .: "text"
                                                  <*> o .: "buttons"
                                                  -- <*> o .:? "is_reusable"
