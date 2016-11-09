@@ -155,7 +155,7 @@ mkQuickReplies :: [QuickReply] -> Maybe [RequestQuickReply]
 mkQuickReplies [] = Nothing
 mkQuickReplies replies = Just $ fmap go replies
   where
-    go (QR title payload image) = RequestQuickReply title payload image
+    go (QR title payload image) = RequestQuickReply (Data.Text.take 20 title) payload image
     go (LocQR image)            = LocationQuickReply image
 
 
