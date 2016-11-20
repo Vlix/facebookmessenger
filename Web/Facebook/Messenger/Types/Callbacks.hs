@@ -18,7 +18,7 @@ import Web.Facebook.Messenger.Types.Callbacks.Messaging
 
 data Callback =
   Callback
-    { cb_object :: Text              -- Value will be `page`
+    { cb_object :: Text            -- Value will be `page`
     , cb_entry  :: [CallbackEntry] -- Array containing event data
     }
   deriving (Eq, Show)
@@ -31,8 +31,8 @@ data CallbackEntry =
     }
     -- For some reason Facebook gives the id arguments of a postback `entry` object as a `Number`
   | CallbackEntry
-    { cb_entry_id        :: Text                  -- Page ID of page
-    , cb_entry_time      :: Int                   -- Time of update (epoch time in milliseconds)
+    { cb_entry_id        :: Text                -- Page ID of page
+    , cb_entry_time      :: Int                 -- Time of update (epoch time in milliseconds)
     , cb_entry_messaging :: [CallbackMessaging] -- Array containing objects related to messaging
     }
   deriving (Eq, Show)

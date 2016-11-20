@@ -80,9 +80,9 @@ instance FromJSON Echo where
     parseJSON wat = typeMismatch "Echo" wat
 
 instance FromJSON Fallback where
-    parseJSON (Object o) = Fallback <$> o .: "title"
-                                    <*> o .: "url"
-                                    <*> o .: "payload"
+    parseJSON (Object o) = Fallback <$> o .:? "title"
+                                    <*> o .:? "url"
+                                    <*> o .:? "payload"
     parseJSON wat = typeMismatch "Fallback" wat 
 
 
@@ -112,7 +112,7 @@ instance ToJSON Echo where
                                                                     , "quick-reply" .= quickreply
                                                                     , "mid"         .= mid
                                                                     , "seq"         .= seq'
-                                                                    , "fallback"    .= fallback
+                                                                    , "attachments" .= fallback
                                                                     ]
 
 instance ToJSON Fallback where
