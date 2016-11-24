@@ -36,9 +36,9 @@ data QuickReply = QR Text Text (Maybe Text)
   deriving (Eq, Show)
 
 data CallbackHandlers a = CallbackHandlers
-    { messageHandler     :: SenderID -> RecipientID -> Timestamp -> MID -> Sequence -> Text -> Maybe CallbackQuickReply -> a
-    , attachmentHandler  :: SenderID -> RecipientID -> Timestamp -> MID -> Sequence -> [CallbackAttachment] -> a
-    , locationHandler    :: SenderID -> RecipientID -> Timestamp -> MID -> Sequence -> [CallbackLocation] -> a
+    { messageHandler     :: SenderID -> RecipientID -> Timestamp -> MID -> Message -> Maybe CallbackQuickReply -> Maybe Sequence -> a
+    , attachmentHandler  :: SenderID -> RecipientID -> Timestamp -> MID -> [CallbackAttachment] -> Maybe Sequence -> a
+    , locationHandler    :: SenderID -> RecipientID -> Timestamp -> MID -> [CallbackLocation] -> Maybe Sequence -> a
     , postbackHandler    :: SenderID -> RecipientID -> Timestamp -> Text -> a
     , authHandler        :: SenderID -> RecipientID -> Timestamp -> Text -> a
     , deliveryHandler    :: SenderID -> RecipientID -> Delivery  -> a

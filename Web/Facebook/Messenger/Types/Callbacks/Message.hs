@@ -14,24 +14,25 @@ import Web.Facebook.Messenger.Types.Static  (AttachmentType)
 
 data CallbackMessage =
     CallbackMessageText
-        { cb_msg_mid        :: Text -- Message ID
-        , cb_msg_seq        :: Int  -- Message sequence number
-        , cb_msg_text       :: Text -- Text of message
+        { cb_msg_mid        :: Text                     -- Message ID
+        , cb_msg_text       :: Text                     -- Text of message
         , cb_msg_quickreply :: Maybe CallbackQuickReply -- Optional custom data provided by the sending app
+        , cb_msg_seq        :: Maybe Int                -- Message sequence number
         }
   | CallbackMessageAttachment
         { cb_msg_mid         :: Text -- Message ID
-        , cb_msg_seq         :: Int  -- Message sequence number
         , cb_msg_attachments :: [CallbackAttachment] -- Array containing attachment data
+        , cb_msg_seq         :: Maybe Int  -- Message sequence number
         }
   | CallbackMessageLocation
         { cb_msg_mid    :: Text -- Message ID
-        , cb_msg_seq    :: Int  -- Message sequence number
         , cb_msg_coords :: [CallbackLocation] -- Array containing Location Quick Reply Callback (probably just 1)
+        , cb_msg_seq    :: Maybe Int  -- Message sequence number
         }
   deriving (Eq, Show)
 
-newtype CallbackQuickReply = CallbackQuickReply { cb_quick_reply_payload :: Text }
+newtype CallbackQuickReply =
+    CallbackQuickReply { cb_quick_reply_payload :: Text }
   deriving (Eq, Show)
 
 data CallbackAttachment = CallbackAttachment
@@ -66,15 +67,15 @@ data CallbackCoordinates = CallbackCoordinates
 
 instance FromJSON CallbackMessage where
     parseJSON (Object o) = CallbackMessageText <$> o .: "mid"
-                                               <*> o .: "seq"
                                                <*> o .: "text"
                                                <*> o .:? "quick_reply"
+                                               <*> o .:? "seq"
                        <|> CallbackMessageAttachment <$> o .: "mid"
-                                                     <*> o .: "seq"
                                                      <*> o .: "attachments"
+                                                     <*> o .:? "seq"
                        <|> CallbackMessageLocation <$> o .: "mid"
-                                                   <*> o .: "seq"
                                                    <*> o .: "attachments"
+                                                   <*> o .:? "seq"
     parseJSON wat = typeMismatch "CallbackMessage" wat
 
 instance FromJSON CallbackQuickReply where
@@ -107,14 +108,14 @@ instance FromJSON CallbackCoordinates where
 
 
 instance ToJSON CallbackMessage where
-    toJSON (CallbackMessageText mid seq' text qreply) = object [ "mid"         .= mid
-                                                               , "seq"         .= seq'
+    toJSON (CallbackMessageText mid text qreply seq') = object [ "mid"         .= mid
                                                                , "text"        .= text
                                                                , "quick_reply" .= qreply
+                                                               , "seq"         .= seq'
                                                                ]
-    toJSON (CallbackMessageAttachment mid seq' attachments) = object [ "mid"         .= mid
-                                                                     , "seq"         .= seq'
+    toJSON (CallbackMessageAttachment mid attachments seq') = object [ "mid"         .= mid
                                                                      , "attachments" .= attachments
+                                                                     , "seq"         .= seq'
                                                                      ]
 
 instance ToJSON CallbackQuickReply where

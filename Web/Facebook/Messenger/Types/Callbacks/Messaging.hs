@@ -3,7 +3,7 @@ module Web.Facebook.Messenger.Types.Callbacks.Messaging
     , CallbackSender (..)
     , CallbackRecipient (..)
     , module Web.Facebook.Messenger.Types.Callbacks.Message
-    , module Web.Facebook.Messenger.Types.Callbacks.PostbackAuth
+    , module Web.Facebook.Messenger.Types.Callbacks.PostbackOptin
     , module Web.Facebook.Messenger.Types.Callbacks.Delivery
     , module Web.Facebook.Messenger.Types.Callbacks.AccountLink
     , module Web.Facebook.Messenger.Types.Callbacks.Read
@@ -16,7 +16,7 @@ import Data.Aeson
 import Data.Aeson.Types     (typeMismatch)
 
 import Web.Facebook.Messenger.Types.Callbacks.Message
-import Web.Facebook.Messenger.Types.Callbacks.PostbackAuth
+import Web.Facebook.Messenger.Types.Callbacks.PostbackOptin
 import Web.Facebook.Messenger.Types.Callbacks.Delivery
 import Web.Facebook.Messenger.Types.Callbacks.AccountLink
 import Web.Facebook.Messenger.Types.Callbacks.Read
@@ -63,6 +63,7 @@ data CallbackMessaging =
         , cb_echo_recipient :: CallbackRecipient
         , cb_echo_timestamp :: Int
         , cb_echo_message   :: Echo }
+-- Payment and Checkout should be added
   deriving (Eq, Show)
 
 -- ALL MESSAGING HAS THESE TWO --

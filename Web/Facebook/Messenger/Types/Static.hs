@@ -4,6 +4,7 @@ module Web.Facebook.Messenger.Types.Static where
 import Data.Aeson
 import Data.Aeson.Types     (typeMismatch)
 import Data.Monoid          ((<>))
+import Data.Text            (unpack)
 
 data SenderActionType = MARK_SEEN  -- Mark last message as read
                       | TYPING_ON  -- Turn typing indicators on
@@ -30,6 +31,11 @@ data AirlineTravelClassType = ECONOMY | BUSINESS | FIRST_CLASS
 data AirlineUpdateType = DELAY | GATE_CHANGE | CANCELLATION
   deriving (Eq, Show)
 
+data ReferralSource = SHORTLINK
+  deriving (Eq, Show)
+
+data ListStyle = ListCOMPACT | ListLARGE
+  deriving (Eq, Show)
 
 -- JSON instances
 
@@ -42,7 +48,7 @@ instance FromJSON SenderActionType where
     parseJSON (String "mark_seen")  = pure MARK_SEEN
     parseJSON (String "typing_on")  = pure TYPING_ON
     parseJSON (String "typing_off") = pure TYPING_OFF
-    parseJSON (String wat)          = fail $ "Wrong String for SenderActionType: " <> show wat
+    parseJSON (String wat)          = fail $ "Wrong String for SenderActionType: " <> unpack wat
     parseJSON wat = typeMismatch "SenderActionType" wat
 
 
@@ -55,7 +61,7 @@ instance FromJSON NotificationType where
     parseJSON (String "REGULAR")     = pure REGULAR
     parseJSON (String "SILENT_PUSH") = pure SILENT_PUSH
     parseJSON (String "NO_PUSH")     = pure NO_PUSH
-    parseJSON (String wat)           = fail $ "Wrong String for NotificationType: " <> show wat
+    parseJSON (String wat)           = fail $ "Wrong String for NotificationType: " <> unpack wat
     parseJSON wat = typeMismatch "NotificationType" wat
 
 
@@ -68,7 +74,7 @@ instance FromJSON WebViewHeightRatioType where
     parseJSON (String "compact") = pure COMPACT
     parseJSON (String "tall")    = pure TALL
     parseJSON (String "full")    = pure FULL
-    parseJSON (String wat)       = fail $ "Wrong String for WebViewHeightRatioType: " <> show wat
+    parseJSON (String wat)       = fail $ "Wrong String for WebViewHeightRatioType: " <> unpack wat
     parseJSON wat = typeMismatch "WebViewHeightRatioType" wat
 
 
@@ -83,7 +89,7 @@ instance FromJSON AttachmentType where
     parseJSON (String "audio") = pure AUDIO
     parseJSON (String "video") = pure VIDEO
     parseJSON (String "file")  = pure FILE
-    parseJSON (String wat)     = fail $ "Wrong String for AttachmentType: " <> show wat
+    parseJSON (String wat)     = fail $ "Wrong String for AttachmentType: " <> unpack wat
     parseJSON wat = typeMismatch "AttachmentType" wat
 
 
@@ -96,7 +102,7 @@ instance FromJSON AirlineTravelClassType where
     parseJSON (String "economy")     = pure ECONOMY
     parseJSON (String "business")    = pure BUSINESS
     parseJSON (String "first_class") = pure FIRST_CLASS
-    parseJSON (String wat)           = fail $ "Wrong String for AirlineTravelClassType: " <> show wat
+    parseJSON (String wat)           = fail $ "Wrong String for AirlineTravelClassType: " <> unpack wat
     parseJSON wat = typeMismatch "AirlineTravelClassType" wat
 
 
@@ -109,5 +115,25 @@ instance FromJSON AirlineUpdateType where
     parseJSON (String "delay")        = pure DELAY
     parseJSON (String "gate_change")  = pure GATE_CHANGE
     parseJSON (String "cancellation") = pure CANCELLATION
-    parseJSON (String wat)            = fail $ "Wrong String for AirlineUpdateType: " <> show wat
+    parseJSON (String wat)            = fail $ "Wrong String for AirlineUpdateType: " <> unpack wat
     parseJSON wat = typeMismatch "AirlineUpdateType" wat
+
+
+instance ToJSON ReferralSource where
+    toJSON SHORTLINK  = String "SHORTLINK"
+
+instance FromJSON ReferralSource where
+    parseJSON (String "SHORTLINK")  = pure SHORTLINK
+    parseJSON (String wat)          = fail $ "Wrong String for ReferralSource: " <> unpack wat
+    parseJSON wat = typeMismatch "ReferralSource" wat
+
+
+instance ToJSON ListStyle where
+    toJSON ListCOMPACT = String "compact"
+    toJSON ListLARGE   = String "large"
+
+instance FromJSON ListStyle where
+    parseJSON (String "compact") = pure ListCOMPACT
+    parseJSON (String "large")   = pure ListLARGE
+    parseJSON (String wat)       = fail $ "Wrong String for ListStyle: " <> unpack wat
+    parseJSON wat = typeMismatch "ListStyle" wat

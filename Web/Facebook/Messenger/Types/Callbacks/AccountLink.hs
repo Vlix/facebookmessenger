@@ -1,22 +1,19 @@
 module Web.Facebook.Messenger.Types.Callbacks.AccountLink where
 
 
-import Data.Text
-import Data.Aeson
-import Data.Aeson.Types     (typeMismatch)
-
+import           Data.Text
+import           Data.Aeson
+import           Data.Aeson.Types     (typeMismatch)
+import qualified Data.HashMap.Strict  as HM
 
 -- -------------------------- --
 --  ACCOUNT LINKING CALLBACK  --
 -- -------------------------- --
 
-data AccountLink = AccountLink
-    { account_status :: AccountLinkStatus -- LINKED or UNLINKED
-    , account_code   :: Maybe Text -- Value of pass-through authorization_code provided in the Linking Account flow
-    }
-  deriving (Eq, Show)
+data AccountLink =
+    AccountLink { account_code :: Maybe Text } -- Value of pass-through authorization_code provided in the Linking Account flow
+  | AccountUnlink
 
-data AccountLinkStatus = LINKED | UNLINKED
   deriving (Eq, Show)
 
 -- --------------------------- --
@@ -24,21 +21,15 @@ data AccountLinkStatus = LINKED | UNLINKED
 -- --------------------------- --
 
 instance FromJSON AccountLink where
-    parseJSON (Object o) = AccountLink <$> o .: "status"
-                                       <*> o .:? "authorization_code"
+    parseJSON (Object o) = case HM.lookup "status" o of
+      Just "linked" -> AccountLink <$> o .:? "authorization_code"
+      Just "unlinked" -> pure AccountUnlink
+      Just wat -> fail $ "Unexpected status value in AccountLink object: " ++ show wat
     parseJSON wat = typeMismatch "AccountLink" wat
-
-instance FromJSON AccountLinkStatus where
-    parseJSON (String "linked")   = pure LINKED
-    parseJSON (String "unlinked") = pure UNLINKED
-    parseJSON wat = typeMismatch "AccountLinkStatus" wat
 
 
 instance ToJSON AccountLink where
-    toJSON (AccountLink status code) = object [ "status"             .= status
-                                              , "authorization_code" .= code
-                                              ]
-
-instance ToJSON AccountLinkStatus where
-    toJSON LINKED   = String "linked"
-    toJSON UNLINKED = String "unlinked"
+    toJSON (AccountLink code) = object [ "status"             .= String "linked"
+                                       , "authorization_code" .= code
+                                       ]
+    toJSON AccountUnlink = object [ "status" .= String "unlinked"]

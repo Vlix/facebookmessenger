@@ -29,11 +29,11 @@ newtype ErrorRes = ErrorRes { res_error :: ErrorResponse }
   deriving (Eq, Show)
 
 data ErrorResponse = ErrorResponse
-    { error_message    :: Text
-    , error_type       :: Text
-    , error_code       :: Int
-    --, error_data :: Maybe Text
-    , error_fbtrace_id :: Maybe Text
+    { error_message       :: Text
+    , error_type          :: Text
+    , error_code          :: Int
+    , error_error_subcode :: Maybe Int
+    , error_fbtrace_id    :: Maybe Text
     }
   deriving Eq
 
@@ -61,11 +61,17 @@ data AccountLinkingResponse =
 
 -- SHOW INSTANCE OF ERROR RESPONSE --
 instance Show ErrorResponse where
-    show (ErrorResponse msg typ code traceid) =
-        "Facebook Error Response: \"" ++ show msg ++ "\" - Error code: " ++ show code ++ " - Error type: " ++ show typ ++ maybetrace traceid
+    show (ErrorResponse msg typ code subcode traceid) =
+        "Facebook Error Response: \"" ++ unpack msg
+                 ++ "\" - Error code" ++ msubcode subcode ++ ": " ++ show code ++ maybesubcode subcode
+                 ++ " - Error type: " ++ unpack typ ++ maybetrace traceid
       where
+        msubcode Nothing  = ""
+        msubcode (Just _) = "/subcode"
+        maybesubcode Nothing = ""
+        maybesubcode (Just code) = " / " ++ show code
         maybetrace Nothing      = ""
-        maybetrace (Just ident) = " >>> Trace ID: " ++ show ident
+        maybetrace (Just ident) = " >>> Trace ID: " ++ unpack ident
 -- SHOW INSTANCE OF ERROR RESPONSE --
 
 
@@ -91,6 +97,7 @@ instance FromJSON ErrorResponse where
     parseJSON (Object o) = ErrorResponse <$> o .: "message"
                                          <*> o .: "type"
                                          <*> o .: "code"
+                                         <*> o .:? "error_subcode"
                                          <*> o .:? "fbtrace_id"
     parseJSON wat = typeMismatch "ErrorResponse" wat
 
@@ -126,11 +133,12 @@ instance ToJSON ErrorRes where
     toJSON (ErrorRes err) = object [ "error" .= err ]
 
 instance ToJSON ErrorResponse where
-    toJSON (ErrorResponse message typ code fbtrace_id) = object [ "message"    .= message
-                                                                , "type"       .= typ
-                                                                , "code"       .= code
-                                                                , "fbtrace_id" .= fbtrace_id
-                                                                ]
+    toJSON (ErrorResponse message typ code subcode fbtrace_id) = object [ "message"       .= message
+                                                                        , "type"          .= typ
+                                                                        , "code"          .= code
+                                                                        , "error_subcode" .= subcode
+                                                                        , "fbtrace_id"    .= fbtrace_id
+                                                                        ]
 
 instance ToJSON SuccessResponse where
     toJSON (SuccessResponse result) = object [ "result" .= result ]

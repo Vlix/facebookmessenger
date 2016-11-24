@@ -4,13 +4,13 @@ module Web.Facebook.Messenger.Types.Requests.Attachment
     , module Web.Facebook.Messenger.Types.Requests.Templates
     ) where
 
-import Control.Applicative  ((<|>))
-import Data.Text
-import Data.Aeson
-import Data.Aeson.Types     (typeMismatch)
+import           Control.Applicative  ((<|>))
+import           Data.Text
+import           Data.Aeson
+import           Data.Aeson.Types     (typeMismatch)
 
-import Web.Facebook.Messenger.Types.Requests.Templates
-import Web.Facebook.Messenger.Types.Static
+import           Web.Facebook.Messenger.Types.Requests.Templates
+import           Web.Facebook.Messenger.Types.Static
 
 
 -- -------------------- --
@@ -20,7 +20,7 @@ import Web.Facebook.Messenger.Types.Static
 data RequestAttachment =
   RequestMultimediaAttachment
     { req_attachment_type               :: AttachmentType    -- IMAGE, AUDIO, VIDEO, or FILE
-    , req_attachment_multimedia_payload :: RequestMultimediaPayload
+    , req_attachment_multimedia_payload :: RequestMultimediaPayload -- Attachments sent with the Send API can be up to 25 MB.
     }
   | RequestAttachmentTemplate
     { req_attachment_template_payload :: TemplatePayload }

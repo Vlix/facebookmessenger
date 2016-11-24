@@ -11,9 +11,9 @@ import Data.Aeson.Types     (typeMismatch)
 -- ------------------- --
 
 data Delivery = Delivery
-    { delivery_mids      :: Maybe [Text] -- Array containing message IDs of messages that were delivered. Field may not be present.
-    , delivery_watermark :: Int -- All messages that were sent before this timestamp were delivered
-    , delivery_seq       :: Int -- Sequence number
+    { delivery_watermark :: Int       -- All messages that were sent before this timestamp were delivered
+    , delivery_mids      :: [Text]    -- Array containing message IDs of messages that were delivered. Field may not be present.
+    , delivery_seq       :: Maybe Int -- Sequence number
     }
   deriving (Eq, Show)
 
@@ -23,14 +23,14 @@ data Delivery = Delivery
 -- -------------------- --
 
 instance FromJSON Delivery where
-    parseJSON (Object o) = Delivery <$> o .:? "mids"
-                                    <*> o .: "watermark"
-                                    <*> o .: "seq"
+    parseJSON (Object o) = Delivery <$> o .: "watermark"
+                                    <*> o .:? "mids" .!= []
+                                    <*> o .:? "seq"
     parseJSON wat = typeMismatch "Delivery" wat
 
 
 instance ToJSON Delivery where
-    toJSON (Delivery mids watermark seeq) = object [ "mids"      .= mids
-                                                   , "watermark" .= watermark
+    toJSON (Delivery watermark mids seeq) = object [ "watermark" .= watermark
+                                                   , "mids"      .= mids
                                                    , "seq"       .= seeq
                                                    ]

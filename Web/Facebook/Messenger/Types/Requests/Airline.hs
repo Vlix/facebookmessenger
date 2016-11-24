@@ -3,7 +3,7 @@
 module Web.Facebook.Messenger.Types.Requests.Airline where
 
 import Control.Applicative  ((<|>))
-import Data.Text
+import Data.Text            (Text)
 import Data.Aeson
 import Data.Aeson.Types     (typeMismatch)
 
@@ -15,16 +15,16 @@ import Web.Facebook.Messenger.Types.Static
 -- ------------------ --
 
 data AirlinePassengerInfo = AirlinePassengerInfo
-    { air_personalinfo_passenger_id  :: Text -- must be unique in itinerary
+    { air_personalinfo_passenger_id  :: Text       -- must be unique in itinerary
     , air_personalinfo_ticket_number :: Maybe Text -- Ticket number
-    , air_personalinfo_name          :: Text -- Full name of passenger, including title
+    , air_personalinfo_name          :: Text       -- Full name of passenger, including title
     }
   deriving (Eq, Show)
 
 data AirlineItineraryFlightInfo = AirlineItineraryFlightInfo
-    { air_iflightinfo_connection_id     :: Text -- Used to group segments of a connection together (must be unique in itinerary)
-    , air_iflightinfo_segment_id        :: Text -- `segment_id` of `passenger_segment_info` object
-    , air_iflightinfo_flight_number     :: Text -- Flight number
+    { air_iflightinfo_connection_id     :: Text       -- Used to group segments of a connection together (must be unique in itinerary)
+    , air_iflightinfo_segment_id        :: Text       -- `segment_id` of `passenger_segment_info` object
+    , air_iflightinfo_flight_number     :: Text       -- Flight number
     , air_iflightinfo_aircraft_type     :: Maybe Text -- Aircraft type (e.g. Boeing 787)
     , air_iflightinfo_departure_airport :: AirlineAirport -- Departure airport
     , air_iflightinfo_arrival_airport   :: AirlineAirport -- Arrival airport
@@ -34,8 +34,8 @@ data AirlineItineraryFlightInfo = AirlineItineraryFlightInfo
   deriving (Eq, Show)
 
 data AirlineAirport = AirlineAirport
-    { air_airport_airport_code :: Text -- Airport code (e.g. SFO/AMS/TYO)
-    , air_airport_city         :: Text -- City name
+    { air_airport_airport_code :: Text       -- Airport code (e.g. SFO/AMS/TYO)
+    , air_airport_city         :: Text       -- City name
     , air_airport_terminal     :: Maybe Text -- Terminal number
     , air_airport_gate         :: Maybe Text -- Gate number
     }
@@ -44,8 +44,8 @@ data AirlineAirport = AirlineAirport
 -- all times in schedule must be in the ISO 8601-based format YYYY-MM-DDThh:mm (e.g. 2015-09-26T10:30)
 data AirlineFlightSchedule = AirlineFlightSchedule
     { air_flightschedule_boarding_time  :: Maybe Text -- Boarding time in departure airport timezone
-    , air_flightschedule_departure_time :: Text -- Departure time in departure airport timezone
-    , air_flightschedule_arrival_time   :: Text -- Arrival time in arrival airport timezone
+    , air_flightschedule_departure_time :: Text       -- Departure time in departure airport timezone
+    , air_flightschedule_arrival_time   :: Text       -- Arrival time in arrival airport timezone
     }
   -- Must all be in the ISO 8601-based format YYYY-MM-DDThh:mm (e.g. 2015-09-26T10:30)
   deriving (Eq, Show)
@@ -59,48 +59,48 @@ data AirlineUpdatePassFlightSchedule = AirlineUpdatePassFlightSchedule
   deriving (Eq, Show)
 
 data AirlinePriceInfo = AirlinePriceInfo
-    { air_priceinfo_title    :: Text   -- Price info title
-    , air_priceinfo_amount   :: Double -- Price amount
+    { air_priceinfo_title    :: Text       -- Price info title
+    , air_priceinfo_amount   :: Double     -- Price amount
     , air_priceinfo_currency :: Maybe Text -- Pricing currency (must be ISO-4217-3 code)
     }
   -- https://developers.facebook.com/docs/payments/reference/supportedcurrencies
   deriving (Eq, Show)
 
 data AirlineFlightInfo = AirlineFlightInfo
-    { air_cflightinfo_flight_number     :: Text             -- Flight number
-    , air_cflightinfo_departure_airport :: AirlineAirport -- Departure airport
-    , air_cflightinfo_arrival_airport   :: AirlineAirport -- Arrival airport
+    { air_cflightinfo_flight_number     :: Text                  -- Flight number
+    , air_cflightinfo_departure_airport :: AirlineAirport        -- Departure airport
+    , air_cflightinfo_arrival_airport   :: AirlineAirport        -- Arrival airport
     , air_cflightinfo_flight_schedule   :: AirlineFlightSchedule -- Schedule for the flight
     }
   deriving (Eq, Show)
 
 data AirlineBoardingPass =
   AirlineBoardingPassQRCode
-    { air_boardingpass_passenger_name           :: Text -- Flight number
-    , air_boardingpass_pnr_number               :: Text -- Passenger name record number (Booking Number)
+    { air_boardingpass_passenger_name           :: Text       -- Flight number
+    , air_boardingpass_pnr_number               :: Text       -- Passenger name record number (Booking Number)
     , air_boardingpass_travel_class             :: Maybe AirlineTravelClassType -- Travel class (ECONOMY, BUSINESS, FIRST_CLASS)
     , air_boardingpass_seat                     :: Maybe Text -- Seat number for passenger
     , air_boardingpass_auxiliary_fields         :: Maybe [AirlineField] -- Flexible information to display in the auxiliary section (limited to 5)
     , air_boardingpass_secondary_fields         :: Maybe [AirlineField] -- Flexible information to display in the secondary section (limited to 5)
-    , air_boardingpass_logo_image_url           :: Text -- URL for the logo image
+    , air_boardingpass_logo_image_url           :: Text       -- URL for the logo image
     , air_boardingpass_header_image_url         :: Maybe Text -- URL for the header image
     , air_boardingpass_header_text_field        :: Maybe Text -- Text for the header field
-    , air_boardingpass_qr_code                  :: Text -- Aztec or QR code
-    , air_boardingpass_above_bar_code_image_url :: Text -- URL of thin image above the barcode
+    , air_boardingpass_qr_code                  :: Text       -- Aztec or QR code
+    , air_boardingpass_above_bar_code_image_url :: Text       -- URL of thin image above the barcode
     , air_boardingpass_flight_info              :: AirlineFlightInfo -- Information about the flight
     }
   | AirlineBoardingPassBarcode
-    { air_boardingpass_passenger_name           :: Text -- Flight number
-    , air_boardingpass_pnr_number               :: Text -- Passenger name record number (Booking Number)
+    { air_boardingpass_passenger_name           :: Text       -- Flight number
+    , air_boardingpass_pnr_number               :: Text       -- Passenger name record number (Booking Number)
     , air_boardingpass_travel_class             :: Maybe AirlineTravelClassType -- Travel class (ECONOMY, BUSINESS, FIRST_CLASS)
     , air_boardingpass_seat                     :: Maybe Text -- Seat number for passenger
     , air_boardingpass_auxiliary_fields         :: Maybe [AirlineField] -- Flexible information to display in the auxiliary section (limited to 5)
     , air_boardingpass_secondary_fields         :: Maybe [AirlineField] -- Flexible information to display in the secondary section (limited to 5)
-    , air_boardingpass_logo_image_url           :: Text -- URL for the logo image
+    , air_boardingpass_logo_image_url           :: Text       -- URL for the logo image
     , air_boardingpass_header_image_url         :: Maybe Text -- URL for the header image
     , air_boardingpass_header_text_field        :: Maybe Text -- Text for the header field
-    , air_boardingpass_barcode_image_url        :: Text -- URL of the barcode image
-    , air_boardingpass_above_bar_code_image_url :: Text -- URL of thin image above the barcode
+    , air_boardingpass_barcode_image_url        :: Text       -- URL of the barcode image
+    , air_boardingpass_above_bar_code_image_url :: Text       -- URL of thin image above the barcode
     , air_boardingpass_flight_info              :: AirlineFlightInfo -- Information about the flight
     }
   deriving (Eq, Show)
@@ -110,13 +110,19 @@ data AirlinePassengerSegmentInfo = AirlinePassengerSegmentInfo
     , air_passengersegment_passenger_id :: Text -- `passenger_id` of `passenger_info` object
     , air_passengersegment_seat         :: Text -- Seat number for the passenger
     , air_passengersegment_seat_type    :: Text -- Seat type for the passenger (e.g. Economy comfort)
-    , air_passengersegment_product_info :: Text -- List of products the passenger purchased (limited to 4)
+    , air_passengersegment_product_info :: [AirlineProductInfo] -- List of products the passenger purchased (limited to 4)
     }
   deriving (Eq, Show)
 
 data AirlineField = AirlineField
     { air_field_label :: Text -- Label for the additional field
     , air_field_value :: Text -- Value for the additional field
+    }
+  deriving (Eq, Show)
+
+data AirlineProductInfo = AirlineProductInfo
+    { air_product_title :: Text -- Label for the additional field
+    , air_product_value :: Text -- Value for the additional field
     }
   deriving (Eq, Show)
 
@@ -172,7 +178,9 @@ instance ToJSON AirlinePassengerSegmentInfo where
                                                                                    , "passenger_id" .= passenger
                                                                                    , "seat"         .= seat
                                                                                    , "seat_type"    .= typ
-                                                                                   , "product_info" .= pinfo
+                                                                                   , "product_info" .= if null pinfo
+                                                                                                        then Nothing
+                                                                                                        else Just pinfo
                                                                                    ]
 
 instance ToJSON AirlineFlightInfo where
@@ -217,6 +225,10 @@ instance ToJSON AirlineField where
                                                , "value" .= value
                                                ]
 
+instance ToJSON AirlineProductInfo where
+    toJSON (AirlineProductInfo title value) = object [ "title" .= title
+                                                     , "value" .= value
+                                                     ]
 
 -- ---------------------------- --
 --  FromJSON AIRLINE INSTANCES  --
@@ -269,7 +281,7 @@ instance FromJSON AirlinePassengerSegmentInfo where
                                                        <*> o .: "passenger_id"
                                                        <*> o .: "seat"
                                                        <*> o .: "seat_type"
-                                                       <*> o .: "product_info"
+                                                       <*> o .:? "product_info" .!= []
     parseJSON wat = typeMismatch "AirlinePassengerSegmentInfo" wat
 
 instance FromJSON AirlineFlightInfo where
@@ -310,3 +322,8 @@ instance FromJSON AirlineField where
     parseJSON (Object o) = AirlineField <$> o .: "label"
                                         <*> o .: "value"
     parseJSON wat = typeMismatch "AirlineField" wat
+
+instance FromJSON AirlineProductInfo where
+    parseJSON (Object o) = AirlineProductInfo <$> o .: "title"
+                                              <*> o .: "value"
+    parseJSON wat = typeMismatch "AirlineProductInfo" wat
