@@ -11,10 +11,9 @@ import Data.Aeson.Types     (typeMismatch)
 -- --------------- --
 
 data ReadCallback = ReadCallback
-    { read_watermark :: Int -- All messages that were sent before this timestamp were read
-    , read_seq       :: Maybe Int -- Sequence number
-    }
-  deriving (Eq, Show)
+  { read_watermark :: Int -- All messages that were sent before this timestamp were read
+  , read_seq       :: Maybe Int -- Sequence number
+  } deriving (Eq, Show)
 
 
 -- ---------------- --
@@ -22,12 +21,13 @@ data ReadCallback = ReadCallback
 -- ---------------- --
 
 instance FromJSON ReadCallback where
-    parseJSON (Object o) = ReadCallback <$> o .: "watermark"
-                                        <*> o .:? "seq"
-    parseJSON wat = typeMismatch "ReadCallback" wat
+  parseJSON (Object o) = ReadCallback <$> o .: "watermark"
+                                      <*> o .:? "seq"
+  parseJSON wat = typeMismatch "ReadCallback" wat
 
 
 instance ToJSON ReadCallback where
-    toJSON (ReadCallback watermark seq') = object [ "watermark" .= watermark
-                                                  , "seq" .= seq'
-                                                  ] 
+  toJSON (ReadCallback watermark seq') =
+    object [ "watermark" .= watermark
+           , "seq" .= seq'
+           ] 

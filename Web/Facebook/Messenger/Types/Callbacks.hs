@@ -16,18 +16,16 @@ import Web.Facebook.Messenger.Types.Callbacks.Messaging
 --       FACEBOOK CALLBACKS       --
 -- ============================== --
 
-data Callback =
-  Callback
-    { cb_object :: Text            -- Value will be `page`
-    , cb_entry  :: [CallbackEntry] -- Array containing event data
-    }
-  deriving (Eq, Show)
+data Callback = Callback
+  { cb_object :: Text            -- Value will be `page`
+  , cb_entry  :: [CallbackEntry] -- Array containing event data
+  } deriving (Eq, Show)
 
 data CallbackEntry =
-  CallbackEntryPostback
-    { cb_entrypostback_id :: Int
-    , cb_entry_time       :: Int
-    , cb_entry_messaging  :: [CallbackMessaging]
+  CallbackEntryNumber
+    { cb_entrynumber_id  :: Int
+    , cb_entry_time      :: Int
+    , cb_entry_messaging :: [CallbackMessaging]
     }
     -- For some reason Facebook gives the id arguments of a postback `entry` object as a `Number`
   | CallbackEntry
@@ -43,31 +41,33 @@ data CallbackEntry =
 -- ------------------------ --
 
 instance FromJSON Callback where
-    parseJSON (Object o) = Callback <$> o .: "object"
-                                    <*> o .: "entry"
-    parseJSON wat = typeMismatch "Callback" wat
+  parseJSON (Object o) = Callback <$> o .: "object"
+                                  <*> o .: "entry"
+  parseJSON wat = typeMismatch "Callback" wat
 
 instance FromJSON CallbackEntry where
-    parseJSON (Object o) = CallbackEntry <$> o .: "id"
-                                         <*> o .: "time"
-                                         <*> o .: "messaging"
-                       <|> CallbackEntryPostback <$> o .: "id"
-                                                 <*> o .: "time"
-                                                 <*> o .: "messaging"
-    parseJSON wat = typeMismatch "CallbackEntryPostback" wat
+  parseJSON (Object o) = CallbackEntry <$> o .: "id"
+                                       <*> o .: "time"
+                                       <*> o .: "messaging"
+                     <|> CallbackEntryNumber <$> o .: "id"
+                                             <*> o .: "time"
+                                             <*> o .: "messaging"
+  parseJSON wat = typeMismatch "CallbackEntryNumber" wat
 
 
 instance ToJSON Callback where
-    toJSON (Callback obj entry) = object [ "object" .= obj
-                                         , "entry"  .= entry
-                                         ]
+  toJSON (Callback obj entry) = object [ "object" .= obj
+                                       , "entry"  .= entry
+                                       ]
 
 instance ToJSON CallbackEntry where
-    toJSON (CallbackEntry ident time messaging) = object [ "id"        .= ident
-                                                         , "time"      .= time
-                                                         , "messaging" .= messaging
-                                                         ]
-    toJSON (CallbackEntryPostback ident time messaging) = object [ "id"        .= ident
-                                                                 , "time"      .= time
-                                                                 , "messaging" .= messaging
-                                                                 ]
+  toJSON (CallbackEntry ident time messaging) =
+    object [ "id"        .= ident
+           , "time"      .= time
+           , "messaging" .= messaging
+           ]
+  toJSON (CallbackEntryNumber ident time messaging) =
+    object [ "id"        .= ident
+           , "time"      .= time
+           , "messaging" .= messaging
+           ]

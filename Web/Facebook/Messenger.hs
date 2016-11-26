@@ -20,6 +20,17 @@ module Web.Facebook.Messenger
     , genericTemplate'
     , buttonTemplate'
     , listTemplate'
+    -- All functions with -Ref use the RecipientRef value instead of its PSID
+    -- The moment -Ref had been used the response of Facebook should contain the PSID to be used after that
+    , senderActionRef
+    , messageTextRef
+    , attachmentImageRef
+    , attachmentAudioRef
+    , attachmentVideoRef
+    , attachmentFileRef
+    , genericTemplateRef
+    , buttonTemplateRef
+    , listTemplateRef
     ) where
 
 import Data.Text
@@ -46,11 +57,16 @@ handleMessaging fbcbh (CallbackMessagingMessage (CallbackSender sident)
                                                 time
                                                 (CallbackMessageLocation mid locations seq')
                       ) = locationHandler fbcbh sident rident time mid locations seq'
-handleMessaging fbcbh (CallbackMessagingAuth (CallbackSender sident)
-                                             (CallbackRecipient rident)
-                                             time
-                                             (Optin ref)
-                      ) = authHandler fbcbh sident rident time ref
+handleMessaging fbcbh (CallbackMessagingOptin (CallbackSender sident)
+                                              (CallbackRecipient rident)
+                                              time
+                                              (Optin ref)
+                      ) = optinHandler fbcbh sident rident time ref
+
+handleMessaging fbcbh (CallbackMessagingOptinRef (CallbackRecipient rident)
+                                                 time
+                                                 (OptinRef ref user_ref)
+                      ) = optinRefHandler fbcbh rident time ref user_ref
 
 handleMessaging fbcbh (CallbackMessagingDelivery (CallbackSender sident)
                                                  (CallbackRecipient rident)
@@ -92,25 +108,16 @@ messageText :: [QuickReply] -> Maybe NotificationType
             -> RecipientID -> SendRequest
 messageText quickreplies mtyp msg = mkMessageText quickreplies mtyp msg . RecipientID
 
-attachmentImage :: [QuickReply] -> Maybe NotificationType
-                -> Url -> Maybe Bool
-                -> RecipientID -> SendRequest
-attachmentImage quickreplies mtyp url reusable = mkAttachment quickreplies IMAGE mtyp url reusable . RecipientID
-
-attachmentAudio :: [QuickReply] -> Maybe NotificationType
-                -> Url -> Maybe Bool
-                -> RecipientID -> SendRequest
-attachmentAudio quickreplies mtyp url reusable = mkAttachment quickreplies AUDIO mtyp url reusable . RecipientID
-
-attachmentVideo :: [QuickReply] -> Maybe NotificationType
-                -> Url -> Maybe Bool
-                -> RecipientID -> SendRequest
-attachmentVideo quickreplies mtyp url reusable = mkAttachment quickreplies VIDEO mtyp url reusable . RecipientID
-
-attachmentFile :: [QuickReply] -> Maybe NotificationType
-               -> Url -> Maybe Bool
-               -> RecipientID -> SendRequest
-attachmentFile quickreplies mtyp url reusable = mkAttachment quickreplies FILE mtyp url reusable . RecipientID
+attachmentImage
+  , attachmentAudio
+  , attachmentVideo
+  , attachmentFile :: [QuickReply] -> Maybe NotificationType
+                   -> Url -> Bool
+                   -> RecipientID -> SendRequest
+attachmentImage quickreplies mtyp url reusable = mkAttachment IMAGE quickreplies mtyp url reusable . RecipientID
+attachmentAudio quickreplies mtyp url reusable = mkAttachment AUDIO quickreplies mtyp url reusable . RecipientID
+attachmentVideo quickreplies mtyp url reusable = mkAttachment VIDEO quickreplies mtyp url reusable . RecipientID
+attachmentFile  quickreplies mtyp url reusable = mkAttachment FILE  quickreplies mtyp url reusable . RecipientID
 
 genericTemplate :: [QuickReply] -> Maybe NotificationType
                 -> [GenericTemplateElement]
@@ -137,42 +144,41 @@ mkMessageText :: [QuickReply] -> Maybe NotificationType
               -> Message
               -> RequestRecipient -> SendRequest
 mkMessageText quickreplies notification message recipient =
-    SendMessageRequest recipient
-                       (RequestMessageText message $ mkQuickReplies quickreplies)
-                       notification
+    SendRequest recipient
+                (RequestMessageText message $ mkQuickReplies quickreplies)
+                notification
 
-mkAttachment :: [QuickReply] -> AttachmentType -> Maybe NotificationType
-             -> Url
-             -> Maybe Bool
+mkAttachment :: AttachmentType -> [QuickReply] -> Maybe NotificationType
+             -> Url -> Bool
              -> RequestRecipient -> SendRequest
-mkAttachment quickreplies attachtype notification url reusable recipient =
-    SendMessageRequest recipient
-                       (RequestMessageAttachment 
-                          (RequestMultimediaAttachment attachtype $ RequestMultimediaPayload url reusable)
-                          $ mkQuickReplies quickreplies)
-                       notification
+mkAttachment attachtype quickreplies notification url reusable recipient =
+    SendRequest recipient
+                (RequestMessageAttachment 
+                   (RequestMultimediaAttachment attachtype $ RequestMultimediaPayload url reusable)
+                   $ mkQuickReplies quickreplies)
+                notification
 
 mkGenericTemplate :: [QuickReply] -> Maybe NotificationType
                   -> [GenericTemplateElement]
                   -> RequestRecipient -> SendRequest
 mkGenericTemplate quickreplies notification elements recipient =
-    SendMessageRequest recipient
-                       (RequestMessageAttachment
-                          (RequestAttachmentTemplate
-                              (GenericTemplatePayload elements))
-                          $ mkQuickReplies quickreplies)
-                       notification
+    SendRequest recipient
+                (RequestMessageAttachment
+                   (RequestAttachmentTemplate
+                       (GenericTemplatePayload elements))
+                   $ mkQuickReplies quickreplies)
+                notification
 
 mkButtonTemplate :: Message -> Maybe NotificationType
                  -> [TemplateButton]
                  -> RequestRecipient -> SendRequest
 mkButtonTemplate message notification buttons recipient =
-    SendMessageRequest recipient
-                       (RequestMessageAttachment
-                          (RequestAttachmentTemplate
-                              (ButtonTemplatePayload message buttons))
-                          Nothing)
-                       notification
+    SendRequest recipient
+                (RequestMessageAttachment
+                   (RequestAttachmentTemplate
+                       (ButtonTemplatePayload message buttons))
+                   [])
+                notification
 
 mkListTemplate :: [QuickReply] -> Maybe NotificationType
                -> ListStyle
@@ -180,32 +186,33 @@ mkListTemplate :: [QuickReply] -> Maybe NotificationType
                -> Maybe TemplateButton
                -> RequestRecipient -> SendRequest
 mkListTemplate quickreplies notification style elements mbutton recipient =
-    SendMessageRequest recipient
-                       (RequestMessageAttachment
-                          (RequestAttachmentTemplate
-                            (ListTemplatePayload style elements mbutton))
-                          $ mkQuickReplies quickreplies)
-                        notification
+    SendRequest recipient
+                (RequestMessageAttachment
+                   (RequestAttachmentTemplate
+                     (ListTemplatePayload style elements mbutton))
+                   $ mkQuickReplies quickreplies)
+                 notification
 
 {- SHOULD BE A BETTER WAY OF MAKING THIS EASIER, THOUGH NOT NEEDED YET
 mkReceiptTemplate :: [QuickReply] -> RequestRecipient -> Maybe NotificationType -> FBRequestTemplatePayload -> SendRequest
 mkReceiptTemplate quickreplies recipient notification receipt =
-    SendMessageRequest recipient
+    SendRequest recipient
                          (MessageAttachment
                             (AttachmentTemplate receipt)
                             $ mkQuickReplies quickreplies)
                          notification
 -}
 
-mkQuickReplies :: [QuickReply] -> Maybe [RequestQuickReply]
-mkQuickReplies [] = Nothing
-mkQuickReplies replies = Just $ fmap go replies
+mkQuickReplies :: [QuickReply] -> [RequestQuickReply]
+mkQuickReplies replies = fmap go replies
   where
     go (QR title payload image) = RequestQuickReply (Data.Text.take 20 title) payload image
     go (LocQR image)            = LocationQuickReply image
 
 
--- PHONE VARIANTS --
+-- -------------------------- --
+--  RecipientPhone Functions  -- 
+-- -------------------------- --
 
 senderAction' :: SenderActionType -> RecipientPhone -> SenderActionRequest
 senderAction' typ = mkSenderAction typ . RecipientPhone
@@ -213,17 +220,15 @@ senderAction' typ = mkSenderAction typ . RecipientPhone
 messageText' :: [QuickReply] -> Maybe NotificationType -> Message -> RecipientPhone -> SendRequest
 messageText' quickreplies mtyp msg = mkMessageText quickreplies mtyp msg . RecipientPhone
 
-attachmentImage' :: [QuickReply] -> Maybe NotificationType -> Url -> Maybe Bool -> RecipientPhone -> SendRequest
-attachmentImage' quickreplies mtyp url reusable = mkAttachment quickreplies IMAGE mtyp url reusable . RecipientPhone
+attachmentImage'
+  , attachmentAudio'
+  , attachmentVideo'
+  , attachmentFile' :: [QuickReply] -> Maybe NotificationType -> Url -> Bool -> RecipientPhone -> SendRequest
 
-attachmentAudio' :: [QuickReply] -> Maybe NotificationType -> Url -> Maybe Bool -> RecipientPhone -> SendRequest
-attachmentAudio' quickreplies mtyp url reusable = mkAttachment quickreplies AUDIO mtyp url reusable . RecipientPhone
-
-attachmentVideo' :: [QuickReply] -> Maybe NotificationType -> Url -> Maybe Bool -> RecipientPhone -> SendRequest
-attachmentVideo' quickreplies mtyp url reusable = mkAttachment quickreplies VIDEO mtyp url reusable . RecipientPhone
-
-attachmentFile' :: [QuickReply] -> Maybe NotificationType -> Url -> Maybe Bool -> RecipientPhone -> SendRequest
-attachmentFile' quickreplies mtyp url reusable = mkAttachment quickreplies FILE mtyp url reusable . RecipientPhone
+attachmentImage' quickreplies mtyp url reusable = mkAttachment IMAGE quickreplies mtyp url reusable . RecipientPhone
+attachmentAudio' quickreplies mtyp url reusable = mkAttachment AUDIO quickreplies mtyp url reusable . RecipientPhone
+attachmentVideo' quickreplies mtyp url reusable = mkAttachment VIDEO quickreplies mtyp url reusable . RecipientPhone
+attachmentFile'  quickreplies mtyp url reusable = mkAttachment FILE  quickreplies mtyp url reusable . RecipientPhone
 
 genericTemplate' :: [QuickReply] -> Maybe NotificationType -> [GenericTemplateElement] -> RecipientPhone -> SendRequest
 genericTemplate' quickreplies mtyp elems = mkGenericTemplate quickreplies mtyp elems . RecipientPhone
@@ -236,7 +241,43 @@ listTemplate' :: [QuickReply]
               -> ListStyle
               -> [ListTemplateElement]
               -> Maybe TemplateButton
-              -> RecipientID
+              -> RecipientPhone
               -> SendRequest
 listTemplate' quickreplies mtyp style elems mbutton =
     mkListTemplate quickreplies mtyp style elems mbutton . RecipientPhone
+
+-- ------------------------ --
+--  RecipientRef Functions  -- 
+-- ------------------------ --
+
+senderActionRef :: SenderActionType -> RecipientRef -> SenderActionRequest
+senderActionRef typ = mkSenderAction typ . RecipientRef
+
+messageTextRef :: [QuickReply] -> Maybe NotificationType -> Message -> RecipientRef -> SendRequest
+messageTextRef quickreplies mtyp msg = mkMessageText quickreplies mtyp msg . RecipientRef
+
+attachmentImageRef
+  , attachmentAudioRef
+  , attachmentVideoRef
+  , attachmentFileRef :: [QuickReply] -> Maybe NotificationType -> Url -> Bool -> RecipientRef -> SendRequest
+
+attachmentImageRef quickreplies mtyp url reusable = mkAttachment IMAGE quickreplies mtyp url reusable . RecipientRef
+attachmentAudioRef quickreplies mtyp url reusable = mkAttachment AUDIO quickreplies mtyp url reusable . RecipientRef
+attachmentVideoRef quickreplies mtyp url reusable = mkAttachment VIDEO quickreplies mtyp url reusable . RecipientRef
+attachmentFileRef  quickreplies mtyp url reusable = mkAttachment FILE  quickreplies mtyp url reusable . RecipientRef
+
+genericTemplateRef :: [QuickReply] -> Maybe NotificationType -> [GenericTemplateElement] -> RecipientRef -> SendRequest
+genericTemplateRef quickreplies mtyp elems = mkGenericTemplate quickreplies mtyp elems . RecipientRef
+
+buttonTemplateRef :: Message -> Maybe NotificationType -> [TemplateButton] -> RecipientRef -> SendRequest
+buttonTemplateRef msg mtyp buttons = mkButtonTemplate msg mtyp buttons . RecipientRef
+
+listTemplateRef :: [QuickReply]
+              -> Maybe NotificationType
+              -> ListStyle
+              -> [ListTemplateElement]
+              -> Maybe TemplateButton
+              -> RecipientRef
+              -> SendRequest
+listTemplateRef quickreplies mtyp style elems mbutton =
+    mkListTemplate quickreplies mtyp style elems mbutton . RecipientRef
