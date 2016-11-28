@@ -1,9 +1,11 @@
 module Web.Facebook.Messenger.Types.Callbacks.Delivery where
 
 
-import Data.Text
 import Data.Aeson
 import Data.Aeson.Types     (typeMismatch)
+import Data.Text
+
+import Web.Facebook.Messenger.Types.Static
 
 
 -- ------------------- --
@@ -11,11 +13,10 @@ import Data.Aeson.Types     (typeMismatch)
 -- ------------------- --
 
 data Delivery = Delivery
-    { delivery_mids      :: Maybe [Text] -- Array containing message IDs of messages that were delivered. Field may not be present.
-    , delivery_watermark :: Int -- All messages that were sent before this timestamp were delivered
-    , delivery_seq       :: Int -- Sequence number
-    }
-  deriving (Eq, Show)
+  { delivery_watermark :: Int       -- All messages that were sent before this timestamp were delivered
+  , delivery_mids      :: [Text]    -- Array containing message IDs of messages that were delivered. Field may not be present.
+  , delivery_seq       :: Maybe Int -- Sequence number
+  } deriving (Eq, Show)
 
 
 -- -------------------- --
@@ -23,14 +24,15 @@ data Delivery = Delivery
 -- -------------------- --
 
 instance FromJSON Delivery where
-    parseJSON (Object o) = Delivery <$> o .:? "mids"
-                                    <*> o .: "watermark"
-                                    <*> o .: "seq"
-    parseJSON wat = typeMismatch "Delivery" wat
+  parseJSON (Object o) = Delivery <$> o .: "watermark"
+                                  <*> o .:? "mids" .!= []
+                                  <*> o .:? "seq"
+  parseJSON wat = typeMismatch "Delivery" wat
 
 
 instance ToJSON Delivery where
-    toJSON (Delivery mids watermark seeq) = object [ "mids"      .= mids
-                                                   , "watermark" .= watermark
-                                                   , "seq"       .= seeq
-                                                   ]
+  toJSON (Delivery watermark mids seq') =
+    object' [ "watermark" .=! watermark
+            , "mids"      .=! mids
+            , "seq"       .=!! seq'
+            ]
