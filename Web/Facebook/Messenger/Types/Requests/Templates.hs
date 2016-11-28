@@ -29,10 +29,10 @@ data TemplatePayload =
     { template_list_top_element_style :: ListStyle             -- Value must be large or compact. Default to large if not specified
     , template_list_elements          :: [ListTemplateElement] -- List view elements (maximum of 4 elements and minimum of 2 elements)
     , template_list_button            :: Maybe TemplateButton  -- `List` of buttons associated on the list template message (maximum of 1 button).
-    }     
+    }
   | ReceiptTemplatePayload
     { template_receipt_recipient_name :: Text       -- Recipient's name
-    , template_receipt_merchants_name :: Maybe Text -- If present this is shown as logo text. 
+    , template_receipt_merchants_name :: Maybe Text -- If present this is shown as logo text.
     , template_receipt_order_number   :: Text       -- Order number (MUST BE UNIQUE)
     , template_receipt_currency       :: Text       -- Currency for order
     , template_receipt_payment_method :: Text       -- Payment method details. This can be a custom string. ex: "Visa 1234".
@@ -359,7 +359,7 @@ instance ToJSON TemplateButton where
     toJSON (TemplateBuyButton payload currency is_test_payment payment_type
                 merchant_name req_user_info price_list) =
         object [ "type"    .= String "payment"
-               , "title"   .= String "buy"                         
+               , "title"   .= String "buy"
                , "payload" .= payload
                , "payment_summary" .= object' [ "currency"        .=! currency
                                               , mBool "is_test_payment" False is_test_payment

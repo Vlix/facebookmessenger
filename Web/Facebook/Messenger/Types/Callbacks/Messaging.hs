@@ -168,7 +168,7 @@ instance ToJSON CallbackMessaging where
            , "recipient" .= recipient
            , "timestamp" .= timestamp
            , "postback"  .= postback
-           ]                                                                             
+           ]
   toJSON (CallbackMessagingOptin sender recipient timestamp optin) =
     object [ "sender"    .= sender
            , "recipient" .= recipient
@@ -217,7 +217,7 @@ instance ToJSON CallbackMessaging where
            ]
 
 -- ALL MESSAGING HAS THESE TWO --
---  (Except the OptinRef one)   - 
+--  (Except the OptinRef one)   -
 instance ToJSON CallbackSender where
   toJSON (CallbackSender ident) = object [ "id" .= ident ]
 

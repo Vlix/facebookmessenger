@@ -22,7 +22,7 @@ data MessageResponse = MessageResponse
   } deriving (Eq, Show)
 
 data SenderActionResponse = SenderActionResponse
-  { sar_message_recipient_id :: Text } -- Unique ID for the user 
+  { sar_message_recipient_id :: Text } -- Unique ID for the user
   deriving (Eq, Show)
 
 -- | This is a standard Error response
@@ -47,7 +47,7 @@ data UserAPIResponse = UserAPIResponse
   , userapi_last_name   :: Maybe Text -- Last Name
   , userapi_profile_pic :: Maybe Text -- URL to profile pic
   , userapi_locale      :: Maybe Text -- format: en_US
-  , userapi_timezone    :: Maybe Int  -- GMT +/- Int 
+  , userapi_timezone    :: Maybe Int  -- GMT +/- Int
   , userapi_gender      :: Maybe Text -- "male" or "female"
   , userapi_is_payment_enabled :: Maybe Bool -- Is the user eligible to receive messenger platform payment messages
   } deriving (Eq, Show)
@@ -144,7 +144,7 @@ instance FromJSON Shipping where
     Shipping <$> o .: "option_id"
              <*> o .: "option_title"
              <*> o .: "price_list"
-  parseJSON wat = typeMismatch "Shipping" wat 
+  parseJSON wat = typeMismatch "Shipping" wat
 
 instance FromJSON DomainWhitelistingResponse where
   parseJSON (Object o) = DomainWhitelistingResponse <$> o .: "data"

@@ -126,7 +126,7 @@ instance ToJSON AirlinePassengerInfo where
     object' [ "passenger_id"  .=! ident
             , "ticket_number" .=!! ticket
             , "name"          .=! name
-            ] 
+            ]
 
 instance ToJSON AirlineItineraryFlightInfo where
   toJSON (AirlineItineraryFlightInfo connection segment number aircraft dep arriv schedule travel) =

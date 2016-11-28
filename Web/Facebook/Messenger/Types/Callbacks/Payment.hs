@@ -50,11 +50,11 @@ data PaymentCredential =
     }
   | PaymentCredentialPayPal
     { paycred_charge_id     :: Text -- Payment provider charge id (for stripe/paypal)
-    , paycred_fb_payment_id :: Text -- A facebook issued payment id for tracking. 
+    , paycred_fb_payment_id :: Text -- A facebook issued payment id for tracking.
     }
   | PaymentCredentialStripe
     { paycred_charge_id     :: Text -- Payment provider charge id (for stripe/paypal)
-    , paycred_fb_payment_id :: Text -- A facebook issued payment id for tracking. 
+    , paycred_fb_payment_id :: Text -- A facebook issued payment id for tracking.
     } deriving (Eq, Show)
 
 data Amount = Amount
