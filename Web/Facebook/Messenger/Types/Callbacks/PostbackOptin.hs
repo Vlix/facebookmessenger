@@ -83,11 +83,11 @@ instance FromJSON Optin where
 
 instance ToJSON OptinRef where
   toJSON (OptinRef ref user_ref) =
-    object [ "ref" .= ref
+    object [ "ref"      .= ref
            , "user_ref" .= user_ref
            ]
 
 instance FromJSON OptinRef where
   parseJSON (Object o) = OptinRef <$> o .: "ref"
-                                          <*> o .: "user_ref"
+                                  <*> o .: "user_ref"
   parseJSON wat = typeMismatch "OptinRef" wat

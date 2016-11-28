@@ -2,10 +2,11 @@ module Web.Facebook.Messenger.Types.Callbacks.Message where
 
 
 import Control.Applicative  ((<|>))
-import Data.Text
 import Data.Aeson
 import Data.Aeson.Types     (typeMismatch)
-import Web.Facebook.Messenger.Types.Static  (AttachmentType)
+import Data.Text
+
+import Web.Facebook.Messenger.Types.Static
 
 
 -- ------------------ --
@@ -107,16 +108,21 @@ instance FromJSON CallbackCoordinates where
 
 instance ToJSON CallbackMessage where
   toJSON (CallbackMessageText mid text qreply seq') =
-    object [ "mid"         .= mid
-           , "text"        .= text
-           , "quick_reply" .= qreply
-           , "seq"         .= seq'
-           ]
+    object' [ "mid"         .=! mid
+            , "text"        .=! text
+            , "quick_reply" .=!! qreply
+            , "seq"         .=!! seq'
+            ]
   toJSON (CallbackMessageAttachment mid attachments seq') =
-    object [ "mid"         .= mid
-           , "attachments" .= attachments
-           , "seq"         .= seq'
-           ]
+    object' [ "mid"         .=! mid
+            , "attachments" .=! attachments
+            , "seq"         .=!! seq'
+            ]
+  toJSON (CallbackMessageLocation mid coords seq') =
+    object' [ "mid"         .=! mid
+            , "attachments" .=! coords
+            , "seq"         .=!! seq'
+            ]
 
 instance ToJSON CallbackQuickReply where
   toJSON (CallbackQuickReply payload) = object [ "payload" .= payload ]

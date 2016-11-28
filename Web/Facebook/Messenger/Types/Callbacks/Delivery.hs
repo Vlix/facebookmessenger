@@ -1,9 +1,11 @@
 module Web.Facebook.Messenger.Types.Callbacks.Delivery where
 
 
-import Data.Text
 import Data.Aeson
 import Data.Aeson.Types     (typeMismatch)
+import Data.Text
+
+import Web.Facebook.Messenger.Types.Static
 
 
 -- ------------------- --
@@ -30,7 +32,7 @@ instance FromJSON Delivery where
 
 instance ToJSON Delivery where
   toJSON (Delivery watermark mids seq') =
-    object [ "watermark" .= watermark
-           , "mids"      .= mids
-           , "seq"       .= seq'
-           ]
+    object' [ "watermark" .=! watermark
+            , "mids"      .=! mids
+            , "seq"       .=!! seq'
+            ]

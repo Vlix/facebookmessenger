@@ -1,10 +1,13 @@
 module Web.Facebook.Messenger.Types.Callbacks.AccountLink where
 
 
-import           Data.Text
 import           Data.Aeson
 import           Data.Aeson.Types     (typeMismatch)
 import qualified Data.HashMap.Strict  as HM
+import           Data.Text
+
+import Web.Facebook.Messenger.Types.Static
+
 
 -- -------------------------- --
 --  ACCOUNT LINKING CALLBACK  --
@@ -29,7 +32,7 @@ instance FromJSON AccountLink where
 
 
 instance ToJSON AccountLink where
-  toJSON (AccountLink code) = object [ "status"             .= String "linked"
-                                     , "authorization_code" .= code
-                                     ]
+  toJSON (AccountLink code) = object' [ "status"             .=! String "linked"
+                                      , "authorization_code" .=!! code
+                                      ]
   toJSON AccountUnlink = object [ "status" .= String "unlinked"]

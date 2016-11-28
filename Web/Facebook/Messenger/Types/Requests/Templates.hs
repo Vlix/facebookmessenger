@@ -9,8 +9,8 @@ import qualified Data.HashMap.Strict  as HM
 import           Data.Text            (Text)
 import qualified Data.Text            as T
 
-import           Web.Facebook.Messenger.Types.Static
 import           Web.Facebook.Messenger.Types.Requests.Airline
+import           Web.Facebook.Messenger.Types.Static
 
 -- ------------------ --
 --  TEMPLATE REQUEST  --
@@ -161,7 +161,7 @@ data TemplateButton =
                       , button_buy_is_test_payment :: Bool
                       , button_buy_payment_type    :: PaymentType
                       , button_buy_merchant_name   :: Text
-                      , button_buy_requested_user_info :: [RequestedUserInfo]
+                      , button_buy_requested_user_info :: [RequestedUserInfoType]
                       , button_buy_price_list      :: [PriceObject]
                       }
   deriving (Eq, Show)
@@ -208,135 +208,138 @@ instance ToJSON TemplatePayload where
            , "buttons"       .= take 3 buttons
            ]
   toJSON (ListTemplatePayload style elements button) =
-    object $ [ "template_type"     .= String "list"
-             , "top_element_style" .= style
-             , "elements"          .= take 4 elements
-             , "buttons"           .= button
-             ] `mappend` go button
-    where go Nothing  = []
-          go (Just x) = ["buttons" .= [x]]
+    object' [ "template_type"     .=! String "list"
+            , "top_element_style" .=! style
+            , "elements"          .=! take 4 elements
+            , "buttons"           .=!! button
+            ]
   toJSON (ReceiptTemplatePayload recipient_name merchant_name order_number currency
             payment_method timestamp order_url elements address summary adjustments) =
-    object $ [ "template_type"  .= String "receipt"
-             , "recipient_name" .= recipient_name
-             , "merchant_name"  .= merchant_name
-             , "order_number"   .= order_number
-             , "currency"       .= currency
-             , "payment_method" .= payment_method
-             , "timestamp"      .= timestamp
-             , "order_url"      .= order_url
-             , "elements"       .= elements
-             , "address"        .= address
-             , "summary"        .= summary
-             ] `mappend` mEmptyList "adjustments" adjustments
+    object' [ "template_type"  .=! String "receipt"
+            , "recipient_name" .=! recipient_name
+            , "merchant_name"  .=!! merchant_name
+            , "order_number"   .=! order_number
+            , "currency"       .=! currency
+            , "payment_method" .=! payment_method
+            , "timestamp"      .=!! timestamp
+            , "order_url"      .=!! order_url
+            , "elements"       .=! elements
+            , "address"        .=!! address
+            , "summary"        .=! summary
+            , mEmptyList "adjustments" adjustments
+            ]
   toJSON (AirlineItineraryPayload intro locale theme pnr pinfo finfo psinfo
             priceinfo bprice tax totalprice currency) =
-    object $ [ "template_type"          .= String "airline_itinerary"
-             , "intro_message"          .= intro
-             , "locale"                 .= locale
-             , "theme_color"            .= theme
-             , "pnr_number"             .= pnr
-             , "passenger_info"         .= pinfo
-             , "flight_info"            .= finfo
-             , "passenger_segment_info" .= psinfo
-             , "base_price"             .= bprice
-             , "tax"                    .= tax
-             , "total_price"            .= totalprice
-             , "currency"               .= currency
-             ] `mappend` mEmptyList "priceinfo" (take 4 priceinfo)
+    object' [ "template_type"          .=! String "airline_itinerary"
+            , "intro_message"          .=! intro
+            , "locale"                 .=! locale
+            , "theme_color"            .=!! theme
+            , "pnr_number"             .=! pnr
+            , "passenger_info"         .=! pinfo
+            , "flight_info"            .=! finfo
+            , "passenger_segment_info" .=! psinfo
+            , "base_price"             .=!! bprice
+            , "tax"                    .=!! tax
+            , "total_price"            .=! totalprice
+            , "currency"               .=! currency
+            , mEmptyList "priceinfo" $ take 4 priceinfo
+            ]
   toJSON (AirlineCheckinPayload intro locale theme pnr finfo checkin) =
-    object [ "template_type" .= String "airline_checkin"
-           , "intro_message" .= intro
-           , "locale"        .= locale
-           , "theme_color"   .= theme
-           , "pnr_number"    .= pnr
-           , "flight_info"   .= finfo
-           , "checkin_url"   .= checkin
-           ]
+    object' [ "template_type" .=! String "airline_checkin"
+            , "intro_message" .=! intro
+            , "locale"        .=! locale
+            , "theme_color"   .=!! theme
+            , "pnr_number"    .=! pnr
+            , "flight_info"   .=! finfo
+            , "checkin_url"   .=! checkin
+            ]
   toJSON (AirlineBoardingPassPayload intro locale theme boarding) =
-    object [ "template_type" .= String "airline_boardingpass"
-           , "intro_message" .= intro
-           , "locale"        .= locale
-           , "theme_color"   .= theme
-           , "boarding_pass" .= boarding
-           ]
+    object' [ "template_type" .=! String "airline_boardingpass"
+            , "intro_message" .=! intro
+            , "locale"        .=! locale
+            , "theme_color"   .=!! theme
+            , "boarding_pass" .=! boarding
+            ]
   toJSON (AirlineFlightUpdatePayload intro typ locale theme pnr update') =
-    object [ "template_type"      .= String "airline_update"
-           , "intro_message"      .= intro
-           , "update_type"        .= typ
-           , "locale"             .= locale
-           , "theme_color"        .= theme
-           , "pnr_number"         .= pnr
-           , "update_flight_info" .= update'
-           ]
+    object' [ "template_type"      .=! String "airline_update"
+            , "intro_message"      .=!! intro
+            , "update_type"        .=! typ
+            , "locale"             .=! locale
+            , "theme_color"        .=!! theme
+            , "pnr_number"         .=! pnr
+            , "update_flight_info" .=! update'
+            ]
 
 instance ToJSON GenericTemplateElement where
   toJSON (GenericTemplateElement title item_or_action image_url subtitle buttons) =
-    object $ [ "title"     .= title
-             , "image_url" .= image_url
-             , "subtitle"  .= subtitle
-             ] `mappend` go item_or_action
-               `mappend` mEmptyList "buttons" (take 3 buttons)
-    where go (Just (Right default_action)) = ["default_action" .= default_action]
-          go (Just (Left item_url))        = ["item_url"       .= item_url]
-          go Nothing                       = []
+    object' [ "title"     .=! title
+            , "image_url" .=!! image_url
+            , "subtitle"  .=!! subtitle
+            , go item_or_action
+            , mEmptyList "buttons" $ take 3 buttons
+            ]
+    where go (Just (Right default_action)) = Just $ "default_action" .= default_action
+          go (Just (Left item_url))        = Just $ "item_url"       .= item_url
+          go Nothing                       = Nothing
   toJSON (GenericBuyTemplateElement title item_or_action image_url subtitle buy_button buttons) =
-    object $ [ "title"     .= title
-             , "image_url" .= image_url
-             , "subtitle"  .= subtitle
-             , "buttons"   .= (buy_button : take 2 buttons)
-             ] `mappend` go item_or_action
-    where go (Just (Right default_action)) = ["default_action" .= default_action]
-          go (Just (Left item_url))        = ["item_url"       .= item_url]
-          go Nothing                       = []
+    object' [ "title"     .=! title
+            , "image_url" .=!! image_url
+            , "subtitle"  .=!! subtitle
+            , "buttons"   .=! (buy_button : take 2 buttons)
+            , go item_or_action
+            ]
+    where go (Just (Right default_action)) = Just $ "default_action" .= default_action
+          go (Just (Left item_url))        = Just $ "item_url"       .= item_url
+          go Nothing                       = Nothing
 
 instance ToJSON ListTemplateElement where
   toJSON (ListTemplateElement title subtitle image_url default_action buttons) =
-    object [ "title"          .= title
-           , "subtitle"       .= subtitle
-           , "image_url"      .= image_url
-           , "default_action" .= default_action
-           , "buttons"        .= fmap (:[]) buttons
-           ]
+    object' [ "title"          .=! title
+            , "subtitle"       .=!! subtitle
+            , "image_url"      .=!! image_url
+            , "default_action" .=!! default_action
+            , "buttons"        .=!! fmap (:[]) buttons
+            ]
 
 instance ToJSON DefaultAction where
   toJSON (DefaultAction url webview) =
-    object [ "type" .= String "web_url"
-           , "url"  .= webview
-           ]
+    object' [ "type" .=! String "web_url"
+            , "url"  .=! url
+            , "webview_height_ratio" .=!! webview
+            ]
   toJSON (DefaultActionMessengerExtensions url webview fallback) =
-    object [ "type"                 .= String "web_url"
-           , "url"                  .= url
-           , "webview_height_ratio" .= webview
-           , "messenger_extensions" .= Bool True
-           , "fallback_url"         .= fallback
-           ]
+    object' [ "type"                 .=! String "web_url"
+            , "url"                  .=! url
+            , "webview_height_ratio" .=!! webview
+            , "messenger_extensions" .=! Bool True
+            , "fallback_url"         .=!! fallback
+            ]
 
 instance ToJSON ReceiptTemplateElement where
     toJSON (ReceiptTemplateElement title subtitle quantity price currency image_url) =
-        object [ "title"     .= title
-               , "subtitle"  .= subtitle
-               , "quantity"  .= quantity
-               , "price"     .= price
-               , "currency"  .= currency
-               , "image_url" .= image_url
-               ]
+        object' [ "title"     .=! title
+                , "subtitle"  .=!! subtitle
+                , "quantity"  .=!! quantity
+                , "price"     .=! price
+                , "currency"  .=!! currency
+                , "image_url" .=!! image_url
+                ]
 
 instance ToJSON TemplateButton where
     toJSON (TemplateButtonWebURL title url webview) =
-        object [ "type"                 .= String "web_url"
-               , "title"                .= title
-               , "url"                  .= url
-               , "webview_height_ratio" .= webview
-               ]
+        object' [ "type"                 .=! String "web_url"
+                , "title"                .=! title
+                , "url"                  .=! url
+                , "webview_height_ratio" .=!! webview
+                ]
     toJSON (TemplateButtonWebURLMessengerExtension title url webview fallback) =
-        object [ "type"                 .= String "web_url"
-               , "title"                .= title
-               , "url"                  .= url
-               , "webview_height_ratio" .= webview
-               , "messenger_extensions" .= Bool True
-               , "fallback_url"         .= fallback
-               ]
+        object' [ "type"                 .=! String "web_url"
+                , "title"                .=! title
+                , "url"                  .=! url
+                , "webview_height_ratio" .=!! webview
+                , "messenger_extensions" .=! Bool True
+                , "fallback_url"         .=!! fallback
+                ]
     toJSON (TemplateButtonPostback title payload) =
         object [ "type"    .= String "postback"
                , "title"   .= title
@@ -358,13 +361,13 @@ instance ToJSON TemplateButton where
         object [ "type"    .= String "payment"
                , "title"   .= String "buy"                         
                , "payload" .= payload
-               , "payment_summary" .= object [ "currency"        .= currency
-                                             , "is_test_payment" .= is_test_payment
-                                             , "payment_type"    .= payment_type
-                                             , "merchant_name"   .= merchant_name
-                                             , "requested_user_info" .= req_user_info
-                                             , "price_list"      .= price_list
-                                             ]
+               , "payment_summary" .= object' [ "currency"        .=! currency
+                                              , mBool "is_test_payment" False is_test_payment
+                                              , "payment_type"    .=! payment_type
+                                              , "merchant_name"   .=! merchant_name
+                                              , "requested_user_info" .=! req_user_info
+                                              , "price_list"      .=! price_list
+                                              ]
                ]
 
 instance ToJSON PriceObject where
@@ -375,27 +378,27 @@ instance ToJSON PriceObject where
 
 instance ToJSON TemplateAddress where
     toJSON (TemplateAddress street_1 street_2 city postal_code state country) =
-        object [ "street_1"    .= street_1
-               , "street_2"    .= street_2
-               , "city"        .= city
-               , "postal_code" .= postal_code
-               , "state"       .= state
-               , "country"     .= country
-               ]
+        object' [ "street_1"    .=! street_1
+                , "street_2"    .=!! street_2
+                , "city"        .=! city
+                , "postal_code" .=! postal_code
+                , "state"       .=! state
+                , "country"     .=! country
+                ]
 
 instance ToJSON TemplateSummary where
     toJSON (TemplateSummary subtotal shipping_cost total_tax total_cost) =
-        object [ "subtotal"      .= subtotal
-               , "shipping_cost" .= shipping_cost
-               , "total_tax"     .= total_tax
-               , "total_cost"    .= total_cost
-               ]
+        object' [ "subtotal"      .=!! subtotal
+                , "shipping_cost" .=!! shipping_cost
+                , "total_tax"     .=!! total_tax
+                , "total_cost"    .=! total_cost
+                ]
 
 instance ToJSON TemplateAdjustment where
     toJSON (TemplateAdjustment name amount) =
-        object [ "name"   .= name
-               , "amount" .= amount
-               ]
+        object' [ "name"   .=!! name
+                , "amount" .=!! amount
+                ]
 
 
 -- -------------------- --

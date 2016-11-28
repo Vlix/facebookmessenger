@@ -17,7 +17,9 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:     Web.Facebook.Messenger
+
                        Web.Facebook.Messenger.Types
+
                        Web.Facebook.Messenger.Types.Callbacks
                        Web.Facebook.Messenger.Types.Callbacks.Messaging
                        Web.Facebook.Messenger.Types.Callbacks.Message
@@ -26,13 +28,18 @@ library
                        Web.Facebook.Messenger.Types.Callbacks.Delivery
                        Web.Facebook.Messenger.Types.Callbacks.Read
                        Web.Facebook.Messenger.Types.Callbacks.Echo
+                       Web.Facebook.Messenger.Types.Callbacks.Payment
+                       Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
+
                        Web.Facebook.Messenger.Types.Requests
                        Web.Facebook.Messenger.Types.Requests.Message
                        Web.Facebook.Messenger.Types.Requests.Attachment
                        Web.Facebook.Messenger.Types.Requests.Templates
                        Web.Facebook.Messenger.Types.Requests.Settings
                        Web.Facebook.Messenger.Types.Requests.Airline
+
                        Web.Facebook.Messenger.Types.Responses
+
                        Web.Facebook.Messenger.Types.Static
   -- other-modules:
   -- other-extensions:    

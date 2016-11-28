@@ -6,6 +6,9 @@ import Data.Text
 import Data.Aeson
 import Data.Aeson.Types     (typeMismatch)
 
+import Web.Facebook.Messenger.Types.Requests.Templates  (PriceObject (..))
+import Web.Facebook.Messenger.Types.Static
+
 
 -- -------------------- --
 --  FACEBOOK RESPONSES  --
@@ -55,21 +58,20 @@ data AccountLinkingResponse = AccountLinkingResponse
   , linking_recipient :: Text
   } deriving (Eq, Show)
 
--- SHOW INSTANCE OF ERROR RESPONSE --
-instance Show ErrorResponse where
-  show (ErrorResponse msg typ code subcode traceid) =
-      "Facebook Error Response: \"" ++ unpack msg
-               ++ "\" - Error code" ++ msubcode subcode ++ ": " ++ show code ++ maybesubcode subcode
-               ++ " - Error type: " ++ unpack typ ++ maybetrace traceid
-    where
-      msubcode Nothing  = ""
-      msubcode (Just _) = "/subcode"
-      maybesubcode Nothing = ""
-      maybesubcode (Just code) = " / " ++ show code
-      maybetrace Nothing      = ""
-      maybetrace (Just ident) = " >>> Trace ID: " ++ unpack ident
--- SHOW INSTANCE OF ERROR RESPONSE --
+-- | This is the response to be used when receiving a CheckoutUpdate callback
+newtype CheckoutUpdateResponse = CheckoutUpdateResponse { checkup_shipping :: [Shipping] }
+  deriving (Eq, Show)
 
+-- | These are the shipping options for the CheckoutUpdateResponse
+data Shipping = Shipping
+  { shipping_option_id    :: Text
+  , shipping_option_title :: Text
+  , shipping_price_list   :: [PriceObject]
+  } deriving (Eq, Show)
+
+-- | This is the response of a GET request for whitelisted domains
+newtype DomainWhitelistingResponse = DomainWhitelistingResponse { dwlres_data :: [Text] }
+  deriving (Eq, Show)
 
 -- -------------------- --
 --  RESPONSE INSTANCES  --
@@ -97,6 +99,23 @@ instance FromJSON ErrorResponse where
                                        <*> o .:? "fbtrace_id"
   parseJSON wat = typeMismatch "ErrorResponse" wat
 
+-- SHOW INSTANCE OF ERROR RESPONSE --
+-- SHOW INSTANCE OF ERROR RESPONSE --
+instance Show ErrorResponse where
+  show (ErrorResponse msg typ code subcode traceid) =
+      "Facebook Error Response: \"" ++ unpack msg
+               ++ "\" - Error code" ++ msubcode subcode ++ ": " ++ show code ++ maybesubcode subcode
+               ++ " - Error type: " ++ unpack typ ++ maybetrace traceid
+    where
+      msubcode Nothing  = ""
+      msubcode (Just _) = "/subcode"
+      maybesubcode Nothing = ""
+      maybesubcode (Just code) = " / " ++ show code
+      maybetrace Nothing      = ""
+      maybetrace (Just ident) = " >>> Trace ID: " ++ unpack ident
+-- SHOW INSTANCE OF ERROR RESPONSE --
+-- SHOW INSTANCE OF ERROR RESPONSE --
+
 instance FromJSON SuccessResponse where
   parseJSON (Object o) = SuccessResponse <$> o .: "result"
   parseJSON wat = typeMismatch "SuccessResponse" wat
@@ -116,13 +135,28 @@ instance FromJSON AccountLinkingResponse where
                                                 <*> o .: "recipient"
   parseJSON wat = typeMismatch "AccountLinkingResponse" wat
 
+instance FromJSON CheckoutUpdateResponse where
+  parseJSON (Object o) = CheckoutUpdateResponse <$> o .: "shipping"
+  parseJSON wat = typeMismatch "CheckoutUpdateResponse" wat
+
+instance FromJSON Shipping where
+  parseJSON (Object o) =
+    Shipping <$> o .: "option_id"
+             <*> o .: "option_title"
+             <*> o .: "price_list"
+  parseJSON wat = typeMismatch "Shipping" wat 
+
+instance FromJSON DomainWhitelistingResponse where
+  parseJSON (Object o) = DomainWhitelistingResponse <$> o .: "data"
+  parseJSON wat = typeMismatch "DomainWhitelistingResponse" wat
+
 
 instance ToJSON MessageResponse where
   toJSON (MessageResponse recipient_id message_id attachment_id) =
-    object [ "recipient_id"  .= recipient_id
-           , "message_id"    .= message_id
-           , "attachment_id" .= attachment_id
-           ]
+    object' [ "recipient_id"  .=! recipient_id
+            , "message_id"    .=! message_id
+            , "attachment_id" .=!! attachment_id
+            ]
 
 instance ToJSON SenderActionResponse where
   toJSON (SenderActionResponse recipient_id) = object [ "recipient_id" .= recipient_id ]
@@ -132,32 +166,45 @@ instance ToJSON ErrorRes where
 
 instance ToJSON ErrorResponse where
   toJSON (ErrorResponse message typ code subcode fbtrace_id) =
-    object [ "message"       .= message
-           , "type"          .= typ
-           , "code"          .= code
-           , "error_subcode" .= subcode
-           , "fbtrace_id"    .= fbtrace_id
-           ]
+    object' [ "message"       .=! message
+            , "type"          .=! typ
+            , "code"          .=! code
+            , "error_subcode" .=!! subcode
+            , "fbtrace_id"    .=!! fbtrace_id
+            ]
 
 instance ToJSON SuccessResponse where
   toJSON (SuccessResponse result) = object [ "result" .= result ]
 
 instance ToJSON UserAPIResponse where
   toJSON (UserAPIResponse first_name last_name profile_pic locale timezone gender is_payment_enabled) =
-      object [ "first_name"  .= first_name
-             , "last_name"   .= last_name
-             , "profile_pic" .= profile_pic
-             , "locale"      .= locale
-             , "timezone"    .= timezone
-             , "gender"      .= gender
-             , "is_payment_enabled" .= is_payment_enabled
-             ]
+      object' [ "first_name"  .=!! first_name
+              , "last_name"   .=!! last_name
+              , "profile_pic" .=!! profile_pic
+              , "locale"      .=!! locale
+              , "timezone"    .=!! timezone
+              , "gender"      .=!! gender
+              , "is_payment_enabled" .=!! is_payment_enabled
+              ]
 
 instance ToJSON AccountLinkingResponse where
   toJSON (AccountLinkingResponse ident recipient) =
     object [ "id"        .= ident
            , "recipient" .= recipient
            ]
+
+instance ToJSON CheckoutUpdateResponse where
+  toJSON (CheckoutUpdateResponse shipping) = object [ "shipping" .= shipping ]
+
+instance ToJSON Shipping where
+  toJSON (Shipping ident title list) =
+    object [ "option_id"    .= ident
+           , "option_title" .= title
+           , "price_list"   .= list
+           ]
+
+instance ToJSON DomainWhitelistingResponse where
+  toJSON (DomainWhitelistingResponse d) = object [ "data" .= d ]
 
 {-
 

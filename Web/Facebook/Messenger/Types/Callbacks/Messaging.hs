@@ -8,12 +8,15 @@ module Web.Facebook.Messenger.Types.Callbacks.Messaging
     , module Web.Facebook.Messenger.Types.Callbacks.AccountLink
     , module Web.Facebook.Messenger.Types.Callbacks.Read
     , module Web.Facebook.Messenger.Types.Callbacks.Echo
+    , module Web.Facebook.Messenger.Types.Callbacks.Payment
+    , module Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
     ) where
 
 import Control.Applicative  ((<|>))
-import Data.Text
 import Data.Aeson
 import Data.Aeson.Types     (typeMismatch)
+import Data.Text
+import Data.HashMap.Strict  as HM
 
 import Web.Facebook.Messenger.Types.Callbacks.Message
 import Web.Facebook.Messenger.Types.Callbacks.PostbackOptin
@@ -21,6 +24,8 @@ import Web.Facebook.Messenger.Types.Callbacks.Delivery
 import Web.Facebook.Messenger.Types.Callbacks.AccountLink
 import Web.Facebook.Messenger.Types.Callbacks.Read
 import Web.Facebook.Messenger.Types.Callbacks.Echo
+import Web.Facebook.Messenger.Types.Callbacks.Payment
+import Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
 
 
 -- ------------------ --
@@ -67,8 +72,18 @@ data CallbackMessaging =
     , cb_echo_recipient :: CallbackRecipient
     , cb_echo_timestamp :: Int
     , cb_echo_message   :: Echo }
+  | CallbackMessagingPayment
+    { cb_payment_sender    :: CallbackSender
+    , cb_payment_recipient :: CallbackRecipient
+    , cb_payment_timestamp :: Int
+    , cb_payment_payment   :: Payment }
+  | CallbackMessagingCheckoutUpdate
+    { cb_coupdate_sender    :: CallbackSender
+    , cb_coupdate_recipient :: CallbackRecipient
+    , cb_coupdate_timestamp :: Int
+    , cb_coupdate_checkout_update :: CheckoutUpdate
+    } deriving (Eq, Show)
 -- Payment and Checkout should be added
-  deriving (Eq, Show)
 
 
 -- ALL MESSAGING HAS THESE TWO --
@@ -87,37 +102,47 @@ newtype CallbackRecipient = CallbackRecipient { cb_recipient_id :: Text } -- Rec
 -- --------------------- --
 
 instance FromJSON CallbackMessaging where
-  parseJSON (Object o) =
-    CallbackMessagingEcho <$> o .: "sender"
-                          <*> o .: "recipient"
-                          <*> o .: "timestamp"
-                          <*> o .: "message"
-    <|> CallbackMessagingMessage <$> o .: "sender"
-                                 <*> o .: "recipient"
-                                 <*> o .: "timestamp"
-                                 <*> o .: "message"
-    <|> CallbackMessagingPostback <$> o .: "sender"
-                                  <*> o .: "recipient"
-                                  <*> o .: "timestamp"
-                                  <*> o .: "postback"
-    <|> CallbackMessagingOptin <$> o .: "sender"
-                               <*> o .: "recipient"
-                               <*> o .: "timestamp"
-                               <*> o .: "optin"
-    <|> CallbackMessagingOptinRef <$> o .: "recipient"
-                                  <*> o .: "timestamp"
-                                  <*> o .: "optin"
-    <|> CallbackMessagingAccountLink <$> o .: "sender"
-                                     <*> o .: "recipient"
-                                     <*> o .: "timestamp"
-                                     <*> o .: "account_linking"
-    <|> CallbackMessagingDelivery <$> o .: "sender"
-                                  <*> o .: "recipient"
-                                  <*> o .: "delivery"
-    <|> CallbackMessagingRead <$> o .: "sender"
-                              <*> o .: "recipient"
-                              <*> o .: "timestamp"
-                              <*> o .: "read"
+  parseJSON (Object o) = case HM.lookup "sender" o of
+    Nothing -> CallbackMessagingOptinRef <$> o .: "recipient"
+                                         <*> o .: "timestamp"
+                                         <*> o .: "optin"
+    Just _  -> case HM.lookup "timestamp" o of
+      Nothing -> CallbackMessagingDelivery <$> o .: "sender"
+                                           <*> o .: "recipient"
+                                           <*> o .: "delivery"
+      Just _  -> case HM.lookup "message" o of
+        Just _  -> CallbackMessagingEcho <$> o .: "sender"
+                                         <*> o .: "recipient"
+                                         <*> o .: "timestamp"
+                                         <*> o .: "message"
+               <|> CallbackMessagingMessage <$> o .: "sender"
+                                            <*> o .: "recipient"
+                                            <*> o .: "timestamp"
+                                            <*> o .: "message"
+        Nothing -> CallbackMessagingRead <$> o .: "sender"
+                                         <*> o .: "recipient"
+                                         <*> o .: "timestamp"
+                                         <*> o .: "read"
+               <|> CallbackMessagingPostback <$> o .: "sender"
+                                             <*> o .: "recipient"
+                                             <*> o .: "timestamp"
+                                             <*> o .: "postback"
+               <|> CallbackMessagingCheckoutUpdate <$> o .: "sender"
+                                                   <*> o .: "recipient"
+                                                   <*> o .: "timestamp"
+                                                   <*> o .: "checkout_update"
+               <|> CallbackMessagingPayment <$> o .: "sender"
+                                            <*> o .: "recipient"
+                                            <*> o .: "timestamp"
+                                            <*> o .: "payment"
+               <|> CallbackMessagingAccountLink <$> o .: "sender"
+                                                <*> o .: "recipient"
+                                                <*> o .: "timestamp"
+                                                <*> o .: "account_linking"
+               <|> CallbackMessagingOptin <$> o .: "sender"
+                                          <*> o .: "recipient"
+                                          <*> o .: "timestamp"
+                                          <*> o .: "optin"
   parseJSON wat = typeMismatch "CallbackMessaging" wat
 
 -- ALL MESSAGING HAS THESE TWO --
@@ -177,6 +202,18 @@ instance ToJSON CallbackMessaging where
            , "recipient" .= recipient
            , "timestamp" .= timestamp
            , "message"   .= message
+           ]
+  toJSON (CallbackMessagingPayment sender recipient timestamp payment) =
+    object [ "sender"    .= sender
+           , "recipient" .= recipient
+           , "timestamp" .= timestamp
+           , "payment"   .= payment
+           ]
+  toJSON (CallbackMessagingCheckoutUpdate sender recipient timestamp checkout_update) =
+    object [ "sender"          .= sender
+           , "recipient"       .= recipient
+           , "timestamp"       .= timestamp
+           , "checkout_update" .= checkout_update
            ]
 
 -- ALL MESSAGING HAS THESE TWO --

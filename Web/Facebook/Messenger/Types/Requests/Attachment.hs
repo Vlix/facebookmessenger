@@ -50,8 +50,9 @@ instance ToJSON RequestAttachment where
 
 instance ToJSON RequestMultimediaPayload where
   toJSON (RequestMultimediaPayload url reuse) =
-    object $ [ "url" .= url]
-      `mappend` mBool "is_reusable" False reuse
+    object' [ "url" .=! url
+            , mBool "is_reusable" False reuse
+            ]
   toJSON (RequestReusedMultimediaPayload ident) =
     object [ "attachment_id" .= ident ]
 

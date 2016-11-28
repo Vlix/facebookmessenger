@@ -123,59 +123,60 @@ data AirlineProductInfo = AirlineProductInfo
 
 instance ToJSON AirlinePassengerInfo where
   toJSON (AirlinePassengerInfo ident ticket name) =
-    object [ "passenger_id"  .= ident
-           , "ticket_number" .= ticket
-           , "name"          .= name
-           ] 
+    object' [ "passenger_id"  .=! ident
+            , "ticket_number" .=!! ticket
+            , "name"          .=! name
+            ] 
 
 instance ToJSON AirlineItineraryFlightInfo where
   toJSON (AirlineItineraryFlightInfo connection segment number aircraft dep arriv schedule travel) =
-    object [ "connection_id"     .= connection
-           , "segment_id"        .= segment
-           , "flight_number"     .= number
-           , "aircraft_type"     .= aircraft
-           , "departure_airport" .= dep
-           , "arrival_airport"   .= arriv
-           , "flight_schedule"   .= schedule
-           , "travel_class"      .= travel
-           ]
+    object' [ "connection_id"     .=! connection
+            , "segment_id"        .=! segment
+            , "flight_number"     .=! number
+            , "aircraft_type"     .=!! aircraft
+            , "departure_airport" .=! dep
+            , "arrival_airport"   .=! arriv
+            , "flight_schedule"   .=! schedule
+            , "travel_class"      .=! travel
+            ]
 
 instance ToJSON AirlineAirport where
   toJSON (AirlineAirport code city terminal gate) =
-    object [ "airport_code" .= code
-           , "city"         .= city
-           , "terminal"     .= terminal
-           , "gate"         .= gate
-           ]
+    object' [ "airport_code" .=! code
+            , "city"         .=! city
+            , "terminal"     .=!! terminal
+            , "gate"         .=!! gate
+            ]
 
 instance ToJSON AirlineFlightSchedule where
   toJSON (AirlineFlightSchedule boarding departure arrival) =
-    object [ "boarding_time"  .= boarding
-           , "departure_time" .= departure
-           , "arrival_time"   .= arrival
-           ]
+    object' [ "boarding_time"  .=!! boarding
+            , "departure_time" .=! departure
+            , "arrival_time"   .=! arrival
+            ]
 
 instance ToJSON AirlineUpdatePassFlightSchedule where
   toJSON (AirlineUpdatePassFlightSchedule boarding departure arrival) =
-    object [ "boarding_time"  .= boarding
-           , "departure_time" .= departure
-           , "arrival_time"   .= arrival
+    object' [ "boarding_time"  .=!! boarding
+            , "departure_time" .=! departure
+            , "arrival_time"   .=!! arrival
            ]
 
 instance ToJSON AirlinePriceInfo where
   toJSON (AirlinePriceInfo title amount currency) =
-    object [ "title"    .= title
-           , "amount"   .= amount
-           , "currency" .= currency
-           ]
+    object' [ "title"    .=! title
+            , "amount"   .=! amount
+            , "currency" .=!! currency
+            ]
 
 instance ToJSON AirlinePassengerSegmentInfo where
   toJSON (AirlinePassengerSegmentInfo segment passenger seat typ pinfo) =
-    object $ [ "segment_id"   .= segment
-             , "passenger_id" .= passenger
-             , "seat"         .= seat
-             , "seat_type"    .= typ
-             ] `mappend` mEmptyList "product_info" (take 4 pinfo)
+    object' [ "segment_id"   .=! segment
+            , "passenger_id" .=! passenger
+            , "seat"         .=! seat
+            , "seat_type"    .=! typ
+            , mEmptyList "product_info" $ take 4 pinfo
+            ]
 
 instance ToJSON AirlineFlightInfo where
   toJSON (AirlineFlightInfo number depart arrive schedule) =
@@ -188,32 +189,34 @@ instance ToJSON AirlineFlightInfo where
 instance ToJSON AirlineBoardingPass where
   toJSON (AirlineBoardingPassQRCode passenger pnr travel seat aux
             secondary logo headerurl headertext qr aboveimg finfo) =
-    object $ [ "passenger_name"    .= passenger
-             , "pnr_number"        .= pnr
-             , "travel_class"      .= travel
-             , "seat"              .= seat
-             , "logo_image_url"    .= logo
-             , "header_image_url"  .= headerurl
-             , "header_text_field" .= headertext
-             , "qr_code"           .= qr
-             , "above_bar_code_image_url" .= aboveimg
-             , "flight_info"       .= finfo
-             ] `mappend` mEmptyList "auxiliary_fields" (take 5 aux)
-               `mappend` mEmptyList "secondary_fields" (take 5 secondary)
+    object' [ "passenger_name"    .=! passenger
+            , "pnr_number"        .=! pnr
+            , "travel_class"      .=!! travel
+            , "seat"              .=!! seat
+            , "logo_image_url"    .=! logo
+            , "header_image_url"  .=!! headerurl
+            , "header_text_field" .=!! headertext
+            , "qr_code"           .=! qr
+            , "above_bar_code_image_url" .=! aboveimg
+            , "flight_info"       .=! finfo
+            , mEmptyList "auxiliary_fields" $ take 5 aux
+            , mEmptyList "secondary_fields" $ take 5 secondary
+            ]
   toJSON (AirlineBoardingPassBarcode passenger pnr travel seat aux
             secondary logo headerurl headertext barcode aboveimg finfo) =
-    object $ [ "passenger_name"    .= passenger
-             , "pnr_number"        .= pnr
-             , "travel_class"      .= travel
-             , "seat"              .= seat
-             , "logo_image_url"    .= logo
-             , "header_image_url"  .= headerurl
-             , "header_text_field" .= headertext
-             , "barcode_image_url" .= barcode
-             , "above_bar_code_image_url" .= aboveimg
-             , "flight_info"       .= finfo
-             ] `mappend` mEmptyList "auxiliary_fields" (take 5 aux)
-               `mappend` mEmptyList "secondary_fields" (take 5 secondary)
+    object' [ "passenger_name"    .=! passenger
+            , "pnr_number"        .=! pnr
+            , "travel_class"      .=!! travel
+            , "seat"              .=!! seat
+            , "logo_image_url"    .=! logo
+            , "header_image_url"  .=!! headerurl
+            , "header_text_field" .=!! headertext
+            , "barcode_image_url" .=! barcode
+            , "above_bar_code_image_url" .=! aboveimg
+            , "flight_info"       .=! finfo
+            , mEmptyList "auxiliary_fields" $ take 5 aux
+            , mEmptyList "secondary_fields" $ take 5 secondary
+            ]
 
 instance ToJSON AirlineField where
   toJSON (AirlineField label value) =

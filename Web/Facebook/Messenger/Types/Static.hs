@@ -2,19 +2,33 @@ module Web.Facebook.Messenger.Types.Static where
 
 
 import Data.Aeson
-import Data.Aeson.Types     (typeMismatch)
+import Data.Aeson.Types     (typeMismatch,Pair)
+import Data.Maybe           (catMaybes)
 import Data.Monoid          ((<>))
 import Data.Text            (unpack,Text)
+import Data.HashMap.Strict  as HM
 
 -- | Helper function to avoid `Maybe [a]`s
-mEmptyList :: (KeyValue kv, ToJSON a) => Text -> [a] -> [kv]
-mEmptyList _ [] = []
-mEmptyList t l  = [t .= l]
+mEmptyList :: ToJSON a => Text -> [a] -> Maybe Pair
+mEmptyList _ [] = Nothing
+mEmptyList t l  = Just $ t .= l
 
 -- | Helper function to avoid `Maybe Bool`s
 -- (first Bool is what Nothing would default to)
-mBool :: (KeyValue kv) => Text -> Bool -> Bool -> [kv]
-mBool t a b = if a == b then [] else [t .= a]
+mBool :: Text -> Bool -> Bool -> Maybe Pair
+mBool t a b = if a == b then Nothing else Just $ t .= b
+
+object' :: [Maybe Pair] -> Value
+object' = Object . HM.fromList . catMaybes
+
+(.=!!) :: ToJSON a => Text -> Maybe a -> Maybe Pair
+name .=!! Nothing  = Nothing
+name .=!! (Just v) = Just $ name .= v
+
+(.=!) :: ToJSON a => Text -> a -> Maybe Pair
+name .=! value = Just $ name .= value
+
+
 
 data SenderActionType = MARK_SEEN  -- Mark last message as read
                       | TYPING_ON  -- Turn typing indicators on
@@ -59,10 +73,10 @@ data PaymentType = FIXED_AMOUNT
                  | FLEXIBLE_AMOUNT
   deriving (Eq, Show)
 
-data RequestedUserInfo = SHIPPING_ADDRESS
-                       | CONTACT_NAME
-                       | CONTACT_PHONE
-                       | CONTACT_EMAIL
+data RequestedUserInfoType = SHIPPING_ADDRESS
+                           | CONTACT_NAME
+                           | CONTACT_PHONE
+                           | CONTACT_EMAIL
   deriving (Eq, Show)
 
 
@@ -180,16 +194,16 @@ instance FromJSON PaymentType where
   parseJSON wat = typeMismatch "PaymentType" wat
 
 
-instance ToJSON RequestedUserInfo where
+instance ToJSON RequestedUserInfoType where
   toJSON SHIPPING_ADDRESS = String "shipping_address"
   toJSON CONTACT_NAME     = String "contact_name"
   toJSON CONTACT_PHONE    = String "contact_phone"
   toJSON CONTACT_EMAIL    = String "contact_email"
 
-instance FromJSON RequestedUserInfo where
+instance FromJSON RequestedUserInfoType where
   parseJSON (String "shipping_address") = pure SHIPPING_ADDRESS
   parseJSON (String "contact_name")     = pure CONTACT_NAME
   parseJSON (String "contact_phone")    = pure CONTACT_PHONE
   parseJSON (String "contact_email")    = pure CONTACT_EMAIL
-  parseJSON (String wat) = fail $ "Wrong String for RequestedUserInfo: " <> unpack wat
-  parseJSON wat          = typeMismatch "RequestedUserInfo" wat
+  parseJSON (String wat) = fail $ "Wrong String for RequestedUserInfoType: " <> unpack wat
+  parseJSON wat          = typeMismatch "RequestedUserInfoType" wat

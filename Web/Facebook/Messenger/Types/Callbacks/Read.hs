@@ -1,10 +1,11 @@
 module Web.Facebook.Messenger.Types.Callbacks.Read where
 
 
-import Data.Text
 import Data.Aeson
 import Data.Aeson.Types     (typeMismatch)
+import Data.Text
 
+import Web.Facebook.Messenger.Types.Static
 
 -- --------------- --
 --  READ CALLBACK  --
@@ -28,6 +29,6 @@ instance FromJSON ReadCallback where
 
 instance ToJSON ReadCallback where
   toJSON (ReadCallback watermark seq') =
-    object [ "watermark" .= watermark
-           , "seq" .= seq'
-           ] 
+    object' [ "watermark" .=! watermark
+            , "seq"       .=!! seq'
+            ] 

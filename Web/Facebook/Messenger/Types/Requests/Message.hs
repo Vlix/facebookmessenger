@@ -11,7 +11,7 @@ import           Data.Aeson.Types     (typeMismatch)
 import qualified Data.HashMap.Strict  as HM
 
 import           Web.Facebook.Messenger.Types.Requests.Attachment
-import           Web.Facebook.Messenger.Types.Static  (mEmptyList)
+import           Web.Facebook.Messenger.Types.Static
 
 
 -- ----------------- --
@@ -20,12 +20,14 @@ import           Web.Facebook.Messenger.Types.Static  (mEmptyList)
 
 data RequestMessage =
   RequestMessageText
-    { req_message_text        :: Text -- Message text (UTF8 - 320 character limit)
+    { req_message_text        :: Text                -- Message text (UTF8 - 320 character limit)
     , req_message_quick_reply :: [RequestQuickReply] -- Array of quick_reply to be sent with messages (max 10)
+    , req_message_metadata    :: Maybe Text          -- Has a 1000 character limit
     }
   | RequestMessageAttachment
     { req_message_attachment  :: RequestAttachment   -- Attachment object
     , req_message_quick_reply :: [RequestQuickReply] -- Array of quick_reply to be sent with messages (max 10)
+    , req_message_metadata    :: Maybe Text          -- Has a 1000 character limit
     }
   deriving (Eq, Show)
 
@@ -45,31 +47,38 @@ data RequestQuickReply =
 -- ------------------- --
 
 instance ToJSON RequestMessage where
-  toJSON (RequestMessageText text qreplies) =
-    object $ [ "text" .= text ]
-      `mappend` mEmptyList "quick_replies" qreplies
-  toJSON (RequestMessageAttachment attach qreplies) =
-    object $ [ "attachment" .= attach]
-      `mappend` mEmptyList "quick_replies" qreplies
+  toJSON (RequestMessageText text qreplies metadata) =
+    object' [ "text"     .=! text
+            , "metadata" .=!! metadata
+            , mEmptyList "quick_replies" $ Prelude.take 10 qreplies
+            ]
+  toJSON (RequestMessageAttachment attach qreplies metadata) =
+    object' [ "attachment" .=! attach
+            , "metadata"   .=!! metadata
+            , mEmptyList "quick_replies" $ Prelude.take 10 qreplies
+            ]
 
 instance ToJSON RequestQuickReply where
   toJSON (RequestQuickReply title payload imageurl) =
-    object [ "content_type" .= String "text"
-           , "title"        .= title
-           , "payload"      .= payload
-           , "image_url"    .= imageurl
-           ]
+    object' [ "content_type" .=! String "text"
+            , "title"        .=! title
+            , "payload"      .=! payload
+            , "image_url"    .=!! imageurl
+            ]
   toJSON (LocationQuickReply imageurl) =
-    object [ "content_type" .= String "location"
-           , "image_url"    .= imageurl
-           ]
+    object' [ "content_type" .=! String "location"
+            , "image_url"    .=!! imageurl
+            ]
+
 
 instance FromJSON RequestMessage where
   parseJSON (Object o) =
     RequestMessageText <$> o .: "text"
                        <*> o .:? "quick_replies" .!= []
+                       <*> o .:? "metadata"
     <|> RequestMessageAttachment <$> o .: "attachment"
                                  <*> o .:? "quick_replies" .!= []
+                                 <*> o .:? "metadata"
   parseJSON wat = typeMismatch "RequestMessage" wat
 
 instance FromJSON RequestQuickReply where
