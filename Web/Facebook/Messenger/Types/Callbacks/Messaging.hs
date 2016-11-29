@@ -53,6 +53,11 @@ data CallbackMessaging =
     { cb_optin_recipient :: CallbackRecipient
     , cb_optin_timestamp :: Int
     , cb_optin_optin     :: OptinRef }
+  | CallbackMessagingReferral
+    { cb_ref_sender    :: CallbackSender
+    , cb_ref_recipient :: CallbackRecipient
+    , cb_ref_timestamp :: Int
+    , cb_ref_referral  :: Referral }
   | CallbackMessagingAccountLink
     { cb_account_sender    :: CallbackSender
     , cb_account_recipient :: CallbackRecipient
@@ -127,6 +132,10 @@ instance FromJSON CallbackMessaging where
                                              <*> o .: "recipient"
                                              <*> o .: "timestamp"
                                              <*> o .: "postback"
+               <|> CallbackMessagingReferral <$> o .: "sender"
+                                             <*> o .: "recipient"
+                                             <*> o .: "timestamp"
+                                             <*> o .: "referral"
                <|> CallbackMessagingCheckoutUpdate <$> o .: "sender"
                                                    <*> o .: "recipient"
                                                    <*> o .: "timestamp"
@@ -179,6 +188,12 @@ instance ToJSON CallbackMessaging where
     object [ "recipient" .= recipient
            , "timestamp" .= timestamp
            , "optin"     .= optin
+           ]
+  toJSON (CallbackMessagingReferral sender recipient timestamp ref) =
+    object [ "sender"    .= sender
+           , "recipient" .= recipient
+           , "timestamp" .= timestamp
+           , "referral"  .= ref
            ]
   toJSON (CallbackMessagingAccountLink sender recipient timestamp linking) =
     object [ "sender"          .= sender
