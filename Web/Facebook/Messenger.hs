@@ -87,8 +87,8 @@ handleMessaging fbcbh (CallbackMessagingDelivery (CallbackSender sident)
 handleMessaging fbcbh (CallbackMessagingPostback (CallbackSender sident)
                                                  (CallbackRecipient rident)
                                                  time
-                                                 (Postback payload)
-                      ) = postbackHandler fbcbh sident rident time payload
+                                                 postback
+                      ) = postbackHandler fbcbh sident rident time postback
 
 handleMessaging fbcbh (CallbackMessagingAccountLink (CallbackSender sident)
                                                     (CallbackRecipient rident)

@@ -42,7 +42,7 @@ data CallbackHandlers a = CallbackHandlers
   { messageHandler        :: SenderID -> RecipientID -> Timestamp -> MID -> Message -> Maybe CallbackQuickReply -> Maybe Sequence -> a
   , attachmentHandler     :: SenderID -> RecipientID -> Timestamp -> MID -> [CallbackAttachment] -> Maybe Sequence -> a
   , locationHandler       :: SenderID -> RecipientID -> Timestamp -> MID -> [CallbackLocation]   -> Maybe Sequence -> a
-  , postbackHandler       :: SenderID -> RecipientID -> Timestamp -> Text           -> a
+  , postbackHandler       :: SenderID -> RecipientID -> Timestamp -> Postback       -> a
   , optinHandler          :: SenderID -> RecipientID -> Timestamp -> Text           -> a
   , optinRefHandler       ::             RecipientID -> Timestamp -> Text ->   Text -> a
   , referralHandler       :: SenderID -> RecipientID -> Timestamp -> Referral       -> a
