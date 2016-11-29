@@ -8,6 +8,7 @@ import           Data.Aeson.Types     (typeMismatch)
 import qualified Data.HashMap.Strict  as HM
 import           Data.Text            (Text)
 import qualified Data.Text            as T
+import qualified Data.Vector          as V
 
 import           Web.Facebook.Messenger.Types.Requests.Airline
 import           Web.Facebook.Messenger.Types.Static
@@ -103,9 +104,12 @@ data GenericTemplateElement =
     -- URL that is opened when bubble is tapped OR default action to be triggered when user taps on the element
     , generic_template_image_url  :: Maybe Text -- Bubble image (1.91:1 image ratio)
     , generic_template_subtitle   :: Maybe Text -- Bubble subtitle (80 char limit)
-    , generic_template_buy_button :: TemplateButton -- This MUST be a TemplateBuyButton !!!
+    , generic_template_buy_button :: BUYBUTTON  -- This MUST be a TemplateBuyButton !!!
     , generic_template_buttons    :: [TemplateButton] -- Set of buttons that appear as call-to-actions (2 button limit)
     }
+  deriving (Eq, Show)
+
+newtype BUYBUTTON = BUYBUTTON TemplateButton
   deriving (Eq, Show)
 
 data ListTemplateElement = ListTemplateElement
@@ -210,9 +214,11 @@ instance ToJSON TemplatePayload where
   toJSON (ListTemplatePayload style elements button) =
     object' [ "template_type"     .=! String "list"
             , "top_element_style" .=! style
-            , "elements"          .=! take 4 elements
+            , "elements"          .=! go elements
             , "buttons"           .=!! button
             ]
+    where go [e] = [e,e]
+          go es  = take 4 es
   toJSON (ReceiptTemplatePayload recipient_name merchant_name order_number currency
             payment_method timestamp order_url elements address summary adjustments) =
     object' [ "template_type"  .=! String "receipt"
@@ -281,7 +287,7 @@ instance ToJSON GenericTemplateElement where
     where go (Just (Right default_action)) = Just $ "default_action" .= default_action
           go (Just (Left item_url))        = Just $ "item_url"       .= item_url
           go Nothing                       = Nothing
-  toJSON (GenericBuyTemplateElement title item_or_action image_url subtitle buy_button buttons) =
+  toJSON (GenericBuyTemplateElement title item_or_action image_url subtitle (BUYBUTTON buy_button) buttons) =
     object' [ "title"     .=! title
             , "image_url" .=!! image_url
             , "subtitle"  .=!! subtitle
@@ -452,7 +458,27 @@ instance FromJSON TemplatePayload where
     parseJSON wat = typeMismatch "TemplatePayload" wat
 
 instance FromJSON GenericTemplateElement where
-    parseJSON (Object o) = case HM.lookup "default_action" o of
+    parseJSON (Object o) | Just (Array a) <- HM.lookup "buttons" o
+                         , not (V.null a)
+                         , Object ob <- V.head a =
+      case (HM.lookup "type" ob,HM.lookup "default_action" o) of
+        (Just (String "payment"),Nothing) ->
+          GenericBuyTemplateElement <$> o .: "title"
+                                    <*> o .:? "item_url"
+                                    <*> o .:? "image_url"
+                                    <*> o .:? "subtitle"
+                                    <*> (BUYBUTTON <$> parseJSON (Object ob))
+                                    <*> if V.length a == 1 then pure [] else parseJSON (Array $ V.tail a)
+        (Just (String "payment"),Just (Object _)) ->
+          GenericBuyTemplateElement <$> o .: "title"
+                                    <*> o .:? "default_action"
+                                    <*> o .:? "image_url"
+                                    <*> o .:? "subtitle"
+                                    <*> (BUYBUTTON <$> parseJSON (Object ob))
+                                    <*> if V.length a == 1 then pure [] else parseJSON (Array $ V.tail a)
+
+                         | otherwise =
+      case HM.lookup "default_action" o of
         Just (Object _) ->
             GenericTemplateElement <$> o .: "title"
                                    <*> o .:? "default_action"
