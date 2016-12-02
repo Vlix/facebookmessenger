@@ -1,12 +1,14 @@
 module Web.Facebook.Messenger.Types.Callbacks.Message where
 
 
-import Control.Applicative  ((<|>))
-import Data.Aeson
-import Data.Aeson.Types     (typeMismatch)
-import Data.Text
+import           Control.Applicative  ((<|>))
+import           Data.Aeson
+import           Data.Aeson.Types     (typeMismatch)
+import qualified Data.HashMap.Strict  as HM
+import           Data.Text
 
-import Web.Facebook.Messenger.Types.Static
+import           Web.Facebook.Messenger.Types.Requests.Templates
+import           Web.Facebook.Messenger.Types.Static
 
 
 -- ------------------ --
@@ -34,9 +36,21 @@ data CallbackMessage =
 newtype CallbackQuickReply = CallbackQuickReply { cb_quick_reply_payload :: Text }
   deriving (Eq, Show)
 
-data CallbackAttachment = CallbackAttachment
+data CallbackAttachment =
+  CallbackAttachment
   { cb_attachment_type    :: AttachmentType
   , cb_attachment_payload :: CallbackMultimediaPayload
+  }
+  | CallbackAttachmentTemplate
+  { cb_attachment_template_title    :: Maybe Text
+  , cb_attachment_template_subtitle :: Maybe Text
+  , cb_attachment_template_url      :: Maybe Text
+  , cb_attachment_template_payload  :: CallbackTemplate
+  } deriving (Eq, Show)
+
+data CallbackTemplate = CallbackGenericTemplate
+  { cb_template_sharable :: Maybe Bool
+  , cb_template_elements :: [GenericTemplateElement]
   } deriving (Eq, Show)
 
 data CallbackLocation = CallbackLocation
@@ -82,9 +96,19 @@ instance FromJSON CallbackQuickReply where
   parseJSON wat = typeMismatch "CallbackQuickReply" wat
 
 instance FromJSON CallbackAttachment where
-  parseJSON (Object o) = CallbackAttachment <$> o .: "type"
-                                            <*> o .: "payload"
+  parseJSON (Object o) = case HM.lookup "type" o of
+    Just (String "template") -> CallbackAttachmentTemplate <$> o .: "title"
+                                                           <*> o .: "subtitle"
+                                                           <*> o .: "url"
+                                                           <*> o .: "payload"
+    _ -> CallbackAttachment <$> o .: "type"
+                            <*> o .: "payload"
   parseJSON wat = typeMismatch "CallbackAttachment" wat
+
+instance FromJSON CallbackTemplate where
+  parseJSON (Object o) = case HM.lookup "template_type" o of
+    Just (String "generic") -> CallbackGenericTemplate <$> o .: "sharable"
+                                                       <*> o .: "elements"
 
 instance FromJSON CallbackLocation where
   parseJSON (Object o) = CallbackLocation <$> o .: "title"
@@ -132,6 +156,21 @@ instance ToJSON CallbackAttachment where
     object [ "type"    .= typ
            , "payload" .= payload
            ]
+  toJSON (CallbackAttachmentTemplate title subtitle url payload) =
+    object [ "type"     .= String "template"
+           , "title"    .= title
+           , "subtitle" .= subtitle
+           , "url"      .= url
+           , "payload"  .= payload
+           ]
+
+instance ToJSON CallbackTemplate where
+  toJSON (CallbackGenericTemplate sharable elements) =
+    object [ "template_type" .= String "generic"
+           , "sharable"      .= sharable
+           , "elements"      .= elements
+           ]
+
 instance ToJSON CallbackLocation where
   toJSON (CallbackLocation title url payload) =
     object [ "type"    .= String "location"

@@ -18,7 +18,7 @@ import           Web.Facebook.Messenger.Types.Static
 
 data Echo =
   EchoText
-    { echo_appid      :: Int -- ID of the app from which the message was sent
+    { echo_appid      :: Maybe Int -- ID of the app from which the message was sent
   -- app_id might be Number, documentation is ambiguous <--- IS ACTUALLY A NUMBER, GODDAMNIT
     , echo_metadata   :: Maybe Text -- Custom string passed to the Send API as the metadata field
     , echo_mid        :: Text -- Message ID
@@ -27,7 +27,7 @@ data Echo =
     , echo_seq        :: Maybe Int  -- Sequence number
     }
   | EchoAttachment
-    { echo_appid       :: Int
+    { echo_appid       :: Maybe Int
     , echo_metadata    :: Maybe Text
     , echo_mid         :: Text
     , echo_attachments :: [RequestAttachment] -- Template payload as described in the Send API Reference (.Callbacks.Requests)
@@ -35,7 +35,7 @@ data Echo =
     , echo_seq         :: Maybe Int
     }
   | EchoFallback
-    { echo_appid      :: Int
+    { echo_appid      :: Maybe Int
     , echo_metadata   :: Maybe Text
     , echo_mid        :: Text
     , echo_fallback   :: [Fallback]
@@ -57,22 +57,22 @@ data Fallback = Fallback
 instance FromJSON Echo where
   parseJSON (Object o) = case HM.lookup "is_echo" o of
     Just (Bool True) ->
-      EchoText <$> o .: "app_id"
+      EchoText <$> o .:? "app_id"
                <*> o .:? "metadata"
                <*> o .: "mid"
                <*> o .: "text"
                <*> o .:? "quick-reply"
                <*> o .:? "seq"
-      <|> EchoAttachment <$> o .: "app_id"
+      <|> EchoAttachment <$> o .:? "app_id"
                          <*> o .:? "metadata"
                          <*> o .: "mid"
                          <*> o .: "attachments"
                          <*> o .:? "quick-reply"
                          <*> o .:? "seq"
-      <|> EchoFallback <$> o .: "app_id"
+      <|> EchoFallback <$> o .:? "app_id"
                        <*> o .:? "metadata"
                        <*> o .: "mid"
-                       <*> o .: "fallback"
+                       <*> o .: "attachments"
                        <*> o .:? "quick-reply"
                        <*> o .:? "seq"
     _ -> fail "expected is_echo to be true in Echo object"

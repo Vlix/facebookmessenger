@@ -46,12 +46,12 @@ instance FromJSON Callback where
   parseJSON wat = typeMismatch "Callback" wat
 
 instance FromJSON CallbackEntry where
-  parseJSON (Object o) = CallbackEntry <$> o .: "id"
-                                       <*> o .: "time"
-                                       <*> o .: "messaging"
-                     <|> CallbackEntryNumber <$> o .: "id"
+  parseJSON (Object o) = CallbackEntryNumber <$> o .: "id"
                                              <*> o .: "time"
                                              <*> o .: "messaging"
+                     <|> CallbackEntry <$> o .: "id"
+                                       <*> o .: "time"
+                                       <*> o .: "messaging"
   parseJSON wat = typeMismatch "CallbackEntryNumber" wat
 
 
