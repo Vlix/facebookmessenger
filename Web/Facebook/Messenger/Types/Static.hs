@@ -22,7 +22,7 @@ object' :: [Maybe Pair] -> Value
 object' = Object . HM.fromList . catMaybes
 
 (.=!!) :: ToJSON a => Text -> Maybe a -> Maybe Pair
-name .=!! Nothing  = Nothing
+_    .=!! Nothing  = Nothing
 name .=!! (Just v) = Just $ name .= v
 
 (.=!) :: ToJSON a => Text -> a -> Maybe Pair

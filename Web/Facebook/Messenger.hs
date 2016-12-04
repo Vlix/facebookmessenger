@@ -119,6 +119,11 @@ handleMessaging fbcbh (CallbackMessagingCheckoutUpdate (CallbackSender sident)
                                                        time
                                                        checkoutUpdate
                       ) = checkoutUpdateHandler fbcbh sident rident time checkoutUpdate
+handleMessaging fbcbh (CallbackMessagingReferral (CallbackSender sident)
+                                                 (CallbackRecipient rident)
+                                                 time
+                                                 referral
+                      ) = referralHandler fbcbh sident rident time referral
 
 senderAction :: SenderActionType
              -> RecipientID -> SenderActionRequest

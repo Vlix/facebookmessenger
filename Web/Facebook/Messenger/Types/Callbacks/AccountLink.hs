@@ -28,6 +28,7 @@ instance FromJSON AccountLink where
     Just "linked"   -> AccountLink <$> o .:? "authorization_code"
     Just "unlinked" -> pure AccountUnlink
     Just wat -> fail $ "Unexpected status value in AccountLink object: " `mappend` show wat
+    _ -> fail "No status field in AccountLink object."
   parseJSON wat = typeMismatch "AccountLink" wat
 
 
