@@ -111,11 +111,7 @@ instance FromJSON CallbackMessaging where
     Nothing -> CallbackMessagingOptinRef <$> o .: "recipient"
                                          <*> o .: "timestamp"
                                          <*> o .: "optin"
-    Just _  -> case HM.lookup "timestamp" o of
-      Nothing -> CallbackMessagingDelivery <$> o .: "sender"
-                                           <*> o .: "recipient"
-                                           <*> o .: "delivery"
-      Just _  -> case HM.lookup "message" o of
+    Just _  -> case HM.lookup "message" o of
         Just _  -> CallbackMessagingEcho <$> o .: "sender"
                                          <*> o .: "recipient"
                                          <*> o .: "timestamp"
@@ -128,6 +124,9 @@ instance FromJSON CallbackMessaging where
                                          <*> o .: "recipient"
                                          <*> o .: "timestamp"
                                          <*> o .: "read"
+               <|> CallbackMessagingDelivery <$> o .: "sender"
+                                             <*> o .: "recipient"
+                                             <*> o .: "delivery"
                <|> CallbackMessagingPostback <$> o .: "sender"
                                              <*> o .: "recipient"
                                              <*> o .: "timestamp"
