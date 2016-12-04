@@ -1,7 +1,6 @@
 module Web.Facebook.Messenger.Types.Responses where
 
 
-import Control.Applicative  ((<|>))
 import Data.Text
 import Data.Aeson
 import Data.Aeson.Types     (typeMismatch)
@@ -109,8 +108,8 @@ instance Show ErrorResponse where
     where
       msubcode Nothing  = ""
       msubcode (Just _) = "/subcode"
-      maybesubcode Nothing = ""
-      maybesubcode (Just code) = " / " ++ show code
+      maybesubcode Nothing    = ""
+      maybesubcode (Just c  ) = " / " ++ show c
       maybetrace Nothing      = ""
       maybetrace (Just ident) = " >>> Trace ID: " ++ unpack ident
 -- SHOW INSTANCE OF ERROR RESPONSE --

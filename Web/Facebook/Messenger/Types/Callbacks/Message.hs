@@ -109,6 +109,8 @@ instance FromJSON CallbackTemplate where
   parseJSON (Object o) = case HM.lookup "template_type" o of
     Just (String "generic") -> CallbackGenericTemplate <$> o .: "sharable"
                                                        <*> o .: "elements"
+    _ -> fail "Only known template is 'generic' in CallbackTemplate"
+  parseJSON wat = typeMismatch "CallbackTemplate" wat
 
 instance FromJSON CallbackLocation where
   parseJSON (Object o) = CallbackLocation <$> o .: "title"

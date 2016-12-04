@@ -62,9 +62,9 @@ data PersistentMenuItem =
 -- ------------------------ --
 
 instance ToJSON SettingsRequest where
-  toJSON (GreetingText greeting) =
+  toJSON (GreetingText greet) =
     object [ "setting_type" .= String "greeting"
-           , "greeting"     .= greeting
+           , "greeting"     .= greet
            ]
   toJSON (GetStartedButton calls) =
     object [ "setting_type"    .= String "call_to_actions"
@@ -145,6 +145,7 @@ instance FromJSON SettingsRequest where
           Just (String "REMOVE") -> PaymentRemoveTesters <$> o .: "payment_testers"
           _ -> PaymentPrivacy <$> o .: "payment_privacy_url"
            <|> PaymentPublicKey <$> o .: "payment_public_key"
+      _ -> fail "Something went horrible wrong in SettingsRequest"
     where mThreadState  = HM.lookup "thread_state" o
           mDomainAction = HM.lookup "domain_action_type" o
           mSettingType  = HM.lookup "setting_type" o

@@ -7,7 +7,6 @@ import           Data.Aeson
 import           Data.Aeson.Types     (typeMismatch)
 import qualified Data.HashMap.Strict  as HM
 import           Data.Text            (Text)
-import qualified Data.Text            as T
 import qualified Data.Vector          as V
 
 import           Web.Facebook.Messenger.Types.Requests.Airline
@@ -541,7 +540,7 @@ instance FromJSON TemplateButton where
                                                                      <*> o .: "url"
                                                                      <*> o .:? "webview_height_ratio"
                                                                      <*> o .:? "fallback_url"
-          Just _           -> TemplateButtonWebURL <$> o .: "title"
+          _                -> TemplateButtonWebURL <$> o .: "title"
                                                    <*> o .: "url"
                                                    <*> o .:? "webview_height_ratio"
         Just "payment"        -> case HM.lookup "payment_summary" o of
@@ -552,6 +551,7 @@ instance FromJSON TemplateButton where
                                                   <*> ob .: "merchant_name"
                                                   <*> ob .: "requested_user_info"
                                                   <*> ob .: "price_list"
+            _ -> fail "No required 'payment_summary' field in TemplateButton with type 'payment'"
         _ -> fail "No valid type value in TemplateButton object"
     parseJSON wat = typeMismatch "TemplateButton" wat
 

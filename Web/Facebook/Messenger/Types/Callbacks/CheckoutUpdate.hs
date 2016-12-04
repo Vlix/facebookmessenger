@@ -1,7 +1,6 @@
 module Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate where
 
 
-import Control.Applicative  ((<|>))
 import Data.Aeson
 import Data.Aeson.Types     (typeMismatch, Parser)
 import Data.Text
@@ -43,5 +42,6 @@ instance FromJSON CheckoutUpdate where
       Just   (String t) -> CheckoutUpdate <$> o .: "payload"
                                           <*> pure t
                                           <*> o .: "shipping_address"
-    _ -> fail "No shipping_address key or no id key in shipping_address object of CheckoutUpdate object"
+      _ -> fail "Invalid type in 'id' field of CheckoutUpdate object."
+    _ -> fail "No shipping_address key or no id key in shipping_address object of CheckoutUpdate object."
   parseJSON wat = typeMismatch "CheckoutUpdate" wat
