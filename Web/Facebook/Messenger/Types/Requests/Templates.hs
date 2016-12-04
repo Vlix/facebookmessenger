@@ -458,39 +458,40 @@ instance FromJSON TemplatePayload where
     parseJSON wat = typeMismatch "TemplatePayload" wat
 
 instance FromJSON GenericTemplateElement where
-    parseJSON (Object o) | Just (Array a) <- HM.lookup "buttons" o
-                         , not (V.null a)
-                         , Object ob <- V.head a =
-      case (HM.lookup "type" ob,HM.lookup "default_action" o) of
-        (Just (String "payment"),Nothing) ->
-          GenericBuyTemplateElement <$> o .: "title"
-                                    <*> o .:? "item_url"
-                                    <*> o .:? "image_url"
-                                    <*> o .:? "subtitle"
-                                    <*> (BUYBUTTON <$> parseJSON (Object ob))
-                                    <*> if V.length a == 1 then pure [] else parseJSON (Array $ V.tail a)
-        (Just (String "payment"),Just (Object _)) ->
-          GenericBuyTemplateElement <$> o .: "title"
-                                    <*> o .:? "default_action"
-                                    <*> o .:? "image_url"
-                                    <*> o .:? "subtitle"
-                                    <*> (BUYBUTTON <$> parseJSON (Object ob))
-                                    <*> if V.length a == 1 then pure [] else parseJSON (Array $ V.tail a)
-
-                         | otherwise =
-      case HM.lookup "default_action" o of
-        Just (Object _) ->
-            GenericTemplateElement <$> o .: "title"
-                                   <*> o .:? "default_action"
-                                   <*> o .:? "image_url"
-                                   <*> o .:? "subtitle"
-                                   <*> o .:? "buttons" .!= []
-        _ ->
-            GenericTemplateElement <$> o .: "title"
-                                   <*> o .:? "item_url"
-                                   <*> o .:? "image_url"
-                                   <*> o .:? "subtitle"
-                                   <*> o .:? "buttons" .!= []
+    parseJSON (Object o)
+      | Just (Array a) <- HM.lookup "buttons" o
+      , not (V.null a)
+      , Object ob <- V.head a =
+          case (HM.lookup "type" ob,HM.lookup "default_action" o) of
+            (Just (String "payment"),Nothing) ->
+              GenericBuyTemplateElement <$> o .: "title"
+                                        <*> o .:? "item_url"
+                                        <*> o .:? "image_url"
+                                        <*> o .:? "subtitle"
+                                        <*> (BUYBUTTON <$> parseJSON (Object ob))
+                                        <*> if V.length a == 1 then pure [] else parseJSON (Array $ V.tail a)
+            (Just (String "payment"),Just (Object _)) ->
+              GenericBuyTemplateElement <$> o .: "title"
+                                        <*> o .:? "default_action"
+                                        <*> o .:? "image_url"
+                                        <*> o .:? "subtitle"
+                                        <*> (BUYBUTTON <$> parseJSON (Object ob))
+                                        <*> if V.length a == 1 then pure [] else parseJSON (Array $ V.tail a)
+            _    -> toDefault
+      | otherwise = toDefault
+     where toDefault = case HM.lookup "default_action" o of
+              Just (Object _) ->
+                  GenericTemplateElement <$> o .: "title"
+                                         <*> o .:? "default_action"
+                                         <*> o .:? "image_url"
+                                         <*> o .:? "subtitle"
+                                         <*> o .:? "buttons" .!= []
+              _ ->
+                  GenericTemplateElement <$> o .: "title"
+                                         <*> o .:? "item_url"
+                                         <*> o .:? "image_url"
+                                         <*> o .:? "subtitle"
+                                         <*> o .:? "buttons" .!= []
     parseJSON wat = typeMismatch "GenericTemplateElement" wat
 
 instance {-# OVERLAPPING #-} FromJSON (Either Text DefaultAction) where
