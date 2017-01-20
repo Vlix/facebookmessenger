@@ -206,7 +206,7 @@ instance ToJSON DomainWhitelistingResponse where
   toJSON (DomainWhitelistingResponse d) = object [ "data" .= d ]
 
 {-
-
+--------------------- old error codes ---------------------
 Internal Errors
 Code    Message
 2       Send message failure. Internal server error
@@ -239,5 +239,46 @@ Code    Message
 Account Linking Errors
 Code    Message
 10303   Invalid account_linking_token
+--------------------- old error codes ---------------------
+
+
+
+Internal Errors
+Code  Subcode Message
+1200  --      Temporary send message failure. Please try again later.
+
+Limit Errors
+Code  Subcode Message
+4     2018022 Too many send requests to phone numbers
+100   2018109 Attachment size exceeds allowable limit
+613   --      Calls to this API have exceeded the rate limit
+
+Bad Parameter Errors
+Code  Subcode Message
+100   --      Invalid fbid.
+100   2018001 No matching user found
+(100  2018032 Invalid Data [like sending en empty string])
+
+Access Token Errors
+Code  Message
+190   Invalid OAuth access token.
+
+Permission Errors
+
+Permission errors can occur for multiple reasons but generally fit into two main categories:
+A specific permission hasn't been approved
+The user hasn't opted-in to receiving messages from the page by using a Messenger entry point, or has deleted the conversation thread.
+
+Code  Subcode Message
+10    2018065 This message is sent outside of allowed window. You need page_messaging_subscriptions permission to be able to do it.
+10    2018108 This Person Cannot Receive Messages: This person isn't receiving messages from you right now.
+200   1545041 Message Not Sent: This person isn't receiving messages from you right now.
+200/10 2018028 Cannot message users who are not admins, developers or testers of the app until pages_messaging permission is reviewed and the app is live.
+200   2018027 Cannot message users who are not admins, developers or testers of the app until pages_messaging_phone_number permission is reviewed and the app is live.
+200   2018021 Requires phone matching access fee to be paid by this page unless the recipient user is an admin, developer, or tester of the app.
+
+Account-Linking Errors
+Code  Message
+10303 Invalid account_linking_token
 
 -}

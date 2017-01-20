@@ -134,10 +134,10 @@ messageText :: [QuickReply] -> Maybe NotificationType
             -> RecipientID -> SendRequest
 messageText quickreplies mtyp msg = mkMessageText quickreplies mtyp Nothing msg . RecipientID
 
-attachmentImage
-  , attachmentAudio
-  , attachmentVideo
-  , attachmentFile :: [QuickReply] -> Maybe NotificationType
+attachmentImage,
+  attachmentAudio,
+  attachmentVideo,
+  attachmentFile :: [QuickReply] -> Maybe NotificationType
                    -> Url -> Bool
                    -> RecipientID -> SendRequest
 attachmentImage quickreplies mtyp url reusable = mkAttachment IMAGE quickreplies mtyp Nothing url reusable . RecipientID
@@ -254,10 +254,10 @@ senderAction' typ = mkSenderAction typ . RecipientPhone
 messageText' :: [QuickReply] -> Maybe NotificationType -> Message -> RecipientPhone -> SendRequest
 messageText' quickreplies mtyp msg = mkMessageText quickreplies mtyp Nothing msg . RecipientPhone
 
-attachmentImage'
-  , attachmentAudio'
-  , attachmentVideo'
-  , attachmentFile' :: [QuickReply] -> Maybe NotificationType -> Url -> Bool -> RecipientPhone -> SendRequest
+attachmentImage',
+  attachmentAudio',
+  attachmentVideo',
+  attachmentFile' :: [QuickReply] -> Maybe NotificationType -> Url -> Bool -> RecipientPhone -> SendRequest
 
 attachmentImage' quickreplies mtyp url reusable = mkAttachment IMAGE quickreplies mtyp Nothing url reusable . RecipientPhone
 attachmentAudio' quickreplies mtyp url reusable = mkAttachment AUDIO quickreplies mtyp Nothing url reusable . RecipientPhone
@@ -290,10 +290,10 @@ senderActionRef typ = mkSenderAction typ . RecipientRef
 messageTextRef :: [QuickReply] -> Maybe NotificationType -> Message -> RecipientRef -> SendRequest
 messageTextRef quickreplies mtyp msg = mkMessageText quickreplies mtyp Nothing msg . RecipientRef
 
-attachmentImageRef
-  , attachmentAudioRef
-  , attachmentVideoRef
-  , attachmentFileRef :: [QuickReply] -> Maybe NotificationType -> Url -> Bool -> RecipientRef -> SendRequest
+attachmentImageRef,
+  attachmentAudioRef,
+  attachmentVideoRef,
+  attachmentFileRef :: [QuickReply] -> Maybe NotificationType -> Url -> Bool -> RecipientRef -> SendRequest
 
 attachmentImageRef quickreplies mtyp url reusable = mkAttachment IMAGE quickreplies mtyp Nothing url reusable . RecipientRef
 attachmentAudioRef quickreplies mtyp url reusable = mkAttachment AUDIO quickreplies mtyp Nothing url reusable . RecipientRef
