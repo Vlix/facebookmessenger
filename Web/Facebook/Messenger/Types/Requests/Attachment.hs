@@ -7,7 +7,6 @@ module Web.Facebook.Messenger.Types.Requests.Attachment
 import           Control.Applicative  ((<|>))
 import           Data.Text
 import           Data.Aeson
-import           Data.Aeson.Types     (typeMismatch)
 
 import           Web.Facebook.Messenger.Types.Requests.Templates
 import           Web.Facebook.Messenger.Types.Static
@@ -57,15 +56,13 @@ instance ToJSON RequestMultimediaPayload where
     object [ "attachment_id" .= ident ]
 
 instance FromJSON RequestAttachment where
-  parseJSON (Object o) =
+  parseJSON = withObject "RequestAttachment" $ \o ->
     RequestMultimediaAttachment <$> o .: "type"
                                 <*> o .: "payload"
     <|> RequestAttachmentTemplate <$> o .: "payload"
-  parseJSON wat = typeMismatch "RequestAttachment" wat
 
 instance FromJSON RequestMultimediaPayload where
-  parseJSON (Object o) =
+  parseJSON = withObject "RequestMultimediaPayload" $ \o ->
     RequestMultimediaPayload <$> o .: "url"
                              <*> o .:? "is_reusable" .!= False
     <|> RequestReusedMultimediaPayload <$> o .: "attachment_id"
-  parseJSON wat = typeMismatch "RequestMultimediaPayload" wat

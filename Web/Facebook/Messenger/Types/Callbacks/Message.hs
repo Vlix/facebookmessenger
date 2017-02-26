@@ -3,7 +3,6 @@ module Web.Facebook.Messenger.Types.Callbacks.Message where
 
 import           Control.Applicative  ((<|>))
 import           Data.Aeson
-import           Data.Aeson.Types     (typeMismatch)
 import qualified Data.HashMap.Strict  as HM
 import           Data.Text
 
@@ -114,19 +113,21 @@ instance FromJSON CallbackQuickReply where
 instance FromJSON CallbackAttachment where
   parseJSON = withObject "CallbackAttachment" $ \o ->
     case HM.lookup "type" o of
-      Just (String "template") -> CallbackAttachmentTemplate <$> o .: "title"
-                                                             <*> o .: "subtitle"
-                                                             <*> o .: "url"
-                                                             <*> o .: "payload"
-      Just (String "image")    -> CallbackSticker <$> o .: "payload"
+      Just (String "image") -> CallbackSticker <$> o .: "payload"
+      Just (String "template") ->
+        CallbackAttachmentTemplate <$> o .: "title"
+                                   <*> o .: "subtitle"
+                                   <*> o .: "url"
+                                   <*> o .: "payload"
       _ -> CallbackAttachment <$> o .: "type"
                               <*> o .: "payload"
 
 instance FromJSON CallbackTemplate where
   parseJSON = withObject "CallbackTemplate" $ \o ->
     case HM.lookup "template_type" o of
-      Just (String "generic") -> CallbackGenericTemplate <$> o .: "sharable"
-                                                         <*> o .: "elements"
+      Just (String "generic") ->
+        CallbackGenericTemplate <$> o .: "sharable"
+                                <*> o .: "elements"
       _ -> fail "Only known template is 'generic' in CallbackTemplate"
 
 instance FromJSON CallbackLocation where

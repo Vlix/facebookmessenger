@@ -86,9 +86,10 @@ handleMessaging fbcbh (CallbackMessagingOptinRef (CallbackRecipient rident)
 
 handleMessaging fbcbh (CallbackMessagingDelivery (CallbackSender sident)
                                                  (CallbackRecipient rident)
+                                                 mtime
                                                  delivery
 
-                      ) = deliveryHandler fbcbh sident rident delivery
+                      ) = deliveryHandler fbcbh sident rident mtime delivery
 
 handleMessaging fbcbh (CallbackMessagingPostback (CallbackSender sident)
                                                  (CallbackRecipient rident)

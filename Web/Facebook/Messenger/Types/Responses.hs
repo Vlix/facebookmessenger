@@ -5,7 +5,6 @@ module Web.Facebook.Messenger.Types.Responses where
 
 import Data.Text
 import Data.Aeson
-import Data.Aeson.Types     (typeMismatch)
 
 import Web.Facebook.Messenger.Types.Requests.Templates  (PriceObject (..))
 import Web.Facebook.Messenger.Types.Static

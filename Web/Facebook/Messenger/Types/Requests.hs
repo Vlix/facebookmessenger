@@ -11,7 +11,6 @@ module Web.Facebook.Messenger.Types.Requests
 import Control.Applicative  ((<|>))
 import Data.Text
 import Data.Aeson
-import Data.Aeson.Types     (typeMismatch)
 
 
 import Web.Facebook.Messenger.Types.Static

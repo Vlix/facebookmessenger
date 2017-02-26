@@ -4,7 +4,6 @@ module Web.Facebook.Messenger.Types.Callbacks.Payment where
 
 
 import Data.Aeson
-import Data.Aeson.Types     (typeMismatch)
 import Data.Text
 import Data.HashMap.Strict  as HM
 

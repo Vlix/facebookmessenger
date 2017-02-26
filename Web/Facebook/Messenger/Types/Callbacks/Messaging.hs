@@ -26,6 +26,7 @@ import Web.Facebook.Messenger.Types.Callbacks.Read
 import Web.Facebook.Messenger.Types.Callbacks.Echo
 import Web.Facebook.Messenger.Types.Callbacks.Payment
 import Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
+import Web.Facebook.Messenger.Types.Static
 
 
 -- ------------------ --
@@ -64,9 +65,10 @@ data CallbackMessaging =
     , cb_timestamp :: Integer
     , cb_account_linking :: AccountLink }
   | CallbackMessagingDelivery
-    { cb_sender    :: CallbackSender
-    , cb_recipient :: CallbackRecipient
-    , cb_delivery  :: Delivery }
+    { cb_sender      :: CallbackSender
+    , cb_recipient   :: CallbackRecipient
+    , cb_timestamp_d :: Maybe Integer
+    , cb_delivery    :: Delivery }
   | CallbackMessagingRead
     { cb_sender    :: CallbackSender
     , cb_recipient :: CallbackRecipient
@@ -111,7 +113,6 @@ instance FromJSON CallbackMessaging where
     let mSender    = "sender"    `HM.lookup` o
         mRecipient = "recipient" `HM.lookup` o
         mTimestamp = "timestamp" `HM.lookup` o
-        mMessage   = "message"   `HM.lookup` o
     case (mRecipient, mTimestamp, mSender) of
       (_,_,Nothing) ->
         CallbackMessagingOptinRef <$> o .: "recipient"
@@ -120,23 +121,23 @@ instance FromJSON CallbackMessaging where
       (_,Nothing,_) ->
         CallbackMessagingDelivery <$> o .: "sender"
                                   <*> o .: "recipient"
+                                  <*> o .:? "timestamp"
                                   <*> o .: "delivery"
       (Just _, Just _, Just _) -> do
         sender    <- o .: "sender"    :: Parser CallbackSender
         recipient <- o .: "recipient" :: Parser CallbackRecipient
         timestamp <- o .: "timestamp" :: Parser Integer
-        case mMessage of
-          Just _ ->
-                CallbackMessagingEcho    sender recipient timestamp <$> o .: "message"
-            <|> CallbackMessagingMessage sender recipient timestamp <$> o .: "message"
-          Nothing ->
-                CallbackMessagingRead           sender recipient timestamp <$> o .: "read"
-            <|> CallbackMessagingPostback       sender recipient timestamp <$> o .: "postback"
-            <|> CallbackMessagingReferral       sender recipient timestamp <$> o .: "referral"
-            <|> CallbackMessagingCheckoutUpdate sender recipient timestamp <$> o .: "checkout_update"
-            <|> CallbackMessagingPayment        sender recipient timestamp <$> o .: "payment"
-            <|> CallbackMessagingAccountLink    sender recipient timestamp <$> o .: "account_linking"
-            <|> CallbackMessagingOptin          sender recipient timestamp <$> o .: "optin"
+        CallbackMessagingEcho                 sender recipient timestamp <$> o .: "message"
+          <|> CallbackMessagingMessage        sender recipient timestamp <$> o .: "message"
+          <|> CallbackMessagingRead           sender recipient timestamp <$> o .: "read"
+          <|> CallbackMessagingDelivery       sender recipient <$> o .:? "timestamp"
+                                                               <*> o .: "delivery"
+          <|> CallbackMessagingPostback       sender recipient timestamp <$> o .: "postback"
+          <|> CallbackMessagingReferral       sender recipient timestamp <$> o .: "referral"
+          <|> CallbackMessagingCheckoutUpdate sender recipient timestamp <$> o .: "checkout_update"
+          <|> CallbackMessagingPayment        sender recipient timestamp <$> o .: "payment"
+          <|> CallbackMessagingAccountLink    sender recipient timestamp <$> o .: "account_linking"
+          <|> CallbackMessagingOptin          sender recipient timestamp <$> o .: "optin"
       _ -> fail "No recipient or "
 
 -- ALL MESSAGING HAS THESE TWO --
@@ -156,11 +157,12 @@ instance ToJSON CallbackMessaging where
            , "timestamp" .= timestamp
            , "optin"     .= optin
            ]
-  toJSON (CallbackMessagingDelivery sender recipient delivery) =
-    object [ "sender"    .= sender
-           , "recipient" .= recipient
-           , "delivery"  .= delivery
-           ]
+  toJSON (CallbackMessagingDelivery sender recipient mtimestamp delivery) =
+    object' [ "sender"    .=! sender
+            , "recipient" .=! recipient
+            , "timestamp" .=!! mtimestamp
+            , "delivery"  .=! delivery
+            ]
   toJSON other = object $ extra : basis
    where
     basis = [ "sender"    .= cb_sender other

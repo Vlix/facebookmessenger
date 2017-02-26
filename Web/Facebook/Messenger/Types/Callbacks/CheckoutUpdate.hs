@@ -2,7 +2,7 @@ module Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate where
 
 
 import Data.Aeson
-import Data.Aeson.Types     (typeMismatch, Parser)
+import Data.Aeson.Types     (Parser)
 import Data.Text
 import Data.HashMap.Strict  as HM
 

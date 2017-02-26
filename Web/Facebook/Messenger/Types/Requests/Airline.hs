@@ -1,13 +1,14 @@
-{-# LANGUAGE PatternGuards #-}
+{-# LANGUAGE PatternGuards   #-}
+{-# LANGUAGE RecordWildCards #-}
 
 module Web.Facebook.Messenger.Types.Requests.Airline where
 
-import Control.Applicative  ((<|>))
-import Data.Text            (Text)
-import Data.Aeson
-import Data.Aeson.Types     (typeMismatch)
 
-import Web.Facebook.Messenger.Types.Static
+import           Data.Text            (Text)
+import           Data.Aeson
+import qualified Data.HashMap.Strict  as HM
+
+import           Web.Facebook.Messenger.Types.Static
 
 
 -- ------------------ --
@@ -129,15 +130,15 @@ instance ToJSON AirlinePassengerInfo where
             ]
 
 instance ToJSON AirlineItineraryFlightInfo where
-  toJSON (AirlineItineraryFlightInfo connection segment number aircraft dep arriv schedule travel) =
-    object' [ "connection_id"     .=! connection
-            , "segment_id"        .=! segment
-            , "flight_number"     .=! number
-            , "aircraft_type"     .=!! aircraft
-            , "departure_airport" .=! dep
-            , "arrival_airport"   .=! arriv
-            , "flight_schedule"   .=! schedule
-            , "travel_class"      .=! travel
+  toJSON AirlineItineraryFlightInfo{..} =
+    object' [ "connection_id"     .=! air_iflightinfo_connection_id
+            , "segment_id"        .=! air_iflightinfo_segment_id
+            , "flight_number"     .=! air_iflightinfo_flight_number
+            , "aircraft_type"     .=!! air_iflightinfo_aircraft_type
+            , "departure_airport" .=! air_iflightinfo_departure_airport
+            , "arrival_airport"   .=! air_iflightinfo_arrival_airport
+            , "flight_schedule"   .=! air_iflightinfo_flight_schedule
+            , "travel_class"      .=! air_iflightinfo_travel_class
             ]
 
 instance ToJSON AirlineAirport where
@@ -170,12 +171,12 @@ instance ToJSON AirlinePriceInfo where
             ]
 
 instance ToJSON AirlinePassengerSegmentInfo where
-  toJSON (AirlinePassengerSegmentInfo segment passenger seat typ pinfo) =
-    object' [ "segment_id"   .=! segment
-            , "passenger_id" .=! passenger
-            , "seat"         .=! seat
-            , "seat_type"    .=! typ
-            , mEmptyList "product_info" $ take 4 pinfo
+  toJSON AirlinePassengerSegmentInfo{..} =
+    object' [ "segment_id"   .=! air_passengersegment_segment_id
+            , "passenger_id" .=! air_passengersegment_passenger_id
+            , "seat"         .=! air_passengersegment_seat
+            , "seat_type"    .=! air_passengersegment_seat_type
+            , mEmptyList "product_info" $ take 4 air_passengersegment_product_info
             ]
 
 instance ToJSON AirlineFlightInfo where
@@ -187,36 +188,24 @@ instance ToJSON AirlineFlightInfo where
            ]
 
 instance ToJSON AirlineBoardingPass where
-  toJSON (AirlineBoardingPassQRCode passenger pnr travel seat aux
-            secondary logo headerurl headertext qr aboveimg finfo) =
-    object' [ "passenger_name"    .=! passenger
-            , "pnr_number"        .=! pnr
-            , "travel_class"      .=!! travel
-            , "seat"              .=!! seat
-            , "logo_image_url"    .=! logo
-            , "header_image_url"  .=!! headerurl
-            , "header_text_field" .=!! headertext
-            , "qr_code"           .=! qr
-            , "above_bar_code_image_url" .=! aboveimg
-            , "flight_info"       .=! finfo
-            , mEmptyList "auxiliary_fields" $ take 5 aux
-            , mEmptyList "secondary_fields" $ take 5 secondary
+  toJSON airBoardPass = object' $ extra : basis
+   where
+    extra = case airBoardPass of
+      qr@AirlineBoardingPassQRCode{}  -> "qr_code"           .=! air_boardingpass_qr_code qr 
+      bc@AirlineBoardingPassBarcode{} -> "barcode_image_url" .=! air_boardingpass_barcode_image_url bc
+    basis = [ "passenger_name"           .=!  air_boardingpass_passenger_name           airBoardPass
+            , "pnr_number"               .=!  air_boardingpass_pnr_number               airBoardPass
+            , "travel_class"             .=!! air_boardingpass_travel_class             airBoardPass
+            , "seat"                     .=!! air_boardingpass_seat                     airBoardPass
+            , "logo_image_url"           .=!  air_boardingpass_logo_image_url           airBoardPass
+            , "header_image_url"         .=!! air_boardingpass_header_image_url         airBoardPass
+            , "header_text_field"        .=!! air_boardingpass_header_text_field        airBoardPass
+            , "above_bar_code_image_url" .=!  air_boardingpass_above_bar_code_image_url airBoardPass
+            , "flight_info"              .=!  air_boardingpass_flight_info              airBoardPass
+            , mEmptyList "auxiliary_fields" $ take 5 $ air_boardingpass_auxiliary_fields  airBoardPass
+            , mEmptyList "secondary_fields" $ take 5 $ air_boardingpass_secondary_fields  airBoardPass
             ]
-  toJSON (AirlineBoardingPassBarcode passenger pnr travel seat aux
-            secondary logo headerurl headertext barcode aboveimg finfo) =
-    object' [ "passenger_name"    .=! passenger
-            , "pnr_number"        .=! pnr
-            , "travel_class"      .=!! travel
-            , "seat"              .=!! seat
-            , "logo_image_url"    .=! logo
-            , "header_image_url"  .=!! headerurl
-            , "header_text_field" .=!! headertext
-            , "barcode_image_url" .=! barcode
-            , "above_bar_code_image_url" .=! aboveimg
-            , "flight_info"       .=! finfo
-            , mEmptyList "auxiliary_fields" $ take 5 aux
-            , mEmptyList "secondary_fields" $ take 5 secondary
-            ]
+
 
 instance ToJSON AirlineField where
   toJSON (AirlineField label value) =
@@ -235,14 +224,13 @@ instance ToJSON AirlineProductInfo where
 -- ---------------------------- --
 
 instance FromJSON AirlinePassengerInfo where
-  parseJSON (Object o) =
+  parseJSON = withObject "AirlinePassengerInfo" $ \o ->
     AirlinePassengerInfo <$> o .: "passenger_id"
                          <*> o .:? "ticket_number"
                          <*> o .: "name"
-  parseJSON wat = typeMismatch "AirlinePassengerInfo" wat
 
 instance FromJSON AirlineItineraryFlightInfo where
-  parseJSON (Object o) =
+  parseJSON = withObject "AirlineItineraryFlightInfo" $ \o ->
     AirlineItineraryFlightInfo <$> o .: "connection_id"
                                <*> o .: "segment_id"
                                <*> o .: "flight_number"
@@ -251,88 +239,77 @@ instance FromJSON AirlineItineraryFlightInfo where
                                <*> o .: "arrival_airport"
                                <*> o .: "flight_schedule"
                                <*> o .: "travel_class"
-  parseJSON wat = typeMismatch "AirlineItineraryFlightInfo" wat
 
 instance FromJSON AirlineAirport where
-  parseJSON (Object o) =
+  parseJSON = withObject "AirlineAirport" $ \o ->
     AirlineAirport <$> o .: "airport_code"
                    <*> o .: "city"
                    <*> o .:? "terminal"
                    <*> o .:? "gate"
-  parseJSON wat = typeMismatch "AirlineAirport" wat
 
 instance FromJSON AirlineFlightSchedule where
-  parseJSON (Object o) =
+  parseJSON = withObject "AirlineFlightSchedule" $ \o ->
     AirlineFlightSchedule <$> o .:? "boarding_time"
                           <*> o .: "departure_time"
                           <*> o .: "arrival_time"
-  parseJSON wat = typeMismatch "AirlineFlightSchedule" wat
 
 instance FromJSON AirlineUpdatePassFlightSchedule where
-  parseJSON (Object o) =
+  parseJSON = withObject "AirlineUpdatePassFlightSchedule" $ \o ->
     AirlineUpdatePassFlightSchedule <$> o .:? "boarding_time"
                                     <*> o .: "departure_time"
                                     <*> o .:? "arrival_time"
-  parseJSON wat = typeMismatch "AirlineUpdatePassFlightSchedule" wat
 
 instance FromJSON AirlinePriceInfo where
-  parseJSON (Object o) =
+  parseJSON = withObject "AirlinePriceInfo" $ \o ->
     AirlinePriceInfo <$> o .: "title"
                      <*> o .: "amount"
                      <*> o .:? "currency"
-  parseJSON wat = typeMismatch "AirlinePriceInfo" wat
 
 instance FromJSON AirlinePassengerSegmentInfo where
-  parseJSON (Object o) =
+  parseJSON = withObject "AirlinePassengerSegmentInfo" $ \o ->
     AirlinePassengerSegmentInfo <$> o .: "segment_id"
                                 <*> o .: "passenger_id"
                                 <*> o .: "seat"
                                 <*> o .: "seat_type"
                                 <*> o .:? "product_info" .!= []
-  parseJSON wat = typeMismatch "AirlinePassengerSegmentInfo" wat
 
 instance FromJSON AirlineFlightInfo where
-  parseJSON (Object o) =
+  parseJSON = withObject "AirlineFlightInfo" $ \o ->
     AirlineFlightInfo <$> o .: "flight_number"
                       <*> o .: "departure_airport"
                       <*> o .: "arrival_airport"
                       <*> o .: "flight_schedule"
-  parseJSON wat = typeMismatch "AirlineFlightInfo" wat
 
 instance FromJSON AirlineBoardingPass where
-  parseJSON (Object o) =
-    AirlineBoardingPassQRCode <$> o .: "passenger_name"
-                              <*> o .: "pnr_number"
-                              <*> o .:? "travel_class"
-                              <*> o .:? "seat"
-                              <*> o .:? "auxiliary_fields" .!= []
-                              <*> o .:? "secondary_fields" .!= []
-                              <*> o .: "logo_image_url"
-                              <*> o .:? "header_image_url"
-                              <*> o .:? "header_text_field"
-                              <*> o .: "qr_code"
-                              <*> o .: "above_bar_code_image_url"
-                              <*> o .: "flight_info"
-    <|> AirlineBoardingPassBarcode <$> o .: "passenger_name"
-                                   <*> o .: "pnr_number"
-                                   <*> o .:? "travel_class"
-                                   <*> o .:? "seat"
-                                   <*> o .:? "auxiliary_fields" .!= []
-                                   <*> o .:? "secondary_fields" .!= []
-                                   <*> o .: "logo_image_url"
-                                   <*> o .:? "header_image_url"
-                                   <*> o .:? "header_text_field"
-                                   <*> o .: "barcode_image_url"
-                                   <*> o .: "above_bar_code_image_url"
-                                   <*> o .: "flight_info"
-  parseJSON wat = typeMismatch "AirlineBoardingPass" wat
+  parseJSON = withObject "AirlineBoardingPass" $ \o -> do
+    let mQRCode = "qr_code" `HM.lookup` o
+        mBarCode = "barcode_image_url" `HM.lookup` o
+        eitherQrBar = case (mQRCode,mBarCode) of
+          (Just _,Nothing) -> o .: "qr_code"           
+          (Nothing,Just _) -> o .: "barcode_image_url" 
+          _ -> fail "AirlineBoardingPass needs either qr_code or barcode_image_url"
+        boardPass = case mQRCode of
+          Just _ -> AirlineBoardingPassQRCode
+          _      -> AirlineBoardingPassBarcode
+    boardPass <$> o .: "passenger_name"
+              <*> o .: "pnr_number"
+              <*> o .:? "travel_class"
+              <*> o .:? "seat"
+              <*> o .:? "auxiliary_fields" .!= []
+              <*> o .:? "secondary_fields" .!= []
+              <*> o .: "logo_image_url"
+              <*> o .:? "header_image_url"
+              <*> o .:? "header_text_field"
+              <*> eitherQrBar
+              <*> o .: "above_bar_code_image_url"
+              <*> o .: "flight_info"
 
 instance FromJSON AirlineField where
-  parseJSON (Object o) = AirlineField <$> o .: "label"
-                                      <*> o .: "value"
-  parseJSON wat = typeMismatch "AirlineField" wat
+  parseJSON = withObject "AirlineField" $ \o ->
+    AirlineField <$> o .: "label"
+                 <*> o .: "value"
 
 instance FromJSON AirlineProductInfo where
-  parseJSON (Object o) = AirlineProductInfo <$> o .: "title"
-                                            <*> o .: "value"
-  parseJSON wat = typeMismatch "AirlineProductInfo" wat
+  parseJSON = withObject "AirlineProductInfo" $ \o ->
+    AirlineProductInfo <$> o .: "title"
+                       <*> o .: "value"

@@ -2,7 +2,7 @@ module Web.Facebook.Messenger.Types.Static where
 
 
 import Data.Aeson
-import Data.Aeson.Types     (typeMismatch,Pair)
+import Data.Aeson.Types     (Pair)
 import Data.Maybe           (catMaybes)
 import Data.Monoid          ((<>))
 import Data.Text            (unpack,Text)

@@ -7,7 +7,6 @@ module Web.Facebook.Messenger.Types.Requests.Message
 import           Control.Applicative  ((<|>))
 import           Data.Text
 import           Data.Aeson
-import           Data.Aeson.Types     (typeMismatch)
 import qualified Data.HashMap.Strict  as HM
 
 import           Web.Facebook.Messenger.Types.Requests.Attachment
@@ -72,20 +71,19 @@ instance ToJSON RequestQuickReply where
 
 
 instance FromJSON RequestMessage where
-  parseJSON (Object o) =
+  parseJSON = withObject "RequestMessage" $ \o ->
     RequestMessageText <$> o .: "text"
                        <*> o .:? "quick_replies" .!= []
                        <*> o .:? "metadata"
     <|> RequestMessageAttachment <$> o .: "attachment"
                                  <*> o .:? "quick_replies" .!= []
                                  <*> o .:? "metadata"
-  parseJSON wat = typeMismatch "RequestMessage" wat
 
 instance FromJSON RequestQuickReply where
-  parseJSON (Object o) = case HM.lookup "content_type" o of
-    Just "text" -> RequestQuickReply <$> o .: "title"
-                                     <*> o .: "payload"
-                                     <*> o .:? "image_url"
-    Just "location" -> LocationQuickReply <$> o .:? "image_url"
-    _ -> fail "QuickReply object expected \"text\" or \"location\" in [content_type] argument"
-  parseJSON wat = typeMismatch "RequestQuickReply" wat
+  parseJSON = withObject "RequestQuickReply" $ \o ->
+    case HM.lookup "content_type" o of
+      Just "text" -> RequestQuickReply <$> o .: "title"
+                                       <*> o .: "payload"
+                                       <*> o .:? "image_url"
+      Just "location" -> LocationQuickReply <$> o .:? "image_url"
+      _ -> fail "QuickReply object expected \"text\" or \"location\" in [content_type] argument"

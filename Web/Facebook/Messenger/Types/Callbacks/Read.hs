@@ -2,7 +2,6 @@ module Web.Facebook.Messenger.Types.Callbacks.Read where
 
 
 import Data.Aeson
-import Data.Aeson.Types     (typeMismatch)
 
 import Web.Facebook.Messenger.Types.Static
 

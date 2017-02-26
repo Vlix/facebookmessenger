@@ -4,7 +4,6 @@ module Web.Facebook.Messenger.Types.Callbacks.PostbackOptin where
 import           Control.Applicative  ((<|>))
 import           Data.Text
 import           Data.Aeson
-import           Data.Aeson.Types     (typeMismatch)
 import qualified Data.HashMap.Strict  as HM
 
 import           Web.Facebook.Messenger.Types.Static (ReferralSource)

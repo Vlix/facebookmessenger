@@ -505,12 +505,13 @@ instance FromJSON ListTemplateElement where
                         <*> o .:? "buttons"
 
 instance FromJSON DefaultAction where
-  parseJSON = withObject "DefaultAction" $ \o -> case HM.lookup "messenger_extensions" o of
-    Just (Bool True) -> DefaultActionMessengerExtensions <$> o .: "url"
-                                                         <*> o .:? "webview_height_ratio"
-                                                         <*> o .:? "fallback_url"
-    _                -> DefaultAction <$> o .: "url"
-                                      <*> o .:? "webview_height_ratio"
+  parseJSON = withObject "DefaultAction" $ \o ->
+    if "messenger_extensions" `HM.lookup` o == Just (Bool True)
+      then DefaultActionMessengerExtensions <$> o .: "url"
+                                            <*> o .:? "webview_height_ratio"
+                                            <*> o .:? "fallback_url"
+      else DefaultAction <$> o .: "url"
+                         <*> o .:? "webview_height_ratio"
 
 instance FromJSON ReceiptTemplateElement where
   parseJSON = withObject "ReceiptTemplateElement" $ \o ->

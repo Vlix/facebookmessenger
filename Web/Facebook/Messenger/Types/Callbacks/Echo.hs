@@ -4,7 +4,6 @@ module Web.Facebook.Messenger.Types.Callbacks.Echo where
 import           Control.Applicative  ((<|>))
 import           Data.Text
 import           Data.Aeson
-import           Data.Aeson.Types     (typeMismatch)
 import qualified Data.HashMap.Strict  as HM
 
 import           Web.Facebook.Messenger.Types.Requests.Attachment (RequestAttachment)
@@ -56,8 +55,8 @@ data Fallback = Fallback
 
 instance FromJSON Echo where
   parseJSON = withObject "Echo" $ \o ->
-    case HM.lookup "is_echo" o of
-      Just (Bool True) ->
+    if "is_echo" `HM.lookup` o == Just (Bool True)
+      then
         EchoText <$> o .:? "app_id"
                  <*> o .:? "metadata"
                  <*> o .: "mid"
@@ -76,7 +75,7 @@ instance FromJSON Echo where
                          <*> o .: "attachments"
                          <*> o .:? "quick-reply"
                          <*> o .:? "seq"
-      _ -> fail "expected is_echo to be true in Echo object"
+      else fail "expected is_echo to be true in Echo object"
 
 instance FromJSON Fallback where
   parseJSON = withObject "Fallback" $ \o ->

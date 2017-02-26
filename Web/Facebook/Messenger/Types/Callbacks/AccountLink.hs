@@ -2,7 +2,6 @@ module Web.Facebook.Messenger.Types.Callbacks.AccountLink where
 
 
 import           Data.Aeson
-import           Data.Aeson.Types     (typeMismatch)
 import qualified Data.HashMap.Strict  as HM
 import           Data.Text
 
@@ -24,12 +23,12 @@ data AccountLink = AccountLink { account_code :: Maybe Text }
 -- --------------------------- --
 
 instance FromJSON AccountLink where
-  parseJSON (Object o) = case HM.lookup "status" o of
-    Just "linked"   -> AccountLink <$> o .:? "authorization_code"
-    Just "unlinked" -> pure AccountUnlink
-    Just wat -> fail $ "Unexpected status value in AccountLink object: " `mappend` show wat
-    _ -> fail "No status field in AccountLink object."
-  parseJSON wat = typeMismatch "AccountLink" wat
+  parseJSON = withObject "AccountLink" $ \o ->
+    case HM.lookup "status" o of
+      Just "linked"   -> AccountLink <$> o .:? "authorization_code"
+      Just "unlinked" -> pure AccountUnlink
+      Just wat -> fail $ "Unexpected status value in AccountLink object: " `mappend` show wat
+      _ -> fail "No status field in AccountLink object."
 
 
 instance ToJSON AccountLink where

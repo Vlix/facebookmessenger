@@ -3,7 +3,6 @@ module Web.Facebook.Messenger.Types.Requests.Settings where
 
 import Control.Applicative  ((<|>))
 import Data.Aeson
-import Data.Aeson.Types     (typeMismatch)
 import Data.Text
 import Data.HashMap.Strict  as HM
 
@@ -130,7 +129,10 @@ instance ToJSON PersistentMenuItem where
            ]
 
 instance FromJSON SettingsRequest where
-  parseJSON (Object o) =
+  parseJSON = withObject "SettingsRequest" $ \o -> do
+    let mThreadState  = HM.lookup "thread_state" o
+        mDomainAction = HM.lookup "domain_action_type" o
+        mSettingType  = HM.lookup "setting_type" o
     case (mThreadState,mDomainAction,mSettingType) of
       (Just (String "new_thread"),_,_)      -> GetStartedButton <$> o .: "call_to_actions"
       (Just (String "existing_thread"),_,_) -> PersistentMenu <$> o .: "call_to_actions"
@@ -146,22 +148,18 @@ instance FromJSON SettingsRequest where
           _ -> PaymentPrivacy <$> o .: "payment_privacy_url"
            <|> PaymentPublicKey <$> o .: "payment_public_key"
       _ -> fail "Something went horrible wrong in SettingsRequest"
-    where mThreadState  = HM.lookup "thread_state" o
-          mDomainAction = HM.lookup "domain_action_type" o
-          mSettingType  = HM.lookup "setting_type" o
-  parseJSON wat = typeMismatch "SettingsRequest" wat
 
 instance FromJSON SettingsGreeting where
-  parseJSON (Object o) = SettingsGreeting <$> o .: "text"
-  parseJSON wat        = typeMismatch "SettingsGreeting" wat
+  parseJSON = withObject "SettingsGreeting" $ \o ->
+    SettingsGreeting <$> o .: "text"
 
 instance FromJSON GetStartedButtonPayload where
-  parseJSON (Object o) = GetStartedButtonPayload <$> o .: "payload"
-  parseJSON wat        = typeMismatch "GetStartedButtonPayload" wat
+  parseJSON = withObject "GetStartedButtonPayload" $ \o ->
+    GetStartedButtonPayload <$> o .: "payload"
 
 instance FromJSON PersistentMenuItem where
-  parseJSON (Object o) = PersistentMenuItemURL <$> o .: "title"
-                                               <*> o .: "url"
-                     <|> PersistentMenuItemPostback <$> o .: "title"
-                                                    <*> o .: "payload"
-  parseJSON wat = typeMismatch "PersistentMenuItem" wat
+  parseJSON = withObject "PersistentMenuItem" $ \o ->
+        PersistentMenuItemURL <$> o .: "title"
+                              <*> o .: "url"
+    <|> PersistentMenuItemPostback <$> o .: "title"
+                                   <*> o .: "payload"
