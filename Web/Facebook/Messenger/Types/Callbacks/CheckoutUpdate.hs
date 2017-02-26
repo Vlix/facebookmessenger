@@ -34,14 +34,17 @@ instance ToJSON CheckoutUpdate where
           changeObject _ x          = x
 
 instance FromJSON CheckoutUpdate where
-  parseJSON (Object o) = case HM.lookup "shipping_address" o of
-    Just (Object ob) -> case HM.lookup "id" ob of
-      Just i@(Number _) -> CheckoutUpdate <$> o .: "payload"
-                                          <*> (pack . show <$> (parseJSON i :: Parser Int))
-                                          <*> o .: "shipping_address"
-      Just   (String t) -> CheckoutUpdate <$> o .: "payload"
-                                          <*> pure t
-                                          <*> o .: "shipping_address"
-      _ -> fail "Invalid type in 'id' field of CheckoutUpdate object."
-    _ -> fail "No shipping_address key or no id key in shipping_address object of CheckoutUpdate object."
-  parseJSON wat = typeMismatch "CheckoutUpdate" wat
+  parseJSON = withObject "CheckoutUpdate" $ \o ->
+    case HM.lookup "shipping_address" o of
+      Just (Object ob) ->
+        case HM.lookup "id" ob of
+          Just i@(Number _) ->
+            CheckoutUpdate <$> o .: "payload"
+                           <*> (pack . show <$> (parseJSON i :: Parser Int))
+                           <*> o .: "shipping_address"
+          Just (String t) ->
+            CheckoutUpdate <$> o .: "payload"
+                           <*> pure t
+                           <*> o .: "shipping_address"
+          _ -> fail "Invalid type in 'id' field of CheckoutUpdate object."
+      _ -> fail "No shipping_address key or no id key in shipping_address object of CheckoutUpdate object."

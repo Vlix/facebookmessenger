@@ -1,3 +1,5 @@
+{-# LANGUAGE RecordWildCards #-}
+
 module Web.Facebook.Messenger.Types.Callbacks.Payment where
 
 
@@ -66,40 +68,40 @@ data Amount = Amount
 -- ---------------- --
 
 instance ToJSON Payment where
-  toJSON (Payment payload rui paycred amount shipoptid) =
-    object [ "payload"             .= payload
-           , "requested_user_info" .= rui
-           , "payment_credential"  .= paycred
-           , "amount"              .= amount
-           , "shipping_option_id"  .= shipoptid
+  toJSON Payment{..} =
+    object [ "payload"             .= payment_payload
+           , "requested_user_info" .= payment_requested_user_info
+           , "payment_credential"  .= payment_payment_credential
+           , "amount"              .= payment_amount
+           , "shipping_option_id"  .= payment_shipping_option_id
            ]
 
 instance ToJSON RequestedUserInfo where
-  toJSON (RequestedUserInfo shipping_address contact_name contact_email contact_phone) =
-    object' [ "shipping_address" .=!! shipping_address
-            , "contact_name"     .=!! contact_name
-            , "contact_email"    .=!! contact_email
-            , "contact_phone"    .=!! contact_phone
+  toJSON RequestedUserInfo{..} =
+    object' [ "shipping_address" .=!! req_user_info_shipping_address
+            , "contact_name"     .=!! req_user_info_contact_name
+            , "contact_email"    .=!! req_user_info_contact_email
+            , "contact_phone"    .=!! req_user_info_contact_phone
             ]
 
 instance ToJSON PaymentCredential where
-  toJSON (PaymentCredentialToken card cvv expmonth expyear fbpayid) =
+  toJSON PaymentCredentialToken{..} =
     object [ "provider_type"      .= String "token"
-           , "tokenized_card"     .= card
-           , "tokenized_cvv"      .= cvv
-           , "token_expiry_month" .= expmonth
-           , "token_expiry_year"  .= expyear
-           , "fb_payment_id"      .= fbpayid
+           , "tokenized_card"     .= paycred_tokenized_card
+           , "tokenized_cvv"      .= paycred_tokenized_cvv
+           , "token_expiry_month" .= paycred_token_expiry_month
+           , "token_expiry_year"  .= paycred_token_expiry_year
+           , "fb_payment_id"      .= paycred_fb_payment_id
            ]
-  toJSON (PaymentCredentialPayPal charge_id fbpayid) =
+  toJSON PaymentCredentialPayPal{..} =
     object [ "provider_type" .= String "paypal"
-           , "charge_id"     .= charge_id
-           , "fb_payment_id" .= fbpayid
+           , "charge_id"     .= paycred_charge_id
+           , "fb_payment_id" .= paycred_fb_payment_id
            ]
-  toJSON (PaymentCredentialStripe charge_id fbpayid) =
+  toJSON PaymentCredentialStripe{..} =
     object [ "provider_type" .= String "stripe"
-           , "charge_id"     .= charge_id
-           , "fb_payment_id" .= fbpayid
+           , "charge_id"     .= paycred_charge_id
+           , "fb_payment_id" .= paycred_fb_payment_id
            ]
 
 instance ToJSON Amount where
@@ -110,38 +112,40 @@ instance ToJSON Amount where
 
 
 instance FromJSON Payment where
-  parseJSON (Object o) =
+  parseJSON = withObject "Payment" $ \o ->
     Payment <$> o .: "payload"
             <*> o .: "requested_user_info"
             <*> o .: "payment_credential"
             <*> o .: "amount"
             <*> o .: "shipping_option_id"
-  parseJSON wat = typeMismatch "Payment" wat
+
 
 instance FromJSON RequestedUserInfo where
-  parseJSON (Object o) =
+  parseJSON = withObject "RequestedUserInfo" $ \o ->
     RequestedUserInfo <$> o .:? "shipping_address"
                       <*> o .:? "contact_name"
                       <*> o .:? "contact_email"
                       <*> o .:? "contact_phone"
-  parseJSON wat = typeMismatch "RequestedUserInfo" wat
 
 instance FromJSON PaymentCredential where
-  parseJSON (Object o) = case HM.lookup "provider_type" o of
-    Just (String "token")  -> PaymentCredentialToken <$> o .: "tokenized_card"
-                                            <*> o .: "tokenized_cvv"
-                                            <*> o .: "token_expiry_month"
-                                            <*> o .: "token_expiry_year"
-                                            <*> o .: "fb_payment_id"
-    Just (String "paypal") -> PaymentCredentialPayPal <$> o .: "charge_id"
-                                             <*> o .: "fb_payment_id"
-    Just (String "stripe") -> PaymentCredentialStripe <$> o .: "charge_id"
-                                             <*> o .: "fb_payment_id"
-    Just wat -> fail $ "Unexpected value in provider_type key in PaymentCredential object: " `mappend` show wat
-    _        -> fail "Expected provider_type key in PaymentCredential object"
-  parseJSON wat = typeMismatch "PaymentCredential" wat
+  parseJSON = withObject "PaymentCredential" $ \o ->
+    case HM.lookup "provider_type" o of
+      Just (String "token") ->
+        PaymentCredentialToken <$> o .: "tokenized_card"
+                               <*> o .: "tokenized_cvv"
+                               <*> o .: "token_expiry_month"
+                               <*> o .: "token_expiry_year"
+                               <*> o .: "fb_payment_id"
+      Just (String "paypal") ->
+        PaymentCredentialPayPal <$> o .: "charge_id"
+                                <*> o .: "fb_payment_id"
+      Just (String "stripe") ->
+        PaymentCredentialStripe <$> o .: "charge_id"
+                                <*> o .: "fb_payment_id"
+      Just wat -> fail $ "Unexpected value in provider_type key in PaymentCredential object: " `mappend` show wat
+      _        -> fail "Expected provider_type key in PaymentCredential object"
 
 instance FromJSON Amount where
-  parseJSON (Object o) = Amount <$> o .: "currency"
-                                <*> o .: "amount"
-  parseJSON wat = typeMismatch "Amount" wat
+  parseJSON = withObject "Amount" $ \o ->
+    Amount <$> o .: "currency"
+           <*> o .: "amount"

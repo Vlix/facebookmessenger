@@ -64,6 +64,12 @@ handleMessaging fbcbh (CallbackMessagingMessage (CallbackSender sident)
 handleMessaging fbcbh (CallbackMessagingMessage (CallbackSender sident)
                                                 (CallbackRecipient rident)
                                                 time
+                                                (CallbackMessageSticker mid attachments sticker_id seq')
+                      ) = stickerHandler fbcbh sident rident time mid attachments sticker_id seq'
+
+handleMessaging fbcbh (CallbackMessagingMessage (CallbackSender sident)
+                                                (CallbackRecipient rident)
+                                                time
                                                 (CallbackMessageLocation mid locations seq')
                       ) = locationHandler fbcbh sident rident time mid locations seq'
 

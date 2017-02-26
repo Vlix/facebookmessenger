@@ -72,22 +72,22 @@ instance ToJSON RequestRecipient where
   toJSON (RecipientRef user_ref) = object [ "user_ref" .= user_ref]
 
 instance FromJSON SendRequest where
-  parseJSON (Object o) = SendRequest <$> o .: "recipient"
-                                     <*> o .: "message"
-                                     <*> o .:? "notification_type"
-  parseJSON wat = typeMismatch "SendRequest" wat
+  parseJSON = withObject "SendRequest" $ \o ->
+    SendRequest <$> o .: "recipient"
+                <*> o .: "message"
+                <*> o .:? "notification_type"
 
 instance FromJSON SenderActionRequest where
-  parseJSON (Object o) = SenderActionRequest <$> o .: "recipient"
-                                             <*> o .: "sender_action"
-  parseJSON wat = typeMismatch "SenderActionRequest" wat
+  parseJSON = withObject "SenderActionRequest" $ \o ->
+    SenderActionRequest <$> o .: "recipient"
+                        <*> o .: "sender_action"
 
 instance FromJSON AccountUnlinkRequest where
-  parseJSON (Object o) = AccountUnlinkRequest <$> o .: "psid"
-  parseJSON wat = typeMismatch "AccountUnlinkRequest" wat
+  parseJSON = withObject "AccountUnlinkRequest" $ \o ->
+    AccountUnlinkRequest <$> o .: "psid"
 
 instance FromJSON RequestRecipient where
-  parseJSON (Object o) = RecipientID    <$> o .: "id"
-                     <|> RecipientPhone <$> o .: "phone"
-                     <|> RecipientRef   <$> o .: "user_ref"
-  parseJSON wat = typeMismatch "Recipient" wat
+  parseJSON = withObject "RequestRecipient" $ \o ->
+        RecipientID    <$> o .: "id"
+    <|> RecipientRef   <$> o .: "user_ref"
+    <|> RecipientPhone <$> o .: "phone"

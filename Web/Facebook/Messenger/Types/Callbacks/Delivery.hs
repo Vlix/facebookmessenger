@@ -13,9 +13,9 @@ import Web.Facebook.Messenger.Types.Static
 -- ------------------- --
 
 data Delivery = Delivery
-  { delivery_watermark :: Int       -- All messages that were sent before this timestamp were delivered
-  , delivery_mids      :: [Text]    -- Array containing message IDs of messages that were delivered. Field may not be present.
-  , delivery_seq       :: Maybe Int -- Sequence number
+  { delivery_watermark :: Integer       -- All messages that were sent before this timestamp were delivered
+  , delivery_mids      :: [Text]        -- Array containing message IDs of messages that were delivered. Field may not be present.
+  , delivery_seq       :: Maybe Integer -- Sequence number
   } deriving (Eq, Show)
 
 
@@ -24,10 +24,10 @@ data Delivery = Delivery
 -- -------------------- --
 
 instance FromJSON Delivery where
-  parseJSON (Object o) = Delivery <$> o .: "watermark"
-                                  <*> o .:? "mids" .!= []
-                                  <*> o .:? "seq"
-  parseJSON wat = typeMismatch "Delivery" wat
+  parseJSON = withObject "Delivery" $ \o ->
+    Delivery <$> o .: "watermark"
+             <*> o .:? "mids" .!= []
+             <*> o .:? "seq"
 
 
 instance ToJSON Delivery where

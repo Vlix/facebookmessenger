@@ -20,24 +20,32 @@ data CallbackMessage =
     { cb_msg_mid        :: Text                     -- Message ID
     , cb_msg_text       :: Text                     -- Text of message
     , cb_msg_quickreply :: Maybe CallbackQuickReply -- Optional custom data provided by the sending app
-    , cb_msg_seq        :: Maybe Int                -- Message sequence number
+    , cb_msg_seq        :: Maybe Integer            -- Message sequence number
     }
   | CallbackMessageAttachment
-    { cb_msg_mid         :: Text -- Message ID
+    { cb_msg_mid         :: Text                 -- Message ID
     , cb_msg_attachments :: [CallbackAttachment] -- Array containing attachment data
-    , cb_msg_seq         :: Maybe Int  -- Message sequence number
+    , cb_msg_seq         :: Maybe Integer        -- Message sequence number
+    }
+  | CallbackMessageSticker
+    { cb_msg_mid         :: Text                 -- Message ID
+    , cb_msg_attachments :: [CallbackAttachment] -- Array containing attachment data
+    , cb_msg_sticker_id  :: Integer              -- Sticker ID
+    , cb_msg_seq         :: Maybe Integer        -- Message sequence number
     }
   | CallbackMessageLocation
-    { cb_msg_mid    :: Text -- Message ID
+    { cb_msg_mid    :: Text               -- Message ID
     , cb_msg_coords :: [CallbackLocation] -- Array containing Location Quick Reply Callback (probably just 1)
-    , cb_msg_seq    :: Maybe Int  -- Message sequence number
+    , cb_msg_seq    :: Maybe Integer      -- Message sequence number
     } deriving (Eq, Show)
 
 newtype CallbackQuickReply = CallbackQuickReply { cb_quick_reply_payload :: Text }
   deriving (Eq, Show)
 
-data CallbackAttachment =
-  CallbackAttachment
+data CallbackAttachment
+  = CallbackSticker
+  { cb_attachment_sticker :: CallbackStickerPayload }
+  | CallbackAttachment
   { cb_attachment_type    :: AttachmentType
   , cb_attachment_payload :: CallbackMultimediaPayload
   }
@@ -63,6 +71,11 @@ newtype CallbackMultimediaPayload = CallbackMultimediaPayload
   { cb_multimedia_payload_url :: Text } -- URL of the file
     deriving (Eq, Show)
 
+data CallbackStickerPayload = CallbackStickerPayload
+  { cb_multimedia_sticker_url :: Text   -- URL of the file
+  , cb_multimedia_sticker_id  :: Integer -- sticker_id
+  } deriving (Eq, Show)
+
 newtype CallbackLocationPayload = CallbackLocationPayload
   { cb_coordinates_payload :: CallbackCoordinates }
     deriving (Eq, Show)
@@ -78,58 +91,67 @@ data CallbackCoordinates = CallbackCoordinates
 -- ------------------- --
 
 instance FromJSON CallbackMessage where
-  parseJSON (Object o) =
-    CallbackMessageText <$> o .: "mid"
-                        <*> o .: "text"
-                        <*> o .:? "quick_reply"
-                        <*> o .:? "seq"
+  parseJSON = withObject "CallbackMessage" $ \o ->
+        CallbackMessageText <$> o .: "mid"
+                            <*> o .: "text"
+                            <*> o .:? "quick_reply"
+                            <*> o .:? "seq"
+    <|> CallbackMessageSticker <$> o .: "mid"
+                               <*> o .: "attachments"
+                               <*> o .: "sticker_id"
+                               <*> o .:? "seq"
     <|> CallbackMessageAttachment <$> o .: "mid"
                                   <*> o .: "attachments"
                                   <*> o .:? "seq"
     <|> CallbackMessageLocation <$> o .: "mid"
                                 <*> o .: "attachments"
                                 <*> o .:? "seq"
-  parseJSON wat = typeMismatch "CallbackMessage" wat
 
 instance FromJSON CallbackQuickReply where
-  parseJSON (Object o) = CallbackQuickReply <$> o .: "payload"
-  parseJSON wat = typeMismatch "CallbackQuickReply" wat
+  parseJSON = withObject "CallbackQuickReply" $ \o -> 
+    CallbackQuickReply <$> o .: "payload"
 
 instance FromJSON CallbackAttachment where
-  parseJSON (Object o) = case HM.lookup "type" o of
-    Just (String "template") -> CallbackAttachmentTemplate <$> o .: "title"
-                                                           <*> o .: "subtitle"
-                                                           <*> o .: "url"
-                                                           <*> o .: "payload"
-    _ -> CallbackAttachment <$> o .: "type"
-                            <*> o .: "payload"
-  parseJSON wat = typeMismatch "CallbackAttachment" wat
+  parseJSON = withObject "CallbackAttachment" $ \o ->
+    case HM.lookup "type" o of
+      Just (String "template") -> CallbackAttachmentTemplate <$> o .: "title"
+                                                             <*> o .: "subtitle"
+                                                             <*> o .: "url"
+                                                             <*> o .: "payload"
+      Just (String "image")    -> CallbackSticker <$> o .: "payload"
+      _ -> CallbackAttachment <$> o .: "type"
+                              <*> o .: "payload"
 
 instance FromJSON CallbackTemplate where
-  parseJSON (Object o) = case HM.lookup "template_type" o of
-    Just (String "generic") -> CallbackGenericTemplate <$> o .: "sharable"
-                                                       <*> o .: "elements"
-    _ -> fail "Only known template is 'generic' in CallbackTemplate"
-  parseJSON wat = typeMismatch "CallbackTemplate" wat
+  parseJSON = withObject "CallbackTemplate" $ \o ->
+    case HM.lookup "template_type" o of
+      Just (String "generic") -> CallbackGenericTemplate <$> o .: "sharable"
+                                                         <*> o .: "elements"
+      _ -> fail "Only known template is 'generic' in CallbackTemplate"
 
 instance FromJSON CallbackLocation where
-  parseJSON (Object o) = CallbackLocation <$> o .: "title"
-                                          <*> o .: "url"
-                                          <*> o .: "payload"
-  parseJSON wat = typeMismatch "CallbackLocation" wat
+  parseJSON = withObject "CallbackLocation" $ \o ->
+    CallbackLocation <$> o .: "title"
+                     <*> o .: "url"
+                     <*> o .: "payload"
 
 instance FromJSON CallbackMultimediaPayload where
-  parseJSON (Object o) = CallbackMultimediaPayload <$> o .: "url"
-  parseJSON wat = typeMismatch "CallbackMultimediaPayload" wat
+  parseJSON = withObject "CallbackMultimediaPayload" $ \o ->
+    CallbackMultimediaPayload <$> o .: "url"
+
+instance FromJSON CallbackStickerPayload where
+  parseJSON = withObject "CallbackStickerPayload" $ \o ->
+    CallbackStickerPayload <$> o .: "url"
+                           <*> o .: "sticker_id"
 
 instance FromJSON CallbackLocationPayload where
-  parseJSON (Object o) = CallbackLocationPayload <$> o .: "coordinates" 
-  parseJSON wat = typeMismatch "CallbackLocationPayload" wat
+  parseJSON = withObject "CallbackLocationPayload" $ \o ->
+    CallbackLocationPayload <$> o .: "coordinates" 
 
 instance FromJSON CallbackCoordinates where
-  parseJSON (Object o) = CallbackCoordinates <$> o .: "lat"
-                                             <*> o .: "long"
-  parseJSON wat = typeMismatch "CallbackCoordinates" wat
+  parseJSON = withObject "CallbackCoordinates" $ \o ->
+    CallbackCoordinates <$> o .: "lat"
+                        <*> o .: "long"
 
 
 instance ToJSON CallbackMessage where
@@ -137,6 +159,12 @@ instance ToJSON CallbackMessage where
     object' [ "mid"         .=! mid
             , "text"        .=! text
             , "quick_reply" .=!! qreply
+            , "seq"         .=!! seq'
+            ]
+  toJSON (CallbackMessageSticker mid attachments sticker_id seq') =
+    object' [ "mid"         .=! mid
+            , "attachments" .=! attachments
+            , "sticker_id"  .=! sticker_id
             , "seq"         .=!! seq'
             ]
   toJSON (CallbackMessageAttachment mid attachments seq') =
@@ -154,6 +182,10 @@ instance ToJSON CallbackQuickReply where
   toJSON (CallbackQuickReply payload) = object [ "payload" .= payload ]
 
 instance ToJSON CallbackAttachment where
+  toJSON (CallbackSticker payload) =
+    object [ "type"    .= String "image"
+           , "payload" .= payload
+           ]
   toJSON (CallbackAttachment typ payload) =
     object [ "type"    .= typ
            , "payload" .= payload
@@ -183,6 +215,12 @@ instance ToJSON CallbackLocation where
 
 instance ToJSON CallbackMultimediaPayload where
   toJSON (CallbackMultimediaPayload url) = object [ "url" .= url ]
+
+instance ToJSON CallbackStickerPayload where
+  toJSON (CallbackStickerPayload url sticker_id) =
+    object [ "url"        .= url
+           , "sticker_id" .= sticker_id
+           ]
 
 instance ToJSON CallbackLocationPayload where
   toJSON (CallbackLocationPayload coords) = object [ "coordinates" .= coords ]

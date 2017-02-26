@@ -14,7 +14,7 @@ module Web.Facebook.Messenger.Types.Callbacks.Messaging
 
 import Control.Applicative  ((<|>))
 import Data.Aeson
-import Data.Aeson.Types     (typeMismatch)
+import Data.Aeson.Types     (Parser)
 import Data.Text
 import Data.HashMap.Strict  as HM
 
@@ -35,58 +35,58 @@ import Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
 -- The different kinds of callbacks Facebook sends through WebHook
 data CallbackMessaging =
     CallbackMessagingMessage
-    { cb_message_sender    :: CallbackSender
-    , cb_message_recipient :: CallbackRecipient
-    , cb_message_timestamp :: Int
-    , cb_message_message   :: CallbackMessage }
+    { cb_sender    :: CallbackSender
+    , cb_recipient :: CallbackRecipient
+    , cb_timestamp :: Integer
+    , cb_message   :: CallbackMessage }
   | CallbackMessagingPostback
-    { cb_postback_sender    :: CallbackSender
-    , cb_postback_recipient :: CallbackRecipient
-    , cb_postback_timestamp :: Int
-    , cb_postback_postback  :: Postback }
+    { cb_sender    :: CallbackSender
+    , cb_recipient :: CallbackRecipient
+    , cb_timestamp :: Integer
+    , cb_postback  :: Postback }
   | CallbackMessagingOptin
-    { cb_auth_sender    :: CallbackSender
-    , cb_auth_recipient :: CallbackRecipient
-    , cb_auth_timestamp :: Int
-    , cb_auth_optin     :: Optin }
+    { cb_sender    :: CallbackSender
+    , cb_recipient :: CallbackRecipient
+    , cb_timestamp :: Integer
+    , cb_optin     :: Optin }
   | CallbackMessagingOptinRef
-    { cb_optin_recipient :: CallbackRecipient
-    , cb_optin_timestamp :: Int
-    , cb_optin_optin     :: OptinRef }
+    { cb_recipient :: CallbackRecipient
+    , cb_timestamp :: Integer
+    , cb_optin_ref :: OptinRef }
   | CallbackMessagingReferral
-    { cb_ref_sender    :: CallbackSender
-    , cb_ref_recipient :: CallbackRecipient
-    , cb_ref_timestamp :: Int
-    , cb_ref_referral  :: Referral }
+    { cb_sender    :: CallbackSender
+    , cb_recipient :: CallbackRecipient
+    , cb_timestamp :: Integer
+    , cb_referral  :: Referral }
   | CallbackMessagingAccountLink
-    { cb_account_sender    :: CallbackSender
-    , cb_account_recipient :: CallbackRecipient
-    , cb_account_timestamp :: Int
-    , cb_account_linking   :: AccountLink }
+    { cb_sender    :: CallbackSender
+    , cb_recipient :: CallbackRecipient
+    , cb_timestamp :: Integer
+    , cb_account_linking :: AccountLink }
   | CallbackMessagingDelivery
-    { cb_delivery_sender    :: CallbackSender
-    , cb_delivery_recipient :: CallbackRecipient
-    , cb_delivery_delivery  :: Delivery }
+    { cb_sender    :: CallbackSender
+    , cb_recipient :: CallbackRecipient
+    , cb_delivery  :: Delivery }
   | CallbackMessagingRead
-    { cb_read_sender    :: CallbackSender
-    , cb_read_recipient :: CallbackRecipient
-    , cb_read_timestamp :: Int
-    , cb_read_read      :: ReadCallback }
+    { cb_sender    :: CallbackSender
+    , cb_recipient :: CallbackRecipient
+    , cb_timestamp :: Integer
+    , cb_read      :: ReadCallback }
   | CallbackMessagingEcho
-    { cb_echo_sender    :: CallbackSender
-    , cb_echo_recipient :: CallbackRecipient
-    , cb_echo_timestamp :: Int
-    , cb_echo_message   :: Echo }
+    { cb_sender    :: CallbackSender
+    , cb_recipient :: CallbackRecipient
+    , cb_timestamp :: Integer
+    , cb_echo_message :: Echo }
   | CallbackMessagingPayment
-    { cb_payment_sender    :: CallbackSender
-    , cb_payment_recipient :: CallbackRecipient
-    , cb_payment_timestamp :: Int
-    , cb_payment_payment   :: Payment }
+    { cb_sender    :: CallbackSender
+    , cb_recipient :: CallbackRecipient
+    , cb_timestamp :: Integer
+    , cb_payment   :: Payment }
   | CallbackMessagingCheckoutUpdate
-    { cb_coupdate_sender    :: CallbackSender
-    , cb_coupdate_recipient :: CallbackRecipient
-    , cb_coupdate_timestamp :: Int
-    , cb_coupdate_checkout_update :: CheckoutUpdate
+    { cb_sender    :: CallbackSender
+    , cb_recipient :: CallbackRecipient
+    , cb_timestamp :: Integer
+    , cb_checkout_update :: CheckoutUpdate
     } deriving (Eq, Show)
 -- Payment and Checkout should be added
 
@@ -107,128 +107,77 @@ newtype CallbackRecipient = CallbackRecipient { cb_recipient_id :: Text } -- Rec
 -- --------------------- --
 
 instance FromJSON CallbackMessaging where
-  parseJSON (Object o) = case HM.lookup "sender" o of
-    Nothing -> CallbackMessagingOptinRef <$> o .: "recipient"
-                                         <*> o .: "timestamp"
-                                         <*> o .: "optin"
-    Just _  -> case HM.lookup "message" o of
-        Just _  -> CallbackMessagingEcho <$> o .: "sender"
-                                         <*> o .: "recipient"
-                                         <*> o .: "timestamp"
-                                         <*> o .: "message"
-               <|> CallbackMessagingMessage <$> o .: "sender"
-                                            <*> o .: "recipient"
-                                            <*> o .: "timestamp"
-                                            <*> o .: "message"
-        Nothing -> CallbackMessagingRead <$> o .: "sender"
-                                         <*> o .: "recipient"
-                                         <*> o .: "timestamp"
-                                         <*> o .: "read"
-               <|> CallbackMessagingDelivery <$> o .: "sender"
-                                             <*> o .: "recipient"
-                                             <*> o .: "delivery"
-               <|> CallbackMessagingPostback <$> o .: "sender"
-                                             <*> o .: "recipient"
-                                             <*> o .: "timestamp"
-                                             <*> o .: "postback"
-               <|> CallbackMessagingReferral <$> o .: "sender"
-                                             <*> o .: "recipient"
-                                             <*> o .: "timestamp"
-                                             <*> o .: "referral"
-               <|> CallbackMessagingCheckoutUpdate <$> o .: "sender"
-                                                   <*> o .: "recipient"
-                                                   <*> o .: "timestamp"
-                                                   <*> o .: "checkout_update"
-               <|> CallbackMessagingPayment <$> o .: "sender"
-                                            <*> o .: "recipient"
-                                            <*> o .: "timestamp"
-                                            <*> o .: "payment"
-               <|> CallbackMessagingAccountLink <$> o .: "sender"
-                                                <*> o .: "recipient"
-                                                <*> o .: "timestamp"
-                                                <*> o .: "account_linking"
-               <|> CallbackMessagingOptin <$> o .: "sender"
-                                          <*> o .: "recipient"
-                                          <*> o .: "timestamp"
-                                          <*> o .: "optin"
-  parseJSON wat = typeMismatch "CallbackMessaging" wat
+  parseJSON = withObject "CallbackMessaging" $ \o -> do
+    let mSender    = "sender"    `HM.lookup` o
+        mRecipient = "recipient" `HM.lookup` o
+        mTimestamp = "timestamp" `HM.lookup` o
+        mMessage   = "message"   `HM.lookup` o
+    case (mRecipient, mTimestamp, mSender) of
+      (_,_,Nothing) ->
+        CallbackMessagingOptinRef <$> o .: "recipient"
+                                  <*> o .: "timestamp"
+                                  <*> o .: "optin"
+      (_,Nothing,_) ->
+        CallbackMessagingDelivery <$> o .: "sender"
+                                  <*> o .: "recipient"
+                                  <*> o .: "delivery"
+      (Just _, Just _, Just _) -> do
+        sender    <- o .: "sender"    :: Parser CallbackSender
+        recipient <- o .: "recipient" :: Parser CallbackRecipient
+        timestamp <- o .: "timestamp" :: Parser Integer
+        case mMessage of
+          Just _ ->
+                CallbackMessagingEcho    sender recipient timestamp <$> o .: "message"
+            <|> CallbackMessagingMessage sender recipient timestamp <$> o .: "message"
+          Nothing ->
+                CallbackMessagingRead           sender recipient timestamp <$> o .: "read"
+            <|> CallbackMessagingPostback       sender recipient timestamp <$> o .: "postback"
+            <|> CallbackMessagingReferral       sender recipient timestamp <$> o .: "referral"
+            <|> CallbackMessagingCheckoutUpdate sender recipient timestamp <$> o .: "checkout_update"
+            <|> CallbackMessagingPayment        sender recipient timestamp <$> o .: "payment"
+            <|> CallbackMessagingAccountLink    sender recipient timestamp <$> o .: "account_linking"
+            <|> CallbackMessagingOptin          sender recipient timestamp <$> o .: "optin"
+      _ -> fail "No recipient or "
 
 -- ALL MESSAGING HAS THESE TWO --
 --  (Except the OptinRef one)  --
 instance FromJSON CallbackSender where
-  parseJSON (Object o) = CallbackSender <$> o .: "id"
-  parseJSON wat = typeMismatch "CallbackSender" wat
+  parseJSON = withObject "CallbackSender" $ \o ->
+    CallbackSender <$> o .: "id"
 
 instance FromJSON CallbackRecipient where
-  parseJSON (Object o) = CallbackRecipient <$> o .: "id"
-  parseJSON wat = typeMismatch "CallbackRecipient" wat
+  parseJSON = withObject "CallbackRecipient" $ \o ->
+    CallbackRecipient <$> o .: "id"
 
 
 instance ToJSON CallbackMessaging where
-  toJSON (CallbackMessagingMessage sender recipient timestamp message) =
-    object [ "sender"    .= sender
-           , "recipient" .= recipient
-           , "timestamp" .= timestamp
-           , "message"   .= message
-           ]
-  toJSON (CallbackMessagingPostback sender recipient timestamp postback) =
-    object [ "sender"    .= sender
-           , "recipient" .= recipient
-           , "timestamp" .= timestamp
-           , "postback"  .= postback
-           ]
-  toJSON (CallbackMessagingOptin sender recipient timestamp optin) =
-    object [ "sender"    .= sender
-           , "recipient" .= recipient
-           , "timestamp" .= timestamp
-           , "optin"     .= optin
-           ]
   toJSON (CallbackMessagingOptinRef recipient timestamp optin) =
     object [ "recipient" .= recipient
            , "timestamp" .= timestamp
            , "optin"     .= optin
-           ]
-  toJSON (CallbackMessagingReferral sender recipient timestamp ref) =
-    object [ "sender"    .= sender
-           , "recipient" .= recipient
-           , "timestamp" .= timestamp
-           , "referral"  .= ref
-           ]
-  toJSON (CallbackMessagingAccountLink sender recipient timestamp linking) =
-    object [ "sender"          .= sender
-           , "recipient"       .= recipient
-           , "timestamp"       .= timestamp
-           , "account_linking" .= linking
            ]
   toJSON (CallbackMessagingDelivery sender recipient delivery) =
     object [ "sender"    .= sender
            , "recipient" .= recipient
            , "delivery"  .= delivery
            ]
-  toJSON (CallbackMessagingRead sender recipient timestamp read') =
-    object [ "sender"    .= sender
-           , "recipient" .= recipient
-           , "timestamp" .= timestamp
-           , "read"      .= read'
-           ]
-  toJSON (CallbackMessagingEcho sender recipient timestamp message) =
-    object [ "sender"    .= sender
-           , "recipient" .= recipient
-           , "timestamp" .= timestamp
-           , "message"   .= message
-           ]
-  toJSON (CallbackMessagingPayment sender recipient timestamp payment) =
-    object [ "sender"    .= sender
-           , "recipient" .= recipient
-           , "timestamp" .= timestamp
-           , "payment"   .= payment
-           ]
-  toJSON (CallbackMessagingCheckoutUpdate sender recipient timestamp checkout_update) =
-    object [ "sender"          .= sender
-           , "recipient"       .= recipient
-           , "timestamp"       .= timestamp
-           , "checkout_update" .= checkout_update
-           ]
+  toJSON other = object $ extra : basis
+   where
+    basis = [ "sender"    .= cb_sender other
+            , "recipient" .= cb_recipient other
+            , "timestamp" .= cb_timestamp other
+            ]
+    extra = case other of
+      msg@CallbackMessagingMessage{}       -> "message"         .= cb_message msg
+      pb@CallbackMessagingPostback{}       -> "postback"        .= cb_postback pb
+      optin@CallbackMessagingOptin{}       -> "optin"           .= cb_optin optin
+      ref@CallbackMessagingReferral{}      -> "referral"        .= cb_referral ref
+      al@CallbackMessagingAccountLink{}    -> "account_linking" .= cb_account_linking al
+      read'@CallbackMessagingRead{}        -> "read"            .= cb_read read'
+      echo@CallbackMessagingEcho{}         -> "message"         .= cb_echo_message echo
+      pay@CallbackMessagingPayment{}       -> "payment"         .= cb_payment pay
+      up@CallbackMessagingCheckoutUpdate{} -> "checkout_update" .= cb_checkout_update up
+      _ -> ("oops",String "This shouldn't be here, please report")
 
 -- ALL MESSAGING HAS THESE TWO --
 --  (Except the OptinRef one)   -

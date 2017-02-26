@@ -56,18 +56,18 @@ instance ToJSON Referral where
            ]
 
 instance FromJSON Postback where
-  parseJSON (Object o) = RefPostback <$> o .: "payload"
-                                     <*> o .: "referral"
-                     <|> Postback <$> o .: "payload"
-  parseJSON wat = typeMismatch "Postback" wat
+  parseJSON = withObject "Postback" $ \o ->
+        RefPostback <$> o .: "payload"
+                    <*> o .: "referral"
+    <|> Postback <$> o .: "payload"
 
 instance FromJSON Referral where
-  parseJSON (Object o) = case HM.lookup "type" o of
+  parseJSON = withObject "Referral" $ \o ->
+    case HM.lookup "type" o of
       Just "OPEN_THREAD" -> Referral <$> o .: "ref"
                                      <*> o .: "source"
                                      -- <*> o .: "type"
       _ -> fail "Expected OPEN_THREAD as type value in Referral object"
-  parseJSON wat = typeMismatch "Referral" wat
 
 -- ----------------- --
 --  OPTIN INSTANCES  --
@@ -77,8 +77,8 @@ instance ToJSON Optin where
   toJSON (Optin ref) = object [ "ref" .= ref ]
 
 instance FromJSON Optin where
-  parseJSON (Object o) = Optin <$> o .: "ref"
-  parseJSON wat = typeMismatch "Optin" wat
+  parseJSON = withObject "Optin" $ \o ->
+    Optin <$> o .: "ref"
 
 
 instance ToJSON OptinRef where
@@ -88,6 +88,6 @@ instance ToJSON OptinRef where
            ]
 
 instance FromJSON OptinRef where
-  parseJSON (Object o) = OptinRef <$> o .: "ref"
-                                  <*> o .: "user_ref"
-  parseJSON wat = typeMismatch "OptinRef" wat
+  parseJSON = withObject "OptinRef" $ \o ->
+    OptinRef <$> o .: "ref"
+             <*> o .: "user_ref"

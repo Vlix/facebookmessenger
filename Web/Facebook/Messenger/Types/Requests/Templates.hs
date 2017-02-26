@@ -1,4 +1,6 @@
-{-# LANGUAGE PatternGuards, FlexibleInstances #-}
+{-# LANGUAGE PatternGuards     #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE RecordWildCards   #-}
 
 module Web.Facebook.Messenger.Types.Requests.Templates where
 
@@ -108,7 +110,7 @@ data GenericTemplateElement =
     }
   deriving (Eq, Show)
 
-newtype BUYBUTTON = BUYBUTTON TemplateButton
+newtype BUYBUTTON = BUYBUTTON { getBUYBUTTON :: TemplateButton}
   deriving (Eq, Show)
 
 data ListTemplateElement = ListTemplateElement
@@ -218,92 +220,90 @@ instance ToJSON TemplatePayload where
             ]
     where go [e] = [e,e]
           go es  = take 4 es
-  toJSON (ReceiptTemplatePayload recipient_name merchant_name order_number currency
-            payment_method timestamp order_url elements address summary adjustments) =
+  toJSON ReceiptTemplatePayload{..} =
     object' [ "template_type"  .=! String "receipt"
-            , "recipient_name" .=! recipient_name
-            , "merchant_name"  .=!! merchant_name
-            , "order_number"   .=! order_number
-            , "currency"       .=! currency
-            , "payment_method" .=! payment_method
-            , "timestamp"      .=!! timestamp
-            , "order_url"      .=!! order_url
-            , "elements"       .=! elements
-            , "address"        .=!! address
-            , "summary"        .=! summary
-            , mEmptyList "adjustments" adjustments
+            , "recipient_name" .=! template_receipt_recipient_name
+            , "merchant_name"  .=!! template_receipt_merchants_name
+            , "order_number"   .=! template_receipt_order_number
+            , "currency"       .=! template_receipt_currency
+            , "payment_method" .=! template_receipt_payment_method
+            , "timestamp"      .=!! template_receipt_timestamp
+            , "order_url"      .=!! template_receipt_order_url
+            , "elements"       .=! template_receipt_elements
+            , "address"        .=!! template_receipt_address
+            , "summary"        .=! template_receipt_summary
+            , mEmptyList "adjustments" template_receipt_adjustments
             ]
-  toJSON (AirlineItineraryPayload intro locale theme pnr pinfo finfo psinfo
-            priceinfo bprice tax totalprice currency) =
+  toJSON AirlineItineraryPayload{..} =
     object' [ "template_type"          .=! String "airline_itinerary"
-            , "intro_message"          .=! intro
-            , "locale"                 .=! locale
-            , "theme_color"            .=!! theme
-            , "pnr_number"             .=! pnr
-            , "passenger_info"         .=! pinfo
-            , "flight_info"            .=! finfo
-            , "passenger_segment_info" .=! psinfo
-            , "base_price"             .=!! bprice
-            , "tax"                    .=!! tax
-            , "total_price"            .=! totalprice
-            , "currency"               .=! currency
-            , mEmptyList "priceinfo" $ take 4 priceinfo
+            , "intro_message"          .=! air_itinerary_intro_message
+            , "locale"                 .=! air_itinerary_locale
+            , "theme_color"            .=!! air_itinerary_theme_color
+            , "pnr_number"             .=! air_itinerary_pnr_number
+            , "passenger_info"         .=! air_itinerary_passenger_info
+            , "flight_info"            .=! air_itinerary_flight_info
+            , "passenger_segment_info" .=! air_itinerary_passenger_segment_info
+            , "base_price"             .=!! air_itinerary_base_price
+            , "tax"                    .=!! air_itinerary_tax
+            , "total_price"            .=! air_itinerary_total_price
+            , "currency"               .=! air_itinerary_currency
+            , mEmptyList "priceinfo" $ take 4 air_itinerary_price_info
             ]
-  toJSON (AirlineCheckinPayload intro locale theme pnr finfo checkin) =
+  toJSON AirlineCheckinPayload{..} =
     object' [ "template_type" .=! String "airline_checkin"
-            , "intro_message" .=! intro
-            , "locale"        .=! locale
-            , "theme_color"   .=!! theme
-            , "pnr_number"    .=! pnr
-            , "flight_info"   .=! finfo
-            , "checkin_url"   .=! checkin
+            , "intro_message" .=! air_checkin_intro_message
+            , "locale"        .=! air_checkin_locale
+            , "theme_color"   .=!! air_checkin_theme_color
+            , "pnr_number"    .=! air_checkin_pnr_number
+            , "flight_info"   .=! air_checkin_flight_info
+            , "checkin_url"   .=! air_checkin_checkin_url
             ]
-  toJSON (AirlineBoardingPassPayload intro locale theme boarding) =
+  toJSON AirlineBoardingPassPayload{..} =
     object' [ "template_type" .=! String "airline_boardingpass"
-            , "intro_message" .=! intro
-            , "locale"        .=! locale
-            , "theme_color"   .=!! theme
-            , "boarding_pass" .=! boarding
+            , "intro_message" .=! air_bpass_intro_message
+            , "locale"        .=! air_bpass_locale
+            , "theme_color"   .=!! air_bpass_theme_color
+            , "boarding_pass" .=! air_bpass_boarding_pass
             ]
-  toJSON (AirlineFlightUpdatePayload intro typ locale theme pnr update') =
+  toJSON AirlineFlightUpdatePayload{..} =
     object' [ "template_type"      .=! String "airline_update"
-            , "intro_message"      .=!! intro
-            , "update_type"        .=! typ
-            , "locale"             .=! locale
-            , "theme_color"        .=!! theme
-            , "pnr_number"         .=! pnr
-            , "update_flight_info" .=! update'
+            , "intro_message"      .=!! air_flightupdate_intro_message
+            , "update_type"        .=! air_flightupdate_update_type
+            , "locale"             .=! air_flightupdate_locale
+            , "theme_color"        .=!! air_flightupdate_theme_color
+            , "pnr_number"         .=! air_flightupdate_pnr_number
+            , "update_flight_info" .=! air_flightupdate_update_flight_info
             ]
 
 instance ToJSON GenericTemplateElement where
-  toJSON (GenericTemplateElement title item_or_action image_url subtitle buttons) =
-    object' [ "title"     .=! title
-            , "image_url" .=!! image_url
-            , "subtitle"  .=!! subtitle
-            , go item_or_action
-            , mEmptyList "buttons" $ take 3 buttons
+  toJSON GenericTemplateElement{..} =
+    object' [ "title"     .=! generic_template_title
+            , "image_url" .=!! generic_template_image_url
+            , "subtitle"  .=!! generic_template_subtitle
+            , go generic_template_either_url_action
+            , mEmptyList "buttons" $ take 3 generic_template_buttons
             ]
     where go (Just (Right default_action)) = Just $ "default_action" .= default_action
           go (Just (Left item_url))        = Just $ "item_url"       .= item_url
           go Nothing                       = Nothing
-  toJSON (GenericBuyTemplateElement title item_or_action image_url subtitle (BUYBUTTON buy_button) buttons) =
-    object' [ "title"     .=! title
-            , "image_url" .=!! image_url
-            , "subtitle"  .=!! subtitle
-            , "buttons"   .=! (buy_button : take 2 buttons)
-            , go item_or_action
+  toJSON GenericBuyTemplateElement{..} =
+    object' [ "title"     .=! generic_template_title
+            , "image_url" .=!! generic_template_image_url
+            , "subtitle"  .=!! generic_template_subtitle
+            , "buttons"   .=! (getBUYBUTTON generic_template_buy_button : take 2 generic_template_buttons)
+            , go generic_template_either_url_action
             ]
     where go (Just (Right default_action)) = Just $ "default_action" .= default_action
           go (Just (Left item_url))        = Just $ "item_url"       .= item_url
           go Nothing                       = Nothing
 
 instance ToJSON ListTemplateElement where
-  toJSON (ListTemplateElement title subtitle image_url default_action buttons) =
-    object' [ "title"          .=! title
-            , "subtitle"       .=!! subtitle
-            , "image_url"      .=!! image_url
-            , "default_action" .=!! default_action
-            , "buttons"        .=!! fmap (:[]) buttons
+  toJSON ListTemplateElement{..} =
+    object' [ "title"          .=! list_template_title
+            , "subtitle"       .=!! list_template_subtitle
+            , "image_url"      .=!! list_template_image_url
+            , "default_action" .=!! list_template_default_action
+            , "buttons"        .=!! fmap (:[]) list_template_buttons
             ]
 
 instance ToJSON DefaultAction where
@@ -321,89 +321,88 @@ instance ToJSON DefaultAction where
             ]
 
 instance ToJSON ReceiptTemplateElement where
-    toJSON (ReceiptTemplateElement title subtitle quantity price currency image_url) =
-        object' [ "title"     .=! title
-                , "subtitle"  .=!! subtitle
-                , "quantity"  .=!! quantity
-                , "price"     .=! price
-                , "currency"  .=!! currency
-                , "image_url" .=!! image_url
+    toJSON ReceiptTemplateElement{..} =
+        object' [ "title"     .=! receipt_template_title
+                , "subtitle"  .=!! receipt_template_subtitle
+                , "quantity"  .=!! receipt_template_quantity
+                , "price"     .=! receipt_template_price
+                , "currency"  .=!! receipt_template_currency
+                , "image_url" .=!! receipt_template_image_url
                 ]
 
 instance ToJSON TemplateButton where
-    toJSON (TemplateButtonWebURL title url webview) =
-        object' [ "type"                 .=! String "web_url"
-                , "title"                .=! title
-                , "url"                  .=! url
-                , "webview_height_ratio" .=!! webview
-                ]
-    toJSON (TemplateButtonWebURLMessengerExtension title url webview fallback) =
-        object' [ "type"                 .=! String "web_url"
-                , "title"                .=! title
-                , "url"                  .=! url
-                , "webview_height_ratio" .=!! webview
-                , "messenger_extensions" .=! Bool True
-                , "fallback_url"         .=!! fallback
-                ]
-    toJSON (TemplateButtonPostback title payload) =
-        object [ "type"    .= String "postback"
-               , "title"   .= title
-               , "payload" .= payload
-               ]
-    toJSON (TemplateButtonPhoneNumber title payload) =
-        object [ "type"    .= String "phone_number"
-               , "title"   .= title
-               , "payload" .= payload
-               ]
-    toJSON (TemplateButtonAccountLink url) =
-        object [ "type" .= String "account_link"
-               , "url"  .= url
-               ]
-    toJSON TemplateButtonAccountUnlink = object [ "type" .= String "account_unlink" ]
-    toJSON TemplateShareButton         = object [ "type" .= String "element_share" ]
-    toJSON (TemplateBuyButton payload currency is_test_payment payment_type
-                merchant_name req_user_info price_list) =
-        object [ "type"    .= String "payment"
-               , "title"   .= String "buy"
-               , "payload" .= payload
-               , "payment_summary" .= object' [ "currency"        .=! currency
-                                              , mBool "is_test_payment" False is_test_payment
-                                              , "payment_type"    .=! payment_type
-                                              , "merchant_name"   .=! merchant_name
-                                              , "requested_user_info" .=! req_user_info
-                                              , "price_list"      .=! price_list
-                                              ]
-               ]
+  toJSON (TemplateButtonWebURL title url webview) =
+    object' [ "type"                 .=! String "web_url"
+            , "title"                .=! title
+            , "url"                  .=! url
+            , "webview_height_ratio" .=!! webview
+            ]
+  toJSON (TemplateButtonWebURLMessengerExtension title url webview fallback) =
+    object' [ "type"                 .=! String "web_url"
+            , "title"                .=! title
+            , "url"                  .=! url
+            , "webview_height_ratio" .=!! webview
+            , "messenger_extensions" .=! Bool True
+            , "fallback_url"         .=!! fallback
+            ]
+  toJSON (TemplateButtonPostback title payload) =
+    object [ "type"    .= String "postback"
+           , "title"   .= title
+           , "payload" .= payload
+           ]
+  toJSON (TemplateButtonPhoneNumber title payload) =
+    object [ "type"    .= String "phone_number"
+           , "title"   .= title
+           , "payload" .= payload
+           ]
+  toJSON (TemplateButtonAccountLink url) =
+    object [ "type" .= String "account_link"
+           , "url"  .= url
+           ]
+  toJSON TemplateButtonAccountUnlink = object [ "type" .= String "account_unlink" ]
+  toJSON TemplateShareButton         = object [ "type" .= String "element_share" ]
+  toJSON TemplateBuyButton{..} =
+    object [ "type"    .= String "payment"
+           , "title"   .= String "buy"
+           , "payload" .= button_buy_payload
+           , "payment_summary" .= object' [ "currency"        .=! button_buy_currency
+                                          , mBool "is_test_payment" False button_buy_is_test_payment
+                                          , "payment_type"    .=! button_buy_payment_type
+                                          , "merchant_name"   .=! button_buy_merchant_name
+                                          , "requested_user_info" .=! button_buy_requested_user_info
+                                          , "price_list"      .=! button_buy_price_list
+                                          ]
+           ]
 
 instance ToJSON PriceObject where
-    toJSON (PriceObject label amount) =
-        object [ "label"  .= label
-               , "amount" .= amount
-               ]
+  toJSON (PriceObject label amount) =
+    object [ "label"  .= label
+           , "amount" .= amount
+           ]
 
 instance ToJSON TemplateAddress where
-    toJSON (TemplateAddress street_1 street_2 city postal_code state country) =
-        object' [ "street_1"    .=! street_1
-                , "street_2"    .=!! street_2
-                , "city"        .=! city
-                , "postal_code" .=! postal_code
-                , "state"       .=! state
-                , "country"     .=! country
-                ]
+  toJSON TemplateAddress{..} =
+    object' [ "street_1"    .=! address_template_street_1
+            , "street_2"    .=!! address_template_street_2
+            , "city"        .=! address_template_city
+            , "postal_code" .=! address_template_postal_code
+            , "state"       .=! address_template_state
+            , "country"     .=! address_template_country
+            ]
 
 instance ToJSON TemplateSummary where
-    toJSON (TemplateSummary subtotal shipping_cost total_tax total_cost) =
-        object' [ "subtotal"      .=!! subtotal
-                , "shipping_cost" .=!! shipping_cost
-                , "total_tax"     .=!! total_tax
-                , "total_cost"    .=! total_cost
-                ]
+  toJSON TemplateSummary{..} =
+    object' [ "subtotal"      .=!! summary_template_subtotal
+            , "shipping_cost" .=!! summary_template_shipping_cost
+            , "total_tax"     .=!! summary_template_total_tax
+            , "total_cost"    .=! summary_template_total_cost
+            ]
 
 instance ToJSON TemplateAdjustment where
-    toJSON (TemplateAdjustment name amount) =
-        object' [ "name"   .=!! name
-                , "amount" .=!! amount
-                ]
+  toJSON (TemplateAdjustment name amount) =
+    object' [ "name"   .=!! name
+            , "amount" .=!! amount
+            ]
 
 
 -- -------------------- --
@@ -411,174 +410,171 @@ instance ToJSON TemplateAdjustment where
 -- -------------------- --
 
 instance FromJSON TemplatePayload where
-    parseJSON (Object o) =
+  parseJSON = withObject "TemplatePayload" $ \o ->
         GenericTemplatePayload <$> o .: "elements"
-        <|> ButtonTemplatePayload <$> o .: "text"
-                                  <*> o .: "buttons"
-        <|> ReceiptTemplatePayload <$> o .: "recipient_name"
-                                   <*> o .:? "merchant_name"
-                                   <*> o .: "order_number"
-                                   <*> o .: "currency"
-                                   <*> o .: "payment_method"
-                                   <*> o .:? "timestamp"
-                                   <*> o .:? "order_url"
-                                   <*> o .: "elements"
-                                   <*> o .:? "address"
-                                   <*> o .: "summary"
-                                   <*> o .:? "adjustments" .!= []
-        <|> AirlineFlightUpdatePayload <$> o .:? "intro_message"
-                                       <*> o .: "update_type"
-                                       <*> o .: "locale"
-                                       <*> o .:? "theme_color"
-                                       <*> o .: "pnr_number"
-                                       <*> o .: "update_flight_info"
-        <|> AirlineBoardingPassPayload <$> o .: "intro_message"
-                                       <*> o .: "locale"
-                                       <*> o .:? "theme_color"
-                                       <*> o .: "boarding_pass"
-        <|> AirlineCheckinPayload <$> o .: "intro_message"
-                                  <*> o .: "locale"
-                                  <*> o .:? "theme_color"
-                                  <*> o .: "pnr_number"
-                                  <*> o .: "flight_info"
-                                  <*> o .: "checkin_url"
-        <|> AirlineItineraryPayload <$> o .: "intro_message"
-                                    <*> o .: "locale"
-                                    <*> o .:? "theme_color"
-                                    <*> o .: "pnr_number"
-                                    <*> o .: "passenger_info"
-                                    <*> o .: "flight_info"
-                                    <*> o .: "passenger_segment_info"
-                                    <*> o .:? "price_info" .!= []
-                                    <*> o .:? "base_price"
-                                    <*> o .:? "tax"
-                                    <*> o .: "total_price"
-                                    <*> o .: "currency"
-    parseJSON wat = typeMismatch "TemplatePayload" wat
+    <|> ButtonTemplatePayload <$> o .: "text"
+                              <*> o .: "buttons"
+    <|> ReceiptTemplatePayload <$> o .: "recipient_name"
+                               <*> o .:? "merchant_name"
+                               <*> o .: "order_number"
+                               <*> o .: "currency"
+                               <*> o .: "payment_method"
+                               <*> o .:? "timestamp"
+                               <*> o .:? "order_url"
+                               <*> o .: "elements"
+                               <*> o .:? "address"
+                               <*> o .: "summary"
+                               <*> o .:? "adjustments" .!= []
+    <|> AirlineFlightUpdatePayload <$> o .:? "intro_message"
+                                   <*> o .: "update_type"
+                                   <*> o .: "locale"
+                                   <*> o .:? "theme_color"
+                                   <*> o .: "pnr_number"
+                                   <*> o .: "update_flight_info"
+    <|> AirlineBoardingPassPayload <$> o .: "intro_message"
+                                   <*> o .: "locale"
+                                   <*> o .:? "theme_color"
+                                   <*> o .: "boarding_pass"
+    <|> AirlineCheckinPayload <$> o .: "intro_message"
+                              <*> o .: "locale"
+                              <*> o .:? "theme_color"
+                              <*> o .: "pnr_number"
+                              <*> o .: "flight_info"
+                              <*> o .: "checkin_url"
+    <|> AirlineItineraryPayload <$> o .: "intro_message"
+                                <*> o .: "locale"
+                                <*> o .:? "theme_color"
+                                <*> o .: "pnr_number"
+                                <*> o .: "passenger_info"
+                                <*> o .: "flight_info"
+                                <*> o .: "passenger_segment_info"
+                                <*> o .:? "price_info" .!= []
+                                <*> o .:? "base_price"
+                                <*> o .:? "tax"
+                                <*> o .: "total_price"
+                                <*> o .: "currency"
 
 instance FromJSON GenericTemplateElement where
-    parseJSON (Object o)
-      | Just (Array a) <- HM.lookup "buttons" o
-      , not (V.null a)
-      , Object ob <- V.head a =
-          case (HM.lookup "type" ob,HM.lookup "default_action" o) of
-            (Just (String "payment"),Nothing) ->
-              GenericBuyTemplateElement <$> o .: "title"
-                                        <*> o .:? "item_url"
-                                        <*> o .:? "image_url"
-                                        <*> o .:? "subtitle"
-                                        <*> (BUYBUTTON <$> parseJSON (Object ob))
-                                        <*> if V.length a == 1 then pure [] else parseJSON (Array $ V.tail a)
-            (Just (String "payment"),Just (Object _)) ->
-              GenericBuyTemplateElement <$> o .: "title"
-                                        <*> o .:? "default_action"
-                                        <*> o .:? "image_url"
-                                        <*> o .:? "subtitle"
-                                        <*> (BUYBUTTON <$> parseJSON (Object ob))
-                                        <*> if V.length a == 1 then pure [] else parseJSON (Array $ V.tail a)
-            _    -> toDefault
-      | otherwise = toDefault
-     where toDefault = case HM.lookup "default_action" o of
-              Just (Object _) ->
-                  GenericTemplateElement <$> o .: "title"
-                                         <*> o .:? "default_action"
-                                         <*> o .:? "image_url"
-                                         <*> o .:? "subtitle"
-                                         <*> o .:? "buttons" .!= []
-              _ ->
-                  GenericTemplateElement <$> o .: "title"
-                                         <*> o .:? "item_url"
-                                         <*> o .:? "image_url"
-                                         <*> o .:? "subtitle"
-                                         <*> o .:? "buttons" .!= []
-    parseJSON wat = typeMismatch "GenericTemplateElement" wat
+  parseJSON (Object o)
+    | Just (Array a) <- HM.lookup "buttons" o
+    , not (V.null a)
+    , Object ob <- V.head a =
+        case (HM.lookup "type" ob,HM.lookup "default_action" o) of
+          (Just (String "payment"),Nothing) ->
+            GenericBuyTemplateElement <$> o .: "title"
+                                      <*> o .:? "item_url"
+                                      <*> o .:? "image_url"
+                                      <*> o .:? "subtitle"
+                                      <*> (BUYBUTTON <$> parseJSON (Object ob))
+                                      <*> if V.length a == 1 then pure [] else parseJSON (Array $ V.tail a)
+          (Just (String "payment"),Just (Object _)) ->
+            GenericBuyTemplateElement <$> o .: "title"
+                                      <*> o .:? "default_action"
+                                      <*> o .:? "image_url"
+                                      <*> o .:? "subtitle"
+                                      <*> (BUYBUTTON <$> parseJSON (Object ob))
+                                      <*> if V.length a == 1 then pure [] else parseJSON (Array $ V.tail a)
+          _    -> toDefault
+    | otherwise = toDefault
+   where toDefault = case HM.lookup "default_action" o of
+            Just (Object _) ->
+                GenericTemplateElement <$> o .: "title"
+                                       <*> o .:? "default_action"
+                                       <*> o .:? "image_url"
+                                       <*> o .:? "subtitle"
+                                       <*> o .:? "buttons" .!= []
+            _ ->
+                GenericTemplateElement <$> o .: "title"
+                                       <*> o .:? "item_url"
+                                       <*> o .:? "image_url"
+                                       <*> o .:? "subtitle"
+                                       <*> o .:? "buttons" .!= []
+  parseJSON wat = typeMismatch "GenericTemplateElement" wat
 
 instance {-# OVERLAPPING #-} FromJSON (Either Text DefaultAction) where
-    parseJSON     (String t) = pure $ Left t
-    parseJSON obj@(Object _) = Right <$> parseJSON obj
-    parseJSON wat = typeMismatch "Either Text DefaultAction" wat
+  parseJSON     (String t) = pure $ Left t
+  parseJSON obj@(Object _) = Right <$> parseJSON obj
+  parseJSON wat = typeMismatch "Either Text DefaultAction" wat
 
 instance FromJSON ListTemplateElement where
-  parseJSON (Object o) =
+  parseJSON = withObject "ListTemplateElement" $ \o ->
     ListTemplateElement <$> o .: "title"
                         <*> o .:? "subtitle"
                         <*> o .:? "image_url"
                         <*> o .:? "default_action"
                         <*> o .:? "buttons"
-  parseJSON wat = typeMismatch "ListTemplateElement" wat
 
 instance FromJSON DefaultAction where
-  parseJSON (Object o) = case HM.lookup "messenger_extensions" o of
+  parseJSON = withObject "DefaultAction" $ \o -> case HM.lookup "messenger_extensions" o of
     Just (Bool True) -> DefaultActionMessengerExtensions <$> o .: "url"
                                                          <*> o .:? "webview_height_ratio"
                                                          <*> o .:? "fallback_url"
     _                -> DefaultAction <$> o .: "url"
                                       <*> o .:? "webview_height_ratio"
-  parseJSON wat = typeMismatch "DefaultAction" wat
 
 instance FromJSON ReceiptTemplateElement where
-    parseJSON (Object o) =
-        ReceiptTemplateElement <$> o .: "title"
-                               <*> o .:? "subtitle"
-                               <*> o .:? "quantity"
-                               <*> o .: "price"
-                               <*> o .:? "currency"
-                               <*> o .:? "image_url"
-    parseJSON wat = typeMismatch "ReceiptTemplateElement" wat
+  parseJSON = withObject "ReceiptTemplateElement" $ \o ->
+    ReceiptTemplateElement <$> o .: "title"
+                           <*> o .:? "subtitle"
+                           <*> o .:? "quantity"
+                           <*> o .: "price"
+                           <*> o .:? "currency"
+                           <*> o .:? "image_url"
 
 instance FromJSON TemplateButton where
-    parseJSON (Object o) = case HM.lookup "type" o of
-        Just "element_share"  -> pure TemplateShareButton
-        Just "account_unlink" -> pure TemplateButtonAccountUnlink
-        Just "account_link"   -> TemplateButtonAccountLink <$> o .: "url"
-        Just "phone_number"   -> TemplateButtonPhoneNumber <$> o .: "title"
-                                                           <*> o .: "payload"
-        Just "postback"       -> TemplateButtonPostback <$> o .: "title"
-                                                        <*> o .: "payload"
-        Just "web_url"        -> case HM.lookup "messenger_extensions" o of
-          Just (Bool True) -> TemplateButtonWebURLMessengerExtension <$> o .: "title"
-                                                                     <*> o .: "url"
-                                                                     <*> o .:? "webview_height_ratio"
-                                                                     <*> o .:? "fallback_url"
-          _                -> TemplateButtonWebURL <$> o .: "title"
-                                                   <*> o .: "url"
-                                                   <*> o .:? "webview_height_ratio"
-        Just "payment"        -> case HM.lookup "payment_summary" o of
-            Just (Object ob) -> TemplateBuyButton <$> o .: "payload"
-                                                  <*> ob .: "currency"
-                                                  <*> ob .:? "is_test_payment" .!= False
-                                                  <*> ob .: "payment_type"
-                                                  <*> ob .: "merchant_name"
-                                                  <*> ob .: "requested_user_info"
-                                                  <*> ob .: "price_list"
-            _ -> fail "No required 'payment_summary' field in TemplateButton with type 'payment'"
-        _ -> fail "No valid type value in TemplateButton object"
-    parseJSON wat = typeMismatch "TemplateButton" wat
+  parseJSON = withObject "TemplateButton" $ \o ->
+    case HM.lookup "type" o of
+      Just "element_share"  -> pure TemplateShareButton
+      Just "account_unlink" -> pure TemplateButtonAccountUnlink
+      Just "account_link"   -> TemplateButtonAccountLink <$> o .: "url"
+      Just "phone_number"   -> TemplateButtonPhoneNumber <$> o .: "title"
+                                                         <*> o .: "payload"
+      Just "postback"       -> TemplateButtonPostback <$> o .: "title"
+                                                      <*> o .: "payload"
+      Just "web_url"        ->
+        if "messenger_extensions" `HM.lookup` o == Just (Bool True)
+          then TemplateButtonWebURLMessengerExtension <$> o .: "title"
+                                                      <*> o .: "url"
+                                                      <*> o .:? "webview_height_ratio"
+                                                      <*> o .:? "fallback_url"
+          else TemplateButtonWebURL <$> o .: "title"
+                                    <*> o .: "url"
+                                    <*> o .:? "webview_height_ratio"
+      Just "payment"        ->
+        case HM.lookup "payment_summary" o of
+          Just (Object ob) ->
+            TemplateBuyButton <$> o .: "payload"
+                              <*> ob .: "currency"
+                              <*> ob .:? "is_test_payment" .!= False
+                              <*> ob .: "payment_type"
+                              <*> ob .: "merchant_name"
+                              <*> ob .: "requested_user_info"
+                              <*> ob .: "price_list"
+          _ -> fail "No required 'payment_summary' field in TemplateButton with type 'payment'"
+      _ -> fail "No valid type value in TemplateButton object"
 
 instance FromJSON PriceObject where
-    parseJSON (Object o) = PriceObject <$> o .: "label"
-                                       <*> o .: "amount"
-    parseJSON wat = typeMismatch "PriceObject" wat
+  parseJSON = withObject "PriceObject" $ \o ->
+    PriceObject <$> o .: "label"
+                <*> o .: "amount"
 
 instance FromJSON TemplateAddress where
-    parseJSON (Object o) =
-        TemplateAddress <$> o .: "street_1"
-                        <*> o .:? "street_2"
-                        <*> o .: "city"
-                        <*> o .: "postal_code"
-                        <*> o .: "state"
-                        <*> o .: "country"
-    parseJSON wat = typeMismatch "TemplateAddress" wat
+  parseJSON = withObject "TemplateAddress" $ \o ->
+    TemplateAddress <$> o .: "street_1"
+                    <*> o .:? "street_2"
+                    <*> o .: "city"
+                    <*> o .: "postal_code"
+                    <*> o .: "state"
+                    <*> o .: "country"
 
 instance FromJSON TemplateSummary where
-    parseJSON (Object o) =
-        TemplateSummary <$> o .:? "subtotal"
-                        <*> o .:? "shipping_cost"
-                        <*> o .:? "total_tax"
-                        <*> o .: "total_cost"
-    parseJSON wat = typeMismatch "TemplateSummary" wat
+  parseJSON = withObject "TemplateSummary" $ \o ->
+    TemplateSummary <$> o .:? "subtotal"
+                    <*> o .:? "shipping_cost"
+                    <*> o .:? "total_tax"
+                    <*> o .: "total_cost"
 
 instance FromJSON TemplateAdjustment where
-    parseJSON (Object o) = TemplateAdjustment <$> o .:? "name"
-                                              <*> o .:? "amount"
-    parseJSON wat = typeMismatch "TemplateAdjustment" wat
+  parseJSON = withObject "TemplateAdjustment" $ \o ->
+    TemplateAdjustment <$> o .:? "name"
+                       <*> o .:? "amount"

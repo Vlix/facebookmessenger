@@ -11,8 +11,8 @@ import Web.Facebook.Messenger.Types.Static
 -- --------------- --
 
 data ReadCallback = ReadCallback
-  { read_watermark :: Int -- All messages that were sent before this timestamp were read
-  , read_seq       :: Maybe Int -- Sequence number
+  { read_watermark :: Integer       -- All messages that were sent before this timestamp were read
+  , read_seq       :: Maybe Integer -- Sequence number
   } deriving (Eq, Show)
 
 
@@ -21,10 +21,9 @@ data ReadCallback = ReadCallback
 -- ---------------- --
 
 instance FromJSON ReadCallback where
-  parseJSON (Object o) = ReadCallback <$> o .: "watermark"
-                                      <*> o .:? "seq"
-  parseJSON wat = typeMismatch "ReadCallback" wat
-
+  parseJSON = withObject "ReadCallback" $ \o ->
+    ReadCallback <$> o .: "watermark"
+                 <*> o .:? "seq"
 
 instance ToJSON ReadCallback where
   toJSON (ReadCallback watermark seq') =

@@ -31,8 +31,9 @@ type MID            = Text
 type Url            = Text
 type Message        = Text
 
-type Timestamp      = Int
-type Sequence       = Int
+type Timestamp      = Integer
+type Sequence       = Integer
+type StickerID      = Integer
 
 data QuickReply = QR Text Text (Maybe Text)
                 | LocQR (Maybe Text)
@@ -40,8 +41,9 @@ data QuickReply = QR Text Text (Maybe Text)
 
 data CallbackHandlers a = CallbackHandlers
   { messageHandler        :: SenderID -> RecipientID -> Timestamp -> MID -> Message -> Maybe CallbackQuickReply -> Maybe Sequence -> a
-  , attachmentHandler     :: SenderID -> RecipientID -> Timestamp -> MID -> [CallbackAttachment] -> Maybe Sequence -> a
-  , locationHandler       :: SenderID -> RecipientID -> Timestamp -> MID -> [CallbackLocation]   -> Maybe Sequence -> a
+  , attachmentHandler     :: SenderID -> RecipientID -> Timestamp -> MID -> [CallbackAttachment]                -> Maybe Sequence -> a
+  , stickerHandler        :: SenderID -> RecipientID -> Timestamp -> MID -> [CallbackAttachment] -> StickerID   -> Maybe Sequence -> a
+  , locationHandler       :: SenderID -> RecipientID -> Timestamp -> MID -> [CallbackLocation]                  -> Maybe Sequence -> a
   , postbackHandler       :: SenderID -> RecipientID -> Timestamp -> Postback       -> a
   , optinHandler          :: SenderID -> RecipientID -> Timestamp -> Text           -> a
   , optinRefHandler       ::             RecipientID -> Timestamp -> Text ->   Text -> a

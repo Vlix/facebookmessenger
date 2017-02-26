@@ -1,3 +1,5 @@
+{-# LANGUAGE RecordWildCards #-}
+
 module Web.Facebook.Messenger.Types.Responses where
 
 
@@ -77,113 +79,110 @@ newtype DomainWhitelistingResponse = DomainWhitelistingResponse { dwlres_data ::
 -- -------------------- --
 
 instance FromJSON MessageResponse where
-  parseJSON (Object o) = MessageResponse <$> o .: "recipient_id"
-                                         <*> o .: "message_id"
-                                         <*> o .:? "attachment_id"
-  parseJSON wat = typeMismatch "MessageResponse" wat
+  parseJSON = withObject "MessageResponse" $ \o ->
+    MessageResponse <$> o .: "recipient_id"
+                    <*> o .: "message_id"
+                    <*> o .:? "attachment_id"
 
 instance FromJSON SenderActionResponse where
-  parseJSON (Object o) = SenderActionResponse <$> o .: "recipient_id"
-  parseJSON wat = typeMismatch "SenderActionResponse" wat
+  parseJSON = withObject "SenderActionResponse" $ \o ->
+    SenderActionResponse <$> o .: "recipient_id"
 
 instance FromJSON ErrorRes where
-  parseJSON (Object o) = ErrorRes <$> o .: "error"
-  parseJSON wat        = typeMismatch "ErrorResponse" wat
+  parseJSON = withObject "ErrorRes" $ \o ->
+    ErrorRes <$> o .: "error"
 
 instance FromJSON ErrorResponse where
-  parseJSON (Object o) = ErrorResponse <$> o .: "message"
-                                       <*> o .: "type"
-                                       <*> o .: "code"
-                                       <*> o .:? "error_subcode"
-                                       <*> o .:? "fbtrace_id"
-  parseJSON wat = typeMismatch "ErrorResponse" wat
+  parseJSON = withObject "ErrorResponse" $ \o ->
+    ErrorResponse <$> o .: "message"
+                  <*> o .: "type"
+                  <*> o .: "code"
+                  <*> o .:? "error_subcode"
+                  <*> o .:? "fbtrace_id"
 
 -- SHOW INSTANCE OF ERROR RESPONSE --
 -- SHOW INSTANCE OF ERROR RESPONSE --
 instance Show ErrorResponse where
-  show (ErrorResponse msg typ code subcode traceid) =
-      "Facebook Error Response: \"" ++ unpack msg
-               ++ "\" - Error code" ++ msubcode subcode ++ ": " ++ show code ++ maybesubcode subcode
-               ++ " - Error type: " ++ unpack typ ++ maybetrace traceid
+  show ErrorResponse{..} =
+      "Facebook Error Response: \"" ++ unpack error_message ++ "\""
+         ++ " - Error code" ++ slashSub ++ ": " ++ show error_code ++ showSub
+         ++ " - Error type: " ++ unpack error_type ++ maybetrace
     where
-      msubcode Nothing  = ""
-      msubcode (Just _) = "/subcode"
-      maybesubcode Nothing    = ""
-      maybesubcode (Just c  ) = " / " ++ show c
-      maybetrace Nothing      = ""
-      maybetrace (Just ident) = " >>> Trace ID: " ++ unpack ident
+      (slashSub,showSub) = maybe ("","") makeTup error_error_subcode
+      makeTup x  = ("/subcode"," / " ++ show x)
+      maybetrace = maybe "" ((++) " >>> Trace ID: " . unpack) error_fbtrace_id
 -- SHOW INSTANCE OF ERROR RESPONSE --
 -- SHOW INSTANCE OF ERROR RESPONSE --
 
 instance FromJSON SuccessResponse where
-  parseJSON (Object o) = SuccessResponse <$> o .: "result"
-  parseJSON wat = typeMismatch "SuccessResponse" wat
+  parseJSON = withObject "SuccessResponse" $ \o ->
+    SuccessResponse <$> o .: "result"
 
 instance FromJSON UserAPIResponse where
-  parseJSON (Object o) = UserAPIResponse <$> o .:? "first_name"
-                                         <*> o .:? "last_name"
-                                         <*> o .:? "profile_pic"
-                                         <*> o .:? "locale"
-                                         <*> o .:? "timezone"
-                                         <*> o .:? "gender"
-                                         <*> o .:? "is_payment_enabled"
-  parseJSON wat = typeMismatch "UserAPIResponse" wat
+  parseJSON = withObject "UserAPIResponse" $ \o ->
+    UserAPIResponse <$> o .:? "first_name"
+                    <*> o .:? "last_name"
+                    <*> o .:? "profile_pic"
+                    <*> o .:? "locale"
+                    <*> o .:? "timezone"
+                    <*> o .:? "gender"
+                    <*> o .:? "is_payment_enabled"
 
 instance FromJSON AccountLinkingResponse where
-  parseJSON (Object o) = AccountLinkingResponse <$> o .: "id"
-                                                <*> o .: "recipient"
-  parseJSON wat = typeMismatch "AccountLinkingResponse" wat
+  parseJSON = withObject "AccountLinkingResponse" $ \o ->
+    AccountLinkingResponse <$> o .: "id"
+                           <*> o .: "recipient"
 
 instance FromJSON CheckoutUpdateResponse where
-  parseJSON (Object o) = CheckoutUpdateResponse <$> o .: "shipping"
-  parseJSON wat = typeMismatch "CheckoutUpdateResponse" wat
+  parseJSON = withObject "CheckoutUpdateResponse" $ \o ->
+    CheckoutUpdateResponse <$> o .: "shipping"
 
 instance FromJSON Shipping where
-  parseJSON (Object o) =
+  parseJSON = withObject "Shipping" $ \o ->
     Shipping <$> o .: "option_id"
              <*> o .: "option_title"
              <*> o .: "price_list"
-  parseJSON wat = typeMismatch "Shipping" wat
 
 instance FromJSON DomainWhitelistingResponse where
-  parseJSON (Object o) = DomainWhitelistingResponse <$> o .: "data"
-  parseJSON wat = typeMismatch "DomainWhitelistingResponse" wat
+  parseJSON = withObject "DomainWhitelistingResponse" $ \o ->
+    DomainWhitelistingResponse <$> o .: "data"
 
 
 instance ToJSON MessageResponse where
-  toJSON (MessageResponse recipient_id message_id attachment_id) =
-    object' [ "recipient_id"  .=! recipient_id
-            , "message_id"    .=! message_id
-            , "attachment_id" .=!! attachment_id
+  toJSON MessageResponse{..} =
+    object' [ "recipient_id"  .=! res_message_recipient_id
+            , "message_id"    .=! res_message_message_id
+            , "attachment_id" .=!! res_message_attachment_id
             ]
 
 instance ToJSON SenderActionResponse where
-  toJSON (SenderActionResponse recipient_id) = object [ "recipient_id" .= recipient_id ]
+  toJSON (SenderActionResponse recipient_id) =
+    object [ "recipient_id" .= recipient_id ]
 
 instance ToJSON ErrorRes where
   toJSON (ErrorRes err) = object [ "error" .= err ]
 
 instance ToJSON ErrorResponse where
-  toJSON (ErrorResponse message typ code subcode fbtrace_id) =
-    object' [ "message"       .=! message
-            , "type"          .=! typ
-            , "code"          .=! code
-            , "error_subcode" .=!! subcode
-            , "fbtrace_id"    .=!! fbtrace_id
+  toJSON ErrorResponse{..} =
+    object' [ "message"       .=! error_message
+            , "type"          .=! error_type
+            , "code"          .=! error_code
+            , "error_subcode" .=!! error_error_subcode
+            , "fbtrace_id"    .=!! error_fbtrace_id
             ]
 
 instance ToJSON SuccessResponse where
   toJSON (SuccessResponse result) = object [ "result" .= result ]
 
 instance ToJSON UserAPIResponse where
-  toJSON (UserAPIResponse first_name last_name profile_pic locale timezone gender is_payment_enabled) =
-      object' [ "first_name"  .=!! first_name
-              , "last_name"   .=!! last_name
-              , "profile_pic" .=!! profile_pic
-              , "locale"      .=!! locale
-              , "timezone"    .=!! timezone
-              , "gender"      .=!! gender
-              , "is_payment_enabled" .=!! is_payment_enabled
+  toJSON UserAPIResponse{..} =
+      object' [ "first_name"  .=!! userapi_first_name
+              , "last_name"   .=!! userapi_last_name
+              , "profile_pic" .=!! userapi_profile_pic
+              , "locale"      .=!! userapi_locale
+              , "timezone"    .=!! userapi_timezone
+              , "gender"      .=!! userapi_gender
+              , "is_payment_enabled" .=!! userapi_is_payment_enabled
               ]
 
 instance ToJSON AccountLinkingResponse where
@@ -193,7 +192,8 @@ instance ToJSON AccountLinkingResponse where
            ]
 
 instance ToJSON CheckoutUpdateResponse where
-  toJSON (CheckoutUpdateResponse shipping) = object [ "shipping" .= shipping ]
+  toJSON (CheckoutUpdateResponse shipping) =
+    object [ "shipping" .= shipping ]
 
 instance ToJSON Shipping where
   toJSON (Shipping ident title list) =

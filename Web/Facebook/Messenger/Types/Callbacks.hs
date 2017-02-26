@@ -7,7 +7,6 @@ module Web.Facebook.Messenger.Types.Callbacks
 import Control.Applicative  ((<|>))
 import Data.Text
 import Data.Aeson
-import Data.Aeson.Types     (typeMismatch)
 
 import Web.Facebook.Messenger.Types.Callbacks.Messaging
 
@@ -41,24 +40,25 @@ data CallbackEntry =
 -- ------------------------ --
 
 instance FromJSON Callback where
-  parseJSON (Object o) = Callback <$> o .: "object"
+  parseJSON = withObject "Callback" $ \o ->
+    Callback <$> o .: "object"
                                   <*> o .: "entry"
-  parseJSON wat = typeMismatch "Callback" wat
 
 instance FromJSON CallbackEntry where
-  parseJSON (Object o) = CallbackEntryNumber <$> o .: "id"
-                                             <*> o .: "time"
-                                             <*> o .: "messaging"
-                     <|> CallbackEntry <$> o .: "id"
-                                       <*> o .: "time"
-                                       <*> o .: "messaging"
-  parseJSON wat = typeMismatch "CallbackEntryNumber" wat
+  parseJSON = withObject "CallbackEntry" $ \o ->
+        CallbackEntryNumber <$> o .: "id"
+                            <*> o .: "time"
+                            <*> o .: "messaging"
+    <|> CallbackEntry <$> o .: "id"
+                      <*> o .: "time"
+                      <*> o .: "messaging"
 
 
 instance ToJSON Callback where
-  toJSON (Callback obj entry) = object [ "object" .= obj
-                                       , "entry"  .= entry
-                                       ]
+  toJSON (Callback obj entry) =
+    object [ "object" .= obj
+           , "entry"  .= entry
+           ]
 
 instance ToJSON CallbackEntry where
   toJSON (CallbackEntry ident time messaging) =

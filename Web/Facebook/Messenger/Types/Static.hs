@@ -89,11 +89,12 @@ instance ToJSON SenderActionType where
   toJSON TYPING_OFF = String "typing_off"
 
 instance FromJSON SenderActionType where
-  parseJSON (String "mark_seen")  = pure MARK_SEEN
-  parseJSON (String "typing_on")  = pure TYPING_ON
-  parseJSON (String "typing_off") = pure TYPING_OFF
-  parseJSON (String wat)          = fail $ "Wrong String for SenderActionType: " <> unpack wat
-  parseJSON wat = typeMismatch "SenderActionType" wat
+  parseJSON = withText "SenderActionType" $ \s ->
+    case s of
+      "mark_seen"  -> pure MARK_SEEN
+      "typing_on"  -> pure TYPING_ON
+      "typing_off" -> pure TYPING_OFF
+      wat          -> fail $ "Wrong String for SenderActionType: " <> unpack wat
 
 
 instance ToJSON NotificationType where
@@ -102,11 +103,12 @@ instance ToJSON NotificationType where
   toJSON NO_PUSH     = String "NO_PUSH"
 
 instance FromJSON NotificationType where
-  parseJSON (String "REGULAR")     = pure REGULAR
-  parseJSON (String "SILENT_PUSH") = pure SILENT_PUSH
-  parseJSON (String "NO_PUSH")     = pure NO_PUSH
-  parseJSON (String wat)           = fail $ "Wrong String for NotificationType: " <> unpack wat
-  parseJSON wat = typeMismatch "NotificationType" wat
+  parseJSON = withText "NotificationType" $ \s ->
+    case s of
+      "REGULAR"     -> pure REGULAR
+      "SILENT_PUSH" -> pure SILENT_PUSH
+      "NO_PUSH"     -> pure NO_PUSH
+      wat           -> fail $ "Wrong String for NotificationType: " <> unpack wat
 
 
 instance ToJSON WebViewHeightRatioType where
@@ -115,11 +117,12 @@ instance ToJSON WebViewHeightRatioType where
   toJSON FULL    = String "full"
 
 instance FromJSON WebViewHeightRatioType where
-  parseJSON (String "compact") = pure COMPACT
-  parseJSON (String "tall")    = pure TALL
-  parseJSON (String "full")    = pure FULL
-  parseJSON (String wat)       = fail $ "Wrong String for WebViewHeightRatioType: " <> unpack wat
-  parseJSON wat = typeMismatch "WebViewHeightRatioType" wat
+  parseJSON = withText "WebViewHeightRatioType" $ \s ->
+    case s of
+      "compact" -> pure COMPACT
+      "tall"    -> pure TALL
+      "full"    -> pure FULL
+      wat       -> fail $ "Wrong String for WebViewHeightRatioType: " <> unpack wat
 
 
 instance ToJSON AttachmentType where
@@ -129,12 +132,13 @@ instance ToJSON AttachmentType where
   toJSON FILE  = String "file"
 
 instance FromJSON AttachmentType where
-  parseJSON (String "image") = pure IMAGE
-  parseJSON (String "audio") = pure AUDIO
-  parseJSON (String "video") = pure VIDEO
-  parseJSON (String "file")  = pure FILE
-  parseJSON (String wat)     = fail $ "Wrong String for AttachmentType: " <> unpack wat
-  parseJSON wat = typeMismatch "AttachmentType" wat
+  parseJSON = withText "AttachmentType" $ \s ->
+    case s of
+      "image" -> pure IMAGE
+      "audio" -> pure AUDIO
+      "video" -> pure VIDEO
+      "file"  -> pure FILE
+      wat     -> fail $ "Wrong String for AttachmentType: " <> unpack wat
 
 
 instance ToJSON AirlineTravelClassType where
@@ -143,11 +147,12 @@ instance ToJSON AirlineTravelClassType where
   toJSON FIRST_CLASS = String "first_class"
 
 instance FromJSON AirlineTravelClassType where
-  parseJSON (String "economy")     = pure ECONOMY
-  parseJSON (String "business")    = pure BUSINESS
-  parseJSON (String "first_class") = pure FIRST_CLASS
-  parseJSON (String wat)           = fail $ "Wrong String for AirlineTravelClassType: " <> unpack wat
-  parseJSON wat = typeMismatch "AirlineTravelClassType" wat
+  parseJSON = withText "AirlineTravelClassType" $ \s ->
+    case s of
+      "economy"     -> pure ECONOMY
+      "business"    -> pure BUSINESS
+      "first_class" -> pure FIRST_CLASS
+      wat           -> fail $ "Wrong String for AirlineTravelClassType: " <> unpack wat
 
 
 instance ToJSON AirlineUpdateType where
@@ -156,20 +161,22 @@ instance ToJSON AirlineUpdateType where
   toJSON CANCELLATION = String "cancellation"
 
 instance FromJSON AirlineUpdateType where
-  parseJSON (String "delay")        = pure DELAY
-  parseJSON (String "gate_change")  = pure GATE_CHANGE
-  parseJSON (String "cancellation") = pure CANCELLATION
-  parseJSON (String wat)            = fail $ "Wrong String for AirlineUpdateType: " <> unpack wat
-  parseJSON wat = typeMismatch "AirlineUpdateType" wat
+  parseJSON = withText "AirlineUpdateType" $ \s ->
+    case s of
+      "delay"        -> pure DELAY
+      "gate_change"  -> pure GATE_CHANGE
+      "cancellation" -> pure CANCELLATION
+      wat            -> fail $ "Wrong String for AirlineUpdateType: " <> unpack wat
 
 
 instance ToJSON ReferralSource where
   toJSON SHORTLINK  = String "SHORTLINK"
 
 instance FromJSON ReferralSource where
-  parseJSON (String "SHORTLINK")  = pure SHORTLINK
-  parseJSON (String wat)          = fail $ "Wrong String for ReferralSource: " <> unpack wat
-  parseJSON wat = typeMismatch "ReferralSource" wat
+  parseJSON = withText "ReferralSource" $ \s ->
+    case s of
+      "SHORTLINK"  -> pure SHORTLINK
+      wat          -> fail $ "Wrong String for ReferralSource: " <> unpack wat
 
 
 instance ToJSON ListStyle where
@@ -177,10 +184,11 @@ instance ToJSON ListStyle where
   toJSON ListLARGE   = String "large"
 
 instance FromJSON ListStyle where
-  parseJSON (String "compact") = pure ListCOMPACT
-  parseJSON (String "large")   = pure ListLARGE
-  parseJSON (String wat)       = fail $ "Wrong String for ListStyle: " <> unpack wat
-  parseJSON wat = typeMismatch "ListStyle" wat
+  parseJSON = withText "ListStyle" $ \s ->
+    case s of
+      "compact" -> pure ListCOMPACT
+      "large"   -> pure ListLARGE
+      wat       -> fail $ "Wrong String for ListStyle: " <> unpack wat
 
 
 instance ToJSON PaymentType where
@@ -188,10 +196,11 @@ instance ToJSON PaymentType where
   toJSON FLEXIBLE_AMOUNT = String "FLEXIBLE_AMOUNT"
 
 instance FromJSON PaymentType where
-  parseJSON (String "FIXED_AMOUNT")    = pure FIXED_AMOUNT
-  parseJSON (String "FLEXIBLE_AMOUNT") = pure FLEXIBLE_AMOUNT
-  parseJSON (String wat)               = fail $ "Wrong String for PaymentType: " <> unpack wat
-  parseJSON wat = typeMismatch "PaymentType" wat
+  parseJSON = withText "PaymentType" $ \s ->
+    case s of
+      "FIXED_AMOUNT"    -> pure FIXED_AMOUNT
+      "FLEXIBLE_AMOUNT" -> pure FLEXIBLE_AMOUNT
+      wat               -> fail $ "Wrong String for PaymentType: " <> unpack wat
 
 
 instance ToJSON RequestedUserInfoType where
@@ -201,9 +210,10 @@ instance ToJSON RequestedUserInfoType where
   toJSON CONTACT_EMAIL    = String "contact_email"
 
 instance FromJSON RequestedUserInfoType where
-  parseJSON (String "shipping_address") = pure SHIPPING_ADDRESS
-  parseJSON (String "contact_name")     = pure CONTACT_NAME
-  parseJSON (String "contact_phone")    = pure CONTACT_PHONE
-  parseJSON (String "contact_email")    = pure CONTACT_EMAIL
-  parseJSON (String wat) = fail $ "Wrong String for RequestedUserInfoType: " <> unpack wat
-  parseJSON wat          = typeMismatch "RequestedUserInfoType" wat
+  parseJSON = withText "RequestedUserInfoType" $ \s ->
+    case s of
+      "shipping_address" -> pure SHIPPING_ADDRESS
+      "contact_name"     -> pure CONTACT_NAME
+      "contact_phone"    -> pure CONTACT_PHONE
+      "contact_email"    -> pure CONTACT_EMAIL
+      wat                -> fail $ "Wrong String for RequestedUserInfoType: " <> unpack wat
