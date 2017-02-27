@@ -113,7 +113,10 @@ instance FromJSON CallbackQuickReply where
 instance FromJSON CallbackAttachment where
   parseJSON = withObject "CallbackAttachment" $ \o ->
     case HM.lookup "type" o of
-      Just (String "image") -> CallbackSticker <$> o .: "payload"
+      Just (String "image") ->
+            CallbackSticker <$> o .: "payload"
+        <|> CallbackAttachment <$> o .: "type"
+                               <*> o .: "payload"
       Just (String "template") ->
         CallbackAttachmentTemplate <$> o .: "title"
                                    <*> o .: "subtitle"
