@@ -216,7 +216,7 @@ instance ToJSON TemplatePayload where
     object' [ "template_type"     .=! String "list"
             , "top_element_style" .=! style
             , "elements"          .=! go elements
-            , "buttons"           .=!! button
+            , "buttons"           .=!! fmap (:[]) button
             ]
     where go [e] = [e,e]
           go es  = take 4 es
