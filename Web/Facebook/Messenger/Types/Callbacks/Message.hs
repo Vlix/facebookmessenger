@@ -119,7 +119,7 @@ instance FromJSON CallbackAttachment where
                                <*> o .: "payload"
       Just (String "template") ->
         CallbackAttachmentTemplate <$> o .: "title"
-                                   <*> o .: "subtitle"
+                                   <*> o .:? "subtitle"
                                    <*> o .: "url"
                                    <*> o .: "payload"
       _ -> CallbackAttachment <$> o .: "type"
@@ -130,7 +130,7 @@ instance FromJSON CallbackTemplate where
     case HM.lookup "template_type" o of
       Just (String "generic") ->
         CallbackGenericTemplate <$> o .: "sharable"
-                                <*> o .: "elements"
+                                <*> o .:? "elements" .!= []
       _ -> fail "Only known template is 'generic' in CallbackTemplate"
 
 instance FromJSON CallbackLocation where

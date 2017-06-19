@@ -42,7 +42,7 @@ data CallbackEntry =
 instance FromJSON Callback where
   parseJSON = withObject "Callback" $ \o ->
     Callback <$> o .: "object"
-                                  <*> o .: "entry"
+             <*> o .: "entry"
 
 instance FromJSON CallbackEntry where
   parseJSON = withObject "CallbackEntry" $ \o ->

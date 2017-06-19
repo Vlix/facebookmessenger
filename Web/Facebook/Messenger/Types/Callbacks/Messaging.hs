@@ -127,7 +127,7 @@ instance FromJSON CallbackMessaging where
         sender    <- o .: "sender"    :: Parser CallbackSender
         recipient <- o .: "recipient" :: Parser CallbackRecipient
         timestamp <- o .: "timestamp" :: Parser Integer
-        CallbackMessagingEcho                 sender recipient timestamp <$> o .: "message"
+              CallbackMessagingEcho           sender recipient timestamp <$> o .: "message"
           <|> CallbackMessagingMessage        sender recipient timestamp <$> o .: "message"
           <|> CallbackMessagingRead           sender recipient timestamp <$> o .: "read"
           <|> CallbackMessagingDelivery       sender recipient <$> o .:? "timestamp"
