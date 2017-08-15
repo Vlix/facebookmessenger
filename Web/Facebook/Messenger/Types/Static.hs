@@ -79,7 +79,15 @@ data RequestedUserInfoType = SHIPPING_ADDRESS
                            | CONTACT_EMAIL
   deriving (Eq, Show)
 
-
+data MessageTag = SHIPPING_UPDATE
+                | RESERVATION_UPDATE
+                | ISSUE_RESOLUTION
+                | APPOINTMENT_UPDATE
+                | GAME_EVENT
+                | TRANSPORTATION_UPDATE
+                | FEATURE_FUNCTIONALITY_UPDATE
+                | TICKET_UPDATE
+  deriving (Eq, Show)
 
 -- JSON instances
 
@@ -217,3 +225,27 @@ instance FromJSON RequestedUserInfoType where
       "contact_phone"    -> pure CONTACT_PHONE
       "contact_email"    -> pure CONTACT_EMAIL
       wat                -> fail $ "Wrong String for RequestedUserInfoType: " <> unpack wat
+
+
+instance FromJSON MessageTag where
+  parseJSON = withText "MessageTag" $ \s ->
+    case s of
+      "SHIPPING_UPDATE"              -> pure SHIPPING_UPDATE
+      "RESERVATION_UPDATE"           -> pure RESERVATION_UPDATE
+      "ISSUE_RESOLUTION"             -> pure ISSUE_RESOLUTION
+      "APPOINTMENT_UPDATE"           -> pure APPOINTMENT_UPDATE
+      "GAME_EVENT"                   -> pure GAME_EVENT
+      "TRANSPORTATION_UPDATE"        -> pure TRANSPORTATION_UPDATE
+      "FEATURE_FUNCTIONALITY_UPDATE" -> pure FEATURE_FUNCTIONALITY_UPDATE
+      "TICKET_UPDATE"                -> pure TICKET_UPDATE
+      wat -> fail $ "Wrong String for MessageTag: " <> unpack wat
+
+instance ToJSON MessageTag where
+  toJSON SHIPPING_UPDATE              = String $ "SHIPPING_UPDATE"
+  toJSON RESERVATION_UPDATE           = String $ "RESERVATION_UPDATE"
+  toJSON ISSUE_RESOLUTION             = String $ "ISSUE_RESOLUTION"
+  toJSON APPOINTMENT_UPDATE           = String $ "APPOINTMENT_UPDATE"
+  toJSON GAME_EVENT                   = String $ "GAME_EVENT"
+  toJSON TRANSPORTATION_UPDATE        = String $ "TRANSPORTATION_UPDATE"
+  toJSON FEATURE_FUNCTIONALITY_UPDATE = String $ "FEATURE_FUNCTIONALITY_UPDATE"
+  toJSON TICKET_UPDATE                = String $ "TICKET_UPDATE"

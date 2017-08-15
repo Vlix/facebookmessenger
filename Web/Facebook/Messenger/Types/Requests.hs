@@ -27,6 +27,7 @@ data SendRequest = SendRequest
   { req_recipient         :: RequestRecipient -- Recipient object
   , req_message           :: RequestMessage   -- Message object
   , req_notification_type :: Maybe NotificationType -- Optional; by default, messages will be REGULAR push notification type
+  , req_tag               :: Maybe MessageTag -- Optional; to be used if you have a valid reason to send a message outside of the 24+1 window
   } deriving (Eq, Show)
 
 data SenderActionRequest = SenderActionRequest
@@ -50,11 +51,12 @@ data RequestRecipient = RecipientID    { req_recipient_id    :: Text } -- (PS)ID
 -- ------------------------ --
 
 instance ToJSON SendRequest where
-  toJSON (SendRequest recipient message notification_type) =
-    object [ "recipient"         .= recipient
-           , "message"           .= message
-           , "notification_type" .= notification_type
-           ]
+  toJSON (SendRequest recipient message notification_type tag) =
+    object' [ "recipient"         .=! recipient
+            , "message"           .=! message
+            , "notification_type" .=!! notification_type
+            , "tag"               .=!! tag
+            ]
 
 instance ToJSON SenderActionRequest where
   toJSON (SenderActionRequest recipient saction) =
@@ -75,6 +77,7 @@ instance FromJSON SendRequest where
     SendRequest <$> o .: "recipient"
                 <*> o .: "message"
                 <*> o .:? "notification_type"
+                <*> o .:? "tag"
 
 instance FromJSON SenderActionRequest where
   parseJSON = withObject "SenderActionRequest" $ \o ->
