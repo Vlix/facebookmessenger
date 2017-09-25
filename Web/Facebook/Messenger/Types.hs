@@ -12,7 +12,7 @@ module Web.Facebook.Messenger.Types
     , MID
     , Sequence
     , Url
-    , Message
+    , Msg
     , QuickReply        (..)
     ) where
 
@@ -29,7 +29,7 @@ type RecipientPhone = Text
 type RecipientRef   = Text
 type MID            = Text
 type Url            = Text
-type Message        = Text
+type Msg            = Text
 
 type Timestamp      = Integer
 type Sequence       = Integer
@@ -40,7 +40,7 @@ data QuickReply = QR Text Text (Maybe Text)
   deriving (Eq, Show)
 
 data CallbackHandlers a = CallbackHandlers
-  { messageHandler        :: SenderID -> RecipientID ->       Timestamp -> MID -> Message -> Maybe CallbackQuickReply -> Maybe Sequence -> a
+  { messageHandler        :: SenderID -> RecipientID ->       Timestamp -> MID -> Msg -> Maybe CallbackQuickReply     -> Maybe Sequence -> a
   , attachmentHandler     :: SenderID -> RecipientID ->       Timestamp -> MID -> [CallbackAttachment]                -> Maybe Sequence -> a
   , stickerHandler        :: SenderID -> RecipientID ->       Timestamp -> MID -> [CallbackAttachment] -> StickerID   -> Maybe Sequence -> a
   , locationHandler       :: SenderID -> RecipientID ->       Timestamp -> MID -> [CallbackLocation]                  -> Maybe Sequence -> a

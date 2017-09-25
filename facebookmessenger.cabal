@@ -23,13 +23,20 @@ library
                        Web.Facebook.Messenger.Types.Callbacks
                        Web.Facebook.Messenger.Types.Callbacks.Messaging
                        Web.Facebook.Messenger.Types.Callbacks.Message
-                       Web.Facebook.Messenger.Types.Callbacks.PostbackOptin
-                       Web.Facebook.Messenger.Types.Callbacks.AccountLink
                        Web.Facebook.Messenger.Types.Callbacks.Delivery
                        Web.Facebook.Messenger.Types.Callbacks.Read
                        Web.Facebook.Messenger.Types.Callbacks.Echo
+                       Web.Facebook.Messenger.Types.Callbacks.Postback
+                       Web.Facebook.Messenger.Types.Callbacks.Optin
+                       Web.Facebook.Messenger.Types.Callbacks.Referral
                        Web.Facebook.Messenger.Types.Callbacks.Payment
                        Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
+                       Web.Facebook.Messenger.Types.Callbacks.PreCheckout
+                       Web.Facebook.Messenger.Types.Callbacks.AccountLink
+                       Web.Facebook.Messenger.Types.Callbacks.PolicyEnforcement
+                       Web.Facebook.Messenger.Types.Callbacks.AppRoles
+                       Web.Facebook.Messenger.Types.Callbacks.PassThreadControl
+                       Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl
 
                        Web.Facebook.Messenger.Types.Requests
                        Web.Facebook.Messenger.Types.Requests.Message

@@ -12,9 +12,9 @@ import Web.Facebook.Messenger.Types.Static
 -- ------------------- --
 
 data Delivery = Delivery
-  { delivery_watermark :: Integer       -- All messages that were sent before this timestamp were delivered
-  , delivery_mids      :: [Text]        -- Array containing message IDs of messages that were delivered. Field may not be present.
-  , delivery_seq       :: Maybe Integer -- Sequence number
+  { dWatermark :: Integer -- All messages that were sent before this timestamp were delivered
+  , dMids :: [Text] -- Array containing message IDs of messages that were delivered. Field may not be present.
+  , dSeq :: Maybe Integer -- Sequence number
   } deriving (Eq, Show)
 
 

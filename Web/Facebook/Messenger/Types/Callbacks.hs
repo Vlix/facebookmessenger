@@ -5,8 +5,10 @@ module Web.Facebook.Messenger.Types.Callbacks
     ) where
 
 import Control.Applicative  ((<|>))
-import Data.Text
 import Data.Aeson
+import Data.Aeson.Types (Parser)
+import Data.Maybe (isJust)
+import Data.Text
 
 import Web.Facebook.Messenger.Types.Callbacks.Messaging
 
@@ -16,22 +18,16 @@ import Web.Facebook.Messenger.Types.Callbacks.Messaging
 -- ============================== --
 
 data Callback = Callback
-  { cb_object :: Text            -- Value will be `page`
-  , cb_entry  :: [CallbackEntry] -- Array containing event data
+  { cbObject :: Text -- Value will be `page`
+  , cbEntry  :: [CallbackEntry] -- Array containing event data
   } deriving (Eq, Show)
 
 data CallbackEntry =
-  CallbackEntryNumber
-    { cb_entrynumber_id  :: Int
-    , cb_entry_time      :: Int
-    , cb_entry_messaging :: [CallbackMessaging]
-    }
-    -- For some reason Facebook gives the id arguments of a postback `entry` object as a `Number`
-  | CallbackEntry
-    { cb_entry_id        :: Text                -- Page ID of page
-    , cb_entry_time      :: Int                 -- Time of update (epoch time in milliseconds)
-    , cb_entry_messaging :: [CallbackMessaging] -- Array containing objects related to messaging
-    }
+  CallbackEntry
+    { entryId  :: Text
+    , entryTime :: Int
+    , entryMessaging :: [CallbackMessaging]
+    , entryStandby :: Bool }
   deriving (Eq, Show)
 
 
@@ -41,33 +37,31 @@ data CallbackEntry =
 
 instance FromJSON Callback where
   parseJSON = withObject "Callback" $ \o ->
-    Callback <$> o .: "object"
-             <*> o .: "entry"
+      Callback <$> o .: "object"
+               <*> o .: "entry"
 
 instance FromJSON CallbackEntry where
-  parseJSON = withObject "CallbackEntry" $ \o ->
-        CallbackEntryNumber <$> o .: "id"
-                            <*> o .: "time"
-                            <*> o .: "messaging"
-    <|> CallbackEntry <$> o .: "id"
-                      <*> o .: "time"
-                      <*> o .: "messaging"
-
+  parseJSON = withObject "CallbackEntry" $ \o -> do
+      mStandby <- o .:? "standby"
+      ident <- parseId o
+      CallbackEntry <$> pure ident
+                    <*> o .: "time"
+                    <*> maybe (o .: "messaging") pure mStandby
+                    <*> pure (isJust mStandby)
+    where parseId o = identNum <|> identTxt
+            where identNum = fmap (pack . show) (o .: "id" :: Parser Integer)
+                  identTxt = o .: "id" :: Parser Text
 
 instance ToJSON Callback where
   toJSON (Callback obj entry) =
-    object [ "object" .= obj
-           , "entry"  .= entry
-           ]
+      object [ "object" .= obj
+             , "entry" .= entry
+             ]
 
 instance ToJSON CallbackEntry where
-  toJSON (CallbackEntry ident time messaging) =
-    object [ "id"        .= ident
-           , "time"      .= time
-           , "messaging" .= messaging
-           ]
-  toJSON (CallbackEntryNumber ident time messaging) =
-    object [ "id"        .= ident
-           , "time"      .= time
-           , "messaging" .= messaging
-           ]
+  toJSON (CallbackEntry ident time messaging standby) =
+      object [ "id" .= ident
+             , "time" .= time
+             , msging .= messaging
+             ]
+    where msging = if standby then "standby" else "messaging"

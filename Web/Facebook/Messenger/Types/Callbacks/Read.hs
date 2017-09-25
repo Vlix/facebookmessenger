@@ -10,9 +10,9 @@ import Web.Facebook.Messenger.Types.Static
 -- --------------- --
 
 data ReadCallback = ReadCallback
-  { read_watermark :: Integer       -- All messages that were sent before this timestamp were read
-  , read_seq       :: Maybe Integer -- Sequence number
-  } deriving (Eq, Show)
+  { rWatermark :: Integer -- All messages that were sent before this timestamp were read
+  , rSeq :: Maybe Integer } -- Sequence number
+  deriving (Eq, Show)
 
 
 -- ---------------- --
