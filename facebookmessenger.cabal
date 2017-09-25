@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                facebookmessenger
-version:             0.5.0.0
+version:             0.6.0.0
 synopsis:            Facebook Messenger Platform API
 description:         Data types, From- and ToJSON instances and helper functions for the Facebook Messenger Platform
 license:             MIT
@@ -43,7 +43,7 @@ library
                        Web.Facebook.Messenger.Types.Static
   -- other-modules:
   -- other-extensions:
-  build-depends:       base
+  build-depends:       base >= 4.9 && < 5.0
                      , aeson
                      , unordered-containers
                      , text
