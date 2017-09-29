@@ -1,18 +1,21 @@
-module Web.Facebook.Messenger.Types.Callbacks.Read where
+module Web.Facebook.Messenger.Types.Callbacks.Read
+  ( ReadCallback (..) )
+where
 
 
 import Data.Aeson
 
 import Web.Facebook.Messenger.Types.Static
 
+
 -- --------------- --
 --  READ CALLBACK  --
 -- --------------- --
 
 data ReadCallback = ReadCallback
-  { read_watermark :: Integer       -- All messages that were sent before this timestamp were read
-  , read_seq       :: Maybe Integer -- Sequence number
-  } deriving (Eq, Show)
+    { rWatermark :: Integer -- All messages that were sent before this timestamp were read
+    , rSeq :: Maybe Integer  -- Sequence number
+    } deriving (Eq, Show)
 
 
 -- ---------------- --
@@ -21,11 +24,11 @@ data ReadCallback = ReadCallback
 
 instance FromJSON ReadCallback where
   parseJSON = withObject "ReadCallback" $ \o ->
-    ReadCallback <$> o .: "watermark"
-                 <*> o .:? "seq"
+      ReadCallback <$> o .: "watermark"
+                   <*> o .:? "seq"
 
 instance ToJSON ReadCallback where
   toJSON (ReadCallback watermark seq') =
-    object' [ "watermark" .=! watermark
-            , "seq"       .=!! seq'
-            ] 
+      object' [ "watermark" .=! watermark
+              , "seq" .=!! seq'
+              ] 

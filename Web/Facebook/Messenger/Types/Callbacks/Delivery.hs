@@ -1,4 +1,6 @@
-module Web.Facebook.Messenger.Types.Callbacks.Delivery where
+module Web.Facebook.Messenger.Types.Callbacks.Delivery
+  ( Delivery (..) )
+where
 
 
 import Data.Aeson
@@ -12,10 +14,10 @@ import Web.Facebook.Messenger.Types.Static
 -- ------------------- --
 
 data Delivery = Delivery
-  { delivery_watermark :: Integer       -- All messages that were sent before this timestamp were delivered
-  , delivery_mids      :: [Text]        -- Array containing message IDs of messages that were delivered. Field may not be present.
-  , delivery_seq       :: Maybe Integer -- Sequence number
-  } deriving (Eq, Show)
+    { dWatermark :: Integer -- All messages that were sent before this timestamp were delivered
+    , dMids :: [Text] -- Array containing message IDs of messages that were delivered. Field may not be present.
+    , dSeq :: Maybe Integer -- Sequence number
+    } deriving (Eq, Show)
 
 
 -- -------------------- --
@@ -24,14 +26,14 @@ data Delivery = Delivery
 
 instance FromJSON Delivery where
   parseJSON = withObject "Delivery" $ \o ->
-    Delivery <$> o .: "watermark"
-             <*> o .:? "mids" .!= []
-             <*> o .:? "seq"
+      Delivery <$> o .: "watermark"
+               <*> o .:? "mids" .!= []
+               <*> o .:? "seq"
 
 
 instance ToJSON Delivery where
   toJSON (Delivery watermark mids seq') =
-    object' [ "watermark" .=! watermark
-            , "mids"      .=! mids
-            , "seq"       .=!! seq'
-            ]
+      object' [ "watermark" .=! watermark
+              , "mids" .=! mids
+              , "seq" .=!! seq'
+              ]

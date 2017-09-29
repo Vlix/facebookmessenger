@@ -23,20 +23,37 @@ library
                        Web.Facebook.Messenger.Types.Callbacks
                        Web.Facebook.Messenger.Types.Callbacks.Messaging
                        Web.Facebook.Messenger.Types.Callbacks.Message
-                       Web.Facebook.Messenger.Types.Callbacks.PostbackOptin
-                       Web.Facebook.Messenger.Types.Callbacks.AccountLink
                        Web.Facebook.Messenger.Types.Callbacks.Delivery
                        Web.Facebook.Messenger.Types.Callbacks.Read
                        Web.Facebook.Messenger.Types.Callbacks.Echo
+                       Web.Facebook.Messenger.Types.Callbacks.Postback
+                       Web.Facebook.Messenger.Types.Callbacks.Optin
+                       Web.Facebook.Messenger.Types.Callbacks.Referral
                        Web.Facebook.Messenger.Types.Callbacks.Payment
                        Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
+                       Web.Facebook.Messenger.Types.Callbacks.PreCheckout
+                       Web.Facebook.Messenger.Types.Callbacks.AccountLink
+                       Web.Facebook.Messenger.Types.Callbacks.PolicyEnforcement
+                       Web.Facebook.Messenger.Types.Callbacks.AppRoles
+                       Web.Facebook.Messenger.Types.Callbacks.PassThreadControl
+                       Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl
 
                        Web.Facebook.Messenger.Types.Requests
-                       Web.Facebook.Messenger.Types.Requests.Message
-                       Web.Facebook.Messenger.Types.Requests.Attachment
-                       Web.Facebook.Messenger.Types.Requests.Templates
-                       Web.Facebook.Messenger.Types.Requests.Settings
                        Web.Facebook.Messenger.Types.Requests.Airline
+                       Web.Facebook.Messenger.Types.Requests.AirlineBoardingPass
+                       Web.Facebook.Messenger.Types.Requests.AirlineCheckin
+                       Web.Facebook.Messenger.Types.Requests.AirlineFlightUpdate
+                       Web.Facebook.Messenger.Types.Requests.AirlineItinerary
+                       Web.Facebook.Messenger.Types.Requests.Attachment
+                       Web.Facebook.Messenger.Types.Requests.ButtonTemplate
+                       Web.Facebook.Messenger.Types.Requests.Extra
+                       Web.Facebook.Messenger.Types.Requests.GenericTemplate
+                       Web.Facebook.Messenger.Types.Requests.ListTemplate
+                       Web.Facebook.Messenger.Types.Requests.OpenGraphTemplate
+                       Web.Facebook.Messenger.Types.Requests.ReceiptTemplate
+                       Web.Facebook.Messenger.Types.Requests.Message
+                       Web.Facebook.Messenger.Types.Requests.Settings
+                       Web.Facebook.Messenger.Types.Requests.Templates
 
                        Web.Facebook.Messenger.Types.Responses
 
@@ -45,8 +62,10 @@ library
   -- other-extensions:
   build-depends:       base >= 4.9 && < 5.0
                      , aeson
-                     , unordered-containers
+                     , bytestring
+                     , scientific
                      , text
+                     , unordered-containers
                      , vector
 
   -- hs-source-dirs:

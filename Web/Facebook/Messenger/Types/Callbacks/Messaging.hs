@@ -1,31 +1,50 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
 module Web.Facebook.Messenger.Types.Callbacks.Messaging 
     ( CallbackMessaging (..)
+    , CallbackContent (..)
     , CallbackSender (..)
     , CallbackRecipient (..)
+    , PSID (..)
+    , PageID (..)
     , module Web.Facebook.Messenger.Types.Callbacks.Message
-    , module Web.Facebook.Messenger.Types.Callbacks.PostbackOptin
     , module Web.Facebook.Messenger.Types.Callbacks.Delivery
-    , module Web.Facebook.Messenger.Types.Callbacks.AccountLink
     , module Web.Facebook.Messenger.Types.Callbacks.Read
     , module Web.Facebook.Messenger.Types.Callbacks.Echo
+    , module Web.Facebook.Messenger.Types.Callbacks.Postback
+    , module Web.Facebook.Messenger.Types.Callbacks.Optin
+    , module Web.Facebook.Messenger.Types.Callbacks.Referral
     , module Web.Facebook.Messenger.Types.Callbacks.Payment
     , module Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
+    , module Web.Facebook.Messenger.Types.Callbacks.PreCheckout
+    , module Web.Facebook.Messenger.Types.Callbacks.AccountLink
+    , module Web.Facebook.Messenger.Types.Callbacks.PolicyEnforcement
+    , module Web.Facebook.Messenger.Types.Callbacks.AppRoles
+    , module Web.Facebook.Messenger.Types.Callbacks.PassThreadControl
+    , module Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl
     ) where
 
-import Control.Applicative  ((<|>))
+import Control.Applicative ((<|>))
 import Data.Aeson
-import Data.Aeson.Types     (Parser)
+import Data.Aeson.Types (Parser)
 import Data.Text
-import Data.HashMap.Strict  as HM
+import Data.HashMap.Strict as HM
 
 import Web.Facebook.Messenger.Types.Callbacks.Message
-import Web.Facebook.Messenger.Types.Callbacks.PostbackOptin
 import Web.Facebook.Messenger.Types.Callbacks.Delivery
-import Web.Facebook.Messenger.Types.Callbacks.AccountLink
 import Web.Facebook.Messenger.Types.Callbacks.Read
 import Web.Facebook.Messenger.Types.Callbacks.Echo
+import Web.Facebook.Messenger.Types.Callbacks.Postback
+import Web.Facebook.Messenger.Types.Callbacks.Optin
+import Web.Facebook.Messenger.Types.Callbacks.Referral
 import Web.Facebook.Messenger.Types.Callbacks.Payment
 import Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
+import Web.Facebook.Messenger.Types.Callbacks.PreCheckout
+import Web.Facebook.Messenger.Types.Callbacks.AccountLink
+import Web.Facebook.Messenger.Types.Callbacks.PolicyEnforcement
+import Web.Facebook.Messenger.Types.Callbacks.AppRoles
+import Web.Facebook.Messenger.Types.Callbacks.PassThreadControl
+import Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl
 import Web.Facebook.Messenger.Types.Static
 
 
@@ -34,72 +53,44 @@ import Web.Facebook.Messenger.Types.Static
 -- ------------------ --
 
 -- The different kinds of callbacks Facebook sends through WebHook
-data CallbackMessaging =
-    CallbackMessagingMessage
-    { cb_sender    :: CallbackSender
-    , cb_recipient :: CallbackRecipient
-    , cb_timestamp :: Integer
-    , cb_message   :: CallbackMessage }
-  | CallbackMessagingPostback
-    { cb_sender    :: CallbackSender
-    , cb_recipient :: CallbackRecipient
-    , cb_timestamp :: Integer
-    , cb_postback  :: Postback }
-  | CallbackMessagingOptin
-    { cb_sender    :: CallbackSender
-    , cb_recipient :: CallbackRecipient
-    , cb_timestamp :: Integer
-    , cb_optin     :: Optin }
-  | CallbackMessagingOptinRef
-    { cb_recipient :: CallbackRecipient
-    , cb_timestamp :: Integer
-    , cb_optin_ref :: OptinRef }
-  | CallbackMessagingReferral
-    { cb_sender    :: CallbackSender
-    , cb_recipient :: CallbackRecipient
-    , cb_timestamp :: Integer
-    , cb_referral  :: Referral }
-  | CallbackMessagingAccountLink
-    { cb_sender    :: CallbackSender
-    , cb_recipient :: CallbackRecipient
-    , cb_timestamp :: Integer
-    , cb_account_linking :: AccountLink }
-  | CallbackMessagingDelivery
-    { cb_sender      :: CallbackSender
-    , cb_recipient   :: CallbackRecipient
-    , cb_timestamp_d :: Maybe Integer
-    , cb_delivery    :: Delivery }
-  | CallbackMessagingRead
-    { cb_sender    :: CallbackSender
-    , cb_recipient :: CallbackRecipient
-    , cb_timestamp :: Integer
-    , cb_read      :: ReadCallback }
-  | CallbackMessagingEcho
-    { cb_sender    :: CallbackSender
-    , cb_recipient :: CallbackRecipient
-    , cb_timestamp :: Integer
-    , cb_echo_message :: Echo }
-  | CallbackMessagingPayment
-    { cb_sender    :: CallbackSender
-    , cb_recipient :: CallbackRecipient
-    , cb_timestamp :: Integer
-    , cb_payment   :: Payment }
-  | CallbackMessagingCheckoutUpdate
-    { cb_sender    :: CallbackSender
-    , cb_recipient :: CallbackRecipient
-    , cb_timestamp :: Integer
-    , cb_checkout_update :: CheckoutUpdate
+data CallbackMessaging = CallbackMessaging
+    { sender :: Maybe CallbackSender
+    , recipient :: CallbackRecipient
+    , timestamp :: Maybe Integer
+    , content :: CallbackContent
     } deriving (Eq, Show)
--- Payment and Checkout should be added
 
 
--- ALL MESSAGING HAS THESE TWO --
---  (Except the OptinRef one)  --
-newtype CallbackSender = CallbackSender { cb_sender_id :: Text } -- Sender user ID
+data CallbackContent =
+    CMMessage Message
+  | CMDelivery Delivery
+  | CMRead ReadCallback
+  | CMEcho Echo
+  | CMPostback Postback
+  | CMOptin Optin
+  | CMReferral Referral
+  | CMPayment Payment
+  | CMCheckoutUpdate CheckoutUpdate
+  | CMPreCheckOut PreCheckout
+  | CMAccountLink AccountLink
+  | CMPolicy PolicyEnforcement
+  | CMAppRoles AppRoles
+  | CMPassThread PassThread
+  | CMTakeThread TakeThread
   deriving (Eq, Show)
 
-newtype CallbackRecipient = CallbackRecipient { cb_recipient_id :: Text } -- Recipient user ID/PAGE_ID
+
+-- ALMOST ALL MESSAGING HAS THESE TWO --
+newtype CallbackSender =
+          CallbackSender { senderId :: PSID } -- Sender user ID
   deriving (Eq, Show)
+
+newtype CallbackRecipient =
+          CallbackRecipient { recipientId :: PageID } -- Recipient user ID/PAGE_ID
+  deriving (Eq, Show)
+
+newtype PSID = PSID Text deriving (Eq, Show, FromJSON, ToJSON)
+newtype PageID = PageID Text deriving (Eq, Show, FromJSON, ToJSON)
 
 -- When representing a user, these IDs are page-scoped IDs (PSID). This means that the IDs of users are unique for a given page.
 
@@ -110,35 +101,33 @@ newtype CallbackRecipient = CallbackRecipient { cb_recipient_id :: Text } -- Rec
 
 instance FromJSON CallbackMessaging where
   parseJSON = withObject "CallbackMessaging" $ \o -> do
-    let mSender    = "sender"    `HM.lookup` o
-        mRecipient = "recipient" `HM.lookup` o
-        mTimestamp = "timestamp" `HM.lookup` o
-    case (mRecipient, mTimestamp, mSender) of
-      (_,_,Nothing) ->
-        CallbackMessagingOptinRef <$> o .: "recipient"
-                                  <*> o .: "timestamp"
-                                  <*> o .: "optin"
-      (_,Nothing,_) ->
-        CallbackMessagingDelivery <$> o .: "sender"
-                                  <*> o .: "recipient"
-                                  <*> o .:? "timestamp"
-                                  <*> o .: "delivery"
-      (Just _, Just _, Just _) -> do
-        sender    <- o .: "sender"    :: Parser CallbackSender
-        recipient <- o .: "recipient" :: Parser CallbackRecipient
-        timestamp <- o .: "timestamp" :: Parser Integer
-        CallbackMessagingEcho                 sender recipient timestamp <$> o .: "message"
-          <|> CallbackMessagingMessage        sender recipient timestamp <$> o .: "message"
-          <|> CallbackMessagingRead           sender recipient timestamp <$> o .: "read"
-          <|> CallbackMessagingDelivery       sender recipient <$> o .:? "timestamp"
-                                                               <*> o .: "delivery"
-          <|> CallbackMessagingPostback       sender recipient timestamp <$> o .: "postback"
-          <|> CallbackMessagingReferral       sender recipient timestamp <$> o .: "referral"
-          <|> CallbackMessagingCheckoutUpdate sender recipient timestamp <$> o .: "checkout_update"
-          <|> CallbackMessagingPayment        sender recipient timestamp <$> o .: "payment"
-          <|> CallbackMessagingAccountLink    sender recipient timestamp <$> o .: "account_linking"
-          <|> CallbackMessagingOptin          sender recipient timestamp <$> o .: "optin"
-      _ -> fail "No recipient or "
+    CallbackMessaging <$> o .:? "sender"
+                      <*> o .: "recipient"
+                      <*> o .:? "timestamp"
+                      <*> parseJSON (Object o)
+
+instance FromJSON CallbackContent where
+  parseJSON = withObject "CallbackContent" $ \o ->
+          tryMessage o
+      <|> CMDelivery <$> o .: "delivery"
+      <|> CMRead <$> o .: "read"
+      <|> CMPostback <$> o .: "postback"
+      <|> CMOptin <$> o .: "optin"
+      <|> CMReferral <$> o .: "referral"
+      <|> CMPayment <$> o .: "payment"
+      <|> CMCheckoutUpdate <$> o .: "checkout_update"
+      <|> CMPreCheckOut <$> o .: "pre_checkout"
+      <|> CMAccountLink <$> o .: "account_linking"
+      <|> CMPolicy <$> o .: "policy-enforcement"
+      <|> CMAppRoles <$> o .: "app_roles"
+      <|> CMPassThread <$> o .: "pass_thread_control"
+      <|> CMTakeThread <$> o .: "take_thread_control"
+    where tryMessage o = do
+              msg <- o .: "message"
+              case "is_echo" `HM.lookup` msg of
+                Just _ -> CMEcho <$> parseJSON (Object msg)
+                _ -> CMMessage <$> parseJSON (Object msg)
+
 
 -- ALL MESSAGING HAS THESE TWO --
 --  (Except the OptinRef one)  --
@@ -152,34 +141,29 @@ instance FromJSON CallbackRecipient where
 
 
 instance ToJSON CallbackMessaging where
-  toJSON (CallbackMessagingOptinRef recipient timestamp optin) =
-    object [ "recipient" .= recipient
-           , "timestamp" .= timestamp
-           , "optin"     .= optin
-           ]
-  toJSON (CallbackMessagingDelivery sender recipient mtimestamp delivery) =
-    object' [ "sender"    .=! sender
-            , "recipient" .=! recipient
-            , "timestamp" .=!! mtimestamp
-            , "delivery"  .=! delivery
-            ]
-  toJSON other = object $ extra : basis
-   where
-    basis = [ "sender"    .= cb_sender other
-            , "recipient" .= cb_recipient other
-            , "timestamp" .= cb_timestamp other
-            ]
-    extra = case other of
-      msg@CallbackMessagingMessage{}       -> "message"         .= cb_message msg
-      pb@CallbackMessagingPostback{}       -> "postback"        .= cb_postback pb
-      optin@CallbackMessagingOptin{}       -> "optin"           .= cb_optin optin
-      ref@CallbackMessagingReferral{}      -> "referral"        .= cb_referral ref
-      al@CallbackMessagingAccountLink{}    -> "account_linking" .= cb_account_linking al
-      read'@CallbackMessagingRead{}        -> "read"            .= cb_read read'
-      echo@CallbackMessagingEcho{}         -> "message"         .= cb_echo_message echo
-      pay@CallbackMessagingPayment{}       -> "payment"         .= cb_payment pay
-      up@CallbackMessagingCheckoutUpdate{} -> "checkout_update" .= cb_checkout_update up
-      _ -> ("oops",String "This shouldn't be here, please report")
+  toJSON (CallbackMessaging msender recipient mtimestamp content) =
+      object' [ "sender"    .=!! msender
+              , "recipient" .=! recipient
+              , "timestamp" .=!! mtimestamp
+              , mkContent content
+              ]
+    where
+      mkContent (CMMessage cb) = "message" .=! cb
+      mkContent (CMDelivery cb) = "delivery" .=! cb
+      mkContent (CMRead cb) = "read" .=! cb
+      mkContent (CMEcho cb) = "message" .=! cb
+      mkContent (CMPostback cb) = "postback" .=! cb
+      mkContent (CMOptin cb) = "optin" .=! cb
+      mkContent (CMReferral cb) = "referral" .=! cb
+      mkContent (CMPayment cb) = "payment" .=! cb
+      mkContent (CMCheckoutUpdate cb) = "checkout_update" .=! cb
+      mkContent (CMPreCheckOut cb) = "pre_checkout" .=! cb
+      mkContent (CMAccountLink cb) = "account_linking" .=! cb
+      mkContent (CMPolicy cb) = "policy-enforcement" .=! cb
+      mkContent (CMAppRoles cb) = "app_roles" .=! cb
+      mkContent (CMPassThread cb) = "pass_thread_control" .=! cb
+      mkContent (CMTakeThread cb) = "take_thread_control" .=! cb
+
 
 -- ALL MESSAGING HAS THESE TWO --
 --  (Except the OptinRef one)   -

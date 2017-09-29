@@ -1,21 +1,23 @@
-module Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate where
+module Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
+  ( CheckoutUpdate (..) )
+where
 
 
 import Data.Aeson
-import Data.Aeson.Types     (Parser)
+import Data.Aeson.Types (Parser)
+import qualified Data.HashMap.Strict as HM
 import Data.Text
-import Data.HashMap.Strict  as HM
 
-import Web.Facebook.Messenger.Types.Requests.Templates (TemplateAddress)
+import Web.Facebook.Messenger.Types.Requests.Extra (TemplateAddress)
 
 
 -- | This callback is used for flexible-amount transactions
 data CheckoutUpdate = CheckoutUpdate
-  { checkup_payload :: Text
-  , checkup_shipid  :: Text
--- Again, the documentation example is a Number, and the text says the shipping_address_id's a String...
-  , checkup_address :: TemplateAddress
-  } deriving (Eq, Show)
+    { cuPayload :: Text
+    , cuShipid  :: Text
+  -- Again, the documentation example is a Number, and the text says the shipping_address_id's a String...
+    , cuAddress :: TemplateAddress
+    } deriving (Eq, Show)
 
 
 -- --------------------------- --
@@ -24,27 +26,29 @@ data CheckoutUpdate = CheckoutUpdate
 
 instance ToJSON CheckoutUpdate where
   toJSON (CheckoutUpdate payload shipid address) =
-    object [ "payload"          .= payload
-           , "shipping_address" .= addIDtoAddress
-           ]
-    where addIDtoAddress = flip changeObject addressValue $ insert "id" shipIDValue
+      object [ "payload" .= payload
+             , "shipping_address" .= addIDtoAddress
+             ]
+    where addIDtoAddress = changeObject addressValue $ HM.insert "id" shipIDValue
           shipIDValue    = toJSON shipid
           addressValue   = toJSON address
-          changeObject f (Object o) = Object $ f o
-          changeObject _ x          = x
+          changeObject (Object o) f = Object $ f o
+          changeObject x          _ = x
 
 instance FromJSON CheckoutUpdate where
-  parseJSON = withObject "CheckoutUpdate" $ \o ->
-    case HM.lookup "shipping_address" o of
-      Just (Object ob) ->
-        case HM.lookup "id" ob of
-          Just i@(Number _) ->
-            CheckoutUpdate <$> o .: "payload"
-                           <*> (pack . show <$> (parseJSON i :: Parser Int))
-                           <*> o .: "shipping_address"
-          Just (String t) ->
-            CheckoutUpdate <$> o .: "payload"
-                           <*> pure t
-                           <*> o .: "shipping_address"
-          _ -> fail "Invalid type in 'id' field of CheckoutUpdate object."
-      _ -> fail "No shipping_address key or no id key in shipping_address object of CheckoutUpdate object."
+  parseJSON = withObject "CheckoutUpdate" $ \o -> do
+      shipAddr <- o .: "shipping_address"
+      case shipAddr of
+        Object ob -> do
+            ident <- ob .: "id"
+            case ident of
+              i@(Number _) ->
+                  CheckoutUpdate <$> o .: "payload"
+                                 <*> fmap (pack . show) (parseJSON i :: Parser Int)
+                                 <*> o .: "shipping_address"
+              (String t) ->
+                  CheckoutUpdate <$> o .: "payload"
+                                 <*> pure t
+                                 <*> o .: "shipping_address"
+              _ -> fail "CheckoutUpdate: invalid type in \"id\" field."
+        _ -> fail "CheckoutUpdate: \"shipping_address\" value not an object."
