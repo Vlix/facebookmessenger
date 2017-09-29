@@ -1,5 +1,6 @@
-module Web.Facebook.Messenger.Types.Callbacks.PassThreadControl
-  ( PassThread (..) )
+module Web.Facebook.Messenger.Types.Callbacks.PassThreadControl (
+  PassThread (..)
+  )
 where
 
 

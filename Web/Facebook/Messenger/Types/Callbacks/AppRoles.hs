@@ -1,5 +1,6 @@
-module Web.Facebook.Messenger.Types.Callbacks.AppRoles
-  ( AppRoles (..) )
+module Web.Facebook.Messenger.Types.Callbacks.AppRoles (
+  AppRoles (..)
+  )
 where
 
 

@@ -1,5 +1,6 @@
-module Web.Facebook.Messenger.Types.Callbacks.Postback
-  ( Postback (..) )
+module Web.Facebook.Messenger.Types.Callbacks.Postback (
+  Postback (..)
+  )
 where
 
 

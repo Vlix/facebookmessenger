@@ -86,6 +86,14 @@ newtype StickerAttachment =
           StickerAttachment { sticker :: CallbackStickerPayload }
   deriving (Eq, Show)
 
+newtype CallbackQuickReply =
+          CallbackQuickReply { cbQR :: Text }
+  deriving (Eq, Show)
+
+newtype StickerAttachment =
+          StickerAttachment { sticker :: CallbackStickerPayload }
+  deriving (Eq, Show)
+
 data CallbackStickerPayload = CallbackStickerPayload
     { cspStickerUrl :: Text -- URL of the file
     , cspStickerId :: Integer -- sticker_id

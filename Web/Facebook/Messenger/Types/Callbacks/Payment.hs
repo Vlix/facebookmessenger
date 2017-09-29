@@ -1,5 +1,5 @@
-module Web.Facebook.Messenger.Types.Callbacks.Payment
-  ( Payment (..)
+module Web.Facebook.Messenger.Types.Callbacks.Payment (
+  Payment (..)
   , RequestedUserInfo (..)
   , PaymentCredential (..)
   , PaymentToken (..)

@@ -1,5 +1,6 @@
-module Web.Facebook.Messenger.Types.Callbacks.AccountLink
-  ( AccountLink (..) )
+module Web.Facebook.Messenger.Types.Callbacks.AccountLink (
+  AccountLink (..)
+  )
 where
 
 

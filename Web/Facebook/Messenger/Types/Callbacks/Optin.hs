@@ -1,10 +1,11 @@
-module Web.Facebook.Messenger.Types.Callbacks.Optin
-  ( Optin (..) )
+module Web.Facebook.Messenger.Types.Callbacks.Optin (
+  Optin (..)
+  )
 where
 
 
-import Data.Text (Text)
 import Data.Aeson
+import Data.Text (Text)
 
 import Web.Facebook.Messenger.Types.Static
 

@@ -1,7 +1,7 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
-module Web.Facebook.Messenger.Types.Callbacks.Messaging 
-    ( CallbackMessaging (..)
+module Web.Facebook.Messenger.Types.Callbacks.Messaging (
+    CallbackMessaging (..)
     , CallbackContent (..)
     , CallbackSender (..)
     , CallbackRecipient (..)

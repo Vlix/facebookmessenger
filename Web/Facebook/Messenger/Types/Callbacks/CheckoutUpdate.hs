@@ -1,5 +1,6 @@
-module Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
-  ( CheckoutUpdate (..) )
+module Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate (
+  CheckoutUpdate (..)
+  )
 where
 
 

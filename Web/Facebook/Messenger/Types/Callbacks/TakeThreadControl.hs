@@ -1,5 +1,5 @@
-module Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl
-  ( TakeThread (..)
+module Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl (
+  TakeThread (..)
   )
 where
 

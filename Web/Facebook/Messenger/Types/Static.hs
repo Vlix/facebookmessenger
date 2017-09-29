@@ -75,6 +75,12 @@ data NotificationType =
   | NO_PUSH     -- Emits neither
   deriving (Eq, Show)
 
+data NotificationType =
+    REGULAR     -- Emits a sound/vibration and a phone notification
+  | SILENT_PUSH -- Emits a phone notification
+  | NO_PUSH     -- Emits neither
+  deriving (Eq, Show)
+
 instance ToJSON NotificationType where
   toJSON REGULAR = String "REGULAR"
   toJSON SILENT_PUSH = String "SILENT_PUSH"
@@ -175,6 +181,11 @@ data ListStyle =
   | ListLARGE
   deriving (Eq, Show)
 
+data ListStyle =
+    ListCOMPACT
+  | ListLARGE
+  deriving (Eq, Show)
+
 instance ToJSON ListStyle where
   toJSON ListCOMPACT = String "compact"
   toJSON ListLARGE = String "large"
@@ -201,6 +212,13 @@ instance FromJSON PaymentType where
       ,("FLEXIBLE_AMOUNT", FLEXIBLE_AMOUNT)
       ]
 
+
+data RequestedUserInfoType =
+    SHIPPING_ADDRESS
+  | CONTACT_NAME
+  | CONTACT_PHONE
+  | CONTACT_EMAIL
+  deriving (Eq, Show)
 
 data RequestedUserInfoType =
     SHIPPING_ADDRESS

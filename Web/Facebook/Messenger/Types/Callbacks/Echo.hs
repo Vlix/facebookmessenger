@@ -1,5 +1,5 @@
-module Web.Facebook.Messenger.Types.Callbacks.Echo
-  ( Echo (..)
+module Web.Facebook.Messenger.Types.Callbacks.Echo (
+  Echo (..)
   , EchoContent (..)
   , EchoText (..)
   , EchoAttachment (..)
