@@ -26,6 +26,7 @@ module Web.Facebook.Messenger.Types.Requests.Settings (
   --         ,`whiteListedDomains` [\"https:\/\/example.com\/\",\"https:\/\/server.somewhere.else\/\"]
   --         ]
   -- @
+
   -- ** Greeting
   greeting
   , Greeting (..)
@@ -163,10 +164,10 @@ homeUrl x = mempty{prHomeUrl = Just x}
 --  SEND SETTING REQUEST  --
 -- ---------------------- --
 
--- | POST request to --->  https://graph.facebook.com/v2.6/me/thread_settings?access_token=PAGE_ACCESS_TOKEN
---
--- Sets the values of one or more Messenger Profile properties. Only properties set in the request body will be overwritten.
+-- | Sets the values of one or more Messenger Profile properties. Only properties set in the request body will be overwritten.
 -- To set or update Messenger Profile properties you must have the \'Administrator\' role for the Page associated with the app.
+--
+-- @https:\/\/graph.facebook.com\/v2.6\/me\/thread_settings?access_token=<PAGE_ACCESS_TOKEN>@
 data ProfileRequest = ProfileRequest
     { prGreeting :: Maybe Greeting
     , prGetStarted :: Maybe GetStartedButton

@@ -1,3 +1,12 @@
+{-|
+Module      : Web.Facebook.Messenger.Types.Callbacks.Delivery
+Copyright   : (c) Felix Paulusma, 2016
+License     : MIT
+Maintainer  : felix.paulusma@gmail.com
+Stability   : semi-experimental
+
+TODO: Explanation and link to FB Docs
+-}
 module Web.Facebook.Messenger.Types.Callbacks.Delivery
   ( Delivery (..) )
 where

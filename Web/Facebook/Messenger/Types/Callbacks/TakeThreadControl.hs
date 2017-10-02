@@ -1,3 +1,12 @@
+{-|
+Module      : Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl
+Copyright   : (c) Felix Paulusma, 2016
+License     : MIT
+Maintainer  : felix.paulusma@gmail.com
+Stability   : semi-experimental
+
+TODO: Explanation and link to FB Docs
+-}
 module Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl (
   TakeThread (..)
   )
@@ -7,11 +16,13 @@ where
 import Data.Aeson
 import Data.Text (Text)
 
+import Web.Facebook.Messenger.Types.Requests (AppId)
 
--- | This callback is sent when thread ownership for a user has been taken away from your application. 
+
+-- This callback is sent when thread ownership for a user has been taken away from your application. 
 data TakeThread = TakeThread
-    { ttPreviousOwnderAppId :: Text
-    , ttMetaData :: Text
+    { ttPreviousOwnderAppId :: AppId -- ^ TODO: ...
+    , ttMetaData :: Text -- ^ TODO: ...
     } deriving (Eq, Show)
 
 

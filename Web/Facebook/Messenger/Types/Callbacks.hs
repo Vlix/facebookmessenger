@@ -1,6 +1,17 @@
-module Web.Facebook.Messenger.Types.Callbacks
-    ( Callback (..)
+{-|
+Module      : Web.Facebook.Messenger.Types.Callbacks
+Copyright   : (c) Felix Paulusma, 2016
+License     : MIT
+Maintainer  : felix.paulusma@gmail.com
+Stability   : semi-experimental
+
+Callbacks received from Facebook's Messenger API Webhooks
+-}
+module Web.Facebook.Messenger.Types.Callbacks (
+    -- * Callbacks
+    Callback (..)
     , CallbackEntry (..)
+    -- * Exported Modules
     , module Web.Facebook.Messenger.Types.Callbacks.Messaging
     ) where
 
@@ -25,8 +36,8 @@ data CallbackEntry = CallbackEntry
     { entryId  :: Text
     , entryTime :: Int
     , entryMessaging :: [CallbackMessaging]
-    , entryStandby :: Bool }
-  deriving (Eq, Show)
+    , entryStandby :: Bool
+    } deriving (Eq, Show)
 
 
 -- ------------------------ --

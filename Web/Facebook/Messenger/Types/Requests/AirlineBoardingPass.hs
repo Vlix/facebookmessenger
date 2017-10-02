@@ -73,6 +73,7 @@ data BoardingPass = BoardingPass
     , abpFlightInfo :: AirlineFlightInfo -- ^ Information about the flight
     } deriving (Eq, Show)
 
+-- | QR code or Bar code used as the boarding pass
 data AirlineQRBarCode = AirlineQR AirlineQRCode
                       | AirlineBar AirlineBarCode
   deriving (Eq, Show)

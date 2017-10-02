@@ -1,3 +1,12 @@
+{-|
+Module      : Web.Facebook.Messenger.Types.Callbacks.PreCheckout
+Copyright   : (c) Felix Paulusma, 2016
+License     : MIT
+Maintainer  : felix.paulusma@gmail.com
+Stability   : semi-experimental
+
+TODO: Explanation and link to FB Docs
+-}
 module Web.Facebook.Messenger.Types.Callbacks.PreCheckout
   ( PreCheckout (..) )
 where
@@ -9,8 +18,8 @@ import Data.Text (Text)
 import Web.Facebook.Messenger.Types.Callbacks.Payment (RequestedUserInfo, Amount)
 
 
--- | This callback is sent just before charging the user
--- You need to respond with { "success": true } to let the payment go through
+-- This callback is sent just before charging the user
+-- You need to respond with { "success": true } to let the payment go through.
 data PreCheckout = PreCheckout
     { cpPayload :: Text
     , cpRequestedUserInfo :: RequestedUserInfo

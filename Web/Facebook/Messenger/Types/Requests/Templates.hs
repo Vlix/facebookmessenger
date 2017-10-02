@@ -12,7 +12,7 @@ module Web.Facebook.Messenger.Types.Requests.Templates (
   --
   -- | Use the "ButtonTemplate" with the Send API to send a text and buttons attached to request input from the user.
   -- The buttons can open a URL, or make a back-end call to your webhook, start a phone call, etc.
-  buttonTemplate
+  buttonTemplateP
   -- * Generic Template
   --
   -- | Use the "GenericTemplate" with the Send API to send a horizontal scrollable carousel of items,
@@ -26,13 +26,13 @@ module Web.Facebook.Messenger.Types.Requests.Templates (
   -- * open a share dialog
   -- * open a payment dialog
   -- * For all the things you can do, see `TemplateButton`
-  , genericTemplate
-  , genericTemplate_
+  , genericTemplateP
+  , genericTemplateP_
   -- * List Template
   --
-  -- | The "ListTemplate" can be sent with a call to the Send API with a new template_type: "list".
+  -- | Use the "ListTemplate" with the Send API to send a vertical list of up to 4 items.
   --
-  -- The first item style is controlled by `ListStyle`.
+  -- The style of the first item is controlled by `ListStyle`.
   -- The value can be `ListLARGE` or `ListCOMPACT`. To send a list view as a plain list (with no cover item),
   -- set the `ListStyle` to `ListCOMPACT`; otherwise, the first element will be rendered
   -- as the cover item and the image_url is required for the first element.
@@ -42,8 +42,14 @@ module Web.Facebook.Messenger.Types.Requests.Templates (
   -- * You may send at least 2 elements and at most 4 elements.
   -- * Adding a button to each element is optional. You may only have up to 1 button per element.
   -- * You may have up to 1 global button.
-  , listTemplate
-  , listTemplate_
+  , listTemplateP
+  , listTemplateP_
+  -- * Open Graph Template
+  --
+  -- | Use "OpenGraphTemplate" with the Send API to send a structured music template.
+  --
+  -- The information used in this template is gathered from meta data on the site located at the provided URL in the template.
+  , openGraphTemplateP
   -- * Template Payload
   , TemplatePayload (..)
   -- * Exported modules
@@ -83,14 +89,14 @@ import Web.Facebook.Messenger.Types.Static
 
 
 -- | Constructor for a Button `TemplatePayload` ("ButtonTemplate")
-buttonTemplate :: Text -- ^ /UTF-8-encoded text of up to 640 characters that appears above the buttons/
+buttonTemplateP :: Text -- ^ /UTF-8-encoded text of up to 640 characters that appears above the buttons/
                -> [TemplateButton] -- ^ /Set of 1-3 buttons that appear as call-to-actions/
                -> TemplatePayload
-buttonTemplate = (TButton .) . ButtonTemplate
+buttonTemplateP = (TButton .) . ButtonTemplate
 
 
 -- | Constructor for a Generic `TemplatePayload`
-genericTemplate :: Bool
+genericTemplateP :: Bool
                 -- ^ /Set to `False` to disable the native share button in Messenger for the template message./
                 -- /(Though I think the default is False)/
                 -> ImageAspectRatioType
@@ -98,23 +104,27 @@ genericTemplate :: Bool
                 -- /Must be `HORIZONTAL` or `SQUARE`. Default is `HORIZONTAL`./
                 -> [GenericElement] -- ^ /Data for each bubble in message (Limited to 10)/
                 -> TemplatePayload
-genericTemplate = ((TGeneric .) .) . GenericTemplate
+genericTemplateP = ((TGeneric .) .) . GenericTemplate
 
 -- | Shortcut for a default Generic `TemplatePayload`
 --
--- @genericTemplate_ = genericTemplate True HORIZONTAL@
-genericTemplate_ :: [GenericElement] -> TemplatePayload
-genericTemplate_ = TGeneric . GenericTemplate True HORIZONTAL
+-- @genericTemplateP_ = genericTemplateP True HORIZONTAL@
+genericTemplateP_ :: [GenericElement] -> TemplatePayload
+genericTemplateP_ = genericTemplateP True HORIZONTAL
 
 
 -- | Constructor for a List `TemplatePayload`
-listTemplate :: ListStyle -> [ListElement] -> Maybe TemplateButton -> TemplatePayload
-listTemplate = ((TList .) .) . ListTemplate
+listTemplateP :: ListStyle -> [ListElement] -> Maybe TemplateButton -> TemplatePayload
+listTemplateP = ((TList .) .) . ListTemplate
 
 -- | Shortcut for a simple default List `TemplatePayload`
-listTemplate_ :: [ListElement] -> TemplatePayload
-listTemplate_ es = TList $ ListTemplate ListLARGE es Nothing
+listTemplateP_ :: [ListElement] -> TemplatePayload
+listTemplateP_ = TList . flip (ListTemplate ListLARGE) Nothing
 
+
+-- | Constructor for an Open Graph `TemplatePayload`
+openGraphTemplateP :: URL -> [TemplateButton] -> TemplatePayload
+openGraphTemplateP url = TGraph . OpenGraphTemplate . OpenGraphElement url
 
 -- ------------------ --
 --  TEMPLATE REQUEST  --
@@ -124,6 +134,7 @@ listTemplate_ es = TList $ ListTemplate ListLARGE es Nothing
 data TemplatePayload = TGeneric GenericTemplate
                      | TButton ButtonTemplate
                      | TList ListTemplate
+                     | TGraph OpenGraphTemplate
                      | TReceipt ReceiptTemplate
                      | TBoardingPass AirlineBoardingPass
                      | TItinerary AirlineItinerary
@@ -135,6 +146,7 @@ instance ToJSON TemplatePayload where
   toJSON (TGeneric x) = toJSON x
   toJSON (TButton x) = toJSON x
   toJSON (TList x) = toJSON x
+  toJSON (TGraph x) = toJSON x
   toJSON (TReceipt x) = toJSON x
   toJSON (TBoardingPass x) = toJSON x
   toJSON (TItinerary x) = toJSON x
@@ -146,6 +158,7 @@ instance FromJSON TemplatePayload where
         TGeneric <$> parseJSON (Object o)
     <|> TButton <$> parseJSON (Object o)
     <|> TList <$> parseJSON (Object o)
+    <|> TGraph <$> parseJSON (Object o)
     <|> TReceipt <$> parseJSON (Object o)
     <|> TBoardingPass <$> parseJSON (Object o)
     <|> TItinerary <$> parseJSON (Object o)

@@ -1,4 +1,56 @@
-module Web.Facebook.Messenger.Types.Static where
+{-|
+Module      : Web.Facebook.Messenger.Types.Static
+Copyright   : (c) Felix Paulusma, 2016
+License     : MIT
+Maintainer  : felix.paulusma@gmail.com
+Stability   : semi-experimental
+
+This module contains the following:
+
+* Basic sum types without parameters in the FB Messenger API. (e.g. `SenderActionType`: @"mark_seen"@, @"typing_off"@ and @"typing_on"@)
+* Helper functions for `FromJSON` \/ `ToJSON` instance declarations
+* Type synonym for `URL`s
+-}
+module Web.Facebook.Messenger.Types.Static (
+  -- * Sum Types
+
+  -- ** Send API
+  NotificationType (..)
+  , SenderActionType (..)
+  , MessageTag (..)
+  , WebviewHeightRatioType (..)
+  , WebviewShareType (..)
+  , ListStyle (..)
+  , ImageAspectRatioType (..)
+  , AirlineUpdateType (..)
+  -- ** Send API & Callbacks
+  , AttachmentType (..)
+  -- ** Other
+  , ReferralSource (..)
+  , PaymentType (..)
+  , RequestedUserInfoType (..)
+  , AppRole (..)
+  , AudienceType (..)
+  
+  -- * Helper functions
+  --
+  -- | These functions are mostly convenience functions to make @JSON@ as short as possible
+  -- and to make writing certain `FromJSON` instances less painful.
+
+  -- ** ToJSON functions
+  , object'
+  , (.=!)
+  , (.=!!)
+  , mDefault
+  , mEmptyList
+  -- ** FromJSON functions
+  , checkValue
+  , withText'
+
+  -- * Type synonyms
+  , URL
+  )
+where
 
 
 import Control.Monad (unless)
@@ -11,30 +63,71 @@ import Data.Text (unpack, Text)
 import Data.Text.Encoding (decodeUtf8)
 import qualified Data.HashMap.Strict as HM
 
-
+-- | Text which should be formatted as a valid URL (e.g. @"https://www.example.com"@)
 type URL = Text
 
--- | Helper function to avoid `Maybe [a]`s
+-- | Helper function to avoid @`Maybe` [a]@ when an empty list doesn't have to (or shouldn't) be included in the @JSON@
 mEmptyList :: ToJSON a => Text -> [a] -> Maybe Pair
 mEmptyList _ [] = Nothing
 mEmptyList t l  = Just $ t .= l
 
--- | Helper function to not include values that
--- it would default to anyway
+-- | Helper function to not include values that are the default when not included in the @JSON@
 mDefault :: (Eq a, ToJSON a) => Text -> a -> a -> Maybe Pair
 mDefault t a b = if a == b then Nothing else Just $ t .= b
 
+-- | Alternative to "Aeson"'s `object` to make a @JSON object@ that might omit certain fields.
+-- `Just` `Pair` will be included in the @JSON object@. `Nothing` will not.
+--
+-- @
+-- `object'` [ "type" `.=!` `Data.Aeson.String` "image"
+--         , "url" `.=!` url
+--         , "title" `.=!!` mTitle
+--         , `mEmptyList` "elements" elements
+--         , `mDefault` "notification_type" `REGULAR` notifType 
+--         ]
+-- @
+--
+-- The above will result in the following in case @mTitle@ is `Nothing`, @elements@ is @[]@ and @notifType@ is `REGULAR`:
+--
+-- @
+-- {
+--   "type": "image",
+--   "url": "http:\/\/www.example.com\/image.jpg"
+-- }
+-- @
+--
+-- Compaired to when using the regular "Aeson"'s `object`:
+--
+-- @
+-- {
+--   "type": "image",
+--   "url": "http:\/\/www.example.com\/image.jpg",
+--   "title": null,
+--   "elements": [],
+--   "notification_type": "regular"
+-- }
+-- @
 object' :: [Maybe Pair] -> Value
 object' = Object . HM.fromList . catMaybes
 
+-- | @a `.=!!` b@ will omit the specified `Pair` in case @b@ is `Nothing`
 (.=!!) :: ToJSON a => Text -> Maybe a -> Maybe Pair
-(.=!!) _    Nothing = Nothing
-(.=!!) name (Just v) = Just $ name .= v
+(.=!!) name = fmap (name .=)
 
+-- | Add a required `Pair` to the @JSON object@
 (.=!) :: ToJSON a => Text -> a -> Maybe Pair
-(.=!) name value = Just $ name .= value
+(.=!) name = Just . (name .=)
 
-checkValue :: (FromJSON a, ToJSON a, Eq a) => String -> Text -> a -> (Object -> Parser b) -> Value -> Parser b
+-- | This function checks to see if a `Value` is an `Object` and the proceeds to check
+-- if a certain field has a certain value before continuing parsing the object.
+-- (e.g. checking if @"type"@ is actually @"image"@ or not)
+checkValue :: (FromJSON a, ToJSON a, Eq a)
+           => String -- ^ /reference in case the parsing fails/
+           -> Text -- ^ /field name to check/
+           -> a -- ^ /value to check in that field/
+           -> (Object -> Parser b) -- ^ /parser to run in case the field check succeeds/
+           -> Value
+           -> Parser b
 checkValue fName field value f = withObject fName $ \o -> do
     typ <- o .: field
     unless (typ == value) $
@@ -42,18 +135,33 @@ checkValue fName field value f = withObject fName $ \o -> do
     f o
   where showJson = unpack . decodeUtf8 . toStrict . encode
 
-withText' :: String -> [(Text, a)] -> Value -> Parser a
+-- | Shortcut function for parsing certain sum types.
+--
+-- @
+-- instance `FromJSON` `SenderActionType` where
+--   `parseJSON` = `withText'` \"SenderActionType\"
+--       [("mark_seen", `MARK_SEEN`)
+--       ,("typing_on", `TYPING_ON`)
+--       ,("typing_off", `TYPING_OFF`)
+--       ]
+-- @
+withText' :: String -- ^ /reference in case the parsing fails/
+          -> [(Text, a)] -- ^ /lookup list of JSON String to sum type/
+          -> Value
+          -> Parser a
 withText' s tups = withText s $ \t ->
     case lookup t tups of
       Just val -> pure val
       _ -> fail $ "Wrong String for " <> s <> ": " <> unpack t
 
 
+-- | Set typing indicators or send read receipts to let users know you are processing their request.
+--
+-- /Typing indicators are automatically turned off after 20 seconds/
 data SenderActionType =
-    MARK_SEEN  -- Mark last message as read
-  | TYPING_ON  -- Turn typing indicators on
-  | TYPING_OFF -- Turn typing indicators off
-                   -- Typing indicators are automatically turned off after 20 seconds
+    MARK_SEEN -- ^ Mark last message as read
+  | TYPING_ON -- ^ Turn typing indicators on
+  | TYPING_OFF -- ^ Turn typing indicators off
   deriving (Eq, Show)
 
 instance ToJSON SenderActionType where
@@ -68,17 +176,11 @@ instance FromJSON SenderActionType where
       ,("typing_off", TYPING_OFF)
       ]
 
-
+-- | Push notification type
 data NotificationType =
-    REGULAR     -- Emits a sound/vibration and a phone notification
-  | SILENT_PUSH -- Emits a phone notification
-  | NO_PUSH     -- Emits neither
-  deriving (Eq, Show)
-
-data NotificationType =
-    REGULAR     -- Emits a sound/vibration and a phone notification
-  | SILENT_PUSH -- Emits a phone notification
-  | NO_PUSH     -- Emits neither
+    REGULAR -- ^ sound/vibration and a phone notification
+  | SILENT_PUSH -- ^ on-screen notification only
+  | NO_PUSH -- ^ no notification
   deriving (Eq, Show)
 
 instance ToJSON NotificationType where
@@ -93,11 +195,11 @@ instance FromJSON NotificationType where
       ,("NO_PUSH", NO_PUSH)
       ]
 
-
+-- | Height of the Webview
 data WebviewHeightRatioType =
-    COMPACT
-  | TALL
-  | FULL
+    COMPACT -- ^ 50% of screen
+  | TALL -- ^ 75% of screen
+  | FULL -- ^ full screen
   deriving (Eq, Show)
 
 instance ToJSON WebviewHeightRatioType where
@@ -112,12 +214,12 @@ instance FromJSON WebviewHeightRatioType where
       ,("full", FULL)
       ]
 
-
+-- | Type of the attachment sent or received
 data AttachmentType =
-    IMAGE
-  | VIDEO
-  | AUDIO
-  | FILE
+    IMAGE -- ^ Image type (should be @jpg@, @png@ or @gif@)
+  | VIDEO -- ^ Video type (should be @mp4@?)
+  | AUDIO -- ^ Audio type (should be @mp3@?)
+  | FILE -- ^ File type (any plain file)
   deriving (Eq, Show)
 
 instance ToJSON AttachmentType where
@@ -134,7 +236,7 @@ instance FromJSON AttachmentType where
       ,("file", FILE)
       ]
 
-
+-- | Type of update for the @Flight Update@ template
 data AirlineUpdateType =
     DELAY
   | GATE_CHANGE
@@ -153,37 +255,32 @@ instance FromJSON AirlineUpdateType where
       ,("cancellation", CANCELLATION)
       ]
 
-
+-- | Indication from where this user was referred from
 data ReferralSource =
-    SHORTLINK
-  | ADS
-  | MESSENGER_CODE
-  | DISCOVER_TAB
+    SHORTLINK -- ^ @m.me@ link
+  | ADS -- ^ Facebook Ad
+  | MESSENGER_CODE -- ^ Scanning of a Parametric Messenger Code
+  | DISCOVER_TAB -- ^ Facebook Discover Tab
   deriving (Eq, Show)
 
 instance ToJSON ReferralSource where
-  toJSON ADS = String "ADS"
   toJSON SHORTLINK = String "SHORTLINK"
+  toJSON ADS = String "ADS"
   toJSON MESSENGER_CODE = String "MESSENGER_CODE"
   toJSON DISCOVER_TAB = String "DISCOVER_TAB"
 
 instance FromJSON ReferralSource where
   parseJSON = withText' "ReferralSource"
-      [("ADS", ADS)
-      ,("SHORTLINK", SHORTLINK)
+      [("SHORTLINK", SHORTLINK)
+      ,("ADS", ADS)
       ,("MESSENGER_CODE", MESSENGER_CODE)
       ,("DISCOVER_TAB", DISCOVER_TAB)
       ]
 
-
+-- | Type of list to produce
 data ListStyle =
-    ListCOMPACT
-  | ListLARGE
-  deriving (Eq, Show)
-
-data ListStyle =
-    ListCOMPACT
-  | ListLARGE
+    ListCOMPACT -- ^ All items are the same with an optional image on the right side
+  | ListLARGE -- ^ Top item is more prominent and requires an image as the background of that item
   deriving (Eq, Show)
 
 instance ToJSON ListStyle where
@@ -196,7 +293,10 @@ instance FromJSON ListStyle where
       ,("large", ListLARGE)
       ]
 
-
+-- | The Buy Button supports fixed and flexible pricing.
+-- Flexible pricing can be used when you modify pricing based on shipping.
+-- When flexible pricing is declared, the Checkout dialog will render a button that the person can tap
+-- to choose the shipping method. We call your webhook to get information about the shipping names and prices.
 data PaymentType =
     FIXED_AMOUNT
   | FLEXIBLE_AMOUNT
@@ -212,19 +312,14 @@ instance FromJSON PaymentType where
       ,("FLEXIBLE_AMOUNT", FLEXIBLE_AMOUNT)
       ]
 
-
+-- | Used in the Buy Button
+--
+-- Information requested from person that will render in the dialog. 
 data RequestedUserInfoType =
-    SHIPPING_ADDRESS
-  | CONTACT_NAME
-  | CONTACT_PHONE
-  | CONTACT_EMAIL
-  deriving (Eq, Show)
-
-data RequestedUserInfoType =
-    SHIPPING_ADDRESS
-  | CONTACT_NAME
-  | CONTACT_PHONE
-  | CONTACT_EMAIL
+    SHIPPING_ADDRESS -- ^ Address to send item(s) to
+  | CONTACT_NAME -- ^ Name of contact
+  | CONTACT_PHONE -- ^ Phone number of contact
+  | CONTACT_EMAIL -- ^ Email address of contaxt
   deriving (Eq, Show)
 
 instance ToJSON RequestedUserInfoType where
@@ -241,19 +336,30 @@ instance FromJSON RequestedUserInfoType where
       ,("contact_email", CONTACT_EMAIL)
       ]
 
-
+-- | Message tags give you the ability to send messages to a person outside of
+-- the normally allowed 24-hour window for a limited number of purposes that require continual notification or updates.
+-- This enables greater flexibility in how your app interacts with people,
+-- as well as the types of experiences you can build on the Messenger Platform.
+--
+-- Please note that message tags are for sending non-promotional content only.
+-- Using tags to send promotional content (ex: daily deals, coupons and discounts,
+-- or sale announcements) is against Messenger Platform policy.
+--
+-- https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags
 data MessageTag =
-    ACCOUNT_UPDATE
-  | PAYMENT_UPDATE
-  | PERSONAL_FINANCE_UPDATE
-  | SHIPPING_UPDATE
-  | RESERVATION_UPDATE
+    ACCOUNT_UPDATE -- ^ Notify the message recipient of a change to their account settings.
+  | PAYMENT_UPDATE -- ^ Notify the message recipient of a payment update for an existing transaction.
+  | PERSONAL_FINANCE_UPDATE -- ^ Confirm a message recipient's financial activity.
+  | SHIPPING_UPDATE -- ^ Notify the message recipient of a change in shipping status for a product that has already been purchased.
+  | RESERVATION_UPDATE -- ^ Notify the message recipient of updates to an existing reservation.
   | ISSUE_RESOLUTION
-  | APPOINTMENT_UPDATE
-  | GAME_EVENT
-  | TRANSPORTATION_UPDATE
-  | FEATURE_FUNCTIONALITY_UPDATE
-  | TICKET_UPDATE
+  -- ^ Notify the message recipient of an update to a customer service issue
+  -- that was initiated in a Messenger conversation, following a transaction.
+  | APPOINTMENT_UPDATE -- ^ Notify the message recipient of a change to an existing appointment.
+  | GAME_EVENT -- ^ Notify the message recipient of a change in in-game user progression, global events, or a live sporting event.
+  | TRANSPORTATION_UPDATE -- ^ Notify the message recipient of updates to an existing transportation reservation.
+  | FEATURE_FUNCTIONALITY_UPDATE -- ^ Notify the message recipient of new features or functionality that become available in your bot.
+  | TICKET_UPDATE -- ^ Notify the message recipient of updates pertaining to an event for which a person already has a ticket.
   deriving (Eq, Show)
 
 instance FromJSON MessageTag where
@@ -284,7 +390,7 @@ instance ToJSON MessageTag where
   toJSON FEATURE_FUNCTIONALITY_UPDATE = String "FEATURE_FUNCTIONALITY_UPDATE"
   toJSON TICKET_UPDATE = String "TICKET_UPDATE"
 
-
+-- | An app can be assigned the roles of `PrimaryReceiver` or `SecondaryReceiver`.
 data AppRole =
     PrimaryReceiver
   | SecondaryReceiver
@@ -300,11 +406,13 @@ instance ToJSON AppRole where
   toJSON PrimaryReceiver = String "primary_receiver"
   toJSON SecondaryReceiver = String "secondary_receiver"
 
-
+-- | Which countries might see your bot appear in the Discover Tab
+--
+-- https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api/target-audience
 data AudienceType =
-    ALL
-  | CUSTOM
-  | NONE
+    ALL -- ^ Bot might appear in anyone's Discover Tab
+  | CUSTOM -- ^ Required to provide white- or blacklisted countries
+  | NONE -- ^ Bot will not appear in anyone's Discover Tab
   deriving (Eq, Show)
 
 instance FromJSON AudienceType where
@@ -319,9 +427,10 @@ instance ToJSON AudienceType where
   toJSON CUSTOM = String "custom"
   toJSON NONE = String "none"
 
+-- | Aspect ratio used to render images specified by @"image_url"@ in (generic) element objects. Default is `HORIZONTAL`.
 data ImageAspectRatioType =
-    HORIZONTAL
-  | SQUARE
+    HORIZONTAL -- ^ @1\.91:1@ aspect ratio
+  | SQUARE -- ^ @1:1@ aspect ratio
   deriving (Eq, Show)
 
 instance FromJSON ImageAspectRatioType where
@@ -334,7 +443,7 @@ instance ToJSON ImageAspectRatioType where
   toJSON HORIZONTAL = String "horizontal"
   toJSON SQUARE = String "square"
 
-
+-- | Whether to show or hide the share button used in webview windows
 data WebviewShareType = SHOW
                       | HIDE
   deriving (Eq, Show)

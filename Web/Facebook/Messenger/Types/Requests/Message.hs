@@ -5,14 +5,28 @@ License     : MIT
 Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
-
+All the types that are used when sending regular messages to users. Text\/attachments\/templates
 -}
-module Web.Facebook.Messenger.Types.Requests.Message
-  ( RequestMessage (..)
+module Web.Facebook.Messenger.Types.Requests.Message (
+  -- * Send API Message
+  --
+  -- | Used when sending a `SendRequest`
+  RequestMessage (..)
+  -- ** Text Message
   , textRequest
+  , textRequest_
+  , RequestMessageText (..)
+  -- ** Attachment Message
   , attachmentRequest
+  , attachmentRequest_
+  , RequestMessageAttachment (..)
+  -- ** Quick Replies
   , qr
   , locQR
+  , RequestQuickReply (..)
+  , RQuickReply (..)
+  , LocationQuickReply (..)
+  -- * Exported modules
   , module Web.Facebook.Messenger.Types.Requests.Attachment
   )
 where
@@ -33,46 +47,67 @@ import Web.Facebook.Messenger.Types.Static
 --  MESSAGE REQUEST  --
 -- ----------------- --
 
+-- | Text, attachments or templates sent using the Send API
 data RequestMessage = RMText RequestMessageText
                     | RMAttachment RequestMessageAttachment
   deriving (Eq, Show)
 
-textRequest :: Text -> [RequestQuickReply] -> Maybe Text -> RequestMessage
-textRequest txt qrs = RMText . RequestMessageText txt qrs
+-- | Constructor for a text message; maybe including Quick Replies and/or meta data
+textRequest :: [RequestQuickReply] -> Maybe Text -> Text -> RequestMessage
+textRequest qrs metadata txt = RMText $ RequestMessageText txt qrs metadata
 
+-- | Constructor to make a plain text message (no QRs or meta data)
+textRequest_ :: Text -> RequestMessage
+textRequest_ = textRequest [] Nothing
+
+-- | A standard text message with optional Quick Replies and/or meta data
 data RequestMessageText = RequestMessageText
-    { rmtText :: Text -- Message text (UTF8 - 320 character limit)
-    , rmtQuickReply :: [RequestQuickReply] -- Array of quick_reply to be sent with messages (max 11)
-    , rmtMetadata :: Maybe Text -- Has a 1000 character limit
+    { rmtText :: Text
+    -- ^ Message text. Previews will not be shown for the URLs in this field.
+    -- Use attachment instead. (UTF-8; 640 character limit)
+    , rmtQuickReply :: [RequestQuickReply] -- ^ List of `RequestQuickReply` to be sent with messages (max 11)
+    , rmtMetadata :: Maybe Text -- ^ Custom string that is delivered with a message echo (1000 character limit)
     } deriving (Eq, Show)
 
-attachmentRequest :: RequestAttachment -> [RequestQuickReply] -> Maybe Text -> RequestMessage
-attachmentRequest reqAtt qrs = RMAttachment . RequestMessageAttachment reqAtt qrs
+-- | Constructor for an attachment message; maybe including Quick Replies and/or meta data
+attachmentRequest :: [RequestQuickReply] -> Maybe Text -> RequestAttachment -> RequestMessage
+attachmentRequest qrs metadata reqAtt = RMAttachment $ RequestMessageAttachment reqAtt qrs metadata
 
+-- | Constructor to make a plain attachment message (no QRs or meta data)
+attachmentRequest_ :: RequestAttachment -> RequestMessage
+attachmentRequest_ = attachmentRequest [] Nothing
+
+-- | An attachment (multimedia or template) message
 data RequestMessageAttachment = RequestMessageAttachment
     { rmaAttachment :: RequestAttachment -- Attachment object
     , rmaQuickReply :: [RequestQuickReply] -- Array of quick_reply to be sent with messages (max 11)
     , rmaMetadata :: Maybe Text -- Has a 1000 character limit
     } deriving (Eq, Show)
 
+-- | Constructor to make a regular `RequestQuickReply`
 qr :: Text -> Text -> Maybe Text -> RequestQuickReply
 qr title payload = RQR . RQuickReply title payload
 
-locQR :: Maybe Text -> RequestQuickReply
-locQR = RLQR . LocationQuickReply
+-- | Constructor to make a location `RequestQuickReply`
+locQR :: RequestQuickReply
+locQR = RLQR $ LocationQuickReply
 
 -- |  Quick Replies can be added to Text, Image and Template message types
 data RequestQuickReply = RQR RQuickReply
                        | RLQR LocationQuickReply
   deriving (Eq, Show)
 
+-- | A regular Quick Reply
 data RQuickReply = RQuickReply
-    { rqrTitle :: Text -- Caption of button (20 char limit)
-    , rqrPayload :: Text -- Custom data that will be sent back to you via webhook (1000 char limit)
-    , rqrImageUrl :: Maybe Text -- URL of image for text quick replies (Image for image_url should be at least 24x24 and will be cropped and resized)
+    { rqrTitle :: Text -- ^ Caption of button (20 char limit)
+    , rqrPayload :: Text -- ^ Custom data that will be sent back to you via webhook (1000 char limit)
+    , rqrImageUrl :: Maybe Text
+    -- ^ URL of image for text quick replies
+    -- (Image for `rqrImageUrl` should be at least 24x24 and will be cropped and resized)
     } deriving (Eq, Show)
 
-data LocationQuickReply = LocationQuickReply { rarImageUrl :: Maybe Text }
+-- | A Quick Reply that requests a geolocation from the user
+data LocationQuickReply = LocationQuickReply
   deriving (Eq, Show)
 
 
@@ -111,10 +146,8 @@ instance ToJSON RQuickReply where
               ]
 
 instance ToJSON LocationQuickReply where
-  toJSON (LocationQuickReply imageurl) =
-      object' [ "content_type" .=! String "location"
-              , "image_url" .=!! imageurl
-              ]
+  toJSON LocationQuickReply =
+      object' ["content_type" .=! String "location"]
   
 
 instance FromJSON RequestMessage where
@@ -153,4 +186,4 @@ instance FromJSON LocationQuickReply where
       typ <- o .: "content_type" :: Parser Text
       unless (typ == "location") $
         fail "LocationQuickReply: expected \"location\" in \"content_type\" field"
-      LocationQuickReply <$> o .:? "image_url"
+      pure LocationQuickReply

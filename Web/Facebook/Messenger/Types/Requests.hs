@@ -8,15 +8,13 @@ Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
 This module contains most of the requests to the Facebook Messenger API.
-
-TODO: add URLs of FB documentation to all requests if possible
 -}
 module Web.Facebook.Messenger.Types.Requests (
   -- * Facebook Messenger API Requests
   --
   -- | Most requests are sent to the following URL (or a variation thereof):
   -- 
-  -- @https://graph.facebook.com/v2.6/me/@__{some method}__@?access_token=\<PAGE_ACCESS_TOKEN\>@__(&{some extra field(s)}={some value(s)})__
+  -- @https:\/\/graph.facebook.com\/v2.6\/me\/@__{some method}__@?access_token=\<PAGE_ACCESS_TOKEN\>@__(&{some optional fields}={some values})__
 
   -- ** Send API Request
   --
@@ -45,7 +43,7 @@ module Web.Facebook.Messenger.Types.Requests (
   , MessengerCodeRef (..)
   -- ** Handover Protocol
   --
-  -- | /Pass Thread/: POST to @.../pass_thread_control?access_token=\<PAGE_ACCESS_TOKEN\>@
+  -- | /Pass Thread/: POST to @.../pass_thread_control?access_token=\<PAGE_ACCESS_TOKEN\>@\
   -- /Take Thread/: POST to @.../take_thread_control?access_token=\<PAGE_ACCESS_TOKEN\>@
   , PassThreadControlRequest (..)
   , AppId (..)
@@ -75,52 +73,77 @@ import Web.Facebook.Messenger.Types.Static
 --      SEND MESSAGE REQUEST      --
 -- ============================== --
 
--- | TODO: Explanation
+-- | The Send API is the main API used to send messages to users.
+-- `SendRequest`s are used to interact with this API.
 --
--- N.B. Only generic template messages can be sent with tags other than `ISSUE_RESOLUTION`.
+-- Some things to consider:
+--
+-- * When your app is in Development Mode, the Send API will only work for admins, developers and testers of the app.
+-- After your app is approved for the @"pages_messaging"@ permission and is public, it will work for the general public.
+-- * Only generic template messages can be sent with tags other than `ISSUE_RESOLUTION`.
 -- `ISSUE_RESOLUTION` tag can be used with either generic template messages or text messages.
+--
+-- @https://developers.facebook.com/docs/messenger-platform/reference/send-api@
 data SendRequest = SendRequest
-    { srRecipient :: RequestRecipient -- Recipient object
-    , srMessage :: RequestMessage -- Message object
-    , srNotificationType :: NotificationType -- Optional; by default, messages will be REGULAR push notification type
-    , srTag :: Maybe MessageTag -- Optional; to be used if you have a valid reason to send a message outside of the 24+1 window
+    { srRecipient :: RequestRecipient -- ^ Recipient of the message
+    , srMessage :: RequestMessage -- ^ Contents of the message 
+    , srNotificationType :: NotificationType -- ^ Optional; by default, messages will be a `REGULAR` push notification type
+    , srTag :: Maybe MessageTag -- ^ Optional; to be used if you have a valid reason to send a message outside of the 24+1 window
     } deriving (Eq, Show)
 
+-- | Set typing indicators or send read receipts using the Send API, to let users know you are processing their request.
+--
+-- @https://developers.facebook.com/docs/messenger-platform/send-messages/sender-actions@
 data SenderActionRequest = SenderActionRequest
-    { sarRecipient :: RequestRecipient -- Recipient object
-    , sarSenderAction :: SenderActionType -- Message state: TYPING_ON, TYPING_OFF, MARK_SEEN
+    { sarRecipient :: RequestRecipient -- ^ Recipient of the Sender Action
+    , sarSenderAction :: SenderActionType -- ^ `TYPING_ON` \/ `TYPING_OFF` \/ `MARK_SEEN`
     } deriving (Eq, Show)
 
--- POST request to ---> https://graph.facebook.com/v2.6/me/message_attachments?access_token=\<PAGE_ACCESS_TOKEN\>
--- This API is used to upload a file to FB once, and after just use the attachment_id to send it to other users
+-- | The Attachment Upload API allows you to upload assets that can be sent in messages at a later time.
+-- This allows you to avoid the need to upload commonly used files multiple times.
+--
+-- After uploading just use the @"attachment_id"@ when sending it to users.
+--
+-- @https://developers.facebook.com/docs/messenger-platform/reference/attachment-upload-api@
 data AttachmentUploadRequest = AttachmentUploadRequest
-    { aurType :: AttachmentType -- Type of file to be uploaded
-    , aurUrl :: URL -- URL of the file to upload
+    { aurType :: AttachmentType -- ^ Type of file to be uploaded
+    , aurUrl :: URL -- ^ URL of the file to upload
     } deriving (Eq, Show)
 
--- | 
-data RequestRecipient = RID RecipientID
-                      | RPhone RecipientPhone
+-- | The recipient of a message.
+data RequestRecipient = RID RecipientID -- ^ Facebook Page-Scoped ID
+                      | RPhone RecipientPhone -- ^ Phone-number (requires specific permission. US only)
                       | RRef RecipientRef
+                      -- ^ Ref to use when a user enters your bot through the Checkbox Plugin.\
+                      -- After a successful response, switch to using the received PSID.
   deriving (Eq, Show)
 
+-- | Constructor for making a @regular PSID@ `RequestRecipient`
 recipientID :: Text -> RequestRecipient
 recipientID = RID . RecipientID
 
 -- | Identifying a user by their Page-Scoped ID. 
 -- This means that the IDs are unique per user per page.
-newtype RecipientID = RecipientID { recipId :: Text } -- (PS)ID of recipient
+newtype RecipientID = RecipientID { recipId :: Text }
   deriving (Eq, Show)
 
+-- | Constructor for making a @Phone number@ `RequestRecipient`.
+-- This is only for US based users and your bot needs the @"pages_messaging_phone_number"@ permission.
+--
+-- https://developers.facebook.com/docs/messenger-platform/identity/customer-matching
 recipientPhone :: Text -> RequestRecipient
 recipientPhone = RPhone . RecipientPhone
 
 -- | Identifying a user by their phone number. Only for USA users/developers.
 --
--- Format: +1 (555) 857-6309
+-- Format: @+1 (555) 857-6309@
 newtype RecipientPhone = RecipientPhone { recipPhone :: Text }
   deriving (Eq, Show)
 
+-- | Constructor for making a @"user_ref"@ `RequestRecipient`.
+-- Use this only when a user enters your bot through the @Checkbox plugin@
+--
+-- https://developers.facebook.com/docs/messenger-platform/discovery/checkbox-plugin
 recipientRef :: Text -> RequestRecipient
 recipientRef = RRef . RecipientRef
 
@@ -132,31 +155,46 @@ newtype RecipientRef = RecipientRef { recipRef :: Text }
   deriving (Eq, Show)
 
 
--- | POST request to ---> https://graph.facebook.com/v2.6/me/unlink_accounts?access_token=\<PAGE_ACCESS_TOKEN\>
+-- | In case you want to programmatically unlink someone from an account
+--
+-- Bottom of: @https://developers.facebook.com/docs/messenger-platform/identity/account-linking@
 data AccountUnlinkRequest = AccountUnlinkRequest { aurPSID :: Text }
   deriving (Eq, Show)
 
 
--- | POST request to ---> https://graph.facebook.com/v2.6/me/messenger_codes?access_token=\<PAGE_ACCESS_TOKEN\>
+-- | This request will be responded to with a URI to an image of the Messenger Code.
+--
+-- @https://developers.facebook.com/docs/messenger-platform/discovery/messenger-codes@
 data MessengerCodeRequest = MessengerCodeRequest
     { mcrImageSize :: Maybe Int -- ^ between 100px - 2000px (default == 1000)
-    , mcrData :: Maybe MessengerCodeRef
+    , mcrData :: Maybe MessengerCodeRef -- ^ Optional custom parameter to add to the code (for analytics or UX purposes)
     } deriving (Eq, Show)
 
-newtype MessengerCodeRef = MessengerCodeRef { mcRef :: Text } -- ^ max 250 char [a-zA-Z0-9+/=-.:_]
+-- | Optional custom parameter. 250 char limit @[a-zA-Z0-9+/=-.:_]@
+newtype MessengerCodeRef = MessengerCodeRef { mcRef :: Text }
   deriving (Eq, Show)
 
--- | POST request to ---> https://graph.facebook.com/v2.6/me/pass_thread_control?access_token=\<PAGE_ACCESS_TOKEN\>
+-- | Part of the handover protocol, pass thread control allows you to pass thread control from your app to another app.
+-- The app that will receive thread ownership will receive a @"pass_thread_control"@ webhook event.
+--
+-- @https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/pass-thread-control@
 data PassThreadControlRequest = PassThreadControlRequest
-    { pcrRecipient :: RecipientID
+    { pcrRecipient :: RecipientID -- ^ User who's thread is passed to another app
     , pcrTargetAppId :: AppId
-    , pcrMetaData :: Maybe Text
+    -- ^ The app ID of the Secondary Receiver to pass thread control to.
+    -- (Required if the Primary Receiver is passing thread control.)
+    -- To pass thread control to the Page inbox, use app ID __@263902037430900@__.
+    , pcrMetaData :: Maybe Text -- ^ Metadata passed to the receiving app in the @"pass_thread_control"@ webhook event.
     } deriving (Eq, Show)
 
--- | POST request to ---> https://graph.facebook.com/v2.6/me/pass_thread_control?access_token=\<PAGE_ACCESS_TOKEN\>
+-- | Part of the Handover Protocol, take thread control allows the Primary Receiver app
+-- to take control of a specific thread from a Secondary Receiver app.
+-- The Secondary Receiver app will receive a @"take_thread_control"@ webhook event when it loses thread control.
+--
+-- @https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/take-thread-control@
 data TakeThreadControlRequest = TakeThreadControlRequest
-    { tcrRecipient :: RecipientID
-    , tcrMetaData :: Maybe Text
+    { tcrRecipient :: RecipientID -- ^ User who's thread is taken control over
+    , tcrMetaData :: Maybe Text -- ^ Metadata passed back to the secondary app in the @take_thread_control@ webhook event.
     } deriving (Eq, Show)
 
 -- | Newtype wrapper around Text, because the AppId is very different than anything else used as IDs in this package

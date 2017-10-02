@@ -42,7 +42,7 @@ import Web.Facebook.Messenger.Types.Static
 --  LIST TEMPLATE REQUEST  --
 -- ----------------------- --
 
--- | Template for sending a list with items; maybe containing images and/or links.
+-- | Template for sending a list with `ListElement`s; maybe containing images and/or links.
 data ListTemplate = ListTemplate
     { ltTopElementStyle :: ListStyle -- ^ Value must be `ListLARGE` or `ListCOMPACT`. Default to `ListLARGE` if not specified.
     , ltElements :: [ListElement] -- ^ List view elements (minimum of 2 elements and maximum of 4 elements)
@@ -71,7 +71,7 @@ instance FromJSON ListTemplate where
                               <*> o .: "elements"
                               <*> pure button
 
-
+-- | Elements used in the `ListTemplate`
 data ListElement = ListElement
     { leTitle :: Text -- ^ Title of the element (80 character limit)
     , leSubtitle :: Maybe Text -- ^ Subtitle of the element (80 character limit)
