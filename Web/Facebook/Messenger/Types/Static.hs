@@ -1,3 +1,5 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
 {-|
 Module      : Web.Facebook.Messenger.Types.Static
 Copyright   : (c) Felix Paulusma, 2016
@@ -9,7 +11,7 @@ This module contains the following:
 
 * Basic sum types without parameters in the FB Messenger API. (e.g. `SenderActionType`: @"mark_seen"@, @"typing_off"@ and @"typing_on"@)
 * Helper functions for `FromJSON` \/ `ToJSON` instance declarations
-* Type synonym for `URL`s
+* Type synonyms and newtypes
 -}
 module Web.Facebook.Messenger.Types.Static (
   -- * Sum Types
@@ -47,8 +49,11 @@ module Web.Facebook.Messenger.Types.Static (
   , checkValue
   , withText'
 
-  -- * Type synonyms
+  -- * Type synonyms\/newtypes
   , URL
+  , AppId (..)
+  , PSID (..)
+  , PageID (..)
   )
 where
 
@@ -65,6 +70,17 @@ import qualified Data.HashMap.Strict as HM
 
 -- | Text which should be formatted as a valid URL (e.g. @"https://www.example.com"@)
 type URL = Text
+
+-- | When representing a user, these IDs are page-scoped IDs (PSID).
+-- This means that the IDs of users are unique for a given page.
+newtype PSID = PSID Text deriving (Eq, Show, FromJSON, ToJSON)
+
+-- | Pages have their own unique ID
+newtype PageID = PageID Text deriving (Eq, Show, FromJSON, ToJSON)
+
+-- | Newtype wrapper around Text, because the AppId is very different than anything else used as IDs in this package
+newtype AppId = AppId Text deriving (Eq, Show, FromJSON, ToJSON)
+
 
 -- | Helper function to avoid @`Maybe` [a]@ when an empty list doesn't have to (or shouldn't) be included in the @JSON@
 mEmptyList :: ToJSON a => Text -> [a] -> Maybe Pair

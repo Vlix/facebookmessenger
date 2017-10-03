@@ -23,20 +23,27 @@ import Data.Maybe (isJust)
 import Data.Text
 
 import Web.Facebook.Messenger.Types.Callbacks.Messaging
+import Web.Facebook.Messenger.Types.Static (checkValue, PageID (..))
 
 
 -- ============================== --
 --       FACEBOOK CALLBACKS       --
 -- ============================== --
 
-newtype Callback = Callback {cbEntries  :: [CallbackEntry]} -- Array containing event data
+-- | Top callback object to be returned from Facebook's Webhooks.
+--
+-- Be sure to iterate over @[`CallbackEntry`]@ to process all events.
+newtype Callback = Callback {cbEntries  :: [CallbackEntry]}
   deriving (Eq, Show)
 
+-- | A callback event. Although @[`CallbackMessaging`]@ is also a list, there is no batching mechanism for @[`CallbackMessaging`]@ at the moment.
 data CallbackEntry = CallbackEntry
-    { entryId  :: Text
-    , entryTime :: Int
+    { entryId  :: PageID -- ^ Page ID of the page
+    , entryTime :: Integer -- ^ Time of update (epoch time in milliseconds)
     , entryMessaging :: [CallbackMessaging]
-    , entryStandby :: Bool
+    -- ^ List of one messaging object.
+    -- (Even though this is a list, it will only contain one messaging object at the moment)
+    , entryStandby :: Bool -- ^ Whether this `CallbackEntry` is a standy event, meaning the receiving bot is a `SecondaryReceiver`
     } deriving (Eq, Show)
 
 
@@ -45,17 +52,17 @@ data CallbackEntry = CallbackEntry
 -- ------------------------ --
 
 instance FromJSON Callback where
-  parseJSON = withObject "Callback" $ \o -> do
-      obj <- o .: "object" :: Parser Text
-      unless (obj == "page") $
-        fail $ "Callback: \"object\" value not \"page\": " `mappend` unpack obj 
-      Callback <$> o .: "entry"
+  parseJSON = checkValue
+      "Callback"
+      "object"
+      ("page" :: Text)
+      $ \o -> Callback <$> o .: "entry"
 
 instance FromJSON CallbackEntry where
   parseJSON = withObject "CallbackEntry" $ \o -> do
       mStandby <- o .:? "standby"
       ident <- parseId o
-      CallbackEntry <$> pure ident
+      CallbackEntry <$> pure (PageID ident)
                     <*> o .: "time"
                     <*> maybe (o .: "messaging") pure mStandby
                     <*> pure (isJust mStandby)

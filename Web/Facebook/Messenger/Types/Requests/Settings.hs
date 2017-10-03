@@ -8,8 +8,9 @@ Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
 This module provides a way to construct a compounded request for the Messenger Profile API.
-
 The Messenger Profile for your app is where you set properties that define various aspects of the following Messenger Platform features.
+
+https://developers.facebook.com/docs/messenger-platform/reference/messenger-profile-api
 -}
 module Web.Facebook.Messenger.Types.Requests.Settings (
   -- * Messenger Profile API
@@ -73,7 +74,6 @@ import qualified Data.HashMap.Strict as HM
 import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 
-import Web.Facebook.Messenger.Types.Callbacks.Postback (Postback)
 import Web.Facebook.Messenger.Types.Requests.Extra
 import Web.Facebook.Messenger.Types.Static
 
@@ -86,7 +86,7 @@ greeting :: [GreetingSetting] -> ProfileRequest
 greeting x = mempty{prGreeting = Just (Greeting x)}
 
 -- | A bot's welcome screen can display a Get Started button.
--- When this button is tapped, the Messenger Platform will send a `Postback` callback event to your webhook.
+-- When this button is tapped, the Messenger Platform will send a (/Callbacks./)Postback callback event to your webhook.
 -- Bots that add the button may also wish to configure their greeting text.
 --
 -- The welcome screen is only shown the first time the user interacts with the Page on Messenger.

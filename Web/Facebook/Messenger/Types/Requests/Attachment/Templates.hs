@@ -1,5 +1,5 @@
 {-|
-Module      : Web.Facebook.Messenger.Types.Requests.Templates
+Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates
 Copyright   : (c) Felix Paulusma, 2016
 License     : MIT
 Maintainer  : felix.paulusma@gmail.com
@@ -7,7 +7,7 @@ Stability   : semi-experimental
 
 Template attachments to be sent to the user to give a richer experience
 -}
-module Web.Facebook.Messenger.Types.Requests.Templates (
+module Web.Facebook.Messenger.Types.Requests.Attachment.Templates (
   -- * Button Template
   --
   -- | Use the "ButtonTemplate" with the Send API to send a text and buttons attached to request input from the user.
@@ -54,18 +54,18 @@ module Web.Facebook.Messenger.Types.Requests.Templates (
   , TemplatePayload (..)
   -- * Exported modules
   -- ** Regular
-  , module Web.Facebook.Messenger.Types.Requests.ButtonTemplate
-  , module Web.Facebook.Messenger.Types.Requests.GenericTemplate
-  , module Web.Facebook.Messenger.Types.Requests.ListTemplate
-  , module Web.Facebook.Messenger.Types.Requests.OpenGraphTemplate
-  , module Web.Facebook.Messenger.Types.Requests.ReceiptTemplate
+  , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ButtonTemplate
+  , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.GenericTemplate
+  , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ListTemplate
+  , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.OpenGraphTemplate
+  , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ReceiptTemplate
   -- ** Airline
-  , module Web.Facebook.Messenger.Types.Requests.AirlineBoardingPass
-  , module Web.Facebook.Messenger.Types.Requests.AirlineCheckin
-  , module Web.Facebook.Messenger.Types.Requests.AirlineFlightUpdate
-  , module Web.Facebook.Messenger.Types.Requests.AirlineItinerary
+  , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineBoardingPass
+  , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineCheckin
+  , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineFlightUpdate
+  , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineItinerary
   -- ** Helper modules
-  , module Web.Facebook.Messenger.Types.Requests.Airline
+  , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.Airline
   , module Web.Facebook.Messenger.Types.Requests.Extra
   )
 where
@@ -74,17 +74,17 @@ import Control.Applicative ((<|>))
 import Data.Aeson (ToJSON (..), FromJSON (..), Value (..), withObject)
 import Data.Text (Text)
 
-import Web.Facebook.Messenger.Types.Requests.Airline
-import Web.Facebook.Messenger.Types.Requests.AirlineBoardingPass
-import Web.Facebook.Messenger.Types.Requests.AirlineCheckin
-import Web.Facebook.Messenger.Types.Requests.AirlineFlightUpdate
-import Web.Facebook.Messenger.Types.Requests.AirlineItinerary
-import Web.Facebook.Messenger.Types.Requests.ButtonTemplate
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.Airline
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineBoardingPass
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineCheckin
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineFlightUpdate
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineItinerary
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ButtonTemplate
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.GenericTemplate
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ListTemplate
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.OpenGraphTemplate
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ReceiptTemplate
 import Web.Facebook.Messenger.Types.Requests.Extra
-import Web.Facebook.Messenger.Types.Requests.GenericTemplate
-import Web.Facebook.Messenger.Types.Requests.ListTemplate
-import Web.Facebook.Messenger.Types.Requests.OpenGraphTemplate
-import Web.Facebook.Messenger.Types.Requests.ReceiptTemplate
 import Web.Facebook.Messenger.Types.Static
 
 

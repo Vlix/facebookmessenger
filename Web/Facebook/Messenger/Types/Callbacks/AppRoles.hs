@@ -5,9 +5,15 @@ License     : MIT
 Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
-TODO: Explanation and link to FB Docs
+This callback will occur when a page admin changes the role of your application.
+An app can be assigned the roles of `PrimaryReceiver` or `SecondaryReceiver`.
+
+You can subscribe to this callback by selecting the @"messaging_handovers"@ field when setting up your webhook.
+
+https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/app_role
 -}
 module Web.Facebook.Messenger.Types.Callbacks.AppRoles (
+  -- * App Roles Callback
   AppRoles (..)
   )
 where
@@ -17,9 +23,11 @@ import Data.Aeson
 import qualified Data.HashMap.Strict as HM
 import Data.Text
 
-import Web.Facebook.Messenger.Types.Static (AppRole)
-
+import Web.Facebook.Messenger.Types.Static (AppRole, AppId)
+  
 -- | This callback is sent when a page admin changes the role of your application.
+--
+-- (My suspicion is that the `Text` key is an `AppId`, but untested)
 newtype AppRoles = AppRoles (HM.HashMap Text [AppRole])
   deriving (Eq, Show)
 

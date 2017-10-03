@@ -6,6 +6,8 @@ Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
 All the types that are used when sending regular messages to users. Text\/attachments\/templates
+
+https://developers.facebook.com/docs/messenger-platform/send-api-reference/contenttypes
 -}
 module Web.Facebook.Messenger.Types.Requests.Message (
   -- * Send API Message

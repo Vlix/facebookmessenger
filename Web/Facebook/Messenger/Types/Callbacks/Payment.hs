@@ -1,11 +1,29 @@
+{-|
+Module      : Web.Facebook.Messenger.Types.Callbacks.Payment
+Copyright   : (c) Felix Paulusma, 2016
+License     : MIT
+Maintainer  : felix.paulusma@gmail.com
+Stability   : semi-experimental
+
+This callback occurs when the user taps the pay button from the checkout dialog produced via the `BuyButton`.
+It contains the requested user information as well as payment credentials.
+Depending on the payment provider you use, the payment credentials passed may differ.
+
+You must subscribe to this callback by selecting the @"messaging_payments"@ field when setting up your webhook.
+
+https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/payment
+-}
 module Web.Facebook.Messenger.Types.Callbacks.Payment (
+  -- * Payment Callback
   Payment (..)
+  , Amount (..)
   , RequestedUserInfo (..)
+  -- ** Payment Credentials
   , PaymentCredential (..)
   , PaymentToken (..)
   , PaymentPayPal (..)
   , PaymentStripe (..)
-  , Amount (..)
+  -- ** Other
   , DecryptedPaymentResult (..)
   )
 where
@@ -18,7 +36,8 @@ import Data.Aeson.Types (Parser)
 import Data.Text
 import Data.HashMap.Strict as HM
 
-import Web.Facebook.Messenger.Types.Requests.Extra (TemplateAddress)
+import Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
+import Web.Facebook.Messenger.Types.Requests.Extra (TemplateAddress, BuyButton)
 import Web.Facebook.Messenger.Types.Static
 
 
@@ -26,57 +45,73 @@ import Web.Facebook.Messenger.Types.Static
 --  PAYMENT CALLBACK  --
 -- ------------------ --
 
+-- | This callback occurs when the user taps the pay button from the checkout dialog produced via the `BuyButton`.
 data Payment = Payment
-    { pPayload :: Text -- Metadata defined in the Buy Button.
-    , pRequestedUserInfo :: RequestedUserInfo -- Information that was requested from the user by the Buy Button.
-    , pPaymentCredential :: PaymentCredential -- Payment credentials.
-    , pAmount :: Amount -- Total amount of transaction.
-    , pShippingOptionId :: Text
-  -- The `option_id` of the selected shipping option sent via the checkout update callback. Only applicable for flexible payments.
+    { pPayload :: Text -- ^ Metadata defined in the `BuyButton`.
+    , pRequestedUserInfo :: RequestedUserInfo -- ^ Information that was requested from the user by the `BuyButton`.
+    , pPaymentCredential :: PaymentCredential -- ^ Payment credentials.
+    , pAmount :: Amount -- ^ Total amount of transaction.
+    , pShippingOptionId :: Maybe Text
+  -- ^ The `option_id` of the selected shipping option sent via the "CheckoutUpdate" callback. Only applicable for flexible payments.
     } deriving (Eq, Show)
 
+-- | Total amount of transaction.
+data Amount = Amount
+    { aCurrency :: Text -- ^ Currency of amount
+    , aAmount :: Text -- ^ Total amount
+    } deriving (Eq, Show)
+
+-- | Data in this object will depend on the requested user information defined on the `BuyButton`.
 data RequestedUserInfo = RequestedUserInfo
-    { ruiShippingAddress :: Maybe TemplateAddress
-    , ruiContactName :: Maybe Text
-    , ruiContactEmail :: Maybe Text
-    , ruiContactPhone :: Maybe Text
+    { ruiShippingAddress :: Maybe TemplateAddress -- ^ Person's shipping address
+    , ruiContactName :: Maybe Text -- ^ Person's name
+    , ruiContactEmail :: Maybe Text -- ^ Person's email address
+    , ruiContactPhone :: Maybe Text -- ^ Person's phone number
     } deriving (Eq, Show)
 
-data PaymentCredential = Token PaymentToken
-                       | PayPal PaymentPayPal
-                       | Stripe PaymentStripe
+-- | Different payment provider types
+data PaymentCredential = Token PaymentToken -- ^ Credit Card
+                       | PayPal PaymentPayPal -- ^ PayPal
+                       | Stripe PaymentStripe -- ^ Stripe
   deriving (Eq, Show)
 
+-- | Information about the credit card to use
 data PaymentToken = PaymentToken
-    { ptTokenizedCard :: Text -- PGP-signed tokenized charge card
-    , ptTokenizedCvv :: Text -- PGP-signed CVV number
-    , ptTokenExpiryMonth :: Text -- Expiry month
-    , ptTokenExpiryYear :: Text -- Expiry year
-    , ptFbPaymentId :: Text -- A facebook issued payment id for tracking.
+    { ptTokenizedCard :: Text -- ^ PGP-signed tokenized charge card
+    , ptTokenizedCvv :: Text -- ^ PGP-signed CVV number
+    , ptTokenExpiryMonth :: Text -- ^ Expiry month
+    , ptTokenExpiryYear :: Text -- ^ Expiry year
+    , ptFbPaymentId :: Text
+    -- ^ A Facebook issued payment ID for tracking.
+    -- (If it is a test payment, the id will be @"test_payment_id_12345"@.)
     } deriving (Eq, Show)
 
+-- | Information about the PayPal account used
 data PaymentPayPal = PaymentPayPal
-    { ppChargeId :: Text -- Payment provider charge id (for stripe/paypal)
-    , ppFbPaymentId :: Text -- A facebook issued payment id for tracking.
+    { ppChargeId :: Text -- ^ PayPal charge id
+    , ppFbPaymentId :: Text -- ^ A facebook issued payment id for tracking.
     } deriving (Eq, Show)
 
+-- | Information about the Stripe account used
 data PaymentStripe = PaymentStripe
-    { psChargeId :: Text -- Payment provider charge id (for stripe/paypal)
-    , psFbPaymentId :: Text -- A facebook issued payment id for tracking.
+    { psChargeId :: Text -- ^ Stripe charge id
+    , psFbPaymentId :: Text -- ^ A facebook issued payment id for tracking.
     } deriving (Eq, Show)
 
-data Amount = Amount
-    { aCurrency :: Text
-    , aAmount :: Text
-    } deriving (Eq, Show)
-
+-- | The result after decrypting a certain processed payment
+--
+-- https://developers.facebook.com/docs/messenger-platform/payments-reference#decrypting
 data DecryptedPaymentResult = DecryptedPaymentResult
-    { dprName :: Text
-    , dprAmount :: Amount
-    , dprTimestamp :: Integer
+    { dprName :: Text -- ^ Person name
+    , dprAmount :: Double -- ^ Amount of transaction
+    , dprTimestamp :: Integer -- ^ Epoch timestamp
     , dprExternalTransactionId :: String
+    -- ^ Transaction ID from payment processor
+    -- (in case of test payment, the value will be @"test_charge_id_12345"@.)
     , dprFbPaymentId :: String
-    , dprProvider :: String
+    -- ^ Facebook payment ID
+    -- (in case of a test payment, the value will be @"test_payment_id_12345"@.)
+    , dprProvider :: String -- ^ Facebook payment provider ID
     } deriving (Eq, Show)
 
 
@@ -86,12 +121,12 @@ data DecryptedPaymentResult = DecryptedPaymentResult
 
 instance ToJSON Payment where
   toJSON (Payment payload rui pc amount shipid) =
-      object [ "payload"             .= payload
-             , "requested_user_info" .= rui
-             , "payment_credential"  .= pc
-             , "amount"              .= amount
-             , "shipping_option_id"  .= shipid
-             ]
+      object' [ "payload"             .=! payload
+              , "requested_user_info" .=! rui
+              , "payment_credential"  .=! pc
+              , "amount"              .=! amount
+              , "shipping_option_id"  .=!! shipid
+              ]
 
 instance ToJSON RequestedUserInfo where
   toJSON (RequestedUserInfo address name email phone) =
@@ -153,7 +188,7 @@ instance FromJSON Payment where
               <*> o .: "requested_user_info"
               <*> o .: "payment_credential"
               <*> o .: "amount"
-              <*> o .: "shipping_option_id"
+              <*> o .:? "shipping_option_id"
 
 
 instance FromJSON RequestedUserInfo where

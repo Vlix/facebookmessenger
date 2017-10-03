@@ -1,13 +1,15 @@
 {-|
-Module      : Web.Facebook.Messenger.Types.Requests.AirlineItinerary
+Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineItinerary
 Copyright   : (c) Felix Paulusma, 2016
 License     : MIT
 Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
 Template for sending a user his/her itinerary (/receipt)
+
+https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-itinerary-template
 -}
-module Web.Facebook.Messenger.Types.Requests.AirlineItinerary (
+module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineItinerary (
   -- * Itinerary Template
   AirlineItinerary (..)
   , PassengerInfo (..)
@@ -24,8 +26,8 @@ import Data.Aeson
 import Data.Aeson.Types (Parser)
 import Data.Text (Text, unpack)
 
-import Web.Facebook.Messenger.Types.Requests.Airline (AirlineAirport)
-import Web.Facebook.Messenger.Types.Requests.AirlineCheckin (AirlineCheckinFlightSchedule)
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.Airline (AirlineAirport)
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineCheckin (AirlineCheckinFlightSchedule)
 import Web.Facebook.Messenger.Types.Static
 
 

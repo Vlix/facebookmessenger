@@ -1,4 +1,26 @@
+{-|
+Module      : Web.Facebook.Messenger.Types.Callbacks.Echo
+Copyright   : (c) Felix Paulusma, 2016
+License     : MIT
+Maintainer  : felix.paulusma@gmail.com
+Stability   : semi-experimental
+
+This callback will occur when a message has been sent by your page.
+You may receive text messsages or messages with attachments (image, video, audio, template or fallback).
+The payload will also include an optional custom metadata sent by the sender, and the corresponding app_id.
+You can subscribe to this callback by selecting the @"message_echoes"@ field when setting up your webhook.
+
+Multiple types of messages are supported:
+
+* Text message
+* Message with image, audio, video or file attachment
+* Message with template attachment
+* Message with fallback attachment
+
+https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/message-echoes
+-}
 module Web.Facebook.Messenger.Types.Callbacks.Echo (
+  -- * Echo Callback
   Echo (..)
   , EchoContent (..)
   , EchoText (..)
@@ -13,8 +35,9 @@ import Control.Applicative ((<|>))
 import Data.Aeson
 import Data.Text
 
+import Web.Facebook.Messenger.Types.Requests
 import Web.Facebook.Messenger.Types.Requests.Attachment (RequestAttachment)
-import Web.Facebook.Messenger.Types.Callbacks.Message (CallbackQuickReply(..))
+import Web.Facebook.Messenger.Types.Callbacks.Message (CallbackQuickReply(..), MessageId)
 import Web.Facebook.Messenger.Types.Static
 
 
@@ -22,36 +45,44 @@ import Web.Facebook.Messenger.Types.Static
 --  ECHO CALLBACK  --
 -- --------------- --
 
+-- | Echo callback sent when a message is sent as the page. This can also happen if an admin/editor of the page responds manually to a user.
 data Echo = Echo
-    { eIsEcho :: Bool
-    , eAppId :: Maybe Integer -- ID of the app from which the message was sent
-  -- app_id might be Number, documentation is ambiguous <--- IS ACTUALLY A NUMBER, GODDAMNIT
-    , eMetaData :: Maybe Text -- Custom string passed to the Send API as the metadata field
-    , eMid :: Text -- Message ID
-    , eQuickReply :: Maybe CallbackQuickReply
-    , eSeq :: Maybe Integer -- Sequence number
-    , eContent :: EchoContent
+    { eIsEcho :: Bool -- ^ Indicates the message sent from the page itself
+    , eAppId :: Maybe Integer
+    -- ^ ID of the app from which the message was sent.
+    -- (`eAppId` was a @Number@ at the time of making this module /2017-10-03/)
+    , eMetaData :: Maybe Text
+    -- ^ Custom string passed to the Send API as the metadata field.
+    -- Only present if the metadata property was set in the original message.
+    , eMid :: MessageId -- ^ Message ID
+    , eQuickReply :: Maybe CallbackQuickReply -- ^ Present if the message sent had Quick Replies in it
+    , eSeq :: Maybe Integer -- ^ Sequence number
+    , eContent :: EchoContent -- ^ Contents of the Echo callback
     } deriving (Eq, Show)
 
-data EchoContent = EText EchoText
-                 | EAttachment EchoAttachment
-                 | EFallback EchoFallback
+-- | Different kinds of Echo callbacks
+data EchoContent = EText EchoText -- ^ Regular message
+                 | EAttachment EchoAttachment -- ^ Attachment message
+                 | EFallback EchoFallback -- ^ Any other message
   deriving (Eq, Show)
 
-newtype EchoText = EchoText { eText :: Text } -- Text of message
+-- | Text message
+newtype EchoText = EchoText { eText :: Text }
   deriving (Eq, Show)
 
+-- | Attachment message. `RequestAttachment` as described in the Send API Reference ("Requests")
 newtype EchoAttachment = EchoAttachment { eAttachments :: [RequestAttachment] }
-    -- Template payload as described in the Send API Reference (.Callbacks.Requests)
   deriving (Eq, Show)
 
+-- | Fallback message
 newtype EchoFallback = EchoFallback { eFallback :: [Fallback] }
   deriving (Eq, Show)
 
+-- | Fallback template-like contents. Just a mess of stuff that might mean something.
 data Fallback = Fallback
-    { fTitle :: Maybe Text -- Title of attachment (optional)
-    , fUrl :: Maybe Text -- URL of attachment (optional)
-    , fPayload :: Maybe Text -- Payload of attachment (optional)
+    { fTitle :: Maybe Text -- ^ Title of attachment (optional)
+    , fUrl :: Maybe URL -- ^ URL of attachment (optional)
+    , fPayload :: Maybe Text -- ^ Payload of attachment (optional)
     } deriving (Eq, Show)
 
 

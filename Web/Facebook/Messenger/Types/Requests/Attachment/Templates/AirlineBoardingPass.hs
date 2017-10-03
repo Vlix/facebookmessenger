@@ -1,7 +1,7 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 {-|
-Module      : Web.Facebook.Messenger.Types.Requests.AirlineBoardingPass
+Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineBoardingPass
 Copyright   : (c) Felix Paulusma, 2016
 License     : MIT
 Maintainer  : felix.paulusma@gmail.com
@@ -12,8 +12,10 @@ Message bubbles will be grouped by flight information. (/if the flight informati
 
 Multiple bubbles are automatically sent for all `BoardingPass` elements with different values for `AirlineFlightInfo`.
 In the future, we may group all boarding passes into the same bubble.
+
+https://developers.facebook.com/docs/messenger-platform/send-messages/template/airline-boarding-pass
 -}
-module Web.Facebook.Messenger.Types.Requests.AirlineBoardingPass (
+module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineBoardingPass (
   -- * Boarding Pass Template
   AirlineBoardingPass (..)
   , BoardingPass (..)
@@ -36,7 +38,7 @@ import Data.Aeson.Types (Parser)
 import qualified Data.HashMap.Strict as HM
 import Data.Text (Text, unpack)
 
-import Web.Facebook.Messenger.Types.Requests.Airline (AirlineFlightInfo)
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.Airline (AirlineFlightInfo)
 import Web.Facebook.Messenger.Types.Static
 
 

@@ -5,10 +5,21 @@ License     : MIT
 Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
-TODO: Explanation and link to FB Docs
+This callback will occur when the user already has a thread with the bot and user comes to the thread from:
+
+* Following an @m.me@ link with a referral parameter
+* Clicking on a Messenger Conversation Ad
+* Scanning a parametric Messenger Code.
+* The Discover Tab
+
+To start receiving these events you need to subscribe to @"messaging_referrals"@ in the webhook settings for your app.
+(For tracking referrals in new threads, refer to `Postback` Event.)
+
+https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_referrals
 -}
-module Web.Facebook.Messenger.Types.Callbacks.Referral
-  ( Referral (..)
+module Web.Facebook.Messenger.Types.Callbacks.Referral (
+  -- * Referral Callback
+  Referral (..)
   , RefShortLink (..)
   , RefAds (..)
   , RefMessengerCode (..)
@@ -26,20 +37,27 @@ import Web.Facebook.Messenger.Types.Static
 --  REFERRAL CALLBACK  --
 -- ------------------- --
 
+-- | Types of referrals that might be sent through the webhook.
+--
+-- (only for users who are already in your bot)
 data Referral =
-    ReferralLink RefShortLink
-  | ReferralAds RefAds
-  | ReferralCode RefMessengerCode
-  | ReferralDiscover
+    ReferralLink RefShortLink -- ^ User followed an @m.me@ link with a referral parameter
+  | ReferralAds RefAds -- ^ User clicked on a Messenger Conversation Ad
+  | ReferralCode RefMessengerCode -- ^ User scanned a parametric Messenger Code
+  | ReferralDiscover -- ^ User found your bot in the Discover Tab
   deriving (Eq, Show)
 
+-- | Referral parameter added to an @m.me@ link.
 newtype RefShortLink = RefShortLink { rslRef :: Text }
   deriving (Eq, Show)
 
-data RefAds = RefAds { raRef :: Maybe Text
-                     , raAdId :: Text }
-  deriving (Eq, Show)
+-- | Referral parameter added to a Messenger Conversation Ad and the ID of that ad.
+data RefAds = RefAds
+  { raRef :: Maybe Text
+  , raAdId :: Text
+  } deriving (Eq, Show)
 
+-- | Referral parameter added to a Messenger Code.
 newtype RefMessengerCode = RefMessengerCode { rmcRef :: Text }
   deriving (Eq, Show)
 

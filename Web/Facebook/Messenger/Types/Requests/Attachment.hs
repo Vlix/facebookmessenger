@@ -6,6 +6,8 @@ Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
 Attachment types used in the Send API
+
+https://developers.facebook.com/docs/messenger-platform/send-api-reference/contenttypes
 -}
 module Web.Facebook.Messenger.Types.Requests.Attachment (
     -- * Send API Attachment
@@ -13,6 +15,11 @@ module Web.Facebook.Messenger.Types.Requests.Attachment (
     -- ** Multimedia
     , multimediaRequest
     , reusedMultimediaRequest
+    , RequestMultimediaAttachment (..)
+    , RequestAttachmentTemplate (..)
+    , RequestMultimediaPayload (..)
+    , RMultimediaPayload (..)
+    , RReusedMultimediaPayload (..)
     -- ** Template
     , templateRequest
     , buttonTemplate
@@ -22,14 +29,14 @@ module Web.Facebook.Messenger.Types.Requests.Attachment (
     , listTemplate_
     , openGraphTemplate
     -- * Exported Modules
-    , module Web.Facebook.Messenger.Types.Requests.Templates
+    , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates
     ) where
 
 import Control.Applicative ((<|>))
 import Data.Text
 import Data.Aeson
 
-import Web.Facebook.Messenger.Types.Requests.Templates
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates
 import Web.Facebook.Messenger.Types.Static
 
 -- | Constructor for making a `RequestAttachment` from a `TemplatePayload`

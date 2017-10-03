@@ -1,28 +1,52 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-|
+Module      : Web.Facebook.Messenger.Types.Callbacks.Messaging
+Copyright   : (c) Felix Paulusma, 2016
+License     : MIT
+Maintainer  : felix.paulusma@gmail.com
+Stability   : semi-experimental
 
+When you setup your webhook, there are 11 relevant webhook events (subscription fields) for this integration.
+All fields are optional so select the fields most relevant for your experience.
+
+(Payment-related callbacks are in beta and will only appear to developers who have access.
+Request access to our beta program for payments.)
+
+Webhooks with descriptions:
+* @messages@ - /Subscribes to Message Received events/
+* @message_deliveries@ - /Subscribes to Message Delivered events/
+* @message_reads@ - /Subscribes to Message Read events/
+* @message_echoes@ - /Subscribes to Message Echo events/
+* @messaging_postbacks@ - /Subscribes to Postback Received events/
+* @messaging_optins@ - /Subscribes to Plugin Opt-in events/
+* @messaging_referrals@ - /Subscribes to Referral events/
+* @messaging_checkout_updates@ (BETA) - /Subscribes to Checkout Update events/
+* @messaging_payments@ (BETA) - /Subscribes to Payment events/
+* @messaging_account_linking@ - /Subscribes to Account Linking events/
+* @messaging_policy_enforcement@ - /Subscribes to Policy Enforcement events/
+-}
 module Web.Facebook.Messenger.Types.Callbacks.Messaging (
-    CallbackMessaging (..)
-    , CallbackContent (..)
-    , CallbackSender (..)
-    , CallbackRecipient (..)
-    , PSID (..)
-    , PageID (..)
-    , module Web.Facebook.Messenger.Types.Callbacks.Message
-    , module Web.Facebook.Messenger.Types.Callbacks.Delivery
-    , module Web.Facebook.Messenger.Types.Callbacks.Read
-    , module Web.Facebook.Messenger.Types.Callbacks.Echo
-    , module Web.Facebook.Messenger.Types.Callbacks.Postback
-    , module Web.Facebook.Messenger.Types.Callbacks.Optin
-    , module Web.Facebook.Messenger.Types.Callbacks.Referral
-    , module Web.Facebook.Messenger.Types.Callbacks.Payment
-    , module Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
-    , module Web.Facebook.Messenger.Types.Callbacks.PreCheckout
-    , module Web.Facebook.Messenger.Types.Callbacks.AccountLink
-    , module Web.Facebook.Messenger.Types.Callbacks.PolicyEnforcement
-    , module Web.Facebook.Messenger.Types.Callbacks.AppRoles
-    , module Web.Facebook.Messenger.Types.Callbacks.PassThreadControl
-    , module Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl
-    ) where
+  -- * Webhook Entry
+  CallbackMessaging (..)
+  , CallbackContent (..)
+  , CallbackSender (..)
+  , CallbackRecipient (..)
+  -- * Exported Modules
+  , module Web.Facebook.Messenger.Types.Callbacks.Message
+  , module Web.Facebook.Messenger.Types.Callbacks.Delivery
+  , module Web.Facebook.Messenger.Types.Callbacks.Read
+  , module Web.Facebook.Messenger.Types.Callbacks.Echo
+  , module Web.Facebook.Messenger.Types.Callbacks.Postback
+  , module Web.Facebook.Messenger.Types.Callbacks.Optin
+  , module Web.Facebook.Messenger.Types.Callbacks.Referral
+  , module Web.Facebook.Messenger.Types.Callbacks.Payment
+  , module Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
+  , module Web.Facebook.Messenger.Types.Callbacks.PreCheckout
+  , module Web.Facebook.Messenger.Types.Callbacks.AccountLink
+  , module Web.Facebook.Messenger.Types.Callbacks.PolicyEnforcement
+  , module Web.Facebook.Messenger.Types.Callbacks.AppRoles
+  , module Web.Facebook.Messenger.Types.Callbacks.PassThreadControl
+  , module Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl
+  ) where
 
 import Control.Applicative ((<|>))
 import Data.Aeson
@@ -52,47 +76,51 @@ import Web.Facebook.Messenger.Types.Static
 --  MESSAGING OBJECT  --
 -- ------------------ --
 
--- The different kinds of callbacks Facebook sends through WebHook
+-- | A webhook event with:
+--
+-- * the recipient (the Facebook page the message was sent to)
+-- * the sender (a Page-Scoped ID of a user)
+--
+-- The sender is absent in a few cases (e.g. `Optin`s from a @Checkbox@ plugin callback).
+--
+-- The timestamp can also be absent (e.g. callbacks form the `Delivery` webhook).
 data CallbackMessaging = CallbackMessaging
-    { sender :: Maybe CallbackSender
-    , recipient :: CallbackRecipient
-    , timestamp :: Maybe Integer
-    , content :: CallbackContent
+    { sender :: Maybe CallbackSender -- ^ the sending user's PSID
+    , recipient :: CallbackRecipient -- ^ the receiving page ID
+    , timestamp :: Maybe Integer -- ^ Time of callback event (epoch time in milliseconds)
+    , content :: CallbackContent -- ^ Content depending on the type of callback.
     } deriving (Eq, Show)
 
-
+-- | The different types of callbacks that could be 
 data CallbackContent =
-    CMMessage Message
-  | CMDelivery Delivery
-  | CMRead ReadCallback
-  | CMEcho Echo
-  | CMPostback Postback
-  | CMOptin Optin
-  | CMReferral Referral
-  | CMPayment Payment
-  | CMCheckoutUpdate CheckoutUpdate
-  | CMPreCheckOut PreCheckout
-  | CMAccountLink AccountLink
-  | CMPolicy PolicyEnforcement
-  | CMAppRoles AppRoles
-  | CMPassThread PassThread
-  | CMTakeThread TakeThread
+    CMMessage Message -- ^ Regular message
+  | CMDelivery Delivery -- ^ Delivery notification
+  | CMRead ReadCallback -- ^ Message read notification
+  | CMEcho Echo -- ^ Message sent on the connected page
+  | CMPostback Postback -- ^ Postback callback
+  | CMOptin Optin -- ^ Optin plugin callback
+  | CMReferral Referral -- ^ Onboarding callback
+  | CMPayment Payment -- ^ Payment callback
+  | CMCheckoutUpdate CheckoutUpdate -- ^ Part of the `Payment` callback
+  | CMPreCheckOut PreCheckout -- ^ Part of the `Payment` callback
+  | CMAccountLink AccountLink -- ^ User linking with an external account
+  | CMPolicy PolicyEnforcement -- ^ (Un\/)Block notification
+  | CMAppRoles AppRoles -- ^ Part of thread control
+  | CMPassThread PassThread -- ^ Part of thread control
+  | CMTakeThread TakeThread -- ^ Part of thread control
   deriving (Eq, Show)
 
 
--- ALMOST ALL MESSAGING HAS THESE TWO --
+-- | The sender of the message. Sometimes this is absent because it wouldn't make sense with certain callbacks.
 newtype CallbackSender =
-          CallbackSender { senderId :: PSID } -- Sender user ID
+          CallbackSender { senderId :: PSID }
   deriving (Eq, Show)
 
+-- | The receiving page of the callback.
 newtype CallbackRecipient =
           CallbackRecipient { recipientId :: PageID } -- Recipient user ID/PAGE_ID
   deriving (Eq, Show)
 
-newtype PSID = PSID Text deriving (Eq, Show, FromJSON, ToJSON)
-newtype PageID = PageID Text deriving (Eq, Show, FromJSON, ToJSON)
-
--- When representing a user, these IDs are page-scoped IDs (PSID). This means that the IDs of users are unique for a given page.
 
 
 -- --------------------- --

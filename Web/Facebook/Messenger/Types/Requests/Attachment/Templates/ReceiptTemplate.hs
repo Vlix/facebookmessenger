@@ -1,13 +1,15 @@
 {-|
-Module      : Web.Facebook.Messenger.Types.Requests.ReceiptTemplate
+Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ReceiptTemplate
 Copyright   : (c) Felix Paulusma, 2016
 License     : MIT
 Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
 Use the Receipt Template with the Send API to send a order confirmation, with the transaction summary and description for each item.
+
+https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template
 -}
-module Web.Facebook.Messenger.Types.Requests.ReceiptTemplate (
+module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ReceiptTemplate (
   -- * Receipt Template
   ReceiptTemplate (..)
   , ReceiptElement (..)

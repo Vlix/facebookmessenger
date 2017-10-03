@@ -5,7 +5,12 @@ License     : MIT
 Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
-TODO: Explanation and link to FB Docs
+This callback will occur when thread ownership for a user has been passed to your application.
+metadata contains free form string that the previous thread owner is passing to your application.
+
+You can subscribe to this callback by selecting the @"messaging_handovers"@ field when setting up your webhook.
+
+https://developers.facebook.com/docs/messenger-platform/handover-protocol/pass-thread-control
 -}
 module Web.Facebook.Messenger.Types.Callbacks.PassThreadControl (
   PassThread (..)
@@ -18,10 +23,10 @@ import Data.Text (Text)
 
 import Web.Facebook.Messenger.Types.Requests (AppId)
 
--- This callback is sent when thread ownership for a user has been passed to your application.
+-- | This callback will occur when thread ownership for a user has been passed to your application.
 data PassThread = PassThread
-    { ptNewOwnderAppId :: AppId -- ^ TODO: ...
-    , ptMetaData :: Text -- ^ TODO: ...
+    { ptNewOwnderAppId :: AppId -- ^ App ID of the app receiving control over this user's thread
+    , ptMetaData :: Text -- ^ Optional free form data sent from the control passing app
     } deriving (Eq, Show)
 
 

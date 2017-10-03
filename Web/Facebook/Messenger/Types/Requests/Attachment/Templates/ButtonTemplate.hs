@@ -1,5 +1,5 @@
 {-|
-Module      : Web.Facebook.Messenger.Types.Requests.ButtonTemplate
+Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ButtonTemplate
 Copyright   : (c) Felix Paulusma, 2016
 License     : MIT
 Maintainer  : felix.paulusma@gmail.com
@@ -8,8 +8,10 @@ Stability   : semi-experimental
 Use the Button Template with the Send API to send a text and
 buttons attachment to request input from the user.
 The buttons can open a URL, or make a back-end call to your webhook.
+
+https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template
 -}
-module Web.Facebook.Messenger.Types.Requests.ButtonTemplate (
+module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ButtonTemplate (
   -- * Button Template
   ButtonTemplate (..)
   )

@@ -1,5 +1,5 @@
 {-|
-Module      : Web.Facebook.Messenger.Types.Requests.OpenGraphTemplate
+Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.OpenGraphTemplate
 Copyright   : (c) Felix Paulusma, 2016
 License     : MIT
 Maintainer  : felix.paulusma@gmail.com
@@ -23,8 +23,10 @@ Messenger will read the following properties to populate the bubble:
 * __Availability__:
 In the webview, to check whether the user's version of Messenger supports music messages,
 call @getSupportedFeatures()@ and check for the key @"sharing_open_graph"@.
+
+https://developers.facebook.com/docs/messenger-platform/open-graph-template
 -}
-module Web.Facebook.Messenger.Types.Requests.OpenGraphTemplate (
+module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.OpenGraphTemplate (
   -- * Open Graph Template
   OpenGraphTemplate (..)
   , OpenGraphElement (..)

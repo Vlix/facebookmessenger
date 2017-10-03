@@ -1,5 +1,5 @@
 {-|
-Module      : Web.Facebook.Messenger.Types.Requests.GenericTemplate
+Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.GenericTemplate
 Copyright   : (c) Felix Paulusma, 2016
 License     : MIT
 Maintainer  : felix.paulusma@gmail.com
@@ -16,8 +16,10 @@ Buttons in `GenericTemplate` can do the following:
 * Open a share dialog
 * Open a payment dialog
 * Log in or out of an external service
+
+https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template
 -}
-module Web.Facebook.Messenger.Types.Requests.GenericTemplate (
+module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.GenericTemplate (
   -- * Generic Template
   GenericTemplate (..)
   )

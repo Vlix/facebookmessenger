@@ -1,23 +1,49 @@
-module Web.Facebook.Messenger.Types.Callbacks.Message
-  ( MessageId
-  , Message (..)
+{-|
+Module      : Web.Facebook.Messenger.Types.Callbacks.Message
+Copyright   : (c) Felix Paulusma, 2016
+License     : MIT
+Maintainer  : felix.paulusma@gmail.com
+Stability   : semi-experimental
+
+This callback will occur when a message has been sent to your page.
+You may receive:
+
+* text messages
+* messages with attachments (image, audio, video, file, sticker or location)
+
+You may also receive fallback attachments, which are attachments in Messenger other than the ones mentioned above.
+A common example is attachments created from link scraping. Messages are always sent in order.
+
+You can subscribe to this callback by selecting @"message"@ when setting up your webhook.
+
+https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/message
+-}
+module Web.Facebook.Messenger.Types.Callbacks.Message (
+  -- * Regular Message
+  Message (..)
+  , MessageId
   , MessageContent (..)
+  -- ** Text message
   , MessageText (..)
-  , MessageAttachment (..)
-  , MessageSticker (..)
-  , MessageLocation (..)
-  , MessageFallback (..)
   , CallbackQuickReply (..)
-  , StickerAttachment (..)
-  , CallbackStickerPayload (..)
+  -- ** Attachment message
+  , MessageAttachment (..)
   , CallbackAttachment (..)
   , MultimediaAttachment (..)
-  , TemplateAttachment (..)
   , CallbackMultimediaPayload (..)
+  , TemplateAttachment (..)
   , CallbackTemplate (..)
+  -- ** Sticker message
+  , MessageSticker (..)
+  , StickerAttachment (..)
+  , CallbackStickerPayload (..)
+  -- ** Location message
+  , MessageLocation (..)
   , CallbackLocation (..)
   , CallbackLocationPayload (..)
   , CallbackCoordinates (..)
+  -- ** Fallback message
+  , MessageFallback (..)
   , CallbackFallback (..)
   )
 where
@@ -38,101 +64,122 @@ import Web.Facebook.Messenger.Types.Static
 --  MESSAGE CALLBACK  --
 -- ------------------ --
 
+-- | Unique message ID
 type MessageId = Text
 
+-- | The user sent message
 data Message = Message
-    { mId :: MessageId
-    , mSeq :: Maybe Integer
-    , mContent :: MessageContent
+    { mId :: MessageId -- ^ Unique message ID
+    , mSeq :: Maybe Integer -- ^ Sequence number (deprecated?)
+    , mContent :: MessageContent -- ^ Content of the message
     } deriving (Eq, Show)
 
-data MessageContent = MText MessageText
-                    | MAttachment MessageAttachment
-                    | MSticker MessageSticker
-                    | MLocation MessageLocation
-                    | MFallback MessageFallback
+-- | Content of the message
+data MessageContent = MText MessageText -- ^ Text message or Quick Reply callback
+                    | MAttachment MessageAttachment -- ^ Multimedia attachment message
+                    | MSticker MessageSticker -- ^ Sticker message
+                    | MLocation MessageLocation -- ^ Shared location
+                    | MFallback MessageFallback -- ^ Other weird messages
   deriving (Eq, Show)
     
-
+-- | Regular text message sent by a user.
+-- If `mtQuickreply` is @Just@ then the user has pressed a Quick Reply.
+-- In that case `mtText` is the label of the Quick Reply.
 data MessageText = MessageText
-    { mtText :: Text -- Text of message
-    , mtQuickreply :: Maybe CallbackQuickReply -- Optional custom data provided by the sending app
+    { mtText :: Text -- ^ Text of message (or label of the Quick Reply)
+    , mtQuickreply :: Maybe CallbackQuickReply -- ^ Optional custom data provided by the sending app
     } deriving (Eq, Show)
 
-newtype MessageAttachment =
-          MessageAttachment { maAttachments :: [CallbackAttachment] } -- Array containing attachment data
-  deriving (Eq, Show)
-
-data MessageSticker = MessageSticker
-    { msAttachments :: [StickerAttachment] -- Array containing attachment data
-    , msStickerId  :: Integer -- Sticker ID
-    } deriving (Eq, Show)
-
-newtype MessageLocation =
-          MessageLocation { mlCoords :: [CallbackLocation] } -- Array containing Location Quick Reply Callback (probably just 1)
-  deriving (Eq, Show)
-
-data MessageFallback = MessageFallback
-    { mfText :: Text
-    , mfAttachments :: [CallbackFallback] -- URL scraped messages
-    } deriving (Eq, Show)
-
-
+-- | Optional custom data provided by the sending app. This is the payload of the pressed Quick Reply.
 newtype CallbackQuickReply =
           CallbackQuickReply { cbQR :: Text }
   deriving (Eq, Show)
 
-newtype StickerAttachment =
-          StickerAttachment { sticker :: CallbackStickerPayload }
+-- | Multimedia attachment with a list of attachments
+newtype MessageAttachment =
+          MessageAttachment { maAttachments :: [CallbackAttachment] }
   deriving (Eq, Show)
 
-data CallbackStickerPayload = CallbackStickerPayload
-    { cspStickerUrl :: Text -- URL of the file
-    , cspStickerId :: Integer -- sticker_id
-    } deriving (Eq, Show)
-
+-- | Either Multimedia or Template
+--
+-- /N.B. Template can be sent by a user when they share a template from a different bot\/page with your bot\/page/
 data CallbackAttachment = CAMultimedia MultimediaAttachment
                         | CATemplate TemplateAttachment
   deriving (Eq, Show)
 
-
+-- | Multimedia attachment
 data MultimediaAttachment = MultimediaAttachment
-    { maType :: AttachmentType
-    , maPayload :: CallbackMultimediaPayload
+    { maType :: AttachmentType -- ^ `IMAGE` \/ `VIDEO` \/ `AUDIO` \/ `FILE`
+    , maPayload :: CallbackMultimediaPayload -- ^ URL of the media
     } deriving (Eq, Show)
 
-data TemplateAttachment = TemplateAttachment
-    { taTemplateTitle :: Maybe Text
-    , taTemplateSubtitle :: Maybe Text
-    , taTemplateUrl :: Maybe Text
-    , taTemplatePayload :: CallbackTemplate
-    } deriving (Eq, Show)
-
+-- | The URL of the media sent
 newtype CallbackMultimediaPayload =
-          CallbackMultimediaPayload { cmpUrl :: Text } -- URL of the file
+          CallbackMultimediaPayload { cmpUrl :: URL }
   deriving (Eq, Show)
 
-data CallbackTemplate = CallbackTemplate
-    { ctSharable :: Maybe Bool
-    , ctElements :: [GenericElement]
+-- | A template sent by a user (rare, but possible)
+data TemplateAttachment = TemplateAttachment
+    { taTemplateTitle :: Maybe Text -- ^ Title of template
+    , taTemplateSubtitle :: Maybe Text -- ^ Subtitle
+    , taTemplateUrl :: Maybe URL -- ^ URL
+    , taTemplatePayload :: CallbackTemplate -- ^ More of the template
     } deriving (Eq, Show)
 
+-- | Elements of a generic template
+data CallbackTemplate = CallbackTemplate
+    { ctSharable :: Maybe Bool -- ^ Is sharable or not (maybe not used?)
+    , ctElements :: [GenericElement] -- ^ Elements of the template
+    } deriving (Eq, Show)
+
+-- | Sticker sent by a user
+data MessageSticker = MessageSticker
+    { msAttachments :: [StickerAttachment] -- ^ Array containing sticker attachments
+    , msStickerId :: Integer -- ^ Sticker ID
+    } deriving (Eq, Show)
+
+-- | Sticker Payload
+newtype StickerAttachment =
+          StickerAttachment { sticker :: CallbackStickerPayload }
+  deriving (Eq, Show)
+
+-- | Url and ID of the sticker
+data CallbackStickerPayload = CallbackStickerPayload
+    { cspStickerUrl :: URL -- ^ URL of the file
+    , cspStickerId :: Integer -- ^ Sticker ID
+    } deriving (Eq, Show)
+
+-- | Location shared by a user
+newtype MessageLocation =
+          MessageLocation { mlCoords :: [CallbackLocation] } -- Array containing Location Quick Reply Callback (probably just 1)
+  deriving (Eq, Show)
+
+-- | Wrapper for JSON instance convenience
 newtype CallbackLocation =
           CallbackLocation { clPayload :: CallbackLocationPayload }
   deriving (Eq, Show)
 
+-- | Location payload
 newtype CallbackLocationPayload =
           CallbackLocationPayload { clpCoords :: CallbackCoordinates }
     deriving (Eq, Show)
 
+-- | Coordinates of the location payload
 data CallbackCoordinates = CallbackCoordinates
-    { ccLat :: Double -- Latitude
-    , ccLong :: Double -- Longitude
+    { ccLat :: Double -- ^ Latitude
+    , ccLong :: Double -- ^ Longitude
     } deriving (Eq, Show)
 
+-- | Fallback message. Mainly used for automated scraped links users used in their message.
+data MessageFallback = MessageFallback
+    { mfText :: Text -- ^ URL sent by the user
+    , mfAttachments :: [CallbackFallback]
+    } deriving (Eq, Show)
+
+-- | Link scraped data
 data CallbackFallback = CallbackFallback
-    { cfTitle :: Text
-    , cfURL :: Text
+    { cfTitle :: Text -- ^ Title of the URL attachment
+    , cfURL :: URL -- ^ URL of the attachment
     } deriving (Eq, Show)
 
 

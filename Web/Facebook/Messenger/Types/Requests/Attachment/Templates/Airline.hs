@@ -1,5 +1,5 @@
 {-|
-Module      : Web.Facebook.Messenger.Types.Requests.Airline
+Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.Airline
 Copyright   : (c) Felix Paulusma, 2016
 License     : MIT
 Maintainer  : felix.paulusma@gmail.com
@@ -7,7 +7,7 @@ Stability   : semi-experimental
 
 Types that are used in multiple different Airline modules.
 -}
-module Web.Facebook.Messenger.Types.Requests.Airline (
+module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.Airline (
   -- * Airline Types
   AirlineAirport (..)
   , AirlineFlightInfo (..)

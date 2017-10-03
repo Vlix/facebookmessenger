@@ -1,13 +1,15 @@
 {-|
-Module      : Web.Facebook.Messenger.Types.Requests.AirlineFlightUpdate
+Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineFlightUpdate
 Copyright   : (c) Felix Paulusma, 2016
 License     : MIT
 Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
 Template for sending a flight update to a user.
+
+https://developers.facebook.com/docs/messenger-platform/send-api-reference/airline-update-template
 -}
-module Web.Facebook.Messenger.Types.Requests.AirlineFlightUpdate (
+module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineFlightUpdate (
   -- * Flight Update Template
   AirlineFlightUpdate (..)
   )
@@ -19,7 +21,7 @@ import Data.Aeson
 import Data.Aeson.Types (Parser)
 import Data.Text (Text, unpack)
 
-import Web.Facebook.Messenger.Types.Requests.Airline (AirlineFlightInfo)
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.Airline (AirlineFlightInfo)
 import Web.Facebook.Messenger.Types.Static
 
 

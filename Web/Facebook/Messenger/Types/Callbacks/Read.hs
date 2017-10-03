@@ -5,10 +5,15 @@ License     : MIT
 Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
-TODO: Explanation and link to FB Docs
+This callback will occur when a message a page has sent has been read by the user.
+You can subscribe to this callback by selecting the @"message_reads"@ field when setting up your webhook.
+
+https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/message-reads
 -}
-module Web.Facebook.Messenger.Types.Callbacks.Read
-  ( ReadCallback (..) )
+module Web.Facebook.Messenger.Types.Callbacks.Read (
+  -- * Message Read Callback
+  ReadCallback (..)
+  )
 where
 
 
@@ -21,9 +26,13 @@ import Web.Facebook.Messenger.Types.Static
 --  READ CALLBACK  --
 -- --------------- --
 
+-- | Callback that certain messages have been read
+--
+-- The `rWatermark` field is used to determine which messages were read.
+-- It represents a timestamp indicating that all messages with a timestamp before watermark were read by the recipient.
 data ReadCallback = ReadCallback
-    { rWatermark :: Integer -- All messages that were sent before this timestamp were read
-    , rSeq :: Maybe Integer  -- Sequence number
+    { rWatermark :: Integer -- ^ All messages that were sent before this timestamp were read
+    , rSeq :: Maybe Integer  -- ^ Sequence number
     } deriving (Eq, Show)
 
 

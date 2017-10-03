@@ -39,21 +39,21 @@ library
                        Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl
 
                        Web.Facebook.Messenger.Types.Requests
-                       Web.Facebook.Messenger.Types.Requests.Airline
-                       Web.Facebook.Messenger.Types.Requests.AirlineBoardingPass
-                       Web.Facebook.Messenger.Types.Requests.AirlineCheckin
-                       Web.Facebook.Messenger.Types.Requests.AirlineFlightUpdate
-                       Web.Facebook.Messenger.Types.Requests.AirlineItinerary
                        Web.Facebook.Messenger.Types.Requests.Attachment
-                       Web.Facebook.Messenger.Types.Requests.ButtonTemplate
+                       Web.Facebook.Messenger.Types.Requests.Attachment.Templates
+                       Web.Facebook.Messenger.Types.Requests.Attachment.Templates.Airline
+                       Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineBoardingPass
+                       Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineCheckin
+                       Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineFlightUpdate
+                       Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineItinerary
+                       Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ButtonTemplate
+                       Web.Facebook.Messenger.Types.Requests.Attachment.Templates.GenericTemplate
+                       Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ListTemplate
+                       Web.Facebook.Messenger.Types.Requests.Attachment.Templates.OpenGraphTemplate
+                       Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ReceiptTemplate
                        Web.Facebook.Messenger.Types.Requests.Extra
-                       Web.Facebook.Messenger.Types.Requests.GenericTemplate
-                       Web.Facebook.Messenger.Types.Requests.ListTemplate
-                       Web.Facebook.Messenger.Types.Requests.OpenGraphTemplate
-                       Web.Facebook.Messenger.Types.Requests.ReceiptTemplate
                        Web.Facebook.Messenger.Types.Requests.Message
                        Web.Facebook.Messenger.Types.Requests.Settings
-                       Web.Facebook.Messenger.Types.Requests.Templates
 
                        Web.Facebook.Messenger.Types.Responses
 

@@ -5,7 +5,14 @@ License     : MIT
 Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
-TODO: Explanation and link to FB Docs
+An app will receive this callback when a policy enforcement action is taken on the page it manages.
+You can subscribe to this callback by selecting the @"messaging_policy_enforcement"@ field when setting up your webhook.
+
+A policy enforcement will be taken on a page if it does not conform to Messenger Platform policy,
+fails to meet Facebook community standards or violates Facebook Pages guidelines.
+Common issues include spams, sending inappropriate messages (porn, suicide, etc), abusing tags, etc.
+
+https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_policy_enforcement
 -}
 module Web.Facebook.Messenger.Types.Callbacks.PolicyEnforcement
   ( PolicyEnforcement (..) )

@@ -1,5 +1,5 @@
 {-|
-Module      : Web.Facebook.Messenger.Types.Requests.Settings
+Module      : Web.Facebook.Messenger.Types.Responses
 Copyright   : (c) Felix Paulusma, 2016
 License     : MIT
 Maintainer  : felix.paulusma@gmail.com
@@ -61,16 +61,15 @@ import Web.Facebook.Messenger.Types.Static
 
 -- | This is a response to a standard Send API Request.
 data MessageResponse = MessageResponse
-    { mrRecipientId :: Text -- Unique ID for the user
+    { mrRecipientId :: PSID -- Unique ID for the user
     , mrMessageId :: Text -- Unique ID for the message
     , mrAttachmentId :: Maybe Text
     -- ^ Please note that this ID is private and only the page that originally sent the attachment can reuse it.
     } deriving (Eq, Show)
 
--- | This is a response to a Sender Action.
--- `Text` is a unique ID for the user.
+-- | This is a response to a Sender Action returning the Page-Scoped ID of the receiving user.
 newtype SenderActionResponse =
-          SenderActionResponse { sarRecipientId :: Text }
+          SenderActionResponse { sarRecipientId :: PSID }
   deriving (Eq, Show)
 
 -- | This is a response from the Attachement Upload API.
@@ -120,8 +119,8 @@ data UserProfileResponse = UserProfileResponse
 --     &account_linking_token=<ACCOUNT_LINKING_TOKEN>
 -- @
 data AccountLinkingResponse = AccountLinkingResponse
-    { alrId :: Text -- ^ Page ID
-    , alrRecipient :: Text -- ^ PSID of the user
+    { alrId :: PageID -- ^ Page ID
+    , alrRecipient :: PSID -- ^ PSID of the user
     } deriving (Eq, Show)
 
 -- | This is the response to be used when receiving a `CheckoutUpdate` callback

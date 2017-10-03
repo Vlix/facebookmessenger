@@ -5,13 +5,11 @@ License     : MIT
 Maintainer  : felix.paulusma@gmail.com
 Stability   : semi-experimental
 
-TODO: Explanation of this entire package
+TODO: Explanation of this entire package (later)
 -}
-module Web.Facebook.Messenger
-    ( module Web.Facebook.Messenger.Types
+module Web.Facebook.Messenger (
+    module Web.Facebook.Messenger.Types
     ) where
-
--- import Data.Text
 
 import Web.Facebook.Messenger.Types
 

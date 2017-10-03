@@ -1,5 +1,5 @@
 {-|
-Module      : Web.Facebook.Messenger.Types.Requests.ListTemplate
+Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ListTemplate
 Copyright   : (c) Felix Paulusma, 2016
 License     : MIT
 Maintainer  : felix.paulusma@gmail.com
@@ -22,8 +22,10 @@ Please take note of the following:
 * You may send at least 2 and at most 4 `ListElement`s.
 * Adding a `TemplateButton` to each `ListElement` is optional. You may only have up to 1 `TemplateButton` per `ListElement`.
 * You may have up to 1 global `TemplateButton`.
+
+https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template
 -}
-module Web.Facebook.Messenger.Types.Requests.ListTemplate (
+module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ListTemplate (
   -- * List Template
   ListTemplate (..)
   , ListElement (..)

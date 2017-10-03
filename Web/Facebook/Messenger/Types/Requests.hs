@@ -1,5 +1,3 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-
 {-|
 Module      : Web.Facebook.Messenger.Types.Requests
 Copyright   : (c) Felix Paulusma, 2016
@@ -19,7 +17,8 @@ module Web.Facebook.Messenger.Types.Requests (
   -- ** Send API Request
   --
   -- | POST to @.../messages?access_token=\<PAGE_ACCESS_TOKEN\>@
-  SendRequest (..)
+  sendRequest
+  , SendRequest (..)
   , SenderActionRequest (..)
   , recipientID
   , recipientPhone
@@ -43,16 +42,15 @@ module Web.Facebook.Messenger.Types.Requests (
   , MessengerCodeRef (..)
   -- ** Handover Protocol
   --
-  -- | /Pass Thread/: POST to @.../pass_thread_control?access_token=\<PAGE_ACCESS_TOKEN\>@\
-  -- /Take Thread/: POST to @.../take_thread_control?access_token=\<PAGE_ACCESS_TOKEN\>@
+  -- |
+  -- * /Pass Thread/: POST to @.../pass_thread_control?access_token=\<PAGE_ACCESS_TOKEN\>@
+  -- * /Take Thread/: POST to @.../take_thread_control?access_token=\<PAGE_ACCESS_TOKEN\>@
   , PassThreadControlRequest (..)
-  , AppId (..)
   , TakeThreadControlRequest (..)
   -- * Exported modules
   , module Web.Facebook.Messenger.Types.Requests.Extra
   , module Web.Facebook.Messenger.Types.Requests.Message
   , module Web.Facebook.Messenger.Types.Requests.Settings
-  , module Web.Facebook.Messenger.Types.Requests.Templates
   , module Web.Facebook.Messenger.Types.Static
   ) where
 
@@ -66,7 +64,6 @@ import Data.Text (Text, unpack)
 import Web.Facebook.Messenger.Types.Requests.Extra
 import Web.Facebook.Messenger.Types.Requests.Message
 import Web.Facebook.Messenger.Types.Requests.Settings
-import Web.Facebook.Messenger.Types.Requests.Templates
 import Web.Facebook.Messenger.Types.Static
 
 -- ============================== --
@@ -90,6 +87,10 @@ data SendRequest = SendRequest
     , srNotificationType :: NotificationType -- ^ Optional; by default, messages will be a `REGULAR` push notification type
     , srTag :: Maybe MessageTag -- ^ Optional; to be used if you have a valid reason to send a message outside of the 24+1 window
     } deriving (Eq, Show)
+
+-- | Shortcut constructor for a default `SendRequest` (no `MessageTag` and with a `REGULAR` `NotificationType`)
+sendRequest :: RequestRecipient -> RequestMessage -> SendRequest
+sendRequest recip msg = SendRequest recip msg REGULAR Nothing
 
 -- | Set typing indicators or send read receipts using the Send API, to let users know you are processing their request.
 --
@@ -197,8 +198,6 @@ data TakeThreadControlRequest = TakeThreadControlRequest
     , tcrMetaData :: Maybe Text -- ^ Metadata passed back to the secondary app in the @take_thread_control@ webhook event.
     } deriving (Eq, Show)
 
--- | Newtype wrapper around Text, because the AppId is very different than anything else used as IDs in this package
-newtype AppId = AppId Text deriving (Eq, Show, FromJSON, ToJSON)
 
 -- ------------------------ --
 --  SEND MESSAGE INSTANCES  --

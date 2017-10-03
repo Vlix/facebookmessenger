@@ -1,6 +1,5 @@
 {-|
 Module      : Web.Facebook.Messenger.Types.Requests.Extra
-Description : Extra types and functions
 Copyright   : (c) Felix Paulusma, 2016
 License     : MIT
 Maintainer  : felix.paulusma@gmail.com
