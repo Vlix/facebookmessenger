@@ -33,7 +33,7 @@ import Web.Facebook.Messenger.Types.Static (checkValue, PageID (..))
 -- | Top callback object to be returned from Facebook's Webhooks.
 --
 -- Be sure to iterate over @[`CallbackEntry`]@ to process all events.
-newtype Callback = Callback {cbEntries  :: [CallbackEntry]}
+newtype Callback = Callback {cbEntries :: [CallbackEntry]}
   deriving (Eq, Show)
 
 -- | A callback event. Although @[`CallbackMessaging`]@ is also a list, there is no batching mechanism for @[`CallbackMessaging`]@ at the moment.

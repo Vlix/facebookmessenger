@@ -20,9 +20,12 @@ Webhooks with descriptions:
 * @messaging_optins@ - /Subscribes to Plugin Opt-in events/
 * @messaging_referrals@ - /Subscribes to Referral events/
 * @messaging_checkout_updates@ (BETA) - /Subscribes to Checkout Update events/
+* @messaging_pre_checkouts@ (BETA) - /Subscribes to PreCheckout events/
 * @messaging_payments@ (BETA) - /Subscribes to Payment events/
 * @messaging_account_linking@ - /Subscribes to Account Linking events/
 * @messaging_policy_enforcement@ - /Subscribes to Policy Enforcement events/
+* @standby@ - /Subscribes to Standby events/
+* @messaging_handovers@ - /Subscribes to Thread Control events/
 -}
 module Web.Facebook.Messenger.Types.Callbacks.Messaging (
   -- * Webhook Entry
@@ -108,6 +111,7 @@ data CallbackContent =
   | CMAppRoles AppRoles -- ^ Part of thread control
   | CMPassThread PassThread -- ^ Part of thread control
   | CMTakeThread TakeThread -- ^ Part of thread control
+  | CMMsgAccept -- ^ Customer Matching accepted
   deriving (Eq, Show)
 
 
@@ -150,11 +154,17 @@ instance FromJSON CallbackContent where
       <|> CMAppRoles <$> o .: "app_roles"
       <|> CMPassThread <$> o .: "pass_thread_control"
       <|> CMTakeThread <$> o .: "take_thread_control"
+      <|> tryMatch o
     where tryMessage o = do
               msg <- o .: "message"
               case "is_echo" `HM.lookup` msg of
                 Just _ -> CMEcho <$> parseJSON (Object msg)
                 _ -> CMMessage <$> parseJSON (Object msg)
+          tryMatch o = do
+              t <- o .: "message_request"
+              if t == String "accept"
+                then pure CMMsgAccept
+                else fail "CallbackContent: \"message_request\" is not \"accept\""
 
 
 -- ALL MESSAGING HAS THESE TWO --
