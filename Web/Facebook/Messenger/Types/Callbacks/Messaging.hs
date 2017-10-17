@@ -201,6 +201,7 @@ instance ToJSON CallbackMessaging where
       mkContent (CMAppRoles cb) = "app_roles" .=! cb
       mkContent (CMPassThread cb) = "pass_thread_control" .=! cb
       mkContent (CMTakeThread cb) = "take_thread_control" .=! cb
+      mkContent CMMsgAccept = "message_request" .=! String "accept"
 
 
 -- ALL MESSAGING HAS THESE TWO --
