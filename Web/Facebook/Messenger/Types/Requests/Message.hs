@@ -40,7 +40,7 @@ import Data.Aeson.Types (Parser)
 import qualified Data.HashMap.Strict as HM
 import Data.Text (Text)
 
-import Web.Facebook.Messenger.Types.Requests.Attachment (RequestAttachment)
+import Web.Facebook.Messenger.Types.Requests.Attachment
 import Web.Facebook.Messenger.Types.Static
 
 
@@ -150,7 +150,7 @@ instance ToJSON RQuickReply where
 instance ToJSON LocationQuickReply where
   toJSON LocationQuickReply =
       object' ["content_type" .=! String "location"]
-  
+
 
 instance FromJSON RequestMessage where
   parseJSON = withObject "RequestMessage" $ \o ->
@@ -182,7 +182,7 @@ instance FromJSON RQuickReply where
       RQuickReply <$> o .: "title"
                   <*> o .: "payload"
                   <*> o .:? "image_url"
-                                   
+
 instance FromJSON LocationQuickReply where
   parseJSON = withObject "LocationQuickReply" $ \o -> do
       typ <- o .: "content_type" :: Parser Text

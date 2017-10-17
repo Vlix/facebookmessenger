@@ -68,4 +68,4 @@ instance FromJSON AirlineFlightUpdate where
                           <*> o .: "locale"
                           <*> o .:? "theme_color"
                           <*> o .: "pnr_number"
-                          <*> o .: "passenger_info"
+                          <*> o .: "update_flight_info"
