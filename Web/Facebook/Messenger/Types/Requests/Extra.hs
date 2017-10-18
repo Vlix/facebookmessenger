@@ -18,7 +18,7 @@ module Web.Facebook.Messenger.Types.Requests.Extra (
   -- * Template Buttons
   TemplateButton (..)
   -- ** URL Button
-  -- 
+  --
   -- | The URL Button can be used to open a web page in the in-app browser.
   -- This button can be used with the Button, Generic and List Templates.
   --
@@ -26,12 +26,12 @@ module Web.Facebook.Messenger.Types.Requests.Extra (
   -- Linking to your Bot from a URL Button:
   -- If you're specifying a URL button as part of a custom message to be shared in the share button or inside the webview,
   -- you may wish for the recipient of the share to enter your bot using the button (rather than a URL in the webview).
-  -- 
+  --
   -- To enable, all you must do is link to the bot using m.me. If you want the recipient of the share
   -- to activate a specific flow when they click the link, consider adding a ref parameter.
-  -- 
+  --
   -- For instance:
-  -- 
+  --
   -- > ...
   -- > "buttons":[
   -- >     {
@@ -52,9 +52,9 @@ module Web.Facebook.Messenger.Types.Requests.Extra (
   -- | When this is tapped, we will send a call to the postback webhook.
   -- This is useful when you want to invoke an action in your bot.
   -- You can attach a metadata payload to the button that will be sent back to your webhook.
-  -- 
+  --
   -- This button can be used with the Button, Generic and List Templates.
-  -- 
+  --
   -- It is a good practice to send a message back to acknowledge when a postback has been received.
   --
   -- https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_postbacks
@@ -88,11 +88,11 @@ module Web.Facebook.Messenger.Types.Requests.Extra (
   -- To do this, set the optional `ShareContents` attribute.
   -- Note that although the format for `ShareContents` is identical to the `GenericElement`s,
   -- we only support sharing generic templates with a maximum of 1 URL button.
-  -- 
+  --
   -- The button you add to `ShareContents` may use the webview to show a page, or use m.me to deep-link to your bot.
   --
   -- /Caveats/:
-  -- 
+  --
   -- * Only individual message bubbles can be shared.
   -- * The `ShareButton` can only be sent inside the `GenericTemplate`.
   -- * If your message bubble has a `URLButton` that uses Messenger Extensions (without a fallback URL),
@@ -109,15 +109,15 @@ module Web.Facebook.Messenger.Types.Requests.Extra (
   -- This button opens a native checkout dialog in Messenger and enables people to use their information stored in Messenger.
   -- When adding a `BuyButton` to the `GenericTemplate`, two things are rendered on the message bubble:
   -- the total price and a button that opens the dialog. Currently, this only works with the `GenericTemplate`.
-  -- 
+  --
   -- This dialog displays the item, a price list, and payment method.
   -- Optionally, you can also request other information such as the person's name, shipping address, phone number and email address.
-  -- 
+  --
   -- When the person taps the Pay button in the dialog, we will send you the tokenized credentials
   -- so that you can charge the person for the item. You should confirm the purchase with a message (e.g., with the `ReceiptTemplate`).
   --
   -- /Fixed vs Flexible Pricing/:
-  -- 
+  --
   -- The Buy Button supports fixed and flexible pricing. Flexible pricing can be used when you modify pricing based on shipping.
   -- When flexible pricing is declared, the Checkout dialog will render a button that the person can tap to choose the shipping method.
   -- We call your webhook to get information about the shipping names and prices.
@@ -205,7 +205,7 @@ callButton = (TCall .) . CallButton
 --
 -- Button used in Templates. Makes the template sharable to other users in the user's friend list.
 -- @[`GenericElement`]@ are elements that will be shared instead of the template the button is on,
--- in case you don't want the template to be shared, but maybe a general explanation of/invitation to your bot/channel. 
+-- in case you don't want the template to be shared, but maybe a general explanation of/invitation to your bot/channel.
 shareButton :: [GenericElement] -> TemplateButton
 shareButton [] = TShare $ ShareButton Nothing
 shareButton es = TShare . ShareButton . Just $ ShareContents es
@@ -353,7 +353,7 @@ instance FromJSON URLButton where
 data PostbackButton = PostbackButton
     { pbbTitle :: Text -- ^ 20 char limit (30 char limit when used in Persistent Menu)
     , pbbPayload :: Text -- ^ This data will be sent back to your webhook. 1000 character limit.
-    } deriving (Eq, Show) 
+    } deriving (Eq, Show)
 
 instance ToJSON PostbackButton where
   toJSON (PostbackButton title payload) =
@@ -508,7 +508,7 @@ instance ToJSON BuyButton where
              ]
     where summary = object' [ "currency" .=! bbCurrency bb
                             , mDefault "is_test_payment" False $ bbIsTestPayment bb
-                            , "payment_type" .=! bbPayload bb
+                            , "payment_type" .=! bbPaymentType bb
                             , "merchant_name" .=! bbMerchantName bb
                             , "requested_user_info" .=! bbRequestedUserInfo bb
                             , "price_list" .=! bbPriceList bb
@@ -541,21 +541,17 @@ instance ToJSON PriceObject where
 data GenericElement = GenericElement
     { geTitle :: Text -- ^ Bubble title (80 char limit)
     , geSubtitle :: Maybe Text -- ^ Bubble subtitle (80 char limit)
-    , geImageUrl :: Maybe URL -- ^ Bubble image (1.91:1 or 1:1 image ratio, depending on the `gtImageAspectRatio`)
+    , geImageUrl :: Maybe URL -- ^ Bubble image (1.91:1 or 1:1 image ratio, depending on the `geImageAspectRatio`)
     , geDefaultAction :: Maybe DefaultAction -- ^ Default action to be triggered when user taps on the element
     , geBuyButton :: Maybe BuyButton
     , geButtons :: [TemplateButton]
     -- ^ Set of buttons that appear as call-to-actions (3 button limit)
-    -- 2 button limit if `gtBuyButton` is @Just BuyButton{}@
+    -- 2 button limit if `geBuyButton` is @Just BuyButton{}@
     }
   deriving (Eq, Show)
 
 instance FromJSON GenericElement where
-  parseJSON = checkValue
-      "GenericElement"
-      "template_type"
-      ("generic" :: Text)
-      $ \o -> do
+  parseJSON = withObject "GenericElement" $ \o -> do
           btns <- o .:? "buttons" .!= []
           let (mBuy,restBtns) = getBtns btns
           GenericElement <$> o .: "title"
@@ -563,7 +559,7 @@ instance FromJSON GenericElement where
                          <*> o .:? "image_url"
                          <*> o .:? "default_action"
                          <*> pure mBuy
-                         <*> pure restBtns
+                         <*> pure (take 3 restBtns)
     where getBtns [] = (Nothing,[])
           getBtns ((TBuy bb):rest) = (Just bb,rest)
           getBtns btns = (Nothing,btns)
