@@ -56,7 +56,7 @@ data AirlineBoardingPass = AirlineBoardingPass
     -- https://developers.facebook.com/docs/messenger-platform/messenger-profile/supported-locales
     , abptThemeColor :: Maybe Text -- ^ Background color of the attachment. Must be a RGB hexadecimal string (default #009ddc)
     , abptBoardingPass :: [BoardingPass] -- ^ Boarding passes for passengers
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 -- | Boarding pass for a passenger
 --
@@ -73,12 +73,12 @@ data BoardingPass = BoardingPass
     , abpQrBarCode :: AirlineQRBarCode -- ^ /use `qrCode` or `barCode` to construct the `AirlineQRBarCode`/
     , abpAboveBarCodeImageUrl :: URL -- ^ URL of thin image above the barcode
     , abpFlightInfo :: AirlineFlightInfo -- ^ Information about the flight
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 -- | QR code or Bar code used as the boarding pass
 data AirlineQRBarCode = AirlineQR AirlineQRCode
                       | AirlineBar AirlineBarCode
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 -- | Takes Aztec or QR text.
 qrCode :: Text -> AirlineQRBarCode
@@ -87,7 +87,7 @@ qrCode = AirlineQR . AirlineQRCode
 -- | Aztec or QR code
 newtype AirlineQRCode =
           AirlineQRCode { getQRCode :: Text }
-  deriving (Eq, Show, FromJSON, ToJSON)
+  deriving (Eq, Show, Read, Ord, FromJSON, ToJSON)
 
 -- | Takes an image URL.
 barCode :: URL -> AirlineQRBarCode
@@ -96,13 +96,13 @@ barCode = AirlineBar . AirlineBarCode
 -- | URL of the barcode image
 newtype AirlineBarCode =
           AirlineBarCode { barCodeImageUrl :: URL }
-  deriving (Eq, Show, FromJSON, ToJSON)
+  deriving (Eq, Show, Read, Ord, FromJSON, ToJSON)
 
 -- | Custom field to add information to the `BoardingPass`
 data AirlineField = AirlineField
   { afLabel :: Text -- Label for the additional field
   , afValue :: Text -- Value for the additional field
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Read, Ord)
 
 
 

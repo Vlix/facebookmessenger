@@ -32,7 +32,7 @@ import Web.Facebook.Messenger.Types.Static
 data ButtonTemplate = ButtonTemplate
     { btText :: Text -- ^ UTF-8-encoded text of up to 640 characters that appears above the buttons
     , btButtons :: [TemplateButton] -- ^ Set of 1-3 buttons that appear as call-to-actions
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON ButtonTemplate where
   toJSON (ButtonTemplate text buttons) =

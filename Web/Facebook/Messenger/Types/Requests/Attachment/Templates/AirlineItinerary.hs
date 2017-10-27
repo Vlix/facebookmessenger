@@ -54,14 +54,14 @@ data AirlineItinerary = AirlineItinerary
     -- ^ Pricing currency (must be a three digit ISO-4217-3 code.)
     --
     -- https://developers.facebook.com/docs/payments/reference/supportedcurrencies
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 -- | Information about a passenger
 data PassengerInfo = PassengerInfo
   { apiPassengerId :: Text -- ^ Passenger ID (must be unique in itinerary)
   , apiTicketNumber :: Maybe Text -- ^ Ticket number
   , apiName :: Text -- ^ Full name of passenger, including title (e.q. "Farbound Smith Jr")
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Read, Ord)
 
 -- | Information about a flight
 data ItineraryFlightInfo = ItineraryFlightInfo
@@ -73,7 +73,7 @@ data ItineraryFlightInfo = ItineraryFlightInfo
   , aifArrivalAirport :: AirlineAirport -- ^ Arrival airport
   , aifFlightSchedule :: AirlineCheckinFlightSchedule -- ^ Schedule for the flight
   , aifTravelClass :: Text -- ^ Travel class (appears as Cabin)
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Read, Ord)
 
 -- | Information unique to passenger/segment pair
 data PassengerSegmentInfo = PassengerSegmentInfo
@@ -82,13 +82,13 @@ data PassengerSegmentInfo = PassengerSegmentInfo
   , apsSeat :: Text -- ^ Seat number for the passenger
   , apsSeatType :: Text -- ^ Seat type for the passenger (e.g. Economy comfort)
   , apsProductInfo :: [AirlineProductInfo] -- ^ List of products the passenger purchased (limited to 4)
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Read, Ord)
 
 -- | List of products the passenger purchased
 data AirlineProductInfo = AirlineProductInfo
   { aprTitle :: Text -- ^ Label for the additional field
   , aprValue :: Text -- ^ Value for the additional field
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Read, Ord)
 
 -- | Itemization of the total price
 data PriceInfo = PriceInfo
@@ -98,7 +98,7 @@ data PriceInfo = PriceInfo
   -- ^ Pricing currency (must be a three digit ISO-4217-3 code)
   --
   -- https://developers.facebook.com/docs/payments/reference/supportedcurrencies
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Read, Ord)
 
 
 -- --------------------------- --

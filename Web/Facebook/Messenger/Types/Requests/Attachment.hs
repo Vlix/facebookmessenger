@@ -106,7 +106,7 @@ reusedMultimediaRequest typ =
 -- | Send a multimedia attachment or a structed template to a user
 data RequestAttachment = RMultimedia RequestMultimediaAttachment
                        | RTemplate RequestAttachmentTemplate
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 -- | Multimedia Attachment. Sends a piece of media to a user.
 --
@@ -114,28 +114,28 @@ data RequestAttachment = RMultimedia RequestMultimediaAttachment
 data RequestMultimediaAttachment = RequestMultimediaAttachment
     { rmaType :: AttachmentType -- ^ `IMAGE` \/ `AUDIO` \/ `VIDEO` \/ `FILE`
     , rmaPayload :: RequestMultimediaPayload -- ^ 
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 -- | Wrapper around `TemplatePayload` for @JSON@ reasons
 newtype RequestAttachmentTemplate =
           RequestAttachmentTemplate {ratPayload :: TemplatePayload}
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 -- | What kind of multimedia payload. `RMReused` will need an @"attachment_id"@ you need to receive from Facebook first.
 data RequestMultimediaPayload = RMPayload RMultimediaPayload
                               | RMReused RReusedMultimediaPayload
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 -- | Multimedia payload
 data RMultimediaPayload = RMultimediaPayload
       { rmpUrl :: URL -- ^ URL of media
       , rmpIsReusable :: Bool -- ^ When `True`, Facebook will respond with an @"attachment_id"@
-      } deriving (Eq, Show)
+      } deriving (Eq, Show, Read, Ord)
 
 -- | Reusable multimedia. Text is @"attachment_id"@ of the reusable attachment
 newtype RReusedMultimediaPayload =
           RReusedMultimediaPayload {rrmpId :: Text}
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 
 -- ---------------------- --

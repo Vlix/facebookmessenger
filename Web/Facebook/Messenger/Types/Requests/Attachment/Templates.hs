@@ -140,7 +140,7 @@ data TemplatePayload = TGeneric GenericTemplate
                      | TItinerary AirlineItinerary
                      | TCheckin AirlineCheckin
                      | TFlightUpdate AirlineFlightUpdate
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 instance ToJSON TemplatePayload where
   toJSON (TGeneric x) = toJSON x

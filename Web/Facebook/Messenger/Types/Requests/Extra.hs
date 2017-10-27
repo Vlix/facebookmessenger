@@ -282,7 +282,7 @@ data TemplateButton = TUrl URLButton
                     | TLogOut LogOutButton
                     | TShare ShareButton
                     | TBuy BuyButton
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 instance ToJSON TemplateButton where
   toJSON (TUrl x) = toJSON x
@@ -322,7 +322,7 @@ data URLButton = URLButton
     -- ^ Set to `HIDE` to disable the share button in the Webview (for sensitive info).
     -- This does not affect any shares initiated by the developer using Extensions.
     -- Default is `SHOW`
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON URLButton where
   toJSON (URLButton title url wvratio extensions fallback share) =
@@ -353,7 +353,7 @@ instance FromJSON URLButton where
 data PostbackButton = PostbackButton
     { pbbTitle :: Text -- ^ 20 char limit (30 char limit when used in Persistent Menu)
     , pbbPayload :: Text -- ^ This data will be sent back to your webhook. 1000 character limit.
-    } deriving (Eq, Show) 
+    } deriving (Eq, Show, Read, Ord) 
 
 instance ToJSON PostbackButton where
   toJSON (PostbackButton title payload) =
@@ -374,7 +374,7 @@ instance FromJSON PostbackButton where
 data CallButton = CallButton
     { cbTitle :: Text -- ^ Button title, 20 character limit.
     , cbPayload :: Text -- ^ Format must have "+" prefix followed by the country code, area code and local number. For example, +16505551234.
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON CallButton where
   toJSON (CallButton title payload) =
@@ -394,7 +394,7 @@ instance FromJSON CallButton where
 -- | A button which lets the user share the template that contains the share button
 -- or a different custom template defined in the `ShareContents`
 data ShareButton = ShareButton { shareContents :: Maybe ShareContents }
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 instance FromJSON ShareButton where
   parseJSON = checkValue
@@ -414,7 +414,7 @@ instance ToJSON ShareButton where
 -- The format follows that used in Send API, but must be a generic template with up to one URL button.
 data ShareContents =
       ShareContents { elements :: [GenericElement] }
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 instance FromJSON ShareContents where
   parseJSON = withObject "ShareContents" $ \o -> do
@@ -440,7 +440,7 @@ instance ToJSON ShareContents where
 
 -- | `URL` should be the authentication callback URL. Must use HTTPS protocol.
 newtype LogInButton = LogInButton { accountLink :: URL }
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 instance FromJSON LogInButton where
   parseJSON = checkValue
@@ -457,7 +457,7 @@ instance ToJSON LogInButton where
 
 -- | A button to let the user unlink from the linked account
 data LogOutButton = LogOutButton
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 instance FromJSON LogOutButton where
   parseJSON = checkValue
@@ -482,7 +482,7 @@ data BuyButton = BuyButton
     -- Valid values: `SHIPPING_ADDRESS`, `CONTACT_NAME`, `CONTACT_PHONE`, `CONTACT_EMAIL`.
     -- You can config these based on your product need.
     , bbPriceList :: [PriceObject] -- ^ List of objects used to calculate total price. Each label is rendered as a line item in the checkout dialog.
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 instance FromJSON BuyButton where
   parseJSON = checkValue
@@ -518,7 +518,7 @@ instance ToJSON BuyButton where
 data PriceObject = PriceObject { prLabel :: Text -- ^ Label for line item.
                                , prAmount :: Text -- ^ Amount of line item.
                                }
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 instance FromJSON PriceObject where
   parseJSON = withObject "PriceObject" $ \o ->
@@ -548,7 +548,7 @@ data GenericElement = GenericElement
     -- ^ Set of buttons that appear as call-to-actions (3 button limit)
     -- 2 button limit if `gtBuyButton` is @Just BuyButton{}@
     }
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 instance FromJSON GenericElement where
   parseJSON = checkValue
@@ -591,7 +591,7 @@ data DefaultAction = DefaultAction
     , daMessengerExtensions :: Bool -- ^ Must be `True` if using Messenger Extensions. Default is `False`
     , daFallback :: Maybe URL -- ^ URL to use on clients that don't support Messenger Extensions. If this is not defined, the url will be used as the fallback.
     , daWebviewShareButton :: WebviewShareType -- ^ Show the share button on the webview. Default is `SHOW`.
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON DefaultAction where
   toJSON (DefaultAction url webview ext fallback share) =
@@ -627,7 +627,7 @@ data TemplateAddress = TemplateAddress
   , taPostalCode :: Text -- ^ Postal code
   , taState :: Text -- ^ State abbreviation. Can be a region or province for non-US addresses
   , taCountry :: Text -- ^ Two-letter (/ISO 3166-1 alpha-2/) country abbreviation
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON TemplateAddress where
   toJSON (TemplateAddress street1 street2 city postcode state country) =

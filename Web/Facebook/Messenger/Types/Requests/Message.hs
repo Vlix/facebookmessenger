@@ -52,7 +52,7 @@ import Web.Facebook.Messenger.Types.Static
 -- | Text, attachments or templates sent using the Send API
 data RequestMessage = RMText RequestMessageText
                     | RMAttachment RequestMessageAttachment
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 -- | Constructor for a text message; maybe including Quick Replies and/or meta data
 textRequest :: [RequestQuickReply] -> Maybe Text -> Text -> RequestMessage
@@ -69,7 +69,7 @@ data RequestMessageText = RequestMessageText
     -- Use attachment instead. (UTF-8; 640 character limit)
     , rmtQuickReply :: [RequestQuickReply] -- ^ List of `RequestQuickReply` to be sent with messages (max 11)
     , rmtMetadata :: Maybe Text -- ^ Custom string that is delivered with a message echo (1000 character limit)
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 -- | Constructor for an attachment message; maybe including Quick Replies and/or meta data
 attachmentRequest :: [RequestQuickReply] -> Maybe Text -> RequestAttachment -> RequestMessage
@@ -84,7 +84,7 @@ data RequestMessageAttachment = RequestMessageAttachment
     { rmaAttachment :: RequestAttachment -- Attachment object
     , rmaQuickReply :: [RequestQuickReply] -- Array of quick_reply to be sent with messages (max 11)
     , rmaMetadata :: Maybe Text -- Has a 1000 character limit
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 -- | Constructor to make a regular `RequestQuickReply`
 qr :: Text -> Text -> Maybe Text -> RequestQuickReply
@@ -97,7 +97,7 @@ locQR = RLQR $ LocationQuickReply
 -- |  Quick Replies can be added to Text, Image and Template message types
 data RequestQuickReply = RQR RQuickReply
                        | RLQR LocationQuickReply
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 -- | A regular Quick Reply
 data RQuickReply = RQuickReply
@@ -106,11 +106,11 @@ data RQuickReply = RQuickReply
     , rqrImageUrl :: Maybe Text
     -- ^ URL of image for text quick replies
     -- (Image for `rqrImageUrl` should be at least 24x24 and will be cropped and resized)
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 -- | A Quick Reply that requests a geolocation from the user
 data LocationQuickReply = LocationQuickReply
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 
 -- ------------------- --

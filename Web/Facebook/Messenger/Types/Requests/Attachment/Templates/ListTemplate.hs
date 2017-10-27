@@ -49,7 +49,7 @@ data ListTemplate = ListTemplate
     { ltTopElementStyle :: ListStyle -- ^ Value must be `ListLARGE` or `ListCOMPACT`. Default to `ListLARGE` if not specified.
     , ltElements :: [ListElement] -- ^ List view elements (minimum of 2 elements and maximum of 4 elements)
     , ltButton :: Maybe TemplateButton  -- ^ Button associated on the `ListTemplate` message.
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON ListTemplate where
   toJSON (ListTemplate style elements button) =
@@ -80,7 +80,7 @@ data ListElement = ListElement
     , leImageUrl :: Maybe URL -- ^ URL to image in list view item. It is required for the first element if `ListStyle` is large
     , leDefaultAction :: Maybe DefaultAction -- ^ Default action to be triggered when user taps on the element row.
     , leButton :: Maybe TemplateButton -- ^ Button on the element
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON ListElement where
   toJSON (ListElement title subtitle image da button) =

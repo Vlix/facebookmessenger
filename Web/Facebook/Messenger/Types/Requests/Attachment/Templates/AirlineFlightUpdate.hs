@@ -39,7 +39,7 @@ data AirlineFlightUpdate = AirlineFlightUpdate
     , afuThemeColor :: Maybe Text -- ^ Background color of the attachment. Must be a RGB hexadecimal string (default #009ddc)
     , afuPnrNumber :: Text -- ^ Passenger name record number (Booking Number)
     , afuUpdateFlightInfo :: AirlineFlightInfo -- ^ Information about a flight
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 
 -- --------------------------- --

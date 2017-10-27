@@ -48,7 +48,7 @@ data ReceiptTemplate = ReceiptTemplate
     , rtAdjustments :: [ReceiptAdjustment]
     -- ^ Payment adjustments (allow a way to insert adjusted pricing (e.g., sales))
     , rtSharable :: Bool -- ^ Set to `False` to disable the native share button in Messenger for the template message.
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON ReceiptTemplate where
   toJSON rtp =
@@ -93,7 +93,7 @@ data ReceiptElement = ReceiptElement
     , rePrice :: Double -- ^ Item price (0 is allowed)
     , reCurrency :: Maybe Text -- ^ Currency of price
     , reImageUrl :: Maybe Text -- ^ 1.91:1 image ratio
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON ReceiptElement where
   toJSON (ReceiptElement title subtitle quantity price currency image) =
@@ -123,7 +123,7 @@ data ReceiptSummary = ReceiptSummary
     , rsShippingCost :: Maybe Double -- ^ Cost of shipping
     , rsTotalTax :: Maybe Double -- ^ Total tax
     , rsTotalCost :: Double -- ^ Total cost
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON ReceiptSummary where
   toJSON (ReceiptSummary subtotal shipcost ttax tcost) =
@@ -144,7 +144,7 @@ instance FromJSON ReceiptSummary where
 data ReceiptAdjustment = ReceiptAdjustment
     { raName :: Maybe Text -- Name of adjustment
     , raAmount :: Maybe Double -- Adjustment amount
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON ReceiptAdjustment where
   toJSON (ReceiptAdjustment name amount) =

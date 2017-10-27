@@ -50,7 +50,7 @@ import Web.Facebook.Messenger.Types.Static
 -- More info about the Open Graph: https://developers.facebook.com/docs/opengraph/music
 newtype OpenGraphTemplate =
           OpenGraphTemplate { ogtElement :: OpenGraphElement }
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 instance ToJSON OpenGraphTemplate where
   toJSON (OpenGraphTemplate e) =
@@ -75,7 +75,7 @@ instance FromJSON OpenGraphTemplate where
 data OpenGraphElement = OpenGraphElement
     { ogeUrl :: URL -- ^ Open graph URL for the element
     , ogeButtons :: [TemplateButton] -- ^ Maximum of 3 buttons are allowed when sending via Send API.
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON OpenGraphElement where
   toJSON (OpenGraphElement url buttons) =

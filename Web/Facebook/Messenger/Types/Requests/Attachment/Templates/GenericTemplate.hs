@@ -46,7 +46,7 @@ data GenericTemplate = GenericTemplate
     -- ^ Aspect ratio used to render images specified by image_url in element objects.
     -- Must be `HORIZONTAL` or `SQUARE`. Default is `HORIZONTAL`.
     , gtElements :: [GenericElement] -- ^ Data for each bubble in message (Limited to 10)
-    } deriving (Eq, Show)
+    } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON GenericTemplate where
   toJSON (GenericTemplate share ratio elements) =
