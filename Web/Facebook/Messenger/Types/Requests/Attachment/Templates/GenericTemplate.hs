@@ -61,6 +61,6 @@ instance FromJSON GenericTemplate where
       "GenericTemplate"
       "template_type"
       ("generic" :: Text)
-      $ \o -> GenericTemplate <$> o .: "sharable"
+      $ \o -> GenericTemplate <$> o .:? "sharable" .!= True
                               <*> o .:? "image_aspect_ratio" .!= HORIZONTAL
                               <*> o .: "elements"

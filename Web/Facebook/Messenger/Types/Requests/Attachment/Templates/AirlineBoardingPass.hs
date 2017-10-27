@@ -167,8 +167,8 @@ instance FromJSON BoardingPass where
       let mQRCode = "qr_code" `HM.lookup` o
           mBarCode = "barcode_image_url" `HM.lookup` o
           eitherQrBar = case (mQRCode,mBarCode) of
-            (Just _,Nothing) -> o .: "qr_code"
-            (Nothing,Just _) -> o .: "barcode_image_url"
+            (Just v,Nothing) -> AirlineQR <$> parseJSON v
+            (Nothing,Just v) -> AirlineBar <$> parseJSON v
             _ -> fail "BoardingPass: needs either \"qr_code\" or \"barcode_image_url\""
       BoardingPass <$> o .: "passenger_name"
                    <*> o .: "pnr_number"
