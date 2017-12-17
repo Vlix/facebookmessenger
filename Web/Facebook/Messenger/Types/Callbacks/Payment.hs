@@ -30,14 +30,10 @@ where
 
 
 import Control.Applicative ((<|>))
-import Control.Monad (unless)
 import Data.Aeson
-import Data.Aeson.Types (Parser)
 import Data.Text
-import Data.HashMap.Strict as HM
 
-import Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
-import Web.Facebook.Messenger.Types.Requests.Extra (TemplateAddress, BuyButton)
+import Web.Facebook.Messenger.Types.Requests.Extra (TemplateAddress)
 import Web.Facebook.Messenger.Types.Static
 
 
@@ -206,7 +202,7 @@ instance FromJSON PaymentCredential where
 
 instance FromJSON PaymentToken where
   parseJSON = checkValue
-      "PaymentToken"                  
+      "PaymentToken"
       "provider_type"
       ("token" :: Text)
       $ \o -> PaymentToken <$> o .: "tokenized_card"

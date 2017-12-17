@@ -11,7 +11,7 @@ module Web.Facebook.Messenger.Types.Requests (
   -- * Facebook Messenger API Requests
   --
   -- | Most requests are sent to the following URL (or a variation thereof):
-  -- 
+  --
   -- @https:\/\/graph.facebook.com\/v2.6\/me\/@__{some method}__@?access_token=\<PAGE_ACCESS_TOKEN\>@__(&{some optional fields}={some values})__
 
   -- ** Send API Request
@@ -83,14 +83,14 @@ import Web.Facebook.Messenger.Types.Static
 -- @https://developers.facebook.com/docs/messenger-platform/reference/send-api@
 data SendRequest = SendRequest
     { srRecipient :: RequestRecipient -- ^ Recipient of the message
-    , srMessage :: RequestMessage -- ^ Contents of the message 
+    , srMessage :: RequestMessage -- ^ Contents of the message
     , srNotificationType :: NotificationType -- ^ Optional; by default, messages will be a `REGULAR` push notification type
     , srTag :: Maybe MessageTag -- ^ Optional; to be used if you have a valid reason to send a message outside of the 24+1 window
     } deriving (Eq, Show)
 
 -- | Shortcut constructor for a default `SendRequest` (no `MessageTag` and with a `REGULAR` `NotificationType`)
 sendRequest :: RequestRecipient -> RequestMessage -> SendRequest
-sendRequest recip msg = SendRequest recip msg REGULAR Nothing
+sendRequest recipient msg = SendRequest recipient msg REGULAR Nothing
 
 -- | Set typing indicators or send read receipts using the Send API, to let users know you are processing their request.
 --
@@ -123,7 +123,7 @@ data RequestRecipient = RID RecipientID -- ^ Facebook Page-Scoped ID
 recipientID :: Text -> RequestRecipient
 recipientID = RID . RecipientID
 
--- | Identifying a user by their Page-Scoped ID. 
+-- | Identifying a user by their Page-Scoped ID.
 -- This means that the IDs are unique per user per page.
 newtype RecipientID = RecipientID { recipId :: Text }
   deriving (Eq, Show)
@@ -204,16 +204,16 @@ data TakeThreadControlRequest = TakeThreadControlRequest
 -- ------------------------ --
 
 instance ToJSON SendRequest where
-  toJSON (SendRequest recipient message notification_type tag) =
-      object' [ "recipient" .=! recipient
+  toJSON (SendRequest recpnt message notification_type tag) =
+      object' [ "recipient" .=! recpnt
               , "message" .=! message
               , mDefault "notification_type" REGULAR notification_type
               , "tag" .=!! tag
               ]
 
 instance ToJSON SenderActionRequest where
-  toJSON (SenderActionRequest recipient saction) =
-      object [ "recipient" .= recipient
+  toJSON (SenderActionRequest recpnt saction) =
+      object [ "recipient" .= recpnt
              , "sender_action" .= saction
              ]
 
@@ -256,15 +256,15 @@ instance ToJSON MessengerCodeRef where
   toJSON x = object ["ref" .= mcRef x]
 
 instance ToJSON PassThreadControlRequest where
-  toJSON (PassThreadControlRequest recip appid metadata) =
-      object' [ "recipient" .=! recip
+  toJSON (PassThreadControlRequest recpnt appid metadata) =
+      object' [ "recipient" .=! recpnt
               , "target_app_id" .=! appid
               , "metadata" .=!! metadata
               ]
 
 instance ToJSON TakeThreadControlRequest where
-  toJSON (TakeThreadControlRequest recip metadata) =
-      object' [ "recipient" .=! recip
+  toJSON (TakeThreadControlRequest recpnt metadata) =
+      object' [ "recipient" .=! recpnt
               , "metadata" .=!! metadata
               ]
 

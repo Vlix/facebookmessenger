@@ -44,6 +44,7 @@ module Web.Facebook.Messenger.Types.Requests.Settings (
   , persistentUrlItem_
   , persistentUrlItemME
   , persistentPostbackItem
+  , persistentNestedItem
   , PersistentMenuItemNested (..)
   -- ** Whitelisting Domains
   , whiteListedDomains
@@ -70,7 +71,6 @@ where
 import Control.Applicative ((<|>))
 import Data.Aeson
 import Data.Aeson.Types (Parser)
-import qualified Data.HashMap.Strict as HM
 import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 
@@ -134,9 +134,9 @@ paymentSettings x = mempty{prPaymentSettings = Just x}
 
 -- | `TargetAudience` allows you to customize the audience that will see your bot in the Discover tab on Messenger.
 -- Other users can still find and use your bot through other channels (e.g. search, m.me URL).
--- 
+--
 -- There are three types of Target Audience settings:
--- 
+--
 -- 1. Open to all users,
 -- 2. Closed to all users, and
 -- 3. Open or closed to custom set of users.
@@ -204,7 +204,7 @@ instance Monoid ProfileRequest where
       , prPaymentSettings = prPaymentSettings p1 >:> prPaymentSettings p2
       , prTargetAudience = prTargetAudience p1 >:> prTargetAudience p2
       , prHomeUrl = prHomeUrl p1 >:> prHomeUrl p2
-      }  
+      }
 
 -- | Small helper function that's terser than just using `Last`
 (>:>) :: Maybe a -> Maybe a -> Maybe a
@@ -243,7 +243,7 @@ newtype PersistentMenu = PersistentMenu { menuItems :: [PersistentMenuSetting] }
 
 -- | A setting that defines the persistent menu for a certain locale.
 -- The menu with a locale property that matches the person's locale will be displayed.
--- 
+--
 -- At least one object in the persistent_menu array must specify @/"locale": "default"/@.
 -- This is the menu we will fall back to if no object has a locale property that matches the users locale.
 --
@@ -356,7 +356,7 @@ data PaymentSettings = PaymentSettings
 -- In addition, only one of them can be non-empty at the same time.
 data TargetAudience = TargetAudience
     { taAudience :: AudienceType -- ^ Valid values include `ALL`, `CUSTOM`, or `NONE`.
-    , taCountries :: Maybe TargetCountries -- ^ 
+    , taCountries :: Maybe TargetCountries -- ^
     } deriving (Eq, Show)
 
 -- | The countries you'd want to target in the Discover tab
@@ -384,11 +384,11 @@ data HomeUrl = HomeUrl
 -- ------------------------ --
 
 instance ToJSON ProfileRequest where
-  toJSON (ProfileRequest greet started menu domains linking payment audience home) =
+  toJSON (ProfileRequest greet started menu doms linking payment audience home) =
       object' [ "greeting" .=!! greet
               , "get_started" .=!! started
               , "persistent_menu" .=!! menu
-              , "whitelisted_domains" .=!! domains
+              , "whitelisted_domains" .=!! doms
               , "account_linking_url" .=!! linking
               , "payment_settings" .=!! payment
               , "target_audience" .=!! audience
@@ -454,7 +454,7 @@ instance ToJSON HomeUrl where
 
 
 instance FromJSON ProfileRequest where
-  parseJSON = withObject "ProfileRequest" $ \o -> do
+  parseJSON = withObject "ProfileRequest" $ \o ->
       ProfileRequest <$> o .:? "greeting"
                      <*> o .:? "get_started"
                      <*> o .:? "persistent_menu"
@@ -509,7 +509,7 @@ instance FromJSON TargetCountries where
                       <*> o .:? "blacklist" .!= []
 
 instance FromJSON HomeUrl where
-  parseJSON = withObject "HomeUrl" $ \o -> do
+  parseJSON = withObject "HomeUrl" $ \o ->
       HomeUrl <$> o .: "url"
               <*> o .:? "webview_share_button" .!= HIDE
               <*> o .: "in_test"

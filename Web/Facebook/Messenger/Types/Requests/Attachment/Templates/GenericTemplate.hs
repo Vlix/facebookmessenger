@@ -28,7 +28,7 @@ where
 import Data.Aeson
 import Data.Text (Text)
 
-import Web.Facebook.Messenger.Types.Requests.Extra (GenericElement, TemplateButton, ShareButton)
+import Web.Facebook.Messenger.Types.Requests.Extra (GenericElement)
 import Web.Facebook.Messenger.Types.Static
 
 

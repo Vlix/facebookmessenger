@@ -54,7 +54,7 @@ import Data.Aeson
 import Data.Aeson.Types (Parser)
 import qualified Data.HashMap.Strict as HM
 import Data.Scientific (scientific)
-import Data.Text (Text, unpack)
+import Data.Text (Text)
 
 import Web.Facebook.Messenger.Types.Requests.Extra (GenericElement)
 import Web.Facebook.Messenger.Types.Static
@@ -81,7 +81,7 @@ data MessageContent = MText MessageText -- ^ Text message or Quick Reply callbac
                     | MLocation MessageLocation -- ^ Shared location
                     | MFallback MessageFallback -- ^ Other weird messages
   deriving (Eq, Show)
-    
+
 -- | Regular text message sent by a user.
 -- If `mtQuickreply` is @Just@ then the user has pressed a Quick Reply.
 -- In that case `mtText` is the label of the Quick Reply.
@@ -228,7 +228,7 @@ instance FromJSON MessageAttachment where
 
 
 instance FromJSON CallbackQuickReply where
-  parseJSON = withObject "CallbackQuickReply" $ \o -> 
+  parseJSON = withObject "CallbackQuickReply" $ \o ->
       CallbackQuickReply <$> o .: "payload"
 
 instance FromJSON StickerAttachment where
@@ -283,7 +283,7 @@ instance FromJSON CallbackLocation where
 
 instance FromJSON CallbackLocationPayload where
   parseJSON = withObject "CallbackLocationPayload" $ \o ->
-      CallbackLocationPayload <$> o .: "coordinates" 
+      CallbackLocationPayload <$> o .: "coordinates"
 
 instance FromJSON CallbackCoordinates where
   parseJSON = withObject "CallbackCoordinates" $ \o ->
@@ -300,9 +300,9 @@ instance FromJSON CallbackFallback where
 
 
 instance ToJSON Message where
-  toJSON (Message ident mSeq content) =
+  toJSON (Message ident mseq content) =
       case toJSON content of
-        Object o -> Object $ go mSeq $ HM.insert "mid" (String ident) o
+        Object o -> Object $ go mseq $ HM.insert "mid" (String ident) o
         x -> x -- This should never happen. Content should be an object
     where go Nothing = id
           go (Just s) = HM.insert "seq" (Number $ scientific s 0)
@@ -339,7 +339,7 @@ instance ToJSON MessageFallback where
       object [ "text" .= txt
              , "attachments" .= fallbacks
              ]
-  
+
 instance ToJSON CallbackQuickReply where
   toJSON (CallbackQuickReply payload) =
       object ["payload" .= payload]
@@ -348,7 +348,7 @@ instance ToJSON StickerAttachment where
   toJSON (StickerAttachment payload) =
       object [ "type" .= String "image"
              , "payload" .= payload
-             ]      
+             ]
 
 instance ToJSON CallbackStickerPayload where
   toJSON (CallbackStickerPayload url stickerId) =

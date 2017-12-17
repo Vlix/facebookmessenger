@@ -37,7 +37,6 @@ import Control.Applicative ((<|>))
 import Control.Monad (unless)
 import Data.Aeson
 import Data.Aeson.Types (Parser)
-import qualified Data.HashMap.Strict as HM
 import Data.Text (Text)
 
 import Web.Facebook.Messenger.Types.Requests.Attachment
@@ -92,7 +91,7 @@ qr title payload = RQR . RQuickReply title payload
 
 -- | Constructor to make a location `RequestQuickReply`
 locQR :: RequestQuickReply
-locQR = RLQR $ LocationQuickReply
+locQR = RLQR LocationQuickReply
 
 -- |  Quick Replies can be added to Text, Image and Template message types
 data RequestQuickReply = RQR RQuickReply

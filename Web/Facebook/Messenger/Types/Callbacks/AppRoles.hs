@@ -23,8 +23,8 @@ import Data.Aeson
 import qualified Data.HashMap.Strict as HM
 import Data.Text
 
-import Web.Facebook.Messenger.Types.Static (AppRole, AppId)
-  
+import Web.Facebook.Messenger.Types.Static (AppRole)
+
 -- | This callback is sent when a page admin changes the role of your application.
 --
 -- (My suspicion is that the `Text` key is an `AppId`, but untested)

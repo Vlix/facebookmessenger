@@ -26,8 +26,7 @@ import Data.Aeson.Types (Parser)
 import qualified Data.HashMap.Strict as HM
 import Data.Text
 
-import Web.Facebook.Messenger.Types.Requests.Extra (TemplateAddress, BuyButton)
-import Web.Facebook.Messenger.Types.Responses (CheckoutUpdateResponse)
+import Web.Facebook.Messenger.Types.Requests.Extra (TemplateAddress)
 
 
 -- | This callback is used for flexible-amount transactions

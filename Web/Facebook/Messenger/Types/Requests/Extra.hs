@@ -353,7 +353,7 @@ instance FromJSON URLButton where
 data PostbackButton = PostbackButton
     { pbbTitle :: Text -- ^ 20 char limit (30 char limit when used in Persistent Menu)
     , pbbPayload :: Text -- ^ This data will be sent back to your webhook. 1000 character limit.
-    } deriving (Eq, Show, Read, Ord) 
+    } deriving (Eq, Show, Read, Ord)
 
 instance ToJSON PostbackButton where
   toJSON (PostbackButton title payload) =
@@ -393,7 +393,7 @@ instance FromJSON CallButton where
 
 -- | A button which lets the user share the template that contains the share button
 -- or a different custom template defined in the `ShareContents`
-data ShareButton = ShareButton { shareContents :: Maybe ShareContents }
+newtype ShareButton = ShareButton { shareContents :: Maybe ShareContents }
   deriving (Eq, Show, Read, Ord)
 
 instance FromJSON ShareButton where
@@ -412,7 +412,7 @@ instance ToJSON ShareButton where
 -- | The message that you wish the recipient of the share to see,
 -- if it is different from the one this button is attached to.
 -- The format follows that used in Send API, but must be a generic template with up to one URL button.
-data ShareContents =
+newtype ShareContents =
       ShareContents { elements :: [GenericElement] }
   deriving (Eq, Show, Read, Ord)
 
@@ -464,7 +464,7 @@ instance FromJSON LogOutButton where
       "LogOutButton"
       "type"
       ("account_unlink" :: Text)
-      $ \o -> pure LogOutButton
+      $ \_ -> pure LogOutButton
 
 instance ToJSON LogOutButton where
   toJSON LogOutButton =
@@ -561,7 +561,7 @@ instance FromJSON GenericElement where
                          <*> pure mBuy
                          <*> pure (take 3 restBtns)
     where getBtns [] = (Nothing,[])
-          getBtns ((TBuy bb):rest) = (Just bb,rest)
+          getBtns (TBuy bb:rest) = (Just bb,rest)
           getBtns btns = (Nothing,btns)
 
 instance ToJSON GenericElement where

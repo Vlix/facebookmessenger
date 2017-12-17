@@ -21,7 +21,6 @@ where
 
 import Data.Aeson
 import Data.Aeson.Types (Parser)
-import qualified Data.HashMap.Strict as HM
 import Data.Text
 
 

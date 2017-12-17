@@ -16,7 +16,6 @@ module Web.Facebook.Messenger.Types.Callbacks (
     ) where
 
 import Control.Applicative ((<|>))
-import Control.Monad (unless)
 import Data.Aeson
 import Data.Aeson.Types (Parser)
 import Data.Maybe (isJust)

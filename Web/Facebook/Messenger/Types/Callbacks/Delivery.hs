@@ -20,7 +20,6 @@ where
 import Data.Aeson
 import Data.Text
 
-import Web.Facebook.Messenger.Types.Callbacks.Read
 import Web.Facebook.Messenger.Types.Static
 
 

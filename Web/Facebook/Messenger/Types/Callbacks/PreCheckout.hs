@@ -27,12 +27,11 @@ import Data.Aeson
 import Data.Text (Text)
 
 import Web.Facebook.Messenger.Types.Callbacks.Payment (RequestedUserInfo, Amount)
-import Web.Facebook.Messenger.Types.Requests.Extra (BuyButton)
 
 -- | This callback is sent just before charging the user
 --
 -- You must respond to the callback with an HTTP status of @200@
--- and the body of the response must contain a success field 
+-- and the body of the response must contain a success field
 -- to indicate whether the pre checkout processing went through.
 -- If success returned is false, we will not charge the user and
 -- fail the payment flow. Otherwise we will let the payment go through.

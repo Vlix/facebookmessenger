@@ -38,7 +38,6 @@ import Data.Text
 import Web.Facebook.Messenger.Types.Requests
 import Web.Facebook.Messenger.Types.Requests.Attachment (RequestAttachment)
 import Web.Facebook.Messenger.Types.Callbacks.Message (CallbackQuickReply(..), MessageId)
-import Web.Facebook.Messenger.Types.Static
 
 
 -- --------------- --
@@ -105,7 +104,7 @@ instance FromJSON EchoContent where
         EText <$> parseJSON (Object o)
     <|> EAttachment <$> parseJSON (Object o)
     <|> EFallback <$> parseJSON (Object o)
-    
+
 instance FromJSON EchoText where
   parseJSON = withObject "EchoText" $ \o ->
       EchoText <$> o .: "text"
@@ -140,9 +139,9 @@ instance ToJSON Echo where
             , "seq"         .=!! eSeq echo
             ]
     extra = case eContent echo of
-        txt@(EText x) -> "text" .=! eText x
-        att@(EAttachment x) -> "attachments" .=! eAttachments x
-        flb@(EFallback x) -> "attachments" .=! eFallback x
+        EText x -> "text" .=! eText x
+        EAttachment x -> "attachments" .=! eAttachments x
+        EFallback x -> "attachments" .=! eFallback x
 
 instance ToJSON EchoContent where
   toJSON (EText x) = toJSON x

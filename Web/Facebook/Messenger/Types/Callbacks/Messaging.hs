@@ -53,8 +53,6 @@ module Web.Facebook.Messenger.Types.Callbacks.Messaging (
 
 import Control.Applicative ((<|>))
 import Data.Aeson
-import Data.Aeson.Types (Parser)
-import Data.Text
 import Data.HashMap.Strict as HM
 
 import Web.Facebook.Messenger.Types.Callbacks.Message
@@ -94,7 +92,7 @@ data CallbackMessaging = CallbackMessaging
     , content :: CallbackContent -- ^ Content depending on the type of callback.
     } deriving (Eq, Show)
 
--- | The different types of callbacks that could be 
+-- | The different types of callbacks that could be
 data CallbackContent =
     CMMessage Message -- ^ Regular message
   | CMDelivery Delivery -- ^ Delivery notification
@@ -132,11 +130,11 @@ newtype CallbackRecipient =
 -- --------------------- --
 
 instance FromJSON CallbackMessaging where
-  parseJSON = withObject "CallbackMessaging" $ \o -> do
-    CallbackMessaging <$> o .:? "sender"
-                      <*> o .: "recipient"
-                      <*> o .:? "timestamp"
-                      <*> parseJSON (Object o)
+  parseJSON = withObject "CallbackMessaging" $ \o ->
+      CallbackMessaging <$> o .:? "sender"
+                        <*> o .: "recipient"
+                        <*> o .:? "timestamp"
+                        <*> parseJSON (Object o)
 
 instance FromJSON CallbackContent where
   parseJSON = withObject "CallbackContent" $ \o ->
@@ -179,11 +177,11 @@ instance FromJSON CallbackRecipient where
 
 
 instance ToJSON CallbackMessaging where
-  toJSON (CallbackMessaging msender recipient mtimestamp content) =
+  toJSON (CallbackMessaging msender recpnt mtimestamp cont) =
       object' [ "sender"    .=!! msender
-              , "recipient" .=! recipient
+              , "recipient" .=! recpnt
               , "timestamp" .=!! mtimestamp
-              , mkContent content
+              , mkContent cont
               ]
     where
       mkContent (CMMessage cb) = "message" .=! cb

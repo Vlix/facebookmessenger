@@ -34,10 +34,10 @@ module Web.Facebook.Messenger.Types.Responses (
   , ThreadControlResponse (..)
   -- ** Other Responses
   , DataResponse (..)
-  , DomainWhitelistingResponse (..)
-  , SecondaryReceiverResponse (..)
+  , DomainWhitelistingResponse
+  , SecondaryReceiverResponse
   , SecondaryReceiverElement (..)
-  , TagResponse (..)
+  , TagResponse
   , TagElement (..)
   )
 where
@@ -49,7 +49,7 @@ import Data.Maybe (catMaybes)
 import qualified Data.HashMap.Strict as HM
 import Data.Text (Text, unpack)
 
-import Web.Facebook.Messenger.Types.Requests (AppId, AccountUnlinkRequest)
+import Web.Facebook.Messenger.Types.Requests (AppId)
 import Web.Facebook.Messenger.Types.Requests.Extra (PriceObject)
 import Web.Facebook.Messenger.Types.Requests.Settings (ProfileRequest (..))
 import Web.Facebook.Messenger.Types.Static
@@ -79,7 +79,7 @@ newtype AttachmentUploadResponse =
   deriving (Eq, Show)
 
 -- | This is a standard Error response
-newtype ErrorResponse = ErrorResponse { erError :: ErrorDetails } 
+newtype ErrorResponse = ErrorResponse { erError :: ErrorDetails }
   deriving (Eq, Show)
 
 -- | Specifics pertaining to the `Error`
