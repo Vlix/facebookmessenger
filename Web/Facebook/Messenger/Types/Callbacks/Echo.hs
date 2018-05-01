@@ -33,7 +33,8 @@ where
 
 import Control.Applicative ((<|>))
 import Data.Aeson
-import Data.Text
+import qualified Data.HashMap.Strict as HM
+import Data.Text (Text)
 
 import Web.Facebook.Messenger.Types.Requests
 import Web.Facebook.Messenger.Types.Requests.Attachment (RequestAttachment)
@@ -110,8 +111,12 @@ instance FromJSON EchoText where
       EchoText <$> o .: "text"
 
 instance FromJSON EchoAttachment where
-  parseJSON = withObject "EchoAttachment" $ \o ->
-      EchoAttachment <$> o .: "attachments"
+  parseJSON = withObject "EchoAttachment" $ \o -> do
+      atts <- o .: attField
+      let actualAtts = filter (/= Object mempty) (atts :: [Value])
+          newObj = HM.insert attField (toJSON actualAtts) o
+      EchoAttachment <$> newObj .: attField
+    where attField = "attachments"
 
 instance FromJSON EchoFallback where
   parseJSON = withObject "EchoFallback" $ \o ->
