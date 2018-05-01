@@ -34,9 +34,7 @@ module Web.Facebook.Messenger.Types.Requests.Message (
 where
 
 import Control.Applicative ((<|>))
-import Control.Monad (unless)
 import Data.Aeson
-import Data.Aeson.Types (Parser)
 import Data.Text (Text)
 
 import Web.Facebook.Messenger.Types.Requests.Attachment
@@ -65,7 +63,7 @@ textRequest_ = textRequest [] Nothing
 data RequestMessageText = RequestMessageText
     { rmtText :: Text
     -- ^ Message text. Previews will not be shown for the URLs in this field.
-    -- Use attachment instead. (UTF-8; 640 character limit)
+    -- Use attachment instead. (UTF-8; 2000 character limit)
     , rmtQuickReply :: [RequestQuickReply] -- ^ List of `RequestQuickReply` to be sent with messages (max 11)
     , rmtMetadata :: Maybe Text -- ^ Custom string that is delivered with a message echo (1000 character limit)
     } deriving (Eq, Show, Read, Ord)
@@ -96,6 +94,8 @@ locQR = RLQR LocationQuickReply
 -- |  Quick Replies can be added to Text, Image and Template message types
 data RequestQuickReply = RQR RQuickReply
                        | RLQR LocationQuickReply
+                       | RPQR PhoneNumberQuickReply
+                       | REQR EmailQuickReply
   deriving (Eq, Show, Read, Ord)
 
 -- | A regular Quick Reply
@@ -109,6 +109,14 @@ data RQuickReply = RQuickReply
 
 -- | A Quick Reply that requests a geolocation from the user
 data LocationQuickReply = LocationQuickReply
+  deriving (Eq, Show, Read, Ord)
+
+-- | A Quick Reply that requests the user to send their phone number
+data PhoneNumberQuickReply = PhoneNumberQuickReply
+  deriving (Eq, Show, Read, Ord)
+
+-- | A Quick Reply that requests the user to send their phone number
+data EmailQuickReply = EmailQuickReply
   deriving (Eq, Show, Read, Ord)
 
 
@@ -137,6 +145,8 @@ instance ToJSON RequestMessageAttachment where
 instance ToJSON RequestQuickReply where
   toJSON (RQR x) = toJSON x
   toJSON (RLQR x) = toJSON x
+  toJSON (RPQR x) = toJSON x
+  toJSON (REQR x) = toJSON x
 
 instance ToJSON RQuickReply where
   toJSON (RQuickReply title payload imageurl) =
@@ -149,6 +159,14 @@ instance ToJSON RQuickReply where
 instance ToJSON LocationQuickReply where
   toJSON LocationQuickReply =
       object' ["content_type" .=! String "location"]
+
+instance ToJSON PhoneNumberQuickReply where
+  toJSON PhoneNumberQuickReply =
+      object' ["content_type" .=! String "user_phone_number"]
+
+instance ToJSON EmailQuickReply where
+  toJSON EmailQuickReply =
+      object' ["content_type" .=! String "user_email"]
 
 
 instance FromJSON RequestMessage where
@@ -172,19 +190,31 @@ instance FromJSON RequestQuickReply where
   parseJSON = withObject "RequestQuickReply" $ \o ->
         RQR <$> parseJSON (Object o)
     <|> RLQR <$> parseJSON (Object o)
+    <|> RPQR <$> parseJSON (Object o)
+    <|> REQR <$> parseJSON (Object o)
 
 instance FromJSON RQuickReply where
-  parseJSON = withObject "RQuickReply" $ \o -> do
-      typ <- o .: "content_type" :: Parser Text
-      unless (typ == "text") $
-        fail "RQuickReply: expected \"text\" in \"content_type\" field"
-      RQuickReply <$> o .: "title"
-                  <*> o .: "payload"
-                  <*> o .:? "image_url"
+  parseJSON = checkValue "RQuickReply"
+      "content_type"
+      (String "text")
+      $ \o -> RQuickReply <$> o .: "title"
+                          <*> o .: "payload"
+                          <*> o .:? "image_url"
 
 instance FromJSON LocationQuickReply where
-  parseJSON = withObject "LocationQuickReply" $ \o -> do
-      typ <- o .: "content_type" :: Parser Text
-      unless (typ == "location") $
-        fail "LocationQuickReply: expected \"location\" in \"content_type\" field"
-      pure LocationQuickReply
+  parseJSON = checkValue "LocationQuickReply"
+      "content_type"
+      (String "location")
+      $ \_ -> pure LocationQuickReply
+
+instance FromJSON PhoneNumberQuickReply where
+  parseJSON = checkValue "PhoneNumberQuickReply"
+      "content_type"
+      (String "user_phone_number")
+      $ \_ -> pure PhoneNumberQuickReply
+
+instance FromJSON EmailQuickReply where
+  parseJSON = checkValue "EmailQuickReply"
+      "content_type"
+      (String "user_email")
+      $ \_ -> pure EmailQuickReply
