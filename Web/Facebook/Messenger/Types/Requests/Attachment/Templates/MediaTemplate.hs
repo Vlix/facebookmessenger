@@ -33,7 +33,7 @@ import Web.Facebook.Messenger.Types.Static
 -- | Template for sending media.
 --
 -- (Currently, the media template only supports sending images and video. Audio is currently not supported)
-newtype MediaTemplate = MediaTemplate { mtElements :: [MediaElement] }
+newtype MediaTemplate = MediaTemplate { mtElements :: MediaElement }
   deriving (Eq, Show, Read, Ord)
 
 instance ToJSON MediaTemplate where
@@ -47,7 +47,12 @@ instance FromJSON MediaTemplate where
       "MediaTemplate"
       "template_type"
       (String "media")
-      $ \o -> MediaTemplate <$> o .: "elements"
+      mkMediaTemplate
+    where mkMediaTemplate o = do
+            el <- o .: "elements"
+            case el of
+              [e] -> pure $ MediaTemplate e
+              _ -> fail "not just one media template element"
 
 -- | Elements used in the 'MediaTemplate'
 data MediaElement = MediaElement

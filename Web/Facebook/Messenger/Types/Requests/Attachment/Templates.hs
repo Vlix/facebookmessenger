@@ -132,7 +132,7 @@ listTemplateP_ :: [ListElement] -> TemplatePayload
 listTemplateP_ = TList . flip (ListTemplate ListLARGE) Nothing
 
 -- | Constructor for a Media 'TemplatePayload'
-mediaTemplateP :: [MediaElement] -> TemplatePayload
+mediaTemplateP :: MediaElement -> TemplatePayload
 mediaTemplateP = TMedia . MediaTemplate
 
 -- | Constructor for an Open Graph `TemplatePayload`

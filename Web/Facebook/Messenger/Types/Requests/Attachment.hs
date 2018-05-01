@@ -77,7 +77,7 @@ listTemplate_ :: [ListElement] -> RequestAttachment
 listTemplate_ = flip (listTemplate ListLARGE) Nothing
 
 -- | Constructor for making a 'MediaTemplate' 'RequestAttachment'
-mediaTemplate :: [MediaElement] -> RequestAttachment
+mediaTemplate :: MediaElement -> RequestAttachment
 mediaTemplate = templateRequest . mediaTemplateP
 
 -- | Constructor for making a `OpenGraphTemplate` `RequestAttachment`
