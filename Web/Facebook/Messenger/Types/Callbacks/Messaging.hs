@@ -33,6 +33,7 @@ module Web.Facebook.Messenger.Types.Callbacks.Messaging (
   , CallbackContent (..)
   , CallbackSender (..)
   , CallbackRecipient (..)
+  , PriorMessage (..)
   -- * Exported Modules
   , module Web.Facebook.Messenger.Types.Callbacks.Message
   , module Web.Facebook.Messenger.Types.Callbacks.Delivery
@@ -52,8 +53,10 @@ module Web.Facebook.Messenger.Types.Callbacks.Messaging (
   ) where
 
 import Control.Applicative ((<|>))
+import Control.Monad (when)
 import Data.Aeson
 import Data.HashMap.Strict as HM
+import Data.Text (Text)
 
 import Web.Facebook.Messenger.Types.Callbacks.Message
 import Web.Facebook.Messenger.Types.Callbacks.Delivery
@@ -89,6 +92,9 @@ data CallbackMessaging = CallbackMessaging
     { sender :: Maybe CallbackSender -- ^ the sending user's PSID
     , recipient :: CallbackRecipient -- ^ the receiving page ID
     , timestamp :: Maybe Integer -- ^ Time of callback event (epoch time in milliseconds)
+    , priorMsg :: Maybe PriorMessage
+    -- ^ Included in case it's the first message from a user
+    -- after they received a message using the @user-ref@ from the checkbox plugin.
     , content :: CallbackContent -- ^ Content depending on the type of callback.
     } deriving (Eq, Show)
 
@@ -123,6 +129,12 @@ newtype CallbackRecipient =
           CallbackRecipient { recipientId :: PageID } -- Recipient user ID/PAGE_ID
   deriving (Eq, Show)
 
+-- | Indicates the @user-ref@ this user is linked to
+-- so you can link their PSID with the earlier used @user-ref@
+--
+-- (only uses "checkbox_plugin" at the moment)
+newtype PriorMessage = PriorMessage { identifier :: Text }
+  deriving (Eq, Show)
 
 
 -- --------------------- --
@@ -134,6 +146,7 @@ instance FromJSON CallbackMessaging where
       CallbackMessaging <$> o .:? "sender"
                         <*> o .: "recipient"
                         <*> o .:? "timestamp"
+                        <*> o .:? "prior_message"
                         <*> parseJSON (Object o)
 
 instance FromJSON CallbackContent where
@@ -175,12 +188,20 @@ instance FromJSON CallbackRecipient where
   parseJSON = withObject "CallbackRecipient" $ \o ->
     CallbackRecipient <$> o .: "id"
 
+instance FromJSON PriorMessage where
+  parseJSON = withObject "PriorMessage" $ \o -> do
+    source <- o .: "source"
+    when (source == String "checkbox_plugin") $
+      fail "source is not \"checkbox_plugin\""
+    PriorMessage <$> o .: "identifier"
+
 
 instance ToJSON CallbackMessaging where
-  toJSON (CallbackMessaging msender recpnt mtimestamp cont) =
+  toJSON (CallbackMessaging msender recpnt mtimestamp mpriorMsg cont) =
       object' [ "sender"    .=!! msender
               , "recipient" .=! recpnt
               , "timestamp" .=!! mtimestamp
+              , "prior_message" .=!! mpriorMsg
               , mkContent cont
               ]
     where
@@ -209,3 +230,9 @@ instance ToJSON CallbackSender where
 
 instance ToJSON CallbackRecipient where
   toJSON (CallbackRecipient ident) = object [ "id" .= ident ]
+
+instance ToJSON PriorMessage where
+  toJSON (PriorMessage ident) =
+      object [ "source" .= String "checkbox_plugin"
+             , "identifier" .= ident
+             ]
