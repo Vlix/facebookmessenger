@@ -27,6 +27,7 @@ module Web.Facebook.Messenger.Types.Requests.Attachment (
     , genericTemplate_
     , listTemplate
     , listTemplate_
+    , mediaTemplate
     , openGraphTemplate
     -- * Exported Modules
     , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates
@@ -69,11 +70,15 @@ genericTemplate_ = genericTemplate True HORIZONTAL
 
 -- | Constructor for making a `ListTemplate` `RequestAttachment`
 listTemplate :: ListStyle -> [ListElement] -> Maybe TemplateButton -> RequestAttachment
-listTemplate = ((templateRequest .) .) . listTemplateP
+listTemplate lStyle es = templateRequest . listTemplateP lStyle es
 
 -- | Shortcut for a simple default `ListTemplate` `RequestAttachment`
 listTemplate_ :: [ListElement] -> RequestAttachment
 listTemplate_ = flip (listTemplate ListLARGE) Nothing
+
+-- | Constructor for making a 'MediaTemplate' 'RequestAttachment'
+mediaTemplate :: [MediaElement] -> RequestAttachment
+mediaTemplate = templateRequest . mediaTemplateP
 
 -- | Constructor for making a `OpenGraphTemplate` `RequestAttachment`
 openGraphTemplate :: URL -> [TemplateButton] -> RequestAttachment
@@ -113,7 +118,7 @@ data RequestAttachment = RMultimedia RequestMultimediaAttachment
 -- /Attachments sent with the Send API used to have a 25 MB limit/
 data RequestMultimediaAttachment = RequestMultimediaAttachment
     { rmaType :: AttachmentType -- ^ `IMAGE` \/ `AUDIO` \/ `VIDEO` \/ `FILE`
-    , rmaPayload :: RequestMultimediaPayload -- ^ 
+    , rmaPayload :: RequestMultimediaPayload -- ^
     } deriving (Eq, Show, Read, Ord)
 
 -- | Wrapper around `TemplatePayload` for @JSON@ reasons

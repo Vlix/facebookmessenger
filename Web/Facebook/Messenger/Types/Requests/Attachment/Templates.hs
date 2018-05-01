@@ -36,14 +36,22 @@ module Web.Facebook.Messenger.Types.Requests.Attachment.Templates (
   -- The value can be `ListLARGE` or `ListCOMPACT`. To send a list view as a plain list (with no cover item),
   -- set the `ListStyle` to `ListCOMPACT`; otherwise, the first element will be rendered
   -- as the cover item and the image_url is required for the first element.
-  -- 
+  --
   -- Please take note of the following limitations:
-  -- 
+  --
   -- * You may send at least 2 elements and at most 4 elements.
   -- * Adding a button to each element is optional. You may only have up to 1 button per element.
   -- * You may have up to 1 global button.
   , listTemplateP
   , listTemplateP_
+  -- * Media Template
+  --
+  -- The media template allows you to send images, GIFs, and video as a structured message with an optional button.
+  -- Videos and animated GIFs sent with the media template are playable in the conversation.
+  --
+  -- The media template can be sent via the Send API and from the Messenger webview
+  -- with the Messenger Extension SDK's @beginShareFlow()@ function.
+  , mediaTemplateP
   -- * Open Graph Template
   --
   -- | Use "OpenGraphTemplate" with the Send API to send a structured music template.
@@ -57,6 +65,7 @@ module Web.Facebook.Messenger.Types.Requests.Attachment.Templates (
   , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ButtonTemplate
   , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.GenericTemplate
   , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ListTemplate
+  , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.MediaTemplate
   , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.OpenGraphTemplate
   , module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ReceiptTemplate
   -- ** Airline
@@ -82,6 +91,7 @@ import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineItinera
 import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ButtonTemplate
 import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.GenericTemplate
 import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ListTemplate
+import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.MediaTemplate
 import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.OpenGraphTemplate
 import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ReceiptTemplate
 import Web.Facebook.Messenger.Types.Requests.Extra
@@ -121,6 +131,9 @@ listTemplateP = ((TList .) .) . ListTemplate
 listTemplateP_ :: [ListElement] -> TemplatePayload
 listTemplateP_ = TList . flip (ListTemplate ListLARGE) Nothing
 
+-- | Constructor for a Media 'TemplatePayload'
+mediaTemplateP :: [MediaElement] -> TemplatePayload
+mediaTemplateP = TMedia . MediaTemplate
 
 -- | Constructor for an Open Graph `TemplatePayload`
 openGraphTemplateP :: URL -> [TemplateButton] -> TemplatePayload
@@ -134,6 +147,7 @@ openGraphTemplateP url = TGraph . OpenGraphTemplate . OpenGraphElement url
 data TemplatePayload = TGeneric GenericTemplate
                      | TButton ButtonTemplate
                      | TList ListTemplate
+                     | TMedia MediaTemplate
                      | TGraph OpenGraphTemplate
                      | TReceipt ReceiptTemplate
                      | TBoardingPass AirlineBoardingPass
@@ -146,6 +160,7 @@ instance ToJSON TemplatePayload where
   toJSON (TGeneric x) = toJSON x
   toJSON (TButton x) = toJSON x
   toJSON (TList x) = toJSON x
+  toJSON (TMedia x) = toJSON x
   toJSON (TGraph x) = toJSON x
   toJSON (TReceipt x) = toJSON x
   toJSON (TBoardingPass x) = toJSON x
@@ -158,6 +173,7 @@ instance FromJSON TemplatePayload where
         TGeneric <$> parseJSON (Object o)
     <|> TButton <$> parseJSON (Object o)
     <|> TList <$> parseJSON (Object o)
+    <|> TMedia <$> parseJSON (Object o)
     <|> TGraph <$> parseJSON (Object o)
     <|> TReceipt <$> parseJSON (Object o)
     <|> TBoardingPass <$> parseJSON (Object o)

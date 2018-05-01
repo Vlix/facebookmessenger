@@ -60,7 +60,7 @@ instance ToJSON ListTemplate where
               ]
     where go [e] = [e,e]
           go es  = take 4 es
-  
+
 instance FromJSON ListTemplate where
   parseJSON = checkValue
       "ListTemplate"
