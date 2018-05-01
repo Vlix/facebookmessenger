@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                facebookmessenger
-version:             0.6.0.1
+version:             0.7.0.0
 synopsis:            Facebook Messenger Platform API
 description:         Data types, From- and ToJSON instances and helper functions for the Facebook Messenger Platform
 license:             MIT
@@ -49,6 +49,7 @@ library
                        Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ButtonTemplate
                        Web.Facebook.Messenger.Types.Requests.Attachment.Templates.GenericTemplate
                        Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ListTemplate
+                       Web.Facebook.Messenger.Types.Requests.Attachment.Templates.MediaTemplate
                        Web.Facebook.Messenger.Types.Requests.Attachment.Templates.OpenGraphTemplate
                        Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ReceiptTemplate
                        Web.Facebook.Messenger.Types.Requests.Extra
