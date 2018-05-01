@@ -191,7 +191,7 @@ instance FromJSON CallbackRecipient where
 instance FromJSON PriorMessage where
   parseJSON = withObject "PriorMessage" $ \o -> do
     source <- o .: "source"
-    when (source == String "checkbox_plugin") $
+    when (source /= String "checkbox_plugin") $
       fail "source is not \"checkbox_plugin\""
     PriorMessage <$> o .: "identifier"
 
