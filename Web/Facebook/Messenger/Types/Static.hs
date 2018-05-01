@@ -17,7 +17,8 @@ module Web.Facebook.Messenger.Types.Static (
   -- * Sum Types
 
   -- ** Send API
-  NotificationType (..)
+  MessagingType (..)
+  , NotificationType (..)
   , SenderActionType (..)
   , MessageTag (..)
   , WebviewHeightRatioType (..)
@@ -33,7 +34,7 @@ module Web.Facebook.Messenger.Types.Static (
   , RequestedUserInfoType (..)
   , AppRole (..)
   , AudienceType (..)
-  
+
   -- * Helper functions
   --
   -- | These functions are mostly convenience functions to make @JSON@ as short as possible
@@ -99,7 +100,7 @@ mDefault t a b = if a == b then Nothing else Just $ t .= b
 --         , "url" `.=!` url
 --         , "title" `.=!!` mTitle
 --         , `mEmptyList` "elements" elements
---         , `mDefault` "notification_type" `REGULAR` notifType 
+--         , `mDefault` "notification_type" `REGULAR` notifType
 --         ]
 -- @
 --
@@ -134,7 +135,7 @@ object' = Object . HM.fromList . catMaybes
 (.=!) :: ToJSON a => Text -> a -> Maybe Pair
 (.=!) name = Just . (name .=)
 
--- | This function checks to see if a `Value` is an `Object` and the proceeds to check
+-- | This function checks to see if a `Value` is an `Object` and then proceeds to check
 -- if a certain field has a certain value before continuing parsing the object.
 -- (e.g. checking if @"type"@ is actually @"image"@ or not)
 checkValue :: (FromJSON a, ToJSON a, Eq a)
@@ -191,6 +192,30 @@ instance FromJSON SenderActionType where
       ,("typing_on", TYPING_ON)
       ,("typing_off", TYPING_OFF)
       ]
+
+-- | The @messaging_type@ property identifies the messaging type
+-- of the message being sent, and is a more explicit way to ensure
+-- bots are complying with policies for specific messaging types
+-- and respecting people's preferences.
+--
+-- https://developers.facebook.com/docs/messenger-platform/send-messages#messaging_types
+data MessagingType =
+      RESPONSE -- ^ Response to a user message
+    | UPDATE -- ^ Self-initiated update
+    | MESSAGE_TAG -- ^ Message with tag sent outside the 24+1 messaging window
+  deriving (Eq, Show, Read, Ord)
+
+instance FromJSON MessagingType where
+  parseJSON = withText' "MessagingType"
+      [("RESPONSE", RESPONSE)
+      ,("UPDATE",UPDATE)
+      ,("MESSAGE_TAG",MESSAGE_TAG)
+      ]
+
+instance ToJSON MessagingType where
+  toJSON RESPONSE = String "RESPONSE"
+  toJSON UPDATE = String "UPDATE"
+  toJSON MESSAGE_TAG = String "MESSAGE_TAG"
 
 -- | Push notification type
 data NotificationType =
@@ -330,7 +355,7 @@ instance FromJSON PaymentType where
 
 -- | Used in the Buy Button
 --
--- Information requested from person that will render in the dialog. 
+-- Information requested from person that will render in the dialog.
 data RequestedUserInfoType =
     SHIPPING_ADDRESS -- ^ Address to send item(s) to
   | CONTACT_NAME -- ^ Name of contact
@@ -364,47 +389,65 @@ instance FromJSON RequestedUserInfoType where
 -- https://developers.facebook.com/docs/messenger-platform/send-messages/message-tags
 data MessageTag =
     ACCOUNT_UPDATE -- ^ Notify the message recipient of a change to their account settings.
-  | PAYMENT_UPDATE -- ^ Notify the message recipient of a payment update for an existing transaction.
-  | PERSONAL_FINANCE_UPDATE -- ^ Confirm a message recipient's financial activity.
-  | SHIPPING_UPDATE -- ^ Notify the message recipient of a change in shipping status for a product that has already been purchased.
-  | RESERVATION_UPDATE -- ^ Notify the message recipient of updates to an existing reservation.
+  | APPLICATION_UPDATE -- ^ Notify the message recipient of a change to their account settings.
+  | APPOINTMENT_UPDATE -- ^ Notify the message recipient of a change to an existing appointment.
+  | COMMUNITY_ALERT -- ^ Notify the message recipient of emergency or utility alerts, or issue a safety check in your community.
+  | CONFIRMED_EVENT_REMINDER -- ^ Send the message recipient reminders of a scheduled event which a person is going to attend.
+  | FEATURE_FUNCTIONALITY_UPDATE -- ^ Notify the message recipient of new features or functionality that become available in your bot.
+  | GAME_EVENT -- ^ Notify the message recipient of a change in in-game user progression, global events, or a live sporting event.
   | ISSUE_RESOLUTION
   -- ^ Notify the message recipient of an update to a customer service issue
   -- that was initiated in a Messenger conversation, following a transaction.
-  | APPOINTMENT_UPDATE -- ^ Notify the message recipient of a change to an existing appointment.
-  | GAME_EVENT -- ^ Notify the message recipient of a change in in-game user progression, global events, or a live sporting event.
-  | TRANSPORTATION_UPDATE -- ^ Notify the message recipient of updates to an existing transportation reservation.
-  | FEATURE_FUNCTIONALITY_UPDATE -- ^ Notify the message recipient of new features or functionality that become available in your bot.
+  | NON_PROMOTIONAL_SUBSCRIPTION
+  -- ^ Send non-promotional messages under the News, Productivity, and Personal Trackers categories
+  -- described in the Messenger Platform's subscription messaging policy.
+  -- You can apply for access to use this tag under the Page Settings > Messenger Platform.
+  | PAIRING_UPDATE -- ^ Notify the message recipient that a pairing has been identified based on a prior request.
+  | PAYMENT_UPDATE -- ^ Notify the message recipient of a payment update for an existing transaction.
+  | PERSONAL_FINANCE_UPDATE -- ^ Confirm a message recipient's financial activity.
+  | RESERVATION_UPDATE -- ^ Notify the message recipient of updates to an existing reservation.
+  | SHIPPING_UPDATE -- ^ Notify the message recipient of a change in shipping status for a product that has already been purchased.
   | TICKET_UPDATE -- ^ Notify the message recipient of updates pertaining to an event for which a person already has a ticket.
+  | TRANSPORTATION_UPDATE -- ^ Notify the message recipient of updates to an existing transportation reservation.
   deriving (Eq, Show, Read, Ord)
 
 instance FromJSON MessageTag where
   parseJSON = withText' "MessageTag"
       [("ACCOUNT_UPDATE", ACCOUNT_UPDATE)
+      ,("APPLICATION_UPDATE", APPLICATION_UPDATE)
+      ,("APPOINTMENT_UPDATE", APPOINTMENT_UPDATE)
+      ,("COMMUNITY_ALERT", COMMUNITY_ALERT)
+      ,("CONFIRMED_EVENT_REMINDER", CONFIRMED_EVENT_REMINDER)
+      ,("FEATURE_FUNCTIONALITY_UPDATE", FEATURE_FUNCTIONALITY_UPDATE)
+      ,("GAME_EVENT", GAME_EVENT)
+      ,("ISSUE_RESOLUTION", ISSUE_RESOLUTION)
+      ,("NON_PROMOTIONAL_SUBSCRIPTION", NON_PROMOTIONAL_SUBSCRIPTION)
+      ,("PAIRING_UPDATE", PAIRING_UPDATE)
       ,("PAYMENT_UPDATE", PAYMENT_UPDATE)
       ,("PERSONAL_FINANCE_UPDATE", PERSONAL_FINANCE_UPDATE)
-      ,("SHIPPING_UPDATE", SHIPPING_UPDATE)
       ,("RESERVATION_UPDATE", RESERVATION_UPDATE)
-      ,("ISSUE_RESOLUTION", ISSUE_RESOLUTION)
-      ,("APPOINTMENT_UPDATE", APPOINTMENT_UPDATE)
-      ,("GAME_EVENT", GAME_EVENT)
-      ,("TRANSPORTATION_UPDATE", TRANSPORTATION_UPDATE)
-      ,("FEATURE_FUNCTIONALITY_UPDATE", FEATURE_FUNCTIONALITY_UPDATE)
+      ,("SHIPPING_UPDATE", SHIPPING_UPDATE)
       ,("TICKET_UPDATE", TICKET_UPDATE)
+      ,("TRANSPORTATION_UPDATE", TRANSPORTATION_UPDATE)
       ]
 
 instance ToJSON MessageTag where
   toJSON ACCOUNT_UPDATE = String "ACCOUNT_UPDATE"
+  toJSON APPLICATION_UPDATE = String "APPLICATION_UPDATE"
+  toJSON APPOINTMENT_UPDATE = String "APPOINTMENT_UPDATE"
+  toJSON COMMUNITY_ALERT = String "COMMUNITY_ALERT"
+  toJSON CONFIRMED_EVENT_REMINDER = String "CONFIRMED_EVENT_REMINDER"
+  toJSON FEATURE_FUNCTIONALITY_UPDATE = String "FEATURE_FUNCTIONALITY_UPDATE"
+  toJSON GAME_EVENT = String "GAME_EVENT"
+  toJSON ISSUE_RESOLUTION = String "ISSUE_RESOLUTION"
+  toJSON NON_PROMOTIONAL_SUBSCRIPTION = String "NON_PROMOTIONAL_SUBSCRIPTION"
+  toJSON PAIRING_UPDATE = String "PAIRING_UPDATE"
   toJSON PAYMENT_UPDATE = String "PAYMENT_UPDATE"
   toJSON PERSONAL_FINANCE_UPDATE = String "PERSONAL_FINANCE_UPDATE"
-  toJSON SHIPPING_UPDATE = String "SHIPPING_UPDATE"
   toJSON RESERVATION_UPDATE = String "RESERVATION_UPDATE"
-  toJSON ISSUE_RESOLUTION = String "ISSUE_RESOLUTION"
-  toJSON APPOINTMENT_UPDATE = String "APPOINTMENT_UPDATE"
-  toJSON GAME_EVENT = String "GAME_EVENT"
-  toJSON TRANSPORTATION_UPDATE = String "TRANSPORTATION_UPDATE"
-  toJSON FEATURE_FUNCTIONALITY_UPDATE = String "FEATURE_FUNCTIONALITY_UPDATE"
+  toJSON SHIPPING_UPDATE = String "SHIPPING_UPDATE"
   toJSON TICKET_UPDATE = String "TICKET_UPDATE"
+  toJSON TRANSPORTATION_UPDATE = String "TRANSPORTATION_UPDATE"
 
 -- | An app can be assigned the roles of `PrimaryReceiver` or `SecondaryReceiver`.
 data AppRole =

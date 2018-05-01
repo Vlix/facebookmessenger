@@ -84,13 +84,16 @@ import Web.Facebook.Messenger.Types.Static
 data SendRequest = SendRequest
     { srRecipient :: RequestRecipient -- ^ Recipient of the message
     , srMessage :: RequestMessage -- ^ Contents of the message
+    , srMessagingType :: MessagingType -- ^ Type of message ('RESPONSE', 'UPDATE' or 'MESSAGE_TAG')
     , srNotificationType :: NotificationType -- ^ Optional; by default, messages will be a `REGULAR` push notification type
     , srTag :: Maybe MessageTag -- ^ Optional; to be used if you have a valid reason to send a message outside of the 24+1 window
     } deriving (Eq, Show)
 
--- | Shortcut constructor for a default `SendRequest` (no `MessageTag` and with a `REGULAR` `NotificationType`)
+-- | Shortcut constructor for a default `SendRequest`
+-- (no `MessageTag` and with a `REGULAR` `NotificationType`
+-- and 'RESPONSE' 'MessagingType')
 sendRequest :: RequestRecipient -> RequestMessage -> SendRequest
-sendRequest recipient msg = SendRequest recipient msg REGULAR Nothing
+sendRequest recipient msg = SendRequest recipient msg RESPONSE REGULAR Nothing
 
 -- | Set typing indicators or send read receipts using the Send API, to let users know you are processing their request.
 --
@@ -159,7 +162,7 @@ newtype RecipientRef = RecipientRef { recipRef :: Text }
 -- | In case you want to programmatically unlink someone from an account
 --
 -- Bottom of: @https://developers.facebook.com/docs/messenger-platform/identity/account-linking@
-data AccountUnlinkRequest = AccountUnlinkRequest { aurPSID :: Text }
+newtype AccountUnlinkRequest = AccountUnlinkRequest { aurPSID :: Text }
   deriving (Eq, Show)
 
 
@@ -204,9 +207,10 @@ data TakeThreadControlRequest = TakeThreadControlRequest
 -- ------------------------ --
 
 instance ToJSON SendRequest where
-  toJSON (SendRequest recpnt message notification_type tag) =
+  toJSON (SendRequest recpnt message msgType notification_type tag) =
       object' [ "recipient" .=! recpnt
               , "message" .=! message
+              , "messaging_type" .=! msgType
               , mDefault "notification_type" REGULAR notification_type
               , "tag" .=!! tag
               ]
@@ -274,6 +278,7 @@ instance FromJSON SendRequest where
   parseJSON = withObject "SendRequest" $ \o ->
       SendRequest <$> o .: "recipient"
                   <*> o .: "message"
+                  <*> o .: "messaging_type"
                   <*> o .:? "notification_type" .!= REGULAR
                   <*> o .:? "tag"
 

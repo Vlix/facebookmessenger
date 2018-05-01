@@ -373,10 +373,15 @@ instance ToJSON ThreadControlResponse where
 instance ToJSON GetProfileResponse where
   toJSON (GetProfileResponse pr) = object [ "data" .= go ]
     where go = toJSON $ catMaybes allFields
-          allFields = greet : start
-                    : persist : whitelist
-                    : accountLink : paySettings
-                    : audience : homeUrl : []
+          allFields = [ greet
+                      , start
+                      , persist
+                      , whitelist
+                      , accountLink
+                      , paySettings
+                      , audience
+                      , homeUrl
+                      ]
           greet = mkObj "greeting" <$> prGreeting pr
           start = mkObj "get_started" <$> prGetStarted pr
           persist = mkObj "persistent_menu" <$> prPersistentMenu pr
