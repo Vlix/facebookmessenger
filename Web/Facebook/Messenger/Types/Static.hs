@@ -302,6 +302,7 @@ data ReferralSource =
   | ADS -- ^ Facebook Ad
   | MESSENGER_CODE -- ^ Scanning of a Parametric Messenger Code
   | DISCOVER_TAB -- ^ Facebook Discover Tab
+  | CUSTOMER_CHAT_PLUGIN -- ^ Facebook Chat Plugin
   deriving (Eq, Show, Read, Ord)
 
 instance ToJSON ReferralSource where
@@ -309,6 +310,7 @@ instance ToJSON ReferralSource where
   toJSON ADS = String "ADS"
   toJSON MESSENGER_CODE = String "MESSENGER_CODE"
   toJSON DISCOVER_TAB = String "DISCOVER_TAB"
+  toJSON CUSTOMER_CHAT_PLUGIN = String "CUSTOMER_CHAT_PLUGIN"
 
 instance FromJSON ReferralSource where
   parseJSON = withText' "ReferralSource"
@@ -316,6 +318,7 @@ instance FromJSON ReferralSource where
       ,("ADS", ADS)
       ,("MESSENGER_CODE", MESSENGER_CODE)
       ,("DISCOVER_TAB", DISCOVER_TAB)
+      ,("CUSTOMER_CHAT_PLUGIN", CUSTOMER_CHAT_PLUGIN)
       ]
 
 -- | Type of list to produce

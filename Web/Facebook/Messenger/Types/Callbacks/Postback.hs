@@ -40,9 +40,11 @@ data Postback = PBRegular RegularPostback
 
 -- | This postback has a payload included, meaning it's from the app that receives this is the app that sent it.
 data RegularPostback = RegularPostback
-    { rpTitle :: Text
+    { rpTitle :: Maybe Text
     -- ^ Title for the CTA that was clicked on. This is sent to all apps subscribed to the page.
     -- For apps other than the original CTA sender, the postback event will be delivered via the standby channel.
+    --
+    -- Is sometimes @null@ for certain referral postbacks (e.g. "Get started" button in Customer Chat Plugins)
     , rpPayload :: Text
     -- ^ Payload parameter that was defined with the button.
     -- This is only visible to the app that sent the original template message.
@@ -59,9 +61,11 @@ data RegularPostback = RegularPostback
 
 -- | This is a postback of which the receiving app has not sent the template this postback is generated from.
 data SecondaryPostback = SecondaryPostback
-    { spTitle :: Text
+    { spTitle :: Maybe Text
     -- ^ Title for the CTA that was clicked on. This is sent to all apps subscribed to the page.
     -- For apps other than the original CTA sender, the postback event will be delivered via the standby channel.
+    --
+    -- Is sometimes @null@ for certain referral postbacks (e.g. "Get started" button in Customer Chat Plugins)
     , spReferral :: Maybe Referral
     -- ^ This section is present only if:
     --
@@ -92,25 +96,25 @@ instance FromJSON Postback where
           secondary o = PBSecondary <$> parseJSON (Object o)
 
 instance ToJSON RegularPostback where
-  toJSON (RegularPostback title payload ref) =
-      object' [ "title" .=! title
+  toJSON (RegularPostback mTitle payload ref) =
+      object' [ "title" .=!! mTitle
               , "payload" .=! payload
               , "referral" .=!! ref
               ]
 
 instance FromJSON RegularPostback where
   parseJSON = withObject "RegularPostback" $ \o ->
-        RegularPostback <$> o .: "title"
+        RegularPostback <$> o .:? "title"
                         <*> o .: "payload"
                         <*> o .:? "referral"
 
 instance ToJSON SecondaryPostback where
-  toJSON (SecondaryPostback title ref) =
-      object' [ "title" .=! title
+  toJSON (SecondaryPostback mTitle ref) =
+      object' [ "title" .=!! mTitle
               , "referral" .=!! ref
               ]
 
 instance FromJSON SecondaryPostback where
   parseJSON = withObject "SecondaryPostback" $ \o ->
-        SecondaryPostback <$> o .: "title"
+        SecondaryPostback <$> o .:? "title"
                           <*> o .:? "referral"

@@ -23,6 +23,7 @@ module Web.Facebook.Messenger.Types.Callbacks.Referral (
   , RefShortLink (..)
   , RefAds (..)
   , RefMessengerCode (..)
+  , RefChatPlugin (..)
   )
 where
 
@@ -44,22 +45,30 @@ data Referral =
     ReferralLink RefShortLink -- ^ User followed an @m.me@ link with a referral parameter
   | ReferralAds RefAds -- ^ User clicked on a Messenger Conversation Ad
   | ReferralCode RefMessengerCode -- ^ User scanned a parametric Messenger Code
+  | ReferralChat RefChatPlugin -- ^ User started a chat with the Customer Chat Plugin
   | ReferralDiscover -- ^ User found your bot in the Discover Tab
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 -- | Referral parameter added to an @m.me@ link.
 newtype RefShortLink = RefShortLink { rslRef :: Text }
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
 
 -- | Referral parameter added to a Messenger Conversation Ad and the ID of that ad.
 data RefAds = RefAds
   { raRef :: Maybe Text
   , raAdId :: Text
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Read, Ord)
 
 -- | Referral parameter added to a Messenger Code.
 newtype RefMessengerCode = RefMessengerCode { rmcRef :: Text }
-  deriving (Eq, Show)
+  deriving (Eq, Show, Read, Ord)
+
+-- | Referral parameters added when a user speaks
+-- through a Customer Chat Plugin on a website
+data RefChatPlugin = RefChatPlugin
+  { rcpRef :: Maybe Text -- ^ Ref code from the plugin settings on the website
+  , rcpRefUri :: URL -- ^ On which page the user initiated a chat
+  } deriving (Eq, Show, Read, Ord)
 
 
 -- -------------------- --
@@ -78,6 +87,7 @@ instance FromJSON Referral where
            MESSENGER_CODE -> ReferralCode <$> (RefMessengerCode <$> o .: "ref")
            SHORTLINK -> ReferralLink <$> (RefShortLink <$> o .: "ref")
            ADS -> ReferralAds <$> (RefAds <$> o .:? "ref" <*> o .: "ad_id")
+           CUSTOMER_CHAT_PLUGIN -> ReferralChat <$> (RefChatPlugin <$> o .:? "ref" <*> o .: "referer_uri")
 
 instance ToJSON Referral where
   toJSON referral = object' $ typ : more
@@ -94,3 +104,8 @@ instance ToJSON Referral where
                         [ "source" .=! toJSON MESSENGER_CODE
                         , "ref" .=! ref ]
                     ReferralDiscover -> ["source" .=! toJSON DISCOVER_TAB]
+                    ReferralChat (RefChatPlugin mRef uri) ->
+                        [ "source" .=! toJSON CUSTOMER_CHAT_PLUGIN
+                        , "ref" .=!! mRef
+                        , "referer_uri" .=! uri
+                        ]
