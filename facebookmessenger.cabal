@@ -16,6 +16,7 @@ build-type:          Simple
 cabal-version:       >=1.10
 
 library
+  hs-source-dirs:     src
   exposed-modules:     Web.Facebook.Messenger
 
                        Web.Facebook.Messenger.Types
@@ -72,3 +73,35 @@ library
   -- hs-source-dirs:
   default-language:    Haskell2010
   default-extensions:  OverloadedStrings
+
+test-suite facebookmessenger-test
+  type:               exitcode-stdio-1.0
+  hs-source-dirs:     test
+  main-is:            Spec.hs
+  default-extensions: OverloadedStrings
+  build-depends:      base
+                    , aeson
+                    , facebookmessenger
+--                    , bytestring
+                    , generic-arbitrary
+                    , QuickCheck
+                    , quickcheck-instances
+--                    , scientific
+                    , tasty
+                    , tasty-hunit
+                    , tasty-quickcheck
+                    , template-haskell
+                    , text
+--                    , time
+--                    , unordered-containers
+--                    , vector
+  other-modules:      Aeson
+                    , Functions
+                    , Instances
+                    , Instances.Callback
+                    , Instances.Request
+                    , Instances.Response
+                    , Instances.Static
+                    , Util.Testing.Aeson
+  ghc-options:        -threaded -rtsopts -with-rtsopts=-N
+  default-language:   Haskell2010
