@@ -9,15 +9,14 @@ import Aeson ( callbackTests
              , responseTests
              , staticTests
              )
-import Functions (profileRequestTest)
+import UnitTest (profileRequestTest, shortHandTests)
 
 
 main :: IO ()
 main = Tasty.defaultMain
-     $ Tasty.testGroup "\nWeb.Facebook.Messenger"
-        [ aesonTests
-        , functionTests
-        -- , unitTests
+     $ Tasty.testGroup "\nWeb.Facebook.Messenger" [
+        aesonTests,
+        unitTests
         ]
 
 aesonTests :: TestTree
@@ -28,7 +27,8 @@ aesonTests = Tasty.testGroup "Aeson"
     , callbackTests
     ]
 
-functionTests :: TestTree
-functionTests = Tasty.testGroup "Helper Functions"
+unitTests :: TestTree
+unitTests = Tasty.testGroup "Unit Tests"
     [ profileRequestTest
+    , shortHandTests
     ]

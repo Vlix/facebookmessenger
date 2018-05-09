@@ -24,7 +24,10 @@ module Web.Facebook.Messenger.Types.Requests.Message (
   , RequestMessageAttachment (..)
   -- ** Quick Replies
   , qr
+  , qr_
   , locQR
+  , phoneQR
+  , emailQR
   , RequestQuickReply (..)
   , RQuickReply (..)
   , LocationQuickReply (..)
@@ -66,7 +69,7 @@ data RequestMessageText = RequestMessageText
     { rmtText :: Text
     -- ^ Message text. Previews will not be shown for the URLs in this field.
     -- Use attachment instead. (UTF-8; 2000 character limit)
-    , rmtQuickReply :: [RequestQuickReply] -- ^ List of `RequestQuickReply` to be sent with messages (max 11)
+    , rmtQuickReply :: [RequestQuickReply] -- ^ List of 'RequestQuickReply' to be sent with messages (max 11)
     , rmtMetadata :: Maybe Text -- ^ Custom string that is delivered with a message echo (1000 character limit)
     } deriving (Eq, Show, Read, Ord)
 
@@ -85,13 +88,25 @@ data RequestMessageAttachment = RequestMessageAttachment
     , rmaMetadata :: Maybe Text -- Has a 1000 character limit
     } deriving (Eq, Show, Read, Ord)
 
--- | Constructor to make a regular `RequestQuickReply`
+-- | Constructor to make a regular 'RequestQuickReply'
 qr :: Text -> Text -> Maybe Text -> RequestQuickReply
 qr title payload = RQR . RQuickReply title payload
 
--- | Constructor to make a location `RequestQuickReply`
+-- | Like 'qr' but without an image icon.
+qr_ :: Text -> Text -> RequestQuickReply
+qr_ title payload = RQR $ RQuickReply title payload Nothing
+
+-- | Constructor to make a location 'RequestQuickReply'
 locQR :: RequestQuickReply
 locQR = RLQR LocationQuickReply
+
+-- | Constructor to make a phone number 'RequestQuickReply'
+phoneQR :: RequestQuickReply
+phoneQR = RPQR PhoneNumberQuickReply
+
+-- | Constructor to make a email 'RequestQuickReply'
+emailQR :: RequestQuickReply
+emailQR = REQR EmailQuickReply
 
 -- |  Quick Replies can be added to Text, Image and Template message types
 data RequestQuickReply = RQR RQuickReply

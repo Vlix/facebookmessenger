@@ -122,10 +122,11 @@ module Web.Facebook.Messenger.Types.Requests.Extra (
   -- When flexible pricing is declared, the Checkout dialog will render a button that the person can tap to choose the shipping method.
   -- We call your webhook to get information about the shipping names and prices.
   , buyButton
-  , buyButton_
+  , buyButtonTEST
   , BuyButton (..)
   , PriceObject (..)
   -- * Generic Element
+  , genericElem
   , GenericElement (..)
   -- * Default Action
   , defaultAction
@@ -145,7 +146,9 @@ import Data.Text (Text)
 import Web.Facebook.Messenger.Types.Static
 
 
--- | Constructor for the URL `TemplateButton`
+-- * URL Button
+--
+-- | Constructor for the URL 'TemplateButton'
 urlButton :: Text -- ^ /Button title. 20 character limit./
           -> URL
           -- ^ /This URL is opened in a mobile browser when the button is tapped./
@@ -180,31 +183,37 @@ urlButtonME :: Text -- ^/ Button title. 20 character limit./
             -> WebviewShareType -- ^/ `HIDE` | `SHOW` (Default is `Show`)/
             -> TemplateButton
 urlButtonME title (url,fallbackUrl) heightRatio =
-    urlButton title url heightRatio True (Just fallbackUrl)
+    urlButton title url heightRatio True $ Just fallbackUrl
 
 
--- | Constructor for the Postback `TemplateButton`
+-- * Postback Button
+--
+-- | Constructor for the Postback 'TemplateButton'
 --
 -- Button used in Templates. Sends a callback to your server to act on it.
 postbackButton :: Text -- ^/ Button title. 20 character limit./
                -> Text -- ^/ This data will be sent back to your webhook. 1000 character limit./
                -> TemplateButton
-postbackButton = (TPostback .) . PostbackButton
+postbackButton title = TPostback . PostbackButton title
 
 
--- | Constructor for the Call/Phone `TemplateButton`
+-- * Call Button
+--
+-- | Constructor for the Call/Phone 'TemplateButton'
 --
 -- Button used in Templates. Direct the user to a phone number to be handled by user's device.
 callButton :: Text -- ^/ Button title, 20 character limit./
            -> Text -- ^/ Format must have "+" prefix followed by the country code, area code and local number. For example, +16505551234./
            -> TemplateButton
-callButton = (TCall .) . CallButton
+callButton title = TCall . CallButton title
 
 
--- | Constructor for the Share `TemplateButton`
+-- * Share Button
+--
+-- | Constructor for the Share 'TemplateButton'
 --
 -- Button used in Templates. Makes the template sharable to other users in the user's friend list.
--- @[`GenericElement`]@ are elements that will be shared instead of the template the button is on,
+-- 'GenericElement' is an element that will be shared instead of the template the button is on,
 -- in case you don't want the template to be shared, but maybe a general explanation of/invitation to your bot/channel.
 shareButton :: Maybe GenericElement -> TemplateButton
 shareButton = TShare . ShareButton . fmap ShareContents
@@ -214,16 +223,16 @@ shareButton = TShare . ShareButton . fmap ShareContents
 -- | Button used in Templates. Directs the user to an authentication URL where the user can log in
 -- on an external service to (temporarily) link the user to a user of that external service.
 
--- | Constructor for the Log-in `TemplateButton`
+-- | Constructor for the Log-in 'TemplateButton'
 loginButton :: URL -- ^/ Authentication callback URL. Must use HTTPS protocol./
             -> TemplateButton
 loginButton = TLogIn . LogInButton
 
--- * LogIn Button
+-- * LogOut Button
 --
 -- | Button used in Templates. Disconnects the link of the user to the logged in external service.
 
--- | Constructor for the Log-out `TemplateButton`
+-- | Constructor for the Log-out 'TemplateButton'
 logoutButton :: TemplateButton
 logoutButton = TLogOut LogOutButton
 
@@ -231,7 +240,7 @@ logoutButton = TLogOut LogOutButton
 --
 -- | Button used in Templates. Directs the user to the payment flow of Facebook Messenger.
 
--- | Constructor for the Buy `TemplateButton`
+-- | Constructor for the Buy 'TemplateButton'
 buyButton :: Text -- ^/ Developer defined metadata about the purchase./
           -> Text -- ^/ Currency for price. Must be a three digit ISO-4217-3 code. https://developers.facebook.com/docs/payments/reference/supportedcurrencies/
           -> PaymentType -- ^/ Must be `FIXED_AMOUNT` or `FLEXIBLE_AMOUNT`./
@@ -245,10 +254,19 @@ buyButton :: Text -- ^/ Developer defined metadata about the purchase./
 buyButton payload currency payType name rui =
     TBuy . BuyButton payload currency False payType name rui
 
--- | Constructor for the Buy `TemplateButton` (as a test payment, so no actual purchases will be made)
-buyButton_ :: Text -> Text -> PaymentType -> Text -> [RequestedUserInfoType] -> [PriceObject] -> TemplateButton
-buyButton_ payload currency payType name rui =
+-- | Constructor for the Buy 'TemplateButton' (as a test payment, so no actual purchases will be made)
+buyButtonTEST :: Text -> Text -> PaymentType -> Text -> [RequestedUserInfoType] -> [PriceObject] -> TemplateButton
+buyButtonTEST payload currency payType name rui =
     TBuy . BuyButton payload currency True payType name rui
+
+
+-- * Generic Element
+--
+-- | Generate a basic generic element with a title, and
+-- optional subtitle and/or image.
+genericElem :: Text -> Maybe Text -> Maybe URL -> GenericElement
+genericElem title mSubtitle mImage =
+    GenericElement title mSubtitle mImage Nothing Nothing []
 
 
 -- * Default Action
@@ -543,7 +561,7 @@ instance ToJSON PriceObject where
 -- ----------------- --
 
 -- | The `GenericElement` type and instances are in this module because
--- the ShareButton depends on it, and the `GenericElement` depends on `TemplateButton`
+-- the ShareButton depends on it, and the `GenericElement` depends on 'TemplateButton'
 data GenericElement = GenericElement
     { geTitle :: Text -- ^ Bubble title (80 char limit)
     , geSubtitle :: Maybe Text -- ^ Bubble subtitle (80 char limit)

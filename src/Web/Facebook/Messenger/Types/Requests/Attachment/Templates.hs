@@ -103,7 +103,7 @@ import Web.Facebook.Messenger.Types.Static
 buttonTemplateP :: Text -- ^ /UTF-8-encoded text of up to 640 characters that appears above the buttons/
                -> NonEmpty TemplateButton -- ^ /Set of 1-3 buttons that appear as call-to-actions/
                -> TemplatePayload
-buttonTemplateP = (TButton .) . ButtonTemplate
+buttonTemplateP title = TButton . ButtonTemplate title
 
 
 -- | Constructor for a Generic `TemplatePayload`
@@ -115,7 +115,7 @@ genericTemplateP :: Bool
                 -- /Must be `HORIZONTAL` or `SQUARE`. Default is `HORIZONTAL`./
                 -> NonEmpty GenericElement -- ^ /Data for each bubble in message (Limited to 10)/
                 -> TemplatePayload
-genericTemplateP = ((TGeneric .) .) . GenericTemplate
+genericTemplateP share aspectRatio = TGeneric . GenericTemplate share aspectRatio
 
 -- | Shortcut for a default Generic `TemplatePayload`
 --
@@ -126,11 +126,11 @@ genericTemplateP_ = genericTemplateP True HORIZONTAL
 
 -- | Constructor for a List `TemplatePayload`
 listTemplateP :: ListStyle -> NonEmpty ListElement -> Maybe TemplateButton -> TemplatePayload
-listTemplateP = ((TList .) .) . ListTemplate
+listTemplateP style es = TList . ListTemplate style es
 
 -- | Shortcut for a simple default List `TemplatePayload`
 listTemplateP_ :: NonEmpty ListElement -> TemplatePayload
-listTemplateP_ = TList . flip (ListTemplate ListLARGE) Nothing
+listTemplateP_ es = TList $ ListTemplate ListLARGE es Nothing
 
 -- | Constructor for a Media 'TemplatePayload'
 mediaTemplateP :: MediaElement -> TemplatePayload

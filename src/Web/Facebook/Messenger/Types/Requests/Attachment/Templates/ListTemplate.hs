@@ -28,6 +28,7 @@ https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-
 module Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ListTemplate (
   -- * List Template
   ListTemplate (..)
+  , listElem
   , ListElement (..)
   )
 where
@@ -73,6 +74,11 @@ instance FromJSON ListTemplate where
           ListTemplate <$> o .:? "top_element_style" .!= ListLARGE
                               <*> o .: "elements"
                               <*> pure button
+
+-- | Convenience function to construct a list element.
+-- This sets 'leDefaultAction' and 'leButton' to Nothing.
+listElem :: Text -> Maybe Text -> Maybe URL -> ListElement
+listElem title subTitle mUrl = ListElement title subTitle mUrl Nothing Nothing
 
 -- | Elements used in the `ListTemplate`
 data ListElement = ListElement

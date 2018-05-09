@@ -49,7 +49,7 @@ templateRequest = RTemplate . RequestAttachmentTemplate
 buttonTemplate :: Text -- ^ /UTF-8-encoded text of up to 640 characters that appears above the buttons/
                -> NonEmpty TemplateButton -- ^ /Set of 1-3 buttons that appear as call-to-actions/
                -> RequestAttachment
-buttonTemplate = (templateRequest .) . buttonTemplateP
+buttonTemplate title = templateRequest . buttonTemplateP title
 
 -- | Constructor for making a `GenericTemplate` `RequestAttachment`
 genericTemplate :: Bool
@@ -60,7 +60,7 @@ genericTemplate :: Bool
                 -- /Must be `HORIZONTAL` or `SQUARE`. Default is `HORIZONTAL`./
                 -> NonEmpty GenericElement -- ^ /Data for each bubble in message (Limited to 10)/
                 -> RequestAttachment
-genericTemplate = ((templateRequest .) .) . genericTemplateP
+genericTemplate share aspectRatio = templateRequest . genericTemplateP share aspectRatio
 
 -- | Shortcut for a default `GenericTemplate` `RequestAttachment`
 --
@@ -75,7 +75,7 @@ listTemplate lStyle es = templateRequest . listTemplateP lStyle es
 
 -- | Shortcut for a simple default `ListTemplate` `RequestAttachment`
 listTemplate_ :: NonEmpty ListElement -> RequestAttachment
-listTemplate_ = flip (listTemplate ListLARGE) Nothing
+listTemplate_ es = listTemplate ListLARGE es Nothing
 
 -- | Constructor for making a 'MediaTemplate' 'RequestAttachment'
 mediaTemplate :: MediaElement -> RequestAttachment
@@ -83,7 +83,7 @@ mediaTemplate = templateRequest . mediaTemplateP
 
 -- | Constructor for making a `OpenGraphTemplate` `RequestAttachment`
 openGraphTemplate :: URL -> [TemplateButton] -> RequestAttachment
-openGraphTemplate = (templateRequest .) . openGraphTemplateP
+openGraphTemplate url = templateRequest . openGraphTemplateP url
 
 -- | Constructor for a Multimedia `RequestAttachment`
 multimediaRequest :: AttachmentType -- ^ `IMAGE` \/ `AUDIO` \/ `VIDEO` \/ `FILE`

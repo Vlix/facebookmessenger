@@ -32,6 +32,9 @@ module Web.Facebook.Messenger.Types.Requests.Settings (
   --         ,'whiteListedDomains' [\"https:\/\/example.com\/\",\"https:\/\/server.somewhere.else\/\"]
   --         ]
   -- @
+  --
+  -- N.B. In case you need an empty 'ProfileRequest',
+  -- you can use 'mempty'. But it's unlikely you'll need it.
 
   -- ** Greeting
   greeting
@@ -67,6 +70,7 @@ module Web.Facebook.Messenger.Types.Requests.Settings (
   , TargetCountries (..)
   -- ** Home URL
   , homeUrl
+  , homeUrl_
   , HomeUrl (..)
   -- * Profile Request
   , ProfileRequest (..)
@@ -192,6 +196,11 @@ targetAudience x = mempty{prTargetAudience = Just x}
 -- /This field is not a place to put your bot or company's homepage./
 homeUrl :: HomeUrl -> ProfileRequest
 homeUrl x = mempty{prHomeUrl = Just x}
+
+-- | Convenience function to just give the 'URL'.
+-- Hides the share button (default) and is not in test.
+homeUrl_ :: URL -> ProfileRequest
+homeUrl_ url = homeUrl (HomeUrl url HIDE False)
 
 
 -- ---------------------- --
@@ -359,7 +368,7 @@ persistentUrlItem_ title url = persistentUrlItem title url FULL False Nothing SH
 persistentUrlItemME :: Text -- ^ /Menu item title. 30 character limit./
                     -> (URL,URL) -- ^ /(URL with Msgr Exts, Fallback URL w\/o Msgr Exts)/
                     -> WebviewHeightRatioType -- ^ /`FULL`\/`TALL`\/`COMPACT` (Default is `FULL`)/
-                    -> WebviewShareType -- ^ /`HIDE`\/`SHOW` (Default is `Show`)/
+                    -> WebviewShareType -- ^ /`HIDE`\/`SHOW` (Default is `SHOW`)/
                     -> PersistentMenuItem
 persistentUrlItemME title (url,fallbackUrl) heightRatio =
     persistentUrlItem title url heightRatio True (Just fallbackUrl)
@@ -415,7 +424,7 @@ data PaymentSettings = PaymentSettings
     -- These people will send a mock payment when they tap the `BuyButton`.
     } deriving (Eq, Show, Read, Ord)
 
--- | If audience_type is `CUSTOM`, `tcBlacklist` and `tcWhitelist` can't both be null or empty.
+-- | If 'taAudience' is `CUSTOM`, `tcBlacklist` and `tcWhitelist` can't both be null or empty.
 -- In addition, only one of them can be non-empty at the same time.
 data TargetAudience = TargetAudience
     { taAudience :: AudienceType -- ^ Valid values include `ALL`, `CUSTOM`, or `NONE`.
