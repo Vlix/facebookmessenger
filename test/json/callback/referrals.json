@@ -1,0 +1,27 @@
+# REFERRALS
+[{
+  "ref": "optional_ref_data",
+  "ad_id": "5346927245346",
+  "source": "ADS",
+  "type": "OPEN_THREAD",
+},
+{
+  "ref": "some_cta_or_another",
+  "source": "SHORTLINK",
+  "type": "OPEN_THREAD"
+},
+{
+  "ref": "some_ref_or_another",
+  "source": "MESSENGER_CODE",
+  "type": "OPEN_THREAD",
+},
+{
+  "source": "DISCOVER_TAB",
+  "type": "OPEN_THREAD",
+},
+{
+   "ref": "<REF_DATA_PASSED_IN_CODE>",
+   "source": "CUSTOMER_CHAT_PLUGIN",
+   "type": "OPEN_THREAD",
+   "referer_uri": "https://some.website.com/chat/page.html"
+}]

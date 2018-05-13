@@ -1,0 +1,22 @@
+# REGULAR Callback
+{
+  "object": "page",
+  "entry": [{
+    "id": "234554838031189",
+    "time": 1518439572110,
+    "messaging": [{
+      "sender": {
+        "id": "1739141089378194"
+      },
+      "recipient": {
+        "id": "234554838031189"
+      },
+      "timestamp": 1518439590791,
+      "message": {
+        "mid": "mid.$cAAEIQkYwD5bNu1Kzh1hgg1r2bI_K",
+        "seq": 1370,
+        "text": "This is a text message"
+      }
+    }]
+  }]
+}

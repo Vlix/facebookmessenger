@@ -1,0 +1,17 @@
+## ECHO callback
+{
+  "sender": {
+    "id": "234554838031189"
+  },
+  "recipient": {
+    "id": "1739141089378194"
+  },
+  "timestamp": 1522851392983,
+  "message": {
+    "is_echo": true,
+    "app_id": 743273262513025,
+    "mid": "mid.$cAAFStIxHtgpFwwl111ikQQs_I_oI",
+    "seq": 2860,
+    "text": "test test"
+  }
+}

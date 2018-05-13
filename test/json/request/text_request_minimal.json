@@ -1,0 +1,10 @@
+# MINIMAL TEXT Request
+{
+  "recipient":{
+    "id":"<PSID>"
+  },
+  "messaging_type": "UPDATE",
+  "message":{
+    "text": "<TEXT_MESSAGE>"
+  }
+}

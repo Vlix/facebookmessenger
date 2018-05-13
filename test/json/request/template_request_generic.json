@@ -1,0 +1,59 @@
+# COMPLETE GENERIC TEMPLATE w/ QRs Request
+{
+  "message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [{
+            "image_url": "Voordeel",
+            "subtitle": "€83,96",
+            "title": "Missoni Home Giacomo badserie",
+            "buttons": [{
+              "type": "element_share"
+            }, {
+              "url": "http:\/\/share.some.gift\/gifts\/8320313747",
+              "title": "Meer info",
+              "type": "web_url"
+            }]
+          },
+          {
+            "title": "<TITLE_TEXT>",
+            "image_url": "<IMAGE_URL_TO_DISPLAY>",
+            "subtitle": "<SUBTITLE_TEXT>",
+            "default_action": {
+              "type": "web_url",
+              "url": "<DEFAULT_URL_TO_OPEN>",
+              "messenger_extensions": false,
+              "webview_height_ratio": "FULL"
+            },
+            "buttons": [{
+                "type": "postback",
+                "title": "<BUTTON_TEXT>",
+                "payload": "<STRING_SENT_TO_WEBHOOK>"
+              },
+              {
+                "type": "web_url",
+                "url": "<URL_TO_OPEN_IN_WEBVIEW>",
+                "title": "<BUTTON_TEXT>"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "quick_replies": [{
+      "content_type": "text",
+      "payload": "remember",
+      "title": "😍 Onthoud deze!"
+    }, {
+      "content_type": "text",
+      "payload": "forget",
+      "title": "👎 Vergeet deze!"
+    }]
+  },
+  "messaging_type": "RESPONSE",
+  "recipient": {
+    "id": "1558445094245238"
+  }
+}

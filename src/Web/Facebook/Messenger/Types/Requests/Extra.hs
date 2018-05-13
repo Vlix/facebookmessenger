@@ -132,7 +132,9 @@ module Web.Facebook.Messenger.Types.Requests.Extra (
   , defaultAction
   , defaultActionME
   , DefaultAction (..)
+  -- * Others
   , TemplateAddress (..)
+  , Fallback (..)
   )
 where
 
@@ -671,9 +673,48 @@ instance ToJSON TemplateAddress where
 
 instance FromJSON TemplateAddress where
   parseJSON = withObject "TemplateAddress" $ \o ->
-      TemplateAddress <$> o .: "street_1"
-                     <*> o .:? "street_2"
-                     <*> o .: "city"
-                     <*> o .: "postal_code"
-                     <*> o .: "state"
-                     <*> o .: "country"
+      TemplateAddress <$> street1 o
+                      <*> street2 o
+                      <*> o .: "city"
+                      <*> o .: "postal_code"
+                      <*> o .: "state"
+                      <*> o .: "country"
+    where street1 o = do
+            mStreet1 <- o .:? "street1"
+            case mStreet1 of
+              Just s1 -> pure s1
+              Nothing -> o .: "street_1"
+          street2 o = do
+            mStreet2 <- o .:? "street2"
+            case mStreet2 of
+              Just s2 -> pure $ Just s2
+              Nothing -> o .:? "street_2"
+
+
+-- ------------------- --
+--  FALLBACK TEMPLATE  --
+-- ------------------- --
+
+-- | Fallback template-like contents. Just a mess of stuff that might mean something.
+data Fallback = Fallback
+    { fTitle :: Maybe Text -- ^ Title of attachment (optional)
+    , fUrl :: Maybe URL -- ^ URL of attachment (optional)
+    , fPayload :: Maybe Text -- ^ Payload of attachment (optional)
+    } deriving (Eq, Show, Read, Ord)
+
+instance FromJSON Fallback where
+  parseJSON = checkValue
+      "Fallback"
+      "type"
+     ("fallback" :: Text)
+     $ \o -> Fallback <$> o .:? "title"
+                      <*> o .:? "url"
+                      <*> o .:? "payload"
+
+instance ToJSON Fallback where
+  toJSON (Fallback title url payload) =
+      object' [ "type"    .=! String "fallback"
+              , "title"   .=!! title
+              , "url"     .=!! url
+              , "payload" .=!! payload
+              ]

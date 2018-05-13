@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
 module Main where
 
 
@@ -9,7 +8,7 @@ import Aeson ( callbackTests
              , responseTests
              , staticTests
              )
-import UnitTest (profileRequestTest, shortHandTests)
+import UnitTest
 
 
 main :: IO ()
@@ -30,5 +29,6 @@ aesonTests = Tasty.testGroup "Aeson"
 unitTests :: TestTree
 unitTests = Tasty.testGroup "Unit Tests"
     [ profileRequestTest
-    , shortHandTests
+    , shortFunctionTests
+    , parseCallbackTests
     ]

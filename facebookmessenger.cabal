@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                facebookmessenger
-version:             0.7.0.0
+version:             0.7.1.0
 synopsis:            Facebook Messenger Platform API
 description:         Data types, From- and ToJSON instances and helper functions for the Facebook Messenger Platform
 license:             MIT
@@ -37,6 +37,7 @@ library
                        Web.Facebook.Messenger.Types.Callbacks.PolicyEnforcement
                        Web.Facebook.Messenger.Types.Callbacks.AppRoles
                        Web.Facebook.Messenger.Types.Callbacks.PassThreadControl
+                       Web.Facebook.Messenger.Types.Callbacks.RequestThreadControl
                        Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl
 
                        Web.Facebook.Messenger.Types.Requests
@@ -93,8 +94,9 @@ test-suite facebookmessenger-test
                     , template-haskell
                     , text
 --                    , time
---                    , unordered-containers
+                    , unordered-containers
 --                    , vector
+                    , yaml
   other-modules:      Aeson
                     , Instances
                     , Instances.Callback
@@ -102,7 +104,21 @@ test-suite facebookmessenger-test
                     , Instances.Response
                     , Instances.Static
                     , UnitTest
+                    , UnitTest.CallbackParse
+                    , UnitTest.CallbackParse.AccountLinking
+                    , UnitTest.CallbackParse.AppRoleCallback
+                    , UnitTest.CallbackParse.CheckoutUpdate
+                    , UnitTest.CallbackParse.DeliveryCallback
+                    , UnitTest.CallbackParse.EchoCallback
+                    , UnitTest.CallbackParse.MessageCallback
+                    , UnitTest.CallbackParse.PostbackCallback
+                    , UnitTest.CallbackParse.ReadCallback
+                    , UnitTest.CallbackParse.ReferralCallback
+                    , UnitTest.CallbackParse.ThreadControl
+                    , UnitTest.Internal
                     , UnitTest.ProfileRequest
+                    , UnitTest.ShortFunction
                     , Util.Testing.Aeson
   ghc-options:        -threaded -rtsopts -with-rtsopts=-N
-  default-language:   Haskell2010
+  default-language:    Haskell2010
+  default-extensions:  OverloadedStrings

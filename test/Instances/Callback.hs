@@ -11,7 +11,7 @@ import Test.QuickCheck
 import Test.QuickCheck.Arbitrary.Generic
 import Test.QuickCheck.Instances()
 
-import Instances.Request()
+import Instances.Request
 import Instances.Static()
 import Web.Facebook.Messenger
 
@@ -117,16 +117,6 @@ instance Arbitrary CallbackCoordinates where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic MessageFallback
-instance Arbitrary MessageFallback where
-  arbitrary = genericArbitrary
-  shrink = genericShrink
-
-deriving instance Generic CallbackFallback
-instance Arbitrary CallbackFallback where
-  arbitrary = genericArbitrary
-  shrink = genericShrink
-
 deriving instance Generic CallbackMessaging
 instance Arbitrary CallbackMessaging where
   arbitrary = genericArbitrary
@@ -180,7 +170,6 @@ instance Arbitrary Echo where
                    <*> arbitrary
                    <*> arbitrary
                    <*> arbitrary
-                   <*> arbitrary
   shrink = genericShrink
 
 deriving instance Generic EchoContent
@@ -199,9 +188,17 @@ instance Arbitrary EchoAttachment where
   arbitrary = EchoAttachment . take 5 . getNonEmpty <$> arbitrary
   shrink = genericShrink
 
+-- Also limited to 5 for speed
+deriving instance Generic EchoButton
+instance Arbitrary EchoButton where
+  arbitrary = f <$> arbitrary <*> arbitrary
+    where f t = EchoButton t . limitNEList 5
+  shrink = genericShrink
+
 deriving instance Generic EchoFallback
 instance Arbitrary EchoFallback where
-  arbitrary = EchoFallback . getNonEmpty <$> arbitrary
+  arbitrary = f <$> arbitrary <*> arbitrary
+    where f x = EchoFallback x . getNonEmpty
   shrink = genericShrink
 
 deriving instance Generic Fallback
@@ -216,6 +213,11 @@ instance Arbitrary Optin where
 
 deriving instance Generic PassThread
 instance Arbitrary PassThread where
+  arbitrary = genericArbitrary
+  shrink = genericShrink
+
+deriving instance Generic RequestThread
+instance Arbitrary RequestThread where
   arbitrary = genericArbitrary
   shrink = genericShrink
 

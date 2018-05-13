@@ -1,0 +1,20 @@
+# Video sent by user
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1524463431537,
+  "message": {
+    "mid": "mid.$cAAFSt2aYrFJpI8x3ci8RnJfhPTsQ",
+    "seq": 2869,
+    "attachments": [{
+      "type": "video",
+      "payload": {
+        "url": "https:\/\/video-ort2-2.xx.fbcdn.net\/v\/t42.3356-2\/31126804_1758684374210244_6397927484334269799_n.mp4\/video-1524463431.mp4?_nc_cat=0&vabr=88639&oh=b5ccd0dbf1547bbf3b1c9fcaf4007cd3&oe=5ADF020B"
+      }
+    }]
+  }
+}

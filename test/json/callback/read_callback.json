@@ -1,0 +1,14 @@
+# READ Message
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1518439572105,
+  "read": {
+    "watermark": 1518439571400,
+    "seq": 0
+  }
+}

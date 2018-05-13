@@ -105,3 +105,8 @@ deriving instance Generic WebviewShareType
 instance Arbitrary WebviewShareType where
   arbitrary = genericArbitrary
   shrink = genericShrink
+
+deriving instance Generic PriorMessageType
+instance Arbitrary PriorMessageType where
+  arbitrary = genericArbitrary
+  shrink = genericShrink

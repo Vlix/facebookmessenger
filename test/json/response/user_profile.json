@@ -1,0 +1,11 @@
+# USER PROFILE Response
+{
+  "first_name": "Felix",
+  "last_name": "Paulusma",
+  "profile_pic": "https://lookaside.facebook.com/platform/profilepic/?psid=1276746709083699&width=1024&ext=1526314033&hash=AeS3QpAR7PtwXufo",
+  "gender": "male",
+  "locale": "en_GB",
+  "timezone": 2,
+  "is_payment_enabled": true,
+  "id": "1276746709083699"
+}

@@ -31,7 +31,8 @@ import Web.Facebook.Messenger.Types.Static
 
 -- | Template for sending a bubble with text and 1-3 buttons to a user
 data ButtonTemplate = ButtonTemplate
-    { btText :: Text -- ^ UTF-8-encoded text of up to 640 characters that appears above the buttons
+    { btText :: Text
+    -- ^ UTF-8-encoded text of up to 640 characters that appears above the buttons
     , btButtons :: NonEmpty TemplateButton -- ^ Set of 1-3 buttons that appear as call-to-actions
     } deriving (Eq, Show, Read, Ord)
 

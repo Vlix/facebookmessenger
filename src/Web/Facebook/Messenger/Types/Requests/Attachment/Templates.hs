@@ -101,20 +101,20 @@ import Web.Facebook.Messenger.Types.Static
 
 -- | Constructor for a Button `TemplatePayload` ("ButtonTemplate")
 buttonTemplateP :: Text -- ^ /UTF-8-encoded text of up to 640 characters that appears above the buttons/
-               -> NonEmpty TemplateButton -- ^ /Set of 1-3 buttons that appear as call-to-actions/
-               -> TemplatePayload
+                -> NonEmpty TemplateButton -- ^ /Set of 1-3 buttons that appear as call-to-actions/
+                -> TemplatePayload
 buttonTemplateP title = TButton . ButtonTemplate title
 
 
 -- | Constructor for a Generic `TemplatePayload`
 genericTemplateP :: Bool
-                -- ^ /Set to `False` to disable the native share button in Messenger for the template message./
-                -- /(Though I think the default is False)/
-                -> ImageAspectRatioType
-                -- ^ /Aspect ratio used to render images specified by image_url in element objects./
-                -- /Must be `HORIZONTAL` or `SQUARE`. Default is `HORIZONTAL`./
-                -> NonEmpty GenericElement -- ^ /Data for each bubble in message (Limited to 10)/
-                -> TemplatePayload
+                 -- ^ /Set to `False` to disable the native share button in Messenger for the template message./
+                 -- /(Though I think the default is False)/
+                 -> ImageAspectRatioType
+                 -- ^ /Aspect ratio used to render images specified by image_url in element objects./
+                 -- /Must be `HORIZONTAL` or `SQUARE`. Default is `HORIZONTAL`./
+                 -> NonEmpty GenericElement -- ^ /Data for each bubble in message (Limited to 10)/
+                 -> TemplatePayload
 genericTemplateP share aspectRatio = TGeneric . GenericTemplate share aspectRatio
 
 -- | Shortcut for a default Generic `TemplatePayload`

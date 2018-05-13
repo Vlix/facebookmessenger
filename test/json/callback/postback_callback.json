@@ -1,0 +1,14 @@
+# POSTBACK Message
+{
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1520151355121,
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "postback": {
+    "payload": "getstarted",
+    "title": "Aan de slag"
+  }
+}

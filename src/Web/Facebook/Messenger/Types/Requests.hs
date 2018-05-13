@@ -12,7 +12,7 @@ module Web.Facebook.Messenger.Types.Requests (
   --
   -- | Most requests are sent to the following URL (or a variation thereof):
   --
-  -- @https:\/\/graph.facebook.com\/v2.6\/me\/@__{some method}__@?access_token=\<PAGE_ACCESS_TOKEN\>@__(&{some optional fields}={some values})__
+  -- @https:\/\/graph.facebook.com\/v2.12\/me\/@__{some method}__@?access_token=\<PAGE_ACCESS_TOKEN\>@__(&{some optional fields}={some values})__
 
   -- ** Send API Request
   --
@@ -26,8 +26,9 @@ module Web.Facebook.Messenger.Types.Requests (
   , recipientRef
   , RequestRecipient (..)
   , RecipientID (..)
-  , RecipientPhone (..)
   , RecipientRef (..)
+  , RecipientPhone (..)
+  , RecipientName (..)
   -- ** Attachment Upload API
   --
   -- | POST to @.../message_attachments?access_token=\<PAGE_ACCESS_TOKEN\>@
@@ -45,9 +46,10 @@ module Web.Facebook.Messenger.Types.Requests (
   --
   -- |
   -- * /Pass Thread/: POST to @.../pass_thread_control?access_token=\<PAGE_ACCESS_TOKEN\>@
+  -- * /Request Thread/: POST to @.../request_thread_control?access_token=\<PAGE_ACCESS_TOKEN\>@
   -- * /Take Thread/: POST to @.../take_thread_control?access_token=\<PAGE_ACCESS_TOKEN\>@
   , PassThreadControlRequest (..)
-  , TakeThreadControlRequest (..)
+  , ThreadControlRequest (..)
   -- * Exported modules
   , module Web.Facebook.Messenger.Types.Requests.Extra
   , module Web.Facebook.Messenger.Types.Requests.Message
@@ -141,14 +143,22 @@ newtype RecipientID = RecipientID { recipId :: Text }
 -- This is only for US based users and your bot needs the @"pages_messaging_phone_number"@ permission.
 --
 -- https://developers.facebook.com/docs/messenger-platform/identity/customer-matching
-recipientPhone :: Text -> RequestRecipient
-recipientPhone = RPhone . RecipientPhone
+recipientPhone :: Text -> Maybe RecipientName -> RequestRecipient
+recipientPhone number = RPhone . RecipientPhone number
 
 -- | Identifying a user by their phone number. Only for USA users/developers.
 --
 -- Format: @+1 (555) 857-6309@
-newtype RecipientPhone = RecipientPhone { recipPhone :: Text }
-  deriving (Eq, Show, Read, Ord)
+data RecipientPhone = RecipientPhone
+  { recipPhone :: Text
+  , recipName :: Maybe RecipientName
+  } deriving (Eq, Show, Read, Ord)
+
+-- | Name provided if possible when matching customers using phone numbers.
+data RecipientName = RecipientName
+  { rnFirstName :: Text
+  , rnLastName :: Text
+  } deriving (Eq, Show, Read, Ord)
 
 -- | Constructor for making a @"user_ref"@ `RequestRecipient`.
 -- Use this only when a user enters your bot through the @Checkbox plugin@
@@ -197,14 +207,16 @@ data PassThreadControlRequest = PassThreadControlRequest
     , pcrMetaData :: Maybe Text -- ^ Metadata passed to the receiving app in the @"pass_thread_control"@ webhook event.
     } deriving (Eq, Show, Read, Ord)
 
--- | Part of the Handover Protocol, take thread control allows the Primary Receiver app
--- to take control of a specific thread from a Secondary Receiver app.
--- The Secondary Receiver app will receive a @"take_thread_control"@ webhook event when it loses thread control.
+-- | Part of the Handover Protocol, take/request thread control allows the Primary Receiver app
+-- to take/request control of a specific thread from a Secondary Receiver app.
+-- The Secondary Receiver app will receive a @"take_thread_control" or "request_thread_control"@
+-- webhook event when it loses thread control or is requested to be passed thread control.
 --
--- @https://developers.facebook.com/docs/messenger-platform/reference/handover-protocol/take-thread-control@
-data TakeThreadControlRequest = TakeThreadControlRequest
-    { tcrRecipient :: RecipientID -- ^ User who's thread is taken control over
-    , tcrMetaData :: Maybe Text -- ^ Metadata passed back to the secondary app in the @take_thread_control@ webhook event.
+-- * @https://developers.facebook.com/docs/messenger-platform/handover-protocol/request-thread-control@
+-- * @https://developers.facebook.com/docs/messenger-platform/handover-protocol/take-thread-control@
+data ThreadControlRequest = ThreadControlRequest
+    { tcrRecipient :: RecipientID -- ^ User who's thread is taken control over or of which control is requested
+    , tcrMetaData :: Maybe Text -- ^ Metadata passed back to the secondary app in the webhook event.
     } deriving (Eq, Show, Read, Ord)
 
 
@@ -242,7 +254,17 @@ instance ToJSON RecipientRef where
   toJSON (RecipientRef userRef) = object [ "user_ref" .= userRef]
 
 instance ToJSON RecipientPhone where
-  toJSON (RecipientPhone phone) = object [ "phone" .= phone ]
+  toJSON (RecipientPhone phone mName) =
+      object' [ "phone" .=! phone
+              , "name" .=!! mName
+              ]
+
+instance ToJSON RecipientName where
+  toJSON (RecipientName fName lName) =
+      object [ "first_name" .= fName
+             , "last_name" .= lName
+             ]
+
 
 instance ToJSON AttachmentUploadRequest where
   toJSON (AttachmentUploadRequest typ url) =
@@ -272,8 +294,8 @@ instance ToJSON PassThreadControlRequest where
               , "metadata" .=!! metadata
               ]
 
-instance ToJSON TakeThreadControlRequest where
-  toJSON (TakeThreadControlRequest recpnt metadata) =
+instance ToJSON ThreadControlRequest where
+  toJSON (ThreadControlRequest recpnt metadata) =
       object' [ "recipient" .=! recpnt
               , "metadata" .=!! metadata
               ]
@@ -314,6 +336,12 @@ instance FromJSON RecipientRef where
 instance FromJSON RecipientPhone where
   parseJSON = withObject "RecipientPhone" $ \o ->
       RecipientPhone <$> o .: "phone"
+                     <*> o .:? "name"
+
+instance FromJSON RecipientName where
+  parseJSON = withObject "RecipientName" $ \o ->
+      RecipientName <$> o .: "first_name"
+                    <*> o .: "last_name"
 
 instance FromJSON AttachmentUploadRequest where
   parseJSON = withObject "AttachmentUploadRequest" $ \o -> do
@@ -342,7 +370,7 @@ instance FromJSON PassThreadControlRequest where
                                <*> o .: "target_app_id"
                                <*> o .:? "metadata"
 
-instance FromJSON TakeThreadControlRequest where
-  parseJSON = withObject "TakeThreadControlRequest" $ \o ->
-      TakeThreadControlRequest <$> o .: "recipient"
+instance FromJSON ThreadControlRequest where
+  parseJSON = withObject "ThreadControlRequest" $ \o ->
+      ThreadControlRequest <$> o .: "recipient"
                                <*> o .:? "metadata"

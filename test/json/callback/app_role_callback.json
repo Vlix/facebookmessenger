@@ -1,0 +1,11 @@
+# APP ROLES Message
+{
+  "recipient":{
+    "id":"234554838031189"
+  },
+  "timestamp":1458692752478,
+  "app_roles":{
+    "123456789":["primary_receiver"],
+    "098765432":["secondary_receiver"]
+  }
+}

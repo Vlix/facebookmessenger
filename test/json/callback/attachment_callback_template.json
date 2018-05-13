@@ -1,0 +1,33 @@
+# Shared template by user
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1497895209689,
+  "message": {
+    "mid": "mid.$cAAD2N5dYXFdi8shS2VcwYMKB82oI",
+    "seq": 126384,
+    "attachments": [{
+      "title": "<SOME_TITLE>",
+      "url": "https:\/\/www.example.com\/",
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "sharable": true,
+        "elements": [{
+          "title": "<ELEMENT_TITLE>",
+          "item_url": "http:\/\/www.example.com\/",
+          "image_url": "https:\/\/www.example.com\/some_image.jpg",
+          "subtitle": " ",
+          "default_action": {
+            "type": "web_url",
+            "url": "http:\/\/www.example.com\/"
+          }
+        }]
+      }
+    }]
+  }
+}

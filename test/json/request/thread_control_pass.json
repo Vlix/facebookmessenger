@@ -1,0 +1,8 @@
+# PASS THREAD CONTROL Request
+{
+  "recipient":{
+    "id":"<PSID>"
+  },
+  "target_app_id":123456789,
+  "metadata":"String to pass to secondary receiver app"
+}

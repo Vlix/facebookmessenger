@@ -1,0 +1,18 @@
+# MINIMAL GENERIC TEMPLATE Request
+{
+  "message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [{
+            "title": "Missoni Home Giacomo badserie",
+          }]
+      }
+    }
+  },
+  "messaging_type": "RESPONSE",
+  "recipient": {
+    "id": "1558445094245238"
+  }
+}

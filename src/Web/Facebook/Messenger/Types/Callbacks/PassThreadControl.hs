@@ -22,11 +22,12 @@ import Data.Aeson
 import Data.Text (Text)
 
 import Web.Facebook.Messenger.Types.Requests (AppId)
+import Web.Facebook.Messenger.Types.Static
 
 -- | This callback will occur when thread ownership for a user has been passed to your application.
 data PassThread = PassThread
     { ptNewOwnderAppId :: AppId -- ^ App ID of the app receiving control over this user's thread
-    , ptMetaData :: Text -- ^ Optional free form data sent from the control passing app
+    , ptMetaData :: Maybe Text -- ^ Optional free form data sent from the control passing app
     } deriving (Eq, Show, Read, Ord)
 
 
@@ -36,11 +37,11 @@ data PassThread = PassThread
 
 instance ToJSON PassThread where
   toJSON (PassThread appid metadata) =
-      object [ "new_owner_app_id" .= appid
-             , "metadata" .= metadata
-             ]
+      object' [ "new_owner_app_id" .=! appid
+              , "metadata" .=!! metadata
+              ]
 
 instance FromJSON PassThread where
   parseJSON = withObject "PassThread" $ \o ->
       PassThread <$> o .: "new_owner_app_id"
-                 <*> o .: "metadata"
+                 <*> o .:? "metadata"

@@ -1,0 +1,13 @@
+# SECONDARY RECEIVER Response
+{
+  "data":[
+    {
+      "id":"12345678910",
+      "name":"David's Composer"
+    },
+    {
+      "id":"23456789101",
+      "name":"Messenger Rocks"
+    }
+  ]
+}

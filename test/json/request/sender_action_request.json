@@ -1,0 +1,7 @@
+# SENDER ACTION Request
+{
+  "recipient":{
+    "id":"<PSID>"
+  },
+  "sender_action":"typing_on"
+}

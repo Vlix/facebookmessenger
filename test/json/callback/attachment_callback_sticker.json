@@ -1,0 +1,22 @@
+# Sticker sent by user
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1486142376165,
+  "message": {
+    "mid": "mid.1482142576415:5aaf79ce93",
+    "seq": 31674,
+    "sticker_id": 369239263222822,
+    "attachments": [{
+      "type": "image",
+      "payload": {
+        "url": "https:\/\/scontent.xx.fbcdn.net\/v\/t39.1997-6\/851557_369239266556155_759568595_n.png?_nc_ad=z-m&oh=6db01d9d3eb168d058cbb2d6692af58f&oe=58978D5C",
+        "sticker_id": 369239263222822
+      }
+    }]
+  }
+}

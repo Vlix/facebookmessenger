@@ -1,0 +1,67 @@
+# BUTTON Types
+[
+  {
+    "type": "account_unlink"
+  },
+  {
+    "type": "account_link",
+    "url": "<YOUR_LOGIN_URL>"
+  },
+  {
+    "type":"phone_number",
+    "title":"<BUTTON_TEXT>",
+    "payload":"<PHONE_NUMBER>"
+  },
+  {
+    "type":"payment",
+    "title":"<BUTTON_TEXT>",
+    "payload":"<STRING_SENT_TO_WEBHOOK>",
+    "payment_summary":{
+      "currency":"EUR",
+      "payment_type":"FIXED_AMOUNT>",
+      "is_test_payment" : false,
+      "merchant_name":"<YOUR_BUSINESS_NAME>",
+      "requested_user_info":[
+        "shipping_address",
+        "contact_name",
+        "contact_phone",
+        "contact_email"
+      ],
+      "price_list":[
+        {
+          "label":"<ITEM_NAME>",
+          "amount":"<ITEM_PRICE>"
+        }
+      ]
+    }
+  },
+  {
+    "type": "element_share",
+    "share_contents": {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [
+            {
+              "title": "just some title"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "element_share"
+  },
+  {
+    "type": "postback",
+    "title": "<BUTTON_TEXT>",
+    "payload": "<STRING_SENT_TO_WEBHOOK>"
+  },
+  {
+    "type": "web_url",
+    "url": "<URL_TO_OPEN_IN_WEBVIEW>",
+    "title": "<BUTTON_TEXT>",
+  }
+]

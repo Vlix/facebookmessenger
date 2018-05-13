@@ -1,0 +1,29 @@
+# PRE CHECKOUT Message
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1473208792799,
+  "pre_checkout": {
+    "payload": "xyz",
+    "requested_user_info": {
+      "shipping_address": {
+        "name": "Tao Jiang",
+        "street_1": "600 Edgewater Blvd",
+        "street_2": "",
+        "city": "Foster City",
+        "state": "CA",
+        "country": "US",
+        "postal_code": "94404"
+      },
+      "contact_name": "Tao Jiang"
+    },
+    "amount": {
+      "currency": "USD",
+      "amount": "2.70"
+    }
+  }
+}

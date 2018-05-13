@@ -1,0 +1,12 @@
+# MAXIMAL TEXT Request
+{
+  "recipient":{
+    "id":"<PSID>"
+  },
+  "messaging_type": "MESSAGE_TAG",
+  "notification_type": "SILENT_PUSH",
+  "message":{
+    "text": "Here is a quick reply!"
+  },
+  "tag": "SHIPPING_UPDATE"
+}

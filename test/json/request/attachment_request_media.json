@@ -1,0 +1,15 @@
+# VIDEO ATTACHMENT Request
+{
+  "recipient":{
+    "id":"<PSID>"
+  },
+  "messaging_type": "RESPONSE",
+  "message":{
+    "attachment":{
+      "type":"video",
+      "payload":{
+        "url":"http:\/\/www.example.com\/video.mp4"
+      }
+    }
+  }
+}

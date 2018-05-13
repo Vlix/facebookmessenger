@@ -1,0 +1,19 @@
+# POSTBACK Message w/ referral
+{
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1520151355121,
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "postback": {
+    "referral": {
+      "ref": "<REF_DATA_PASSED_IN_CODE>",
+      "source": "CUSTOMER_CHAT_PLUGIN",
+      "type": "OPEN_THREAD",
+      "referer_uri": "https://some.website.com/chat/page.html"
+    },
+    "title": null
+  }
+}

@@ -1,0 +1,22 @@
+## ECHO w/ fallback template
+{
+  "sender": {
+    "id": "234554838031189"
+  },
+  "recipient": {
+    "id": "1739141089378194"
+  },
+  "timestamp": 1525703917372,
+  "message": {
+    "is_echo": true,
+    "mid": "mid.$cAAFSsSdQ77ZpbE-HPajOwo1gvowP",
+    "seq": 1716,
+    "text": "some optional text",
+    "attachments": [{
+      "title": "<FALLBACK TITLE>",
+      "url": "<FALLBACK URL>",
+      "type": "fallback",
+      "payload": null
+    }]
+  }
+}

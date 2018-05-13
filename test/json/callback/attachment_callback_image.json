@@ -1,0 +1,20 @@
+# IMAGE ATTACHMENT Callback
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1521927088604,
+  "message": {
+    "mid": "mid.$cAAFSuiOlE3doibGxAFiWxoQ_dosX",
+    "seq": 9583,
+    "attachments": [{
+      "type": "image",
+      "payload": {
+        "url": "https:\/\/scontent-ort2-2.xx.fbcdn.net\/v\/t34.0-12\/29138552_211240296290531_291369741_n.jpg?_nc_cat=0&_nc_ad=z-m&_nc_cid=0&oh=65d9fcb6baefd7481f5dc477a76571c3&oe=5AB85055"
+      }
+    }]
+  }
+}

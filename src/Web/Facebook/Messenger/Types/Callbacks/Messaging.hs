@@ -50,11 +50,11 @@ module Web.Facebook.Messenger.Types.Callbacks.Messaging (
   , module Web.Facebook.Messenger.Types.Callbacks.PolicyEnforcement
   , module Web.Facebook.Messenger.Types.Callbacks.AppRoles
   , module Web.Facebook.Messenger.Types.Callbacks.PassThreadControl
+  , module Web.Facebook.Messenger.Types.Callbacks.RequestThreadControl
   , module Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl
   ) where
 
 import Control.Applicative ((<|>))
-import Control.Monad (when)
 import Data.Aeson
 import Data.HashMap.Strict as HM
 import Data.Text (Text)
@@ -73,6 +73,7 @@ import Web.Facebook.Messenger.Types.Callbacks.AccountLink
 import Web.Facebook.Messenger.Types.Callbacks.PolicyEnforcement
 import Web.Facebook.Messenger.Types.Callbacks.AppRoles
 import Web.Facebook.Messenger.Types.Callbacks.PassThreadControl
+import Web.Facebook.Messenger.Types.Callbacks.RequestThreadControl
 import Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl
 import Web.Facebook.Messenger.Types.Static
 
@@ -86,9 +87,9 @@ import Web.Facebook.Messenger.Types.Static
 -- * the recipient (the Facebook page the message was sent to)
 -- * the sender (a Page-Scoped ID of a user)
 --
--- The sender is absent in a few cases (e.g. `Optin`s from a @Checkbox@ plugin callback).
+-- The sender is absent in a few cases (e.g. App Roles callback).
 --
--- The timestamp can also be absent (e.g. callbacks form the `Delivery` webhook).
+-- The timestamp can also be absent (e.g. callbacks from the `Delivery` webhook).
 data CallbackMessaging = CallbackMessaging
     { sender :: Maybe CallbackSender -- ^ the sending user's PSID
     , recipient :: CallbackRecipient -- ^ the receiving page ID
@@ -115,6 +116,7 @@ data CallbackContent =
   | CMPolicy PolicyEnforcement -- ^ (Un\/)Block notification
   | CMAppRoles AppRoles -- ^ Part of thread control
   | CMPassThread PassThread -- ^ Part of thread control
+  | CMRequestThread RequestThread -- ^ Part of thread control
   | CMTakeThread TakeThread -- ^ Part of thread control
   | CMMsgAccept -- ^ Customer Matching accepted
   deriving (Eq, Show, Read)
@@ -132,10 +134,14 @@ newtype CallbackRecipient =
 
 -- | Indicates the @user-ref@ this user is linked to
 -- so you can link their PSID with the earlier used @user-ref@
+-- when @source == "checkbox_plugin"@
 --
--- (only uses "checkbox_plugin" at the moment)
-newtype PriorMessage = PriorMessage { identifier :: Text }
-  deriving (Eq, Show, Read, Ord)
+-- Indicates the phone number of the user when
+-- triggered through @customer_matching@
+data PriorMessage = PriorMessage
+  { source :: PriorMessageType
+  , identifier :: Text
+  } deriving (Eq, Show, Read, Ord)
 
 
 -- --------------------- --
@@ -165,6 +171,7 @@ instance FromJSON CallbackContent where
       <|> CMPolicy <$> o .: "policy-enforcement"
       <|> CMAppRoles <$> o .: "app_roles"
       <|> CMPassThread <$> o .: "pass_thread_control"
+      <|> CMRequestThread <$> o .: "request_thread_control"
       <|> CMTakeThread <$> o .: "take_thread_control"
       <|> tryMatch o
     where tryMessage o = do
@@ -190,11 +197,9 @@ instance FromJSON CallbackRecipient where
     CallbackRecipient <$> o .: "id"
 
 instance FromJSON PriorMessage where
-  parseJSON = withObject "PriorMessage" $ \o -> do
-    source <- o .: "source"
-    when (source /= String "checkbox_plugin") $
-      fail "source is not \"checkbox_plugin\""
-    PriorMessage <$> o .: "identifier"
+  parseJSON = withObject "PriorMessage" $ \o ->
+    PriorMessage <$> o .: "source"
+                 <*> o .: "identifier"
 
 
 instance ToJSON CallbackMessaging where
@@ -224,6 +229,7 @@ instance ToJSON CallbackContent where
                   CMPolicy cb -> "policy-enforcement" .= cb
                   CMAppRoles cb -> "app_roles" .= cb
                   CMPassThread cb -> "pass_thread_control" .= cb
+                  CMRequestThread cb -> "request_thread_control" .= cb
                   CMTakeThread cb -> "take_thread_control" .= cb
                   CMMsgAccept -> "message_request" .= String "accept"
 
@@ -237,7 +243,7 @@ instance ToJSON CallbackRecipient where
   toJSON (CallbackRecipient ident) = object [ "id" .= ident ]
 
 instance ToJSON PriorMessage where
-  toJSON (PriorMessage ident) =
-      object [ "source" .= String "checkbox_plugin"
+  toJSON (PriorMessage typ ident) =
+      object [ "source" .= typ
              , "identifier" .= ident
              ]

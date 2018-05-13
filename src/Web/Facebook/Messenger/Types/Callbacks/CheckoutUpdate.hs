@@ -63,14 +63,11 @@ instance FromJSON CheckoutUpdate where
       case shipAddr of
         Object ob -> do
             ident <- ob .: "id"
-            case ident of
-              i@(Number _) ->
-                  CheckoutUpdate <$> o .: "payload"
-                                 <*> fmap (pack . show) (parseJSON i :: Parser Integer)
-                                 <*> o .: "shipping_address"
-              (String t) ->
-                  CheckoutUpdate <$> o .: "payload"
-                                 <*> pure t
-                                 <*> o .: "shipping_address"
-              _ -> fail "CheckoutUpdate: invalid type in \"id\" field."
+            shipId <- case ident of
+                        i@(Number _) -> pack . show <$> (parseJSON i :: Parser Integer)
+                        (String t) -> pure t
+                        _ -> fail "CheckoutUpdate: invalid type in \"id\" field."
+            CheckoutUpdate <$> o .: "payload"
+                           <*> pure shipId
+                           <*> o .: "shipping_address"
         _ -> fail "CheckoutUpdate: \"shipping_address\" value not an object."

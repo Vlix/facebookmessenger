@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
 module UnitTest.ProfileRequest (
   profileRequestTest
   ) where
@@ -53,14 +52,17 @@ testPersistentMenu = testCase "Persistent menu concatinates lists" $
     persistentMenu [thirdSetting] @?= finalPersistentMenu
   where firstSetting = PersistentMenuSetting Nothing False
           [persistentUrlItem_ "test" "https://test.net/"]
+          False
         secondSetting = PersistentMenuSetting (Just "nl_NL") True
           [persistentPostbackItem "click" "somemetadatahere"]
+          True
         thirdSetting = PersistentMenuSetting Nothing True
           [persistentNestedItem "testNested"
             [persistentUrlItem "test2" "http://bleh.us/somewhere" COMPACT False Nothing HIDE
             ,persistentPostbackItem "click2" "somemoremetadatahere"
             ]
           ]
+          False
         finalPersistentMenu = persistentMenu
           [firstSetting, secondSetting, thirdSetting]
 
@@ -122,6 +124,7 @@ testMonoidRule = testCase "Profile request should stay the same if appended with
                                       ,persistentPostbackItem "click2" "somemoremetadatahere"
                                       ]
                                     ]
+                                    False
                                   ]
                 <> whiteListedDomains ["http://example.one.com/"]
                 <> accountLinkingUrl "http://trying.something.new/"

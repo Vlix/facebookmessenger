@@ -1,0 +1,20 @@
+## Audio sent by user
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1522751139155,
+  "message": {
+    "mid": "mid.$cAAFSsSTn2XdcvE-1U1i5wpqbrOHw",
+    "seq": 3808,
+    "attachments": [{
+      "type": "audio",
+      "payload": {
+        "url": "https:\/\/cdn.fbsbx.com\/v\/t59.3654-21\/29451513_1977941472233841_8301729723659059200_n.aac\/audioclip-1522751138417-2894.aac?_nc_cat=0&oh=a395e53726c98b7e0d60a5d30edcbeab&oe=5AC60884"
+      }
+    }]
+  }
+}

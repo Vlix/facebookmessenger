@@ -34,6 +34,7 @@ module Web.Facebook.Messenger.Types.Static (
   , RequestedUserInfoType (..)
   , AppRole (..)
   , AudienceType (..)
+  , PriorMessageType (..)
 
   -- * Helper functions
   --
@@ -62,10 +63,11 @@ where
 import Control.Monad (unless)
 import Data.Aeson
 import Data.Aeson.Types (Pair, Parser)
+import Data.Bifunctor (first)
 import Data.ByteString.Lazy (toStrict)
 import Data.Maybe (catMaybes)
 import Data.Monoid ((<>))
-import Data.Text (unpack, Text)
+import Data.Text (toUpper, unpack, Text)
 import Data.Text.Encoding (decodeUtf8)
 import qualified Data.HashMap.Strict as HM
 
@@ -173,6 +175,16 @@ withText' s tups = withText s $ \t ->
     case lookup t tups of
       Just val -> pure val
       _ -> fail $ "Wrong String for " <> s <> ": " <> unpack t
+
+withTextCI :: String -- ^ /reference in case the parsing fails/
+           -> [(Text, a)] -- ^ /lookup list of JSON String to sum type/
+           -> Value
+           -> Parser a
+withTextCI s tups = withText s $ \t ->
+    case lookItUp t of
+      Just val -> pure val
+      _ -> fail $ "Wrong String for " <> s <> ": " <> unpack t
+  where lookItUp t = toUpper t `lookup` (first toUpper <$> tups)
 
 
 -- | Set typing indicators or send read receipts to let users know you are processing their request.
@@ -316,7 +328,7 @@ instance ToJSON ReferralSource where
   toJSON CUSTOMER_CHAT_PLUGIN = String "CUSTOMER_CHAT_PLUGIN"
 
 instance FromJSON ReferralSource where
-  parseJSON = withText' "ReferralSource"
+  parseJSON = withTextCI "ReferralSource"
       [("SHORTLINK", SHORTLINK)
       ,("ADS", ADS)
       ,("MESSENGER_CODE", MESSENGER_CODE)
@@ -522,3 +534,18 @@ instance FromJSON WebviewShareType where
 instance ToJSON WebviewShareType where
   toJSON SHOW = String "show"
   toJSON HIDE = String "hide"
+
+-- | Whether to show or hide the share button used in webview windows
+data PriorMessageType = CheckBoxPlugin
+                      | CustomerMatching
+  deriving (Eq, Show, Read, Ord)
+
+instance FromJSON PriorMessageType where
+  parseJSON = withText' "PriorMessageType"
+        [("checkbox_plugin", CheckBoxPlugin)
+        ,("customer_matching", CustomerMatching)
+        ]
+
+instance ToJSON PriorMessageType where
+  toJSON CheckBoxPlugin = String "checkbox_plugin"
+  toJSON CustomerMatching = String "customer_matching"

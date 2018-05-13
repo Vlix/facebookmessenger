@@ -1,0 +1,15 @@
+# REFERRAL Message
+{
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1518442110333,
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "referral": {
+    "ref": "some_cta_or_another",
+    "source": "SHORTLINK",
+    "type": "OPEN_THREAD"
+  }
+}

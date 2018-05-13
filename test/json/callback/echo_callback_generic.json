@@ -1,0 +1,35 @@
+## ECHO w/ generic template
+{
+  "sender": {
+    "id": "234554838031189"
+  },
+  "recipient": {
+    "id": "1739141089378194"
+  },
+  "timestamp": 1526045536891,
+  "message": {
+    "is_echo": true,
+    "app_id": 743273262513025,
+    "mid": "mid.$cAAFSsZhFqTFpgKw6e1jT2bxuP4oa",
+    "attachments": [{
+      "title": "<TEMPLATE TITLE>",
+      "url": null,
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "sharable": true,
+        "elements": [{
+          "title": "<ELEMENT1>",
+          "image_url": "http:\/\/some.url.com/somewhere.jpg\/",
+          "subtitle": "<SUBTITLE>"
+        }, {
+          "title": "<ELEMENT2>",
+          "image_url": "http:\/\/some.url.com/somewhere_else.jpg\/"
+        }, {
+          "title": "<ELEMENT3>",
+          "subtitle": "<SUBTITLE>"
+        }]
+      }
+    }]
+  }
+}

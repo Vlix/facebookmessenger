@@ -25,8 +25,8 @@ module Web.Facebook.Messenger.Types.Callbacks.Echo (
   , EchoContent (..)
   , EchoText (..)
   , EchoAttachment (..)
+  , EchoButton (..)
   , EchoFallback (..)
-  , Fallback (..)
   )
 where
 
@@ -34,11 +34,14 @@ where
 import Control.Applicative ((<|>))
 import Data.Aeson
 import qualified Data.HashMap.Strict as HM
+import Data.List.NonEmpty (NonEmpty)
+import Data.Maybe (catMaybes)
 import Data.Text (Text)
 
 import Web.Facebook.Messenger.Types.Requests
 import Web.Facebook.Messenger.Types.Requests.Attachment (RequestAttachment)
-import Web.Facebook.Messenger.Types.Callbacks.Message (CallbackQuickReply(..), MessageId)
+import Web.Facebook.Messenger.Types.Requests.Extra (Fallback)
+import Web.Facebook.Messenger.Types.Callbacks.Message (MessageId)
 
 
 -- --------------- --
@@ -55,7 +58,6 @@ data Echo = Echo
     -- ^ Custom string passed to the Send API as the metadata field.
     -- Only present if the metadata property was set in the original message.
     , eMid :: MessageId -- ^ Message ID
-    , eQuickReply :: Maybe CallbackQuickReply -- ^ Present if the message sent had Quick Replies in it
     , eSeq :: Maybe Integer -- ^ Sequence number
     , eContent :: EchoContent -- ^ Contents of the Echo callback
     } deriving (Eq, Show, Read, Ord)
@@ -63,6 +65,7 @@ data Echo = Echo
 -- | Different kinds of Echo callbacks
 data EchoContent = EText EchoText -- ^ Regular message
                  | EAttachment EchoAttachment -- ^ Attachment message
+                 | EButton EchoButton -- ^ Button Template
                  | EFallback EchoFallback -- ^ Any other message
   deriving (Eq, Show, Read, Ord)
 
@@ -74,16 +77,16 @@ newtype EchoText = EchoText { eText :: Text }
 newtype EchoAttachment = EchoAttachment { eAttachments :: [RequestAttachment] }
   deriving (Eq, Show, Read, Ord)
 
--- | Fallback message
-newtype EchoFallback = EchoFallback { eFallback :: [Fallback] }
+data EchoButton = EchoButton { ebText :: Text
+                             , ebButtons :: NonEmpty TemplateButton
+                             }
   deriving (Eq, Show, Read, Ord)
 
--- | Fallback template-like contents. Just a mess of stuff that might mean something.
-data Fallback = Fallback
-    { fTitle :: Maybe Text -- ^ Title of attachment (optional)
-    , fUrl :: Maybe URL -- ^ URL of attachment (optional)
-    , fPayload :: Maybe Text -- ^ Payload of attachment (optional)
-    } deriving (Eq, Show, Read, Ord)
+-- | Fallback message
+data EchoFallback = EchoFallback { efText :: Maybe Text
+                                 , efFallback :: [Fallback]
+                                 }
+  deriving (Eq, Show, Read, Ord)
 
 
 -- ---------------- --
@@ -92,18 +95,25 @@ data Fallback = Fallback
 
 instance FromJSON Echo where
   parseJSON = withObject "Echo" $ \o -> do
-      mText <- o .:? "text"
-      content <- case mText of
-                    Just t -> pure $ EText $ EchoText t
-                    Nothing -> EAttachment <$> parseJSON (Object o)
-                           <|> EFallback <$> parseJSON (Object o)
+      content <- getEchoContent o
       Echo <$> o .: "is_echo"
            <*> o .:? "app_id"
            <*> o .:? "metadata"
            <*> o .: "mid"
-           <*> o .:? "quick-reply"
            <*> o .:? "seq"
            <*> pure content
+    where getEchoContent o = EFallback <$> parseJSON (Object o) <|> tryRegular
+            where tryRegular = do
+                    mText <- o .:? "text"
+                    case mText of
+                      Just t -> tryButton t o
+                            <|> pure (EText $ EchoText t)
+                      Nothing -> EAttachment <$> parseJSON (Object o)
+          tryButton t o = do
+              att <- o .: "attachments"
+              case att of
+                [a] -> a .: "payload" >>= \pl -> EButton . EchoButton t <$> pl .: "buttons"
+                _ -> fail "more than one attachment"
 
 instance FromJSON EchoText where
   parseJSON = withObject "EchoText" $ \o ->
@@ -119,33 +129,28 @@ instance FromJSON EchoAttachment where
 
 instance FromJSON EchoFallback where
   parseJSON = withObject "EchoFallback" $ \o ->
-      EchoFallback <$> o .: "attachments"
-
-
-instance FromJSON Fallback where
-  parseJSON = checkValue
-      "Fallback"
-      "type"
-     ("fallback" :: Text)
-     $ \o -> Fallback <$> o .:? "title"
-                      <*> o .:? "url"
-                      <*> o .:? "payload"
+      EchoFallback <$> o .:? "text"
+                   <*> o .: "attachments"
 
 
 instance ToJSON Echo where
-  toJSON echo = object' $ extra : basis
+  toJSON echo = Object $ HM.fromList (catMaybes basis) `HM.union` extra
    where
-    basis = [ "is_echo"     .=! eIsEcho echo
-            , "mid"         .=! eMid echo
-            , "app_id"      .=! eAppId echo
-            , "metadata"    .=!! eMetaData echo
-            , "quick-reply" .=!! eQuickReply echo
-            , "seq"         .=!! eSeq echo
+    basis = [ "is_echo" .=! eIsEcho echo
+            , "mid" .=! eMid echo
+            , "app_id" .=! eAppId echo
+            , "metadata" .=!! eMetaData echo
+            , "seq" .=!! eSeq echo
             ]
     extra = case eContent echo of
-        EText x -> "text" .=! eText x
-        EAttachment x -> "attachments" .=! eAttachments x
-        EFallback x -> "attachments" .=! eFallback x
+              EText x -> HM.fromList [ "text" .= eText x ]
+              EButton x | Object o <- toJSON x -> o
+                        | otherwise -> HM.empty
+              EAttachment x -> HM.fromList [ "attachments" .= eAttachments x ]
+              EFallback x -> HM.fromList . catMaybes $
+                                [ "text" .=!! efText x
+                                , "attachments" .=! efFallback x
+                                ]
 
 instance ToJSON EchoText where
   toJSON (EchoText txt) =
@@ -155,15 +160,21 @@ instance ToJSON EchoAttachment where
   toJSON (EchoAttachment atts) =
       object ["attachments" .= atts]
 
+instance ToJSON EchoButton where
+  toJSON (EchoButton txt btns) =
+      object [ "text" .= txt
+             , "attachments" .= [mkBtnTemplate]
+             ]
+    where  mkBtnTemplate = object [ "title" .= String ""
+                                  , "url" .= Null
+                                  , "type" .= String "template"
+                                  , "payload" .= object [ "template_type" .= String "button"
+                                                        , "buttons" .= btns
+                                                        ]
+                                  ]
+
 instance ToJSON EchoFallback where
-  toJSON (EchoFallback fbs) =
-      object ["attachments" .= fbs]
-
-
-instance ToJSON Fallback where
-  toJSON (Fallback title url payload) =
-      object' [ "type"    .=! String "fallback"
-              , "title"   .=!! title
-              , "url"     .=!! url
-              , "payload" .=!! payload
+  toJSON (EchoFallback mTxt fbs) =
+      object' [ "text" .=!! mTxt
+              , "attachments" .=! fbs
               ]

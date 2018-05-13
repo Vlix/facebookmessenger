@@ -1,0 +1,14 @@
+# REQUEST THREAD CONTROL
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp":1458692752478,
+  "request_thread_control":{
+    "requested_owner_app_id":"123456789",
+    "metadata":"additional content that the caller wants to set"
+  }
+}

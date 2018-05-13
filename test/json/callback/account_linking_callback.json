@@ -1,0 +1,14 @@
+# ACCOUNT LINKING Message
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp":1234567890,
+  "account_linking":{
+    "status":"linked",
+    "authorization_code":"PASS_THROUGH_AUTHORIZATION_CODE"
+  }
+}

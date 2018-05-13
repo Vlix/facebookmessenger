@@ -1,0 +1,19 @@
+# POSTBACK Message w/ referral
+{
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1520151355121,
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "postback": {
+    "payload": "getstarted",
+    "referral": {
+      "source": "SHORTLINK",
+      "type": "OPEN_THREAD",
+      "ref": "some_cta_or_another"
+    },
+    "title": "Aan de slag"
+  }
+}

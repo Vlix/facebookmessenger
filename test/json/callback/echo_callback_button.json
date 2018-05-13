@@ -1,0 +1,34 @@
+## ECHO w/ button template
+{
+  "sender":{
+    "id": "234554838031189"
+  },
+  "recipient":{
+    "id": "1739141089378194"
+  },
+  "timestamp": 1458696618268,
+  "message": {
+    "is_echo": true,
+    "app_id": 743273262513025,
+    "metadata": "<DEVELOPER_DEFINED_METADATA_STRING>",
+    "mid": "mid.1458696618141:b4ef9d19ec21086067",
+    "text": "Button text",
+    "attachments":[
+      {
+        "title": "",
+        "url": null,
+        "type": "template",
+        "payload": {
+          "template_type":"button",
+          "buttons":[
+            {
+              "type":"web_url",
+              "url":"https:\/\/www.messenger.com\/",
+              "title":"Visit Messenger"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

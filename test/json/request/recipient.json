@@ -1,0 +1,19 @@
+# RECIPIENT Types
+[
+  {
+    "user_ref":"<UNIQUE_REF_PARAM>"
+  },
+  {
+    "id":"<PAGE_ID>"
+  },
+  {
+    "phone_number":"<PHONE_NUMBER>"
+  },
+  {
+    "phone_number":"<PHONE_NUMBER>",
+    "name":{
+      "first_name":"<FIRST_NAME>",
+      "last_name":"<LAST_NAME>"
+    }
+  }
+]

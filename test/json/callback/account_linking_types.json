@@ -1,0 +1,8 @@
+## Link objects
+[{
+  "status":"linked",
+  "authorization_code":"PASS_THROUGH_AUTHORIZATION_CODE"
+},
+{
+  "status":"unlinked"
+}]

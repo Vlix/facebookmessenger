@@ -1,0 +1,15 @@
+# DELIVERY Message
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1488128564944,
+  "delivery": {
+    "mids": ["mid.1488128564673:5e67fce3a6"],
+    "watermark": 1488128564613,
+    "seq": 0
+  }
+}

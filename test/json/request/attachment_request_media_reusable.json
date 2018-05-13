@@ -1,0 +1,16 @@
+# ATTACHMENT w/ REUSABLE Request
+{
+  "recipient":{
+    "id":"<PSID>"
+  },
+  "messaging_type": "RESPONSE",
+  "message":{
+    "attachment":{
+      "type":"image",
+      "payload":{
+        "url":"http:\/\/www.example.com\/file.jpg",
+        "is_reusable": true
+      }
+    }
+  }
+}

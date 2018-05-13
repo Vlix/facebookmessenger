@@ -1,0 +1,18 @@
+# REGULAR TEXT w/ QR Callback
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1485785260154,
+  "message": {
+    "quick_reply": {
+      "payload": "some_payload"
+    },
+    "mid": "mid.1483715260354:77ac33da15",
+    "seq": 8668,
+    "text": "CLICK HERE"
+  }
+}

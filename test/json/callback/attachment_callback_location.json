@@ -1,0 +1,25 @@
+# Location sent by user
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1519133473383,
+  "message": {
+    "mid": "mid.$cAAFSsb24gKln5K6Sb1hshk46ukmJ",
+    "seq": 115715,
+    "attachments": [{
+      "title": "Someone's Location",
+      "url": "https:\/\/l.facebook.com\/l.php?u=https\u00253A\u00252F\u00252Fwww.bing.com\u00252Fmaps\u00252Fdefault.aspx\u00253Fv\u00253D2\u002526pc\u00253DFACEBK\u002526mid\u00253D8100\u002526where1\u00253D51.646976450773\u0025252C\u00252B5.0528658368055\u002526FORM\u00253DFBKPL1\u002526mkt\u00253Den-US&h=ATO8mjKxIPtTCK534QFCbz70LOJWeCX8xTJTXaGcIuxpjxGJwuvZayArRCwP-q3MoB-5JsTXE_pgBdYnj5BKB3GE8IAhYIFx0LcIV5WizlEyKyeYMFFGEOGg27GELo9P4dC9njkJRTaAqLEJ&s=1",
+      "type": "location",
+      "payload": {
+        "coordinates": {
+          "lat": 51.646976450773,
+          "long": 5.0528658368055
+        }
+      }
+    }]
+  }
+}

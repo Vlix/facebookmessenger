@@ -1,0 +1,20 @@
+# Shared template by user with fallback attachment
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1484828179384,
+  "message": {
+    "mid": "mid.1484828179384:02c39cc697",
+    "seq": 5322,
+    "attachments": [{
+      "title": "Check us out!",
+      "url": "https:\/\/www.facebook.com\/Thisisus\/",
+      "type": "fallback",
+      "payload": null
+    }]
+  }
+}

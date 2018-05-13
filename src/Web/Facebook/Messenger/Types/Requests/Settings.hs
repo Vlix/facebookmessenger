@@ -1,5 +1,5 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-
+{-# LANGUAGE LambdaCase #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Requests.Settings
 Copyright   : (c) Felix Paulusma, 2016
@@ -212,7 +212,7 @@ homeUrl_ url = homeUrl (HomeUrl url HIDE False)
 -- To set or update Messenger Profile properties you must have
 -- the \'Administrator\' role for the Page associated with the app.
 --
--- @https:\/\/graph.facebook.com\/v2.6\/me\/thread_settings?access_token=<PAGE_ACCESS_TOKEN>@
+-- @https:\/\/graph.facebook.com\/v2.12\/me\/thread_settings?access_token=<PAGE_ACCESS_TOKEN>@
 data ProfileRequest = ProfileRequest
     { prGreeting :: Maybe Greeting
     , prGetStarted :: Maybe GetStartedButton
@@ -331,6 +331,8 @@ data PersistentMenuSetting = PersistentMenuSetting
     -- A maximum of 3 items is allowed. A maximum of two nested menus are supported.
     --
     -- Required if 'pmsInputDisabled' is 'True'
+    , pmsChatPluginDisabled :: Bool
+    -- ^ If 'True', disables the persistent menu in the Customer Chat Plugin.
     } deriving (Eq, Show, Read, Ord)
 
 -- | Constructor for the URL 'PersistentMenuItem'
@@ -478,11 +480,12 @@ instance ToJSON GetStartedButton where
 
 
 instance ToJSON PersistentMenuSetting where
-  toJSON (PersistentMenuSetting mLocale input ctas) =
-      object' [ "locale" .=! fromMaybe ("default" :: Text) mLocale
-              , mDefault "composer_input_disabled" False input
-              , mEmptyList "call_to_actions" ctas
-              ]
+  toJSON (PersistentMenuSetting mLocale input ctas chatDisabled) =
+      object' $ [ "locale" .=! fromMaybe ("default" :: Text) mLocale
+                , mDefault "composer_input_disabled" False input
+                , mEmptyList "call_to_actions" ctas
+                ] ++
+                ["disabled_surfaces" .=! [CUSTOMER_CHAT_PLUGIN] | chatDisabled]
 
 instance ToJSON PersistentMenuItem where
   toJSON (PMIUrl x) = toJSON x
@@ -546,12 +549,18 @@ instance FromJSON GetStartedButton where
       GetStartedButton <$> o .: "payload"
 
 instance FromJSON PersistentMenuSetting where
-  parseJSON = withObject "PersistentMenuSetting" $ \o -> do
-      locale <- o .: "locale" :: Parser Text
-      let setLocale = if locale == "default" then Nothing else Just locale
-      PersistentMenuSetting <$> pure setLocale
+  parseJSON = withObject "PersistentMenuSetting" $ \o ->
+      PersistentMenuSetting <$> setLocale o
                             <*> o .:? "composer_input_disabled" .!= False
                             <*> o .:? "call_to_actions" .!= []
+                            <*> disableChat o
+    where setLocale o = f <$> localeP
+            where localeP = o .: "locale" :: Parser Text
+                  f x = if x == "default" then Nothing else Just x
+          disableChat o = f <$> o .:? "disabled_surfaces"
+            where f = \case
+                        (Just [CUSTOMER_CHAT_PLUGIN]) -> True
+                        _ -> False
 
 instance FromJSON PersistentMenuItem where
   parseJSON = withObject "PersistentMenuItem" $ \o ->

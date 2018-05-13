@@ -1,0 +1,14 @@
+# OPTIN Message
+{
+  "sender": {
+    "id": "1739141089378194"
+  },
+  "recipient": {
+    "id": "234554838031189"
+  },
+  "timestamp": 1458692752478,
+  "optin": {
+    "ref": "some_ref_or_another",
+    "user_ref": "another_ref"
+  }
+}

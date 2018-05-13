@@ -148,14 +148,14 @@ instance ToJSON RequestMessage where
 instance ToJSON RequestMessageText where
   toJSON (RequestMessageText text qrs metadata) =
       object' [ "text" .=! text
-              , mEmptyList "quick_replies" $ Prelude.take 10 qrs
+              , mEmptyList "quick_replies" $ Prelude.take 11 qrs
               , "metadata" .=!! metadata
               ]
 
 instance ToJSON RequestMessageAttachment where
   toJSON (RequestMessageAttachment attach qrs metadata) =
       object' [ "attachment" .=! attach
-              , mEmptyList "quick_replies" $ Prelude.take 10 qrs
+              , mEmptyList "quick_replies" $ Prelude.take 11 qrs
               , "metadata" .=!! metadata
               ]
 

@@ -42,9 +42,6 @@ module Web.Facebook.Messenger.Types.Callbacks.Message (
   , CallbackLocation (..)
   , CallbackLocationPayload (..)
   , CallbackCoordinates (..)
-  -- ** Fallback message
-  , MessageFallback (..)
-  , CallbackFallback (..)
   )
 where
 
@@ -56,7 +53,7 @@ import qualified Data.HashMap.Strict as HM
 import Data.Scientific (scientific)
 import Data.Text (Text)
 
-import Web.Facebook.Messenger.Types.Requests.Extra (GenericElement)
+import Web.Facebook.Messenger.Types.Requests.Extra (GenericElement, Fallback)
 import Web.Facebook.Messenger.Types.Static
 
 
@@ -72,6 +69,9 @@ data Message = Message
     { mId :: MessageId -- ^ Unique message ID
     , mSeq :: Maybe Integer -- ^ Sequence number (deprecated?)
     , mContent :: MessageContent -- ^ Content of the message
+    , mTag :: [ReferralSource]
+    -- ^ Will be @[CUSTOMER_CHAT_PLUGIN]@ if the message is
+    -- sent from the customer chat plugin.
     } deriving (Eq, Show, Read, Ord)
 
 -- | Content of the message
@@ -79,7 +79,6 @@ data MessageContent = MText MessageText -- ^ Text message or Quick Reply callbac
                     | MAttachment MessageAttachment -- ^ Multimedia attachment message
                     | MSticker MessageSticker -- ^ Sticker message
                     | MLocation MessageLocation -- ^ Shared location
-                    | MFallback MessageFallback -- ^ Other weird messages
   deriving (Eq, Show, Read, Ord)
 
 -- | Regular text message sent by a user.
@@ -105,6 +104,7 @@ newtype MessageAttachment =
 -- /N.B. Template can be sent by a user when they share a template from a different bot\/page with your bot\/page/
 data CallbackAttachment = CAMultimedia MultimediaAttachment
                         | CATemplate TemplateAttachment
+                        | CAFallback Fallback
   deriving (Eq, Show, Read, Ord)
 
 -- | Multimedia attachment
@@ -112,6 +112,7 @@ data MultimediaAttachment = MultimediaAttachment
     { maType :: AttachmentType -- ^ `IMAGE` \/ `VIDEO` \/ `AUDIO` \/ `FILE`
     , maPayload :: CallbackMultimediaPayload -- ^ URL of the media
     } deriving (Eq, Show, Read, Ord)
+
 
 -- | The URL of the media sent
 newtype CallbackMultimediaPayload =
@@ -155,9 +156,11 @@ newtype MessageLocation =
   deriving (Eq, Show, Read, Ord)
 
 -- | Wrapper for JSON instance convenience
-newtype CallbackLocation =
-          CallbackLocation { clPayload :: CallbackLocationPayload }
-  deriving (Eq, Show, Read, Ord)
+data CallbackLocation = CallbackLocation
+  { clTitle :: Maybe Text
+  , clUrl :: Maybe URL
+  , clPayload :: CallbackLocationPayload
+  } deriving (Eq, Show, Read, Ord)
 
 -- | Location payload
 newtype CallbackLocationPayload =
@@ -170,43 +173,34 @@ data CallbackCoordinates = CallbackCoordinates
     , ccLong :: Double -- ^ Longitude
     } deriving (Eq, Show, Read, Ord)
 
--- | Fallback message. Mainly used for automated scraped links users used in their message.
-data MessageFallback = MessageFallback
-    { mfText :: Text -- ^ URL sent by the user
-    , mfAttachments :: [CallbackFallback]
-    } deriving (Eq, Show, Read, Ord)
-
--- | Link scraped data
-data CallbackFallback = CallbackFallback
-    { cfTitle :: Text -- ^ Title of the URL attachment
-    , cfURL :: URL -- ^ URL of the attachment
-    } deriving (Eq, Show, Read, Ord)
-
-
 -- ------------------- --
 --  MESSAGE INSTANCES  --
 -- ------------------- --
+
+newtype SourceReferral = SR { unSource :: ReferralSource }
+
+instance FromJSON SourceReferral where
+  parseJSON = withObject "SourceReferral" $ \o ->
+      SR <$> o .: "source"
+
+instance ToJSON SourceReferral where
+  toJSON (SR rSource) = object ["source" .= rSource]
 
 instance FromJSON Message where
   parseJSON = withObject "Message" $ \o ->
       Message <$> o .: "mid"
               <*> o .:? "seq"
               <*> parseJSON (Object o)
+              <*> fmap (fmap unSource) (o .:? "tags" .!= [])
 
 
 instance FromJSON MessageContent where
   parseJSON = withObject "MessageContent" $ \o ->
-        MFallback <$> parseJSON (Object o)
-    <|> MText <$> parseJSON (Object o)
+        MText <$> parseJSON (Object o)
     <|> MSticker <$> parseJSON (Object o)
     <|> MLocation <$> parseJSON (Object o)
     <|> MAttachment <$> parseJSON (Object o)
 
-
-instance FromJSON MessageFallback where
-  parseJSON = withObject "MessageFallback" $ \o ->
-      MessageFallback <$> o .: "text"
-                      <*> o .: "attachments"
 
 instance FromJSON MessageText where
   parseJSON = withObject "MessageText" $ \o ->
@@ -248,6 +242,7 @@ instance FromJSON CallbackAttachment where
       typ <- o .: "type" :: Parser Text
       case typ of
         "template" -> CATemplate <$> parseJSON (Object o)
+        "fallback" -> CAFallback <$> parseJSON (Object o)
         _ -> CAMultimedia <$> parseJSON (Object o)
 
 instance FromJSON TemplateAttachment where
@@ -279,7 +274,9 @@ instance FromJSON CallbackLocation where
       "CallbackLocation"
       "type"
       ("location" :: Text)
-      $ \o -> CallbackLocation <$> o .: "payload"
+      $ \o -> CallbackLocation <$> o .:? "title"
+                               <*> o .:? "url"
+                               <*> o .: "payload"
 
 instance FromJSON CallbackLocationPayload where
   parseJSON = withObject "CallbackLocationPayload" $ \o ->
@@ -290,29 +287,25 @@ instance FromJSON CallbackCoordinates where
       CallbackCoordinates <$> o .: "lat"
                           <*> o .: "long"
 
-instance FromJSON CallbackFallback where
-  parseJSON = checkValue
-      "CallbackFallback"
-      "type"
-      ("fallback" :: Text)
-      $ \o -> CallbackFallback <$> o .: "title"
-                               <*> o .: "URL"
-
 
 instance ToJSON Message where
-  toJSON (Message ident mseq content) =
+  toJSON (Message ident mseq content tags) =
       case toJSON content of
-        Object o -> Object $ go mseq $ HM.insert "mid" (String ident) o
+        Object o -> Object
+            $ mAddSeq
+            $ HM.insert "mid" (String ident)
+            $ mAddTags o
         x -> x -- This should never happen. Content should be an object
-    where go Nothing = id
-          go (Just s) = HM.insert "seq" (Number $ scientific s 0)
+    where mAddSeq | Just s <- mseq = HM.insert "seq" $ Number $ scientific s 0
+                  | otherwise = id
+          mAddTags | null tags = id
+                   | otherwise = HM.insert "tags" $ toJSON $ fmap SR tags
 
 instance ToJSON MessageContent where
   toJSON (MText x) = toJSON x
   toJSON (MSticker x) = toJSON x
   toJSON (MAttachment x) = toJSON x
   toJSON (MLocation x) = toJSON x
-  toJSON (MFallback x) = toJSON x
 
 instance ToJSON MessageText where
   toJSON (MessageText text qreply) =
@@ -334,12 +327,6 @@ instance ToJSON MessageLocation where
   toJSON (MessageLocation coords) =
       object ["attachments" .= coords]
 
-instance ToJSON MessageFallback where
-  toJSON (MessageFallback txt fallbacks) =
-      object [ "text" .= txt
-             , "attachments" .= fallbacks
-             ]
-
 instance ToJSON CallbackQuickReply where
   toJSON (CallbackQuickReply payload) =
       object ["payload" .= payload]
@@ -359,6 +346,7 @@ instance ToJSON CallbackStickerPayload where
 instance ToJSON CallbackAttachment where
   toJSON (CAMultimedia x) = toJSON x
   toJSON (CATemplate x) = toJSON x
+  toJSON (CAFallback x) = toJSON x
 
 instance ToJSON MultimediaAttachment where
   toJSON (MultimediaAttachment typ payload) =
@@ -387,18 +375,12 @@ instance ToJSON CallbackTemplate where
              ]
 
 instance ToJSON CallbackLocation where
-  toJSON (CallbackLocation payload) =
-      object [ "type" .= String "location"
-             , "payload" .= payload
-             ]
-
-instance ToJSON CallbackFallback where
-  toJSON (CallbackFallback title url) =
-      object [ "type" .= String "fallback"
-             , "payload" .= Null
-             , "title" .= title
-             , "URL" .= url
-             ]
+  toJSON (CallbackLocation mTitle mUrl payload) =
+      object' [ "type" .=! String "location"
+              , "payload" .=! payload
+              , "title" .=!! mTitle
+              , "url" .=!! mUrl
+              ]
 
 instance ToJSON CallbackLocationPayload where
   toJSON (CallbackLocationPayload coords) =

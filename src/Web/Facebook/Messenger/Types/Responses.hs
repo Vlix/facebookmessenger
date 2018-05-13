@@ -61,7 +61,12 @@ import Web.Facebook.Messenger.Types.Static
 
 -- | This is a response to a standard Send API Request.
 data MessageResponse = MessageResponse
-    { mrRecipientId :: PSID -- Unique ID for the user
+    { mrRecipientId :: Maybe PSID
+    -- Unique ID for the user.
+    -- Effective February 20, 2018, the Send API no longer includes
+    -- "recipient_id" in the response for message sends that use
+    -- recipient.user_ref or recipient.phone_number to identify
+    -- the message recipient.
     , mrMessageId :: Text -- Unique ID for the message
     , mrAttachmentId :: Maybe Text
     -- ^ Please note that this ID is private and only the page that originally sent the attachment can reuse it.
@@ -96,12 +101,13 @@ data ErrorDetails = ErrorDetails
 -- * `Text` should be \"success\" for a `ProfileRequest`.
 -- * `Text` should be \"unlink account success\" for a `AccountUnlinkRequest`.
 newtype SuccessResponse =
-          SuccessResponse { res_result :: Text }
+          SuccessResponse { srResult :: Text }
   deriving (Eq, Show, Read, Ord)
 
 -- | This is a response to a User Profile API request
 data UserProfileResponse = UserProfileResponse
-    { uprFirstName :: Maybe Text -- ^ First Name
+    { uprId :: Text -- ^ PSID of the requested profile's user
+    , uprFirstName :: Maybe Text -- ^ First Name
     , uprLastName :: Maybe Text -- ^ Last Name
     , uprProfilePic :: Maybe URL -- ^ URL to profile pic
     , uprLocale :: Maybe Text -- ^ format: en_US
@@ -109,12 +115,13 @@ data UserProfileResponse = UserProfileResponse
     , uprGender :: Maybe Text -- ^ \"male\" or \"female\"
     , uprIsPaymentEnabled :: Maybe Bool -- ^ Is the user eligible to receive messenger platform payment messages
     , uprLastAdReferral :: Maybe Text -- ^ Last ad the user was referred by
+    , uprEmail :: Maybe Text -- ^ Email address of user (is accepted but hasn't returned anything yet)
     } deriving (Eq, Show, Read, Ord)
 
 -- | This is a response to a PSID retrieval request
 --
 -- @
---   https://graph.facebook.com/v2.6/me?access_token=<PAGE_ACCESS_TOKEN>\
+--   https://graph.facebook.com/v2.12/me?access_token=<PAGE_ACCESS_TOKEN>\
 --     &fields=recipient \
 --     &account_linking_token=<ACCOUNT_LINKING_TOKEN>
 -- @
@@ -144,7 +151,7 @@ newtype ThreadControlResponse =
 
 -- | Response of a GET request to
 --
--- @https://graph.facebook.com/v2.6/me/messenger_profile?fields=<PROPERTIES_LIST>&access_token=<PAGE_ACCESS_TOKEN>@
+-- @https://graph.facebook.com/v2.12/me/messenger_profile?fields=<PROPERTIES_LIST>&access_token=<PAGE_ACCESS_TOKEN>@
 --
 -- where \<PROPERTIES_LIST\> is a comma-seperated list of the following strings (without quotation marks):
 --
@@ -201,7 +208,7 @@ newtype MessengerCodeResponse = MessengerCodeResponse { mcUri :: URL }
 
 instance FromJSON MessageResponse where
   parseJSON = withObject "MessageResponse" $ \o ->
-      MessageResponse <$> o .: "recipient_id"
+      MessageResponse <$> o .:? "recipient_id"
                       <*> o .: "message_id"
                       <*> o .:? "attachment_id"
 
@@ -247,14 +254,16 @@ instance FromJSON UserProfileResponse where
   parseJSON = withObject "UserProfileResponse" $ \o -> do
       ad <- o .:? "last_ad_referral" :: Parser (Maybe Object)
       let setAd = ad >>= HM.lookup "ad_id" >>= go
-      UserProfileResponse <$> o .:? "first_name"
-                      <*> o .:? "last_name"
-                      <*> o .:? "profile_pic"
-                      <*> o .:? "locale"
-                      <*> o .:? "timezone"
-                      <*> o .:? "gender"
-                      <*> o .:? "is_payment_enabled"
-                      <*> pure setAd
+      UserProfileResponse <$> o .: "id"
+                          <*> o .:? "first_name"
+                          <*> o .:? "last_name"
+                          <*> o .:? "profile_pic"
+                          <*> o .:? "locale"
+                          <*> o .:? "timezone"
+                          <*> o .:? "gender"
+                          <*> o .:? "is_payment_enabled"
+                          <*> pure setAd
+                          <*> o .:? "email"
     where go x = case x of
                   String s -> Just s
                   _ -> Nothing
@@ -307,7 +316,7 @@ instance FromJSON MessengerCodeResponse where
 
 instance ToJSON MessageResponse where
   toJSON (MessageResponse recipId msgId attId) =
-      object' [ "recipient_id" .=! recipId
+      object' [ "recipient_id" .=!! recipId
               , "message_id" .=! msgId
               , "attachment_id" .=!! attId
               ]
@@ -336,8 +345,9 @@ instance ToJSON SuccessResponse where
   toJSON (SuccessResponse result) = object ["result" .= result]
 
 instance ToJSON UserProfileResponse where
-  toJSON (UserProfileResponse fn ln pp loc tz gen pay lastAd) =
-      object' [ "first_name" .=!! fn
+  toJSON (UserProfileResponse ident fn ln pp loc tz gen pay lastAd email) =
+      object' [ "id" .=! ident
+              , "first_name" .=!! fn
               , "last_name" .=!! ln
               , "profile_pic" .=!! pp
               , "locale" .=!! loc
@@ -345,6 +355,7 @@ instance ToJSON UserProfileResponse where
               , "gender" .=!! gen
               , "is_payment_enabled" .=!! pay
               , "last_ad_referral" .=!! fmap mkAd lastAd
+              , "email" .=!! email
               ]
     where mkAd adId = object [ "source" .= toJSON ADS
                              , "type" .= String "OPEN_THREAD"

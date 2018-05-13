@@ -42,13 +42,18 @@ instance Arbitrary RecipientID where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
+deriving instance Generic RecipientRef
+instance Arbitrary RecipientRef where
+  arbitrary = genericArbitrary
+  shrink = genericShrink
+
 deriving instance Generic RecipientPhone
 instance Arbitrary RecipientPhone where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RecipientRef
-instance Arbitrary RecipientRef where
+deriving instance Generic RecipientName
+instance Arbitrary RecipientName where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
@@ -77,8 +82,8 @@ instance Arbitrary PassThreadControlRequest where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic TakeThreadControlRequest
-instance Arbitrary TakeThreadControlRequest where
+deriving instance Generic ThreadControlRequest
+instance Arbitrary ThreadControlRequest where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
@@ -111,6 +116,7 @@ instance Arbitrary PersistentMenuSetting where
   arbitrary = PersistentMenuSetting <$> arbitrary
                                     <*> arbitrary
                                     <*> fmap (take 3) arbitrary
+                                    <*> arbitrary
   shrink = genericShrink
 
 deriving instance Generic PersistentMenuItem
@@ -256,12 +262,16 @@ instance Arbitrary RequestMessage where
 
 deriving instance Generic RequestMessageText
 instance Arbitrary RequestMessageText where
-  arbitrary = genericArbitrary
+  arbitrary = RequestMessageText <$> arbitrary
+                                 <*> fmap (take 11) arbitrary
+                                 <*> arbitrary
   shrink = genericShrink
 
 deriving instance Generic RequestMessageAttachment
 instance Arbitrary RequestMessageAttachment where
-  arbitrary = genericArbitrary
+  arbitrary = RequestMessageAttachment <$> arbitrary
+                                       <*> fmap (take 11) arbitrary
+                                       <*> arbitrary
   shrink = genericShrink
 
 deriving instance Generic RequestQuickReply

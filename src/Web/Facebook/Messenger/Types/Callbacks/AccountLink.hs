@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.AppRoles
 Copyright   : (c) Felix Paulusma, 2016
@@ -49,8 +50,11 @@ instance FromJSON AccountLink where
 
 
 instance ToJSON AccountLink where
-  toJSON AccountUnlink = object ["status" .= String "unlinked"]
-  toJSON (AccountLink code) =
-      object' [ "status" .=! String "linked"
-              , "authorization_code" .=!! code
-              ]
+  toJSON accLink = object'
+      [ "status" .=! String txt
+      , "authorization_code" .=!! code
+      ]
+    where (txt, code) = go accLink
+          go = \case
+                AccountLink mCode -> ("linked", mCode)
+                AccountUnlink -> ("unlinked",Nothing)

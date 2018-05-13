@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 module Aeson where
 
@@ -26,6 +25,7 @@ staticTests = Tasty.testGroup "Static"
                       , ''RequestedUserInfoType
                       , ''AppRole
                       , ''AudienceType
+                      , ''PriorMessageType
                       ])
 
 requestTests :: TestTree
@@ -92,6 +92,38 @@ requestTests = Tasty.testGroup "Request"
                       , ''AirlineField
                       , ''BoardingPass
                       , ''AirlineBoardingPass
+                      , ''TemplatePayload
+
+                      -- Attachments
+                      , ''RReusedMultimediaPayload
+                      , ''RMultimediaPayload
+                      , ''RequestMultimediaPayload
+                      , ''RequestAttachmentTemplate
+                      , ''RequestMultimediaAttachment
+                      , ''RequestAttachment
+
+                      -- Messages
+                      , ''EmailQuickReply
+                      , ''PhoneNumberQuickReply
+                      , ''LocationQuickReply
+                      , ''RQuickReply
+                      , ''RequestQuickReply
+                      , ''RequestMessageAttachment
+                      , ''RequestMessageText
+                      , ''RequestMessage
+                      , ''ThreadControlRequest
+                      , ''PassThreadControlRequest
+                      , ''MessengerCodeRef
+                      , ''MessengerCodeRequest
+                      , ''AccountUnlinkRequest
+                      , ''AttachmentUploadRequest
+                      , ''RecipientName
+                      , ''RecipientPhone
+                      , ''RecipientRef
+                      , ''RecipientID
+                      , ''RequestRecipient
+                      , ''SenderActionRequest
+                      , ''SendRequest
                       ])
 
 responseTests :: TestTree
@@ -166,8 +198,6 @@ callbackTests = Tasty.testGroup "Callback"
                       , ''CallbackMessaging
 
                       -- Message
-                      , ''CallbackFallback
-                      , ''MessageFallback
                       , ''CallbackCoordinates
                       , ''CallbackLocationPayload
                       , ''CallbackLocation
