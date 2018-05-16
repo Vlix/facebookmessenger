@@ -31,6 +31,16 @@ instance Arbitrary SuccessResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
+deriving instance Generic MessageCreativeResponse
+instance Arbitrary MessageCreativeResponse where
+  arbitrary = genericArbitrary
+  shrink = genericShrink
+
+deriving instance Generic BroadcastMessageResponse
+instance Arbitrary BroadcastMessageResponse where
+  arbitrary = genericArbitrary
+  shrink = genericShrink
+
 deriving instance Generic GetProfileResponse
 instance Arbitrary GetProfileResponse where
   arbitrary = genericArbitrary
@@ -79,6 +89,11 @@ instance Arbitrary Shipping where
 
 deriving instance Generic ThreadControlResponse
 instance Arbitrary ThreadControlResponse where
+  arbitrary = genericArbitrary
+  shrink = genericShrink
+
+deriving instance Generic ThreadOwnerResponse
+instance Arbitrary ThreadOwnerResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 

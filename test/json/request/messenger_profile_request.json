@@ -15,14 +15,25 @@
       "composer_input_disabled": false,
       "call_to_actions": [
         {
-          "type": "postback",
+          "type": "web_url",
           "title": "<TITLE>",
-          "payload": "<PAYLOAD>"
+          "url": "<SOME_URL>",
+          "webview_height_ratio": "full"
         },
         {
           "type": "postback",
           "title": "<OTHER_TITLE>",
-          "payload": "<OTHER_PAYLOAD>"
+          "payload": "<PAYLOAD>"
+        },
+        {
+          "type": "nested",
+          "title": "<NESTED_TITLE>",
+          "call_to_actions": [{
+              "title": "Contact Info",
+              "type": "postback",
+              "payload": "CONTACT_INFO_PAYLOAD"
+            }
+          ]
         }
       ]
     }
@@ -30,8 +41,8 @@
   "target_audience":{
     "audience_type":"custom",
     "countries":{
-      "whitelist":[],
-      "blacklist":["US","NL","JP"]
+      "whitelist":["US","NL","JP"],
+      "blacklist":[]
     }
   },
   "whitelisted_domains":["https:\/\/www.something.com\/"]

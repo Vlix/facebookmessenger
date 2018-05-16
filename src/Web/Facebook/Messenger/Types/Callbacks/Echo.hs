@@ -106,14 +106,9 @@ instance FromJSON Echo where
             where tryRegular = do
                     mText <- o .:? "text"
                     case mText of
-                      Just t -> tryButton t o
+                      Just t -> EButton <$> parseJSON (Object o)
                             <|> pure (EText $ EchoText t)
                       Nothing -> EAttachment <$> parseJSON (Object o)
-          tryButton t o = do
-              att <- o .: "attachments"
-              case att of
-                [a] -> a .: "payload" >>= \pl -> EButton . EchoButton t <$> pl .: "buttons"
-                _ -> fail "more than one attachment"
 
 instance FromJSON EchoText where
   parseJSON = withObject "EchoText" $ \o ->
@@ -126,6 +121,15 @@ instance FromJSON EchoAttachment where
           newObj = HM.insert attField (toJSON actualAtts) o
       EchoAttachment <$> newObj .: attField
     where attField = "attachments"
+
+instance FromJSON EchoButton where
+  parseJSON = withObject "EchoButton" $ \o -> do
+      att <- o .: "attachments"
+      case att of
+        [a] -> do
+          pl <- a .: "payload"
+          EchoButton <$> o .: "text" <*> pl .: "buttons"
+        _ -> fail "more than one attachment"
 
 instance FromJSON EchoFallback where
   parseJSON = withObject "EchoFallback" $ \o ->

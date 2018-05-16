@@ -72,11 +72,6 @@ instance Arbitrary MessengerCodeRequest where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic MessengerCodeRef
-instance Arbitrary MessengerCodeRef where
-  arbitrary = genericArbitrary
-  shrink = genericShrink
-
 deriving instance Generic PassThreadControlRequest
 instance Arbitrary PassThreadControlRequest where
   arbitrary = genericArbitrary

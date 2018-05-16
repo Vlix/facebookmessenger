@@ -8,29 +8,29 @@
     "url": "<YOUR_LOGIN_URL>"
   },
   {
-    "type":"phone_number",
-    "title":"<BUTTON_TEXT>",
-    "payload":"<PHONE_NUMBER>"
+    "type": "phone_number",
+    "title": "<BUTTON_TEXT>",
+    "payload": "<PHONE_NUMBER>"
   },
   {
-    "type":"payment",
-    "title":"<BUTTON_TEXT>",
-    "payload":"<STRING_SENT_TO_WEBHOOK>",
-    "payment_summary":{
-      "currency":"EUR",
-      "payment_type":"FIXED_AMOUNT>",
+    "type": "payment",
+    "title": "<BUTTON_TEXT>",
+    "payload": "<STRING_SENT_TO_WEBHOOK>",
+    "payment_summary": {
+      "currency": "EUR",
+      "payment_type": "FIXED_AMOUNT",
       "is_test_payment" : false,
-      "merchant_name":"<YOUR_BUSINESS_NAME>",
-      "requested_user_info":[
+      "merchant_name": "<YOUR_BUSINESS_NAME>",
+      "requested_user_info": [
         "shipping_address",
         "contact_name",
         "contact_phone",
         "contact_email"
       ],
-      "price_list":[
+      "price_list": [
         {
-          "label":"<ITEM_NAME>",
-          "amount":"<ITEM_PRICE>"
+          "label": "<ITEM_NAME>",
+          "amount": "<ITEM_PRICE>"
         }
       ]
     }

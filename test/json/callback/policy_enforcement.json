@@ -1,11 +1,11 @@
 # POLICY ENFORCEMENT Message
 {
-  "recipient":{
-    "id":"234554838031189"
+  "recipient": {
+    "id": "234554838031189"
   },
-  "timestamp":1458692752478,
+  "timestamp": 1458692752478,
   "policy-enforcement":{
-    "action":"block",
-    "reason":"The bot violated our Platform Policies (https://developers.facebook.com/policy/#messengerplatform). Common violations include sending out excessive spammy messages or being non-functional."
+    "action": "block",
+    "reason": "The bot violated our Platform Policies"
   }
 }

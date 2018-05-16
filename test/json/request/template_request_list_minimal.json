@@ -1,0 +1,22 @@
+# MINIMAL LIST TEMPLATE Request
+{
+  "messaging_type": "RESPONSE",
+  "recipient": {
+    "id": "1254444444682919"
+  },
+  "message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "list",
+        "elements": [{
+          "title": "First item",
+        }, {
+          "title": "Second item",
+          "image_url": "https:\/\/www.example.com\/media\/images\/1024x576-pretty-picture.jpg",
+          "subtitle": "Blablabla"
+        }]
+      }
+    }
+  }
+}

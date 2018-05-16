@@ -14,6 +14,7 @@ module Web.Facebook.Messenger.Types.Requests.Attachment (
     RequestAttachment (..)
     -- ** Multimedia
     , multimediaRequest
+    , multimediaRequest_
     , reusedMultimediaRequest
     , RequestMultimediaAttachment (..)
     , RequestAttachmentTemplate (..)
@@ -94,6 +95,10 @@ multimediaRequest typ url =
     RMultimedia . RequestMultimediaAttachment typ
                 . RMPayload
                 . RMultimediaPayload url
+
+-- | Shortcut for a non-reusable 'multimediaRequest'
+multimediaRequest_ :: AttachmentType -> URL -> RequestAttachment
+multimediaRequest_ typ url = multimediaRequest typ url False
 
 -- | Constructor for a reusable Multimedia `RequestAttachment`
 reusedMultimediaRequest :: AttachmentType -- ^ `IMAGE` \/ `AUDIO` \/ `VIDEO` \/ `FILE`

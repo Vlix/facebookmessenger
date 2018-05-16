@@ -6,13 +6,13 @@
       "payload": {
         "template_type": "generic",
         "elements": [{
-            "title": "Missoni Home Giacomo badserie",
+            "title": "Some element or another",
           }]
       }
     }
   },
   "messaging_type": "RESPONSE",
   "recipient": {
-    "id": "1558445094245238"
+    "id": "1254444444682919"
   }
 }

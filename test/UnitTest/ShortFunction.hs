@@ -24,10 +24,12 @@ shortFunctionTests = Tasty.testGroup "Default functions"
     , testList
     , testDefaultAction
     , testMultimediaRequest
+    , testMultimediaRequest_
     , testAttachmentRequest
     , testTextRequest
     , testSendRequest
     , testSendRequestTag
+    , testMessengerCode
     ]
 
 testQR :: TestTree
@@ -104,8 +106,14 @@ testList = testCase "List Template default" $
 
 testMultimediaRequest :: TestTree
 testMultimediaRequest = testCase "Multimedia attachment" $
-    multimediaRequest typ url False
-      @?= expected
+    multimediaRequest typ url False @?= expected
+  where url = "https://some.where.com/image.jpg"
+        typ = IMAGE
+        expected = testMultimediaAtt typ url False
+
+testMultimediaRequest_ :: TestTree
+testMultimediaRequest_ = testCase "Multimedia non-reusable attachment" $
+    multimediaRequest_ typ url @?= expected
   where url = "https://some.where.com/image.jpg"
         typ = IMAGE
         expected = testMultimediaAtt typ url False
@@ -132,13 +140,17 @@ testSendRequest :: TestTree
 testSendRequest = testCase "Default send request as RESPONSE, REGULAR notification, no tag" $
     sendRequest recp reqMsg @?= expected
   where reqMsg = textRequest_ "this is a message"
-        recp = recipientID "38478935789035536083701"
+        recp = recipientID $ PSID "38478935789035536083701"
         expected = SendRequest recp reqMsg RESPONSE REGULAR Nothing
 
 testSendRequestTag :: TestTree
 testSendRequestTag = testCase "Send request with tag for outside 24+1 window" $
     sendRequestTag recp reqMsg tag @?= expected
   where reqMsg = textRequest_ "this is a message"
-        recp = recipientID "38478935789035536083701"
+        recp = recipientID $ PSID "38478935789035536083701"
         tag = APPOINTMENT_UPDATE
         expected = SendRequest recp reqMsg MESSAGE_TAG REGULAR $ Just tag
+
+testMessengerCode :: TestTree
+testMessengerCode = testCase "Messenger Code request with no values" $
+    messengerCode @?= MessengerCodeRequest Nothing Nothing

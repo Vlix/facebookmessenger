@@ -40,8 +40,8 @@ module Web.Facebook.Messenger.Types.Requests (
   -- ** Messenger Code API
   --
   -- | POST to @.../messenger_codes?access_token=\<PAGE_ACCESS_TOKEN\>@
+  , messengerCode
   , MessengerCodeRequest (..)
-  , MessengerCodeRef (..)
   -- ** Handover Protocol
   --
   -- |
@@ -131,12 +131,12 @@ data RequestRecipient = RID RecipientID -- ^ Facebook Page-Scoped ID
   deriving (Eq, Show, Read, Ord)
 
 -- | Constructor for making a @regular PSID@ `RequestRecipient`
-recipientID :: Text -> RequestRecipient
+recipientID :: PSID -> RequestRecipient
 recipientID = RID . RecipientID
 
 -- | Identifying a user by their Page-Scoped ID.
 -- This means that the IDs are unique per user per page.
-newtype RecipientID = RecipientID { recipId :: Text }
+newtype RecipientID = RecipientID { recipId :: PSID }
   deriving (Eq, Show, Read, Ord)
 
 -- | Constructor for making a @Phone number@ `RequestRecipient`.
@@ -178,21 +178,22 @@ newtype RecipientRef = RecipientRef { recipRef :: Text }
 -- | In case you want to programmatically unlink someone from an account
 --
 -- Bottom of: @https://developers.facebook.com/docs/messenger-platform/identity/account-linking@
-newtype AccountUnlinkRequest = AccountUnlinkRequest { aurPSID :: Text }
+newtype AccountUnlinkRequest = AccountUnlinkRequest { aurPSID :: PSID }
   deriving (Eq, Show, Read, Ord)
 
+-- | Constructor to get a 1000px x 1000px Messenger Code without a @ref@ parameter.
+messengerCode :: MessengerCodeRequest
+messengerCode = MessengerCodeRequest Nothing Nothing
 
 -- | This request will be responded to with a URI to an image of the Messenger Code.
 --
 -- @https://developers.facebook.com/docs/messenger-platform/discovery/messenger-codes@
 data MessengerCodeRequest = MessengerCodeRequest
     { mcrImageSize :: Maybe Int -- ^ between 100px - 2000px (default == 1000)
-    , mcrData :: Maybe MessengerCodeRef -- ^ Optional custom parameter to add to the code (for analytics or UX purposes)
+    , mcrData :: Maybe Text
+    -- ^ Optional custom parameter to add to the code (for analytics or UX purposes)
+    -- 250 char limit @[a-zA-Z0-9+/=-.:_]@
     } deriving (Eq, Show, Read, Ord)
-
--- | Optional custom parameter. 250 char limit @[a-zA-Z0-9+/=-.:_]@
-newtype MessengerCodeRef = MessengerCodeRef { mcRef :: Text }
-  deriving (Eq, Show, Read, Ord)
 
 -- | Part of the handover protocol, pass thread control allows you to pass thread control from your app to another app.
 -- The app that will receive thread ownership will receive a @"pass_thread_control"@ webhook event.
@@ -255,7 +256,7 @@ instance ToJSON RecipientRef where
 
 instance ToJSON RecipientPhone where
   toJSON (RecipientPhone phone mName) =
-      object' [ "phone" .=! phone
+      object' [ "phone_number" .=! phone
               , "name" .=!! mName
               ]
 
@@ -278,14 +279,13 @@ instance ToJSON AttachmentUploadRequest where
                               ]
 
 instance ToJSON MessengerCodeRequest where
-  toJSON (MessengerCodeRequest imgSize ref) =
+  toJSON (MessengerCodeRequest imgSize mRef) =
       object' [ "type" .=! String "standard"
               , "image_size" .=!! imgSize
-              , "data" .=!! ref
+              , mkRef mRef
               ]
-
-instance ToJSON MessengerCodeRef where
-  toJSON x = object ["ref" .= mcRef x]
+    where mkRef Nothing = Nothing
+          mkRef (Just ref) = "data" .=! object ["ref" .= ref]
 
 instance ToJSON PassThreadControlRequest where
   toJSON (PassThreadControlRequest recpnt appid metadata) =
@@ -335,7 +335,7 @@ instance FromJSON RecipientRef where
 
 instance FromJSON RecipientPhone where
   parseJSON = withObject "RecipientPhone" $ \o ->
-      RecipientPhone <$> o .: "phone"
+      RecipientPhone <$> o .: "phone_number"
                      <*> o .:? "name"
 
 instance FromJSON RecipientName where
@@ -345,11 +345,9 @@ instance FromJSON RecipientName where
 
 instance FromJSON AttachmentUploadRequest where
   parseJSON = withObject "AttachmentUploadRequest" $ \o -> do
-      msg <- o .: "message"
-      att <- msg .: "attachment"
+      att <- o .: "message" >>= (.: "attachment")
       typ <- att .: "type"
-      pl <- att .: "payload"
-      url <- pl .: "url"
+      url <- att .: "payload" >>= (.: "url")
       pure $ AttachmentUploadRequest typ url
 
 instance FromJSON MessengerCodeRequest where
@@ -357,12 +355,11 @@ instance FromJSON MessengerCodeRequest where
       typ <- o .: "type" :: Parser Text
       unless (typ == "standard") $
         fail $ "MessengerCodeRequest: \"type\" value not \"standard\": " `mappend` unpack typ
+      mRef <- o .:? "data"
       MessengerCodeRequest <$> o .:? "image_size"
-                           <*> o .:? "data"
-
-instance FromJSON MessengerCodeRef where
-  parseJSON = withObject "MessengerCodeRef" $ \o ->
-      MessengerCodeRef <$> o .: "ref"
+                           <*> mkRef mRef
+    where mkRef Nothing = pure Nothing
+          mkRef (Just ref) = ref .: "ref"
 
 instance FromJSON PassThreadControlRequest where
   parseJSON = withObject "PassThreadControlRequest" $ \o ->

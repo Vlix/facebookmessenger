@@ -1,11 +1,16 @@
 # USER PROFILE Response
 {
-  "first_name": "Felix",
-  "last_name": "Paulusma",
-  "profile_pic": "https://lookaside.facebook.com/platform/profilepic/?psid=1276746709083699&width=1024&ext=1526314033&hash=AeS3QpAR7PtwXufo",
+  "first_name": "John",
+  "last_name": "Smith",
+  "profile_pic": "https:\/\/lookaside.facebook.com\/platform\/profilepic\/?psid=1286146702283499&width=1024&ext=1526314033&hash=AeW3QpAe7PtwX5fM",
   "gender": "male",
   "locale": "en_GB",
   "timezone": 2,
   "is_payment_enabled": true,
-  "id": "1276746709083699"
+  "id": "1286146702283499",
+  "last_ad_referral": {
+    "source": "ADS",
+    "type": "OPEN_THREAD",
+    "ad_id": "6045246247433"
+  }
 }

@@ -111,7 +111,7 @@ data CallbackContent =
   | CMReferral Referral -- ^ Onboarding callback
   | CMPayment Payment -- ^ Payment callback
   | CMCheckoutUpdate CheckoutUpdate -- ^ Part of the `Payment` callback
-  | CMPreCheckOut PreCheckout -- ^ Part of the `Payment` callback
+  | CMPreCheckout PreCheckout -- ^ Part of the `Payment` callback
   | CMAccountLink AccountLink -- ^ User linking with an external account
   | CMPolicy PolicyEnforcement -- ^ (Un\/)Block notification
   | CMAppRoles AppRoles -- ^ Part of thread control
@@ -166,7 +166,7 @@ instance FromJSON CallbackContent where
       <|> CMReferral <$> o .: "referral"
       <|> CMPayment <$> o .: "payment"
       <|> CMCheckoutUpdate <$> o .: "checkout_update"
-      <|> CMPreCheckOut <$> o .: "pre_checkout"
+      <|> CMPreCheckout <$> o .: "pre_checkout"
       <|> CMAccountLink <$> o .: "account_linking"
       <|> CMPolicy <$> o .: "policy-enforcement"
       <|> CMAppRoles <$> o .: "app_roles"
@@ -224,7 +224,7 @@ instance ToJSON CallbackContent where
                   CMReferral cb -> "referral" .= cb
                   CMPayment cb -> "payment" .= cb
                   CMCheckoutUpdate cb -> "checkout_update" .= cb
-                  CMPreCheckOut cb -> "pre_checkout" .= cb
+                  CMPreCheckout cb -> "pre_checkout" .= cb
                   CMAccountLink cb -> "account_linking" .= cb
                   CMPolicy cb -> "policy-enforcement" .= cb
                   CMAppRoles cb -> "app_roles" .= cb

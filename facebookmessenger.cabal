@@ -111,10 +111,34 @@ test-suite facebookmessenger-test
                     , UnitTest.CallbackParse.DeliveryCallback
                     , UnitTest.CallbackParse.EchoCallback
                     , UnitTest.CallbackParse.MessageCallback
+                    , UnitTest.CallbackParse.OptinCallback
+                    , UnitTest.CallbackParse.PaymentCallback
+                    , UnitTest.CallbackParse.PolicyEnforcement
                     , UnitTest.CallbackParse.PostbackCallback
+                    , UnitTest.CallbackParse.PreCheckoutCallback
                     , UnitTest.CallbackParse.ReadCallback
                     , UnitTest.CallbackParse.ReferralCallback
                     , UnitTest.CallbackParse.ThreadControl
+                    , UnitTest.RequestParse
+                    , UnitTest.RequestParse.AccountUnlinking
+                    , UnitTest.RequestParse.AttachmentRequest
+                    , UnitTest.RequestParse.MessageRequest
+                    , UnitTest.RequestParse.MessengerCode
+                    , UnitTest.RequestParse.MessengerProfileRequest
+                    , UnitTest.RequestParse.TemplateRequests
+                    , UnitTest.RequestParse.ThreadControl
+                    , UnitTest.ResponseParse
+                    , UnitTest.ResponseParse.AccountLinking
+                    , UnitTest.ResponseParse.AttachmentUpload
+                    , UnitTest.ResponseParse.BroadcastResponse
+                    , UnitTest.ResponseParse.ErrorResponse
+                    , UnitTest.ResponseParse.MessageResponse
+                    , UnitTest.ResponseParse.MessengerCode
+                    , UnitTest.ResponseParse.MessengerProfile
+                    , UnitTest.ResponseParse.SuccessResponse
+                    , UnitTest.ResponseParse.ThreadControl
+                    , UnitTest.ResponseParse.TagResponse
+                    , UnitTest.ResponseParse.UserProfileResponse
                     , UnitTest.Internal
                     , UnitTest.ProfileRequest
                     , UnitTest.ShortFunction

@@ -113,7 +113,6 @@ requestTests = Tasty.testGroup "Request"
                       , ''RequestMessage
                       , ''ThreadControlRequest
                       , ''PassThreadControlRequest
-                      , ''MessengerCodeRef
                       , ''MessengerCodeRequest
                       , ''AccountUnlinkRequest
                       , ''AttachmentUploadRequest
@@ -133,6 +132,8 @@ responseTests = Tasty.testGroup "Response"
                       , ''PSID
                       , ''MessageResponse
                       , ''SenderActionResponse
+                      , ''MessageCreativeResponse
+                      , ''BroadcastMessageResponse
                       , ''SuccessResponse
                       , ''GetProfileResponse
                       , ''ErrorDetails
@@ -144,6 +145,7 @@ responseTests = Tasty.testGroup "Response"
                       , ''Shipping
                       , ''CheckoutUpdateResponse
                       , ''ThreadControlResponse
+                      , ''ThreadOwnerResponse
                       , ''DomainWhitelistingResponse
                       , ''SecondaryReceiverElement
                       , ''SecondaryReceiverResponse
@@ -187,6 +189,7 @@ callbackTests = Tasty.testGroup "Callback"
                       , ''Fallback
                       , ''EchoFallback
                       , ''EchoAttachment
+                      , ''EchoButton
                       , ''EchoText
                       , ''Echo
 

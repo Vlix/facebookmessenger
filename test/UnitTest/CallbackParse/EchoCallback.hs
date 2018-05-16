@@ -7,14 +7,13 @@ import Data.List.NonEmpty (NonEmpty(..))
 import Data.Yaml.TH (decodeFile)
 
 import Test.Tasty as Tasty
-import Test.Tasty.HUnit as Tasty
 import Web.Facebook.Messenger
 
 import UnitTest.Internal
 
---------------
--- POSTBACK --
---------------
+----------
+-- ECHO --
+----------
 
 echoTests :: TestTree
 echoTests = Tasty.testGroup "Account Linking Callback"
@@ -38,27 +37,25 @@ echoFallbackVal :: Value
 echoFallbackVal = $$(decodeFile "test/json/callback/echo_callback_fallback.json")
 
 echoCallback :: TestTree
-echoCallback = testCase "Echo callback" $
-    eParse echoTextVal @?= Right expected
-  where expected = msg 1522851392983 $ CMEcho
-                    $ Echo True
-                          (Just 743273262513025)
-                           Nothing
-                           "mid.$cAAFStIxHtgpFwwl111ikQQs_I_oI"
-                          (Just 2860)
-                          $ EText $ EchoText "test test"
+echoCallback = parseTest "Echo callback" echoTextVal
+             $ msg 1522851392983 $ CMEcho
+                $ Echo True
+                      (Just 743273262513025)
+                       Nothing
+                       "mid.$cAAFStIxHtgpFwwl111ikQQs_I_oI"
+                      (Just 2860)
+                      $ EText $ EchoText "test test"
 
 echoCallbackGeneric :: TestTree
-echoCallbackGeneric = testCase "Echo callback (generic)" $
-    eParse echoGenericVal @?= Right expected
-  where expected = msg 1526045536891 $ CMEcho
-                    $ Echo True
-                          (Just 743273262513025)
-                           Nothing
-                           "mid.$cAAFSsZhFqTFpgKw6e1jT2bxuP4oa"
-                           Nothing
-                          $ EAttachment $ EchoAttachment [ea]
-        ea = genericTemplate_ (e1 :| [e2,e3])
+echoCallbackGeneric = parseTest "Echo callback (generic)" echoGenericVal
+                    $ msg 1526045536891 $ CMEcho
+                      $ Echo True
+                             (Just 743273262513025)
+                             Nothing
+                             "mid.$cAAFSsZhFqTFpgKw6e1jT2bxuP4oa"
+                             Nothing
+                             $ EAttachment $ EchoAttachment [ea]
+  where ea = genericTemplate_ (e1 :| [e2,e3])
         e1 = genericElem "<ELEMENT1>"
                          (Just "<SUBTITLE>")
                          (Just "http://some.url.com/somewhere.jpg/")
@@ -70,28 +67,26 @@ echoCallbackGeneric = testCase "Echo callback (generic)" $
                          Nothing
 
 echoCallbackButton :: TestTree
-echoCallbackButton = testCase "Echo callback (button)" $
-    eParse echoButtonVal @?= Right expected
-  where expected = msg 1458696618268 $ CMEcho
-                    $ Echo True
+echoCallbackButton = parseTest "Echo callback (button)" echoButtonVal
+                   $ msg 1458696618268 $ CMEcho
+                      $ Echo True
                           (Just 743273262513025)
                           (Just "<DEVELOPER_DEFINED_METADATA_STRING>")
-                           "mid.1458696618141:b4ef9d19ec21086067"
-                           Nothing
+                          "mid.1458696618141:b4ef9d19ec21086067"
+                          Nothing
                           $ EButton $ EchoButton "Button text" $ btn :| []
-        btn = urlButton_ "Visit Messenger" "https://www.messenger.com/"
+  where btn = urlButton_ "Visit Messenger" "https://www.messenger.com/"
 
 echoCallbackFallback :: TestTree
-echoCallbackFallback = testCase "Echo callback (fallback)" $
-    eParse echoFallbackVal @?= Right expected
-  where expected = msg 1525703917372 $ CMEcho
-                    $ Echo True
-                           Nothing
-                           Nothing
-                           "mid.$cAAFSsSdQ77ZpbE-HPajOwo1gvowP"
+echoCallbackFallback = parseTest "Echo callback (fallback)" echoFallbackVal
+                     $ msg 1525703917372 $ CMEcho
+                        $ Echo True
+                          Nothing
+                          Nothing
+                          "mid.$cAAFSsSdQ77ZpbE-HPajOwo1gvowP"
                           (Just 1716)
                           $ EFallback $ EchoFallback (Just "some optional text") [fb]
-        fb = Fallback (Just "<FALLBACK TITLE>")
+  where fb = Fallback (Just "<FALLBACK TITLE>")
                       (Just "<FALLBACK URL>")
                       Nothing
 

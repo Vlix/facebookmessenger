@@ -1,7 +1,7 @@
 # TAKE/REQUEST THREAD CONTROL Request
 {
-  "recipient":{
-    "id":"<PSID>"
+  "recipient": {
+    "id": "<PSID>"
   },
-  "metadata":"String to pass to secondary receiver app"
+  "metadata": "String to pass to primary receiver app"
 }

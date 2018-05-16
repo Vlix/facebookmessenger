@@ -1,0 +1,10 @@
+# POLICY ENFORCEMENT Types
+[
+  {
+    "action": "block",
+    "reason": "The bot violated our Platform Policies"
+  },
+  {
+    "action": "unblock"
+  }
+]

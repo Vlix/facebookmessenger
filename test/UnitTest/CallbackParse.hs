@@ -15,7 +15,11 @@ import UnitTest.CallbackParse.CheckoutUpdate (checkoutUpdateTest)
 import UnitTest.CallbackParse.DeliveryCallback (deliveryTest)
 import UnitTest.CallbackParse.EchoCallback (echoTests)
 import UnitTest.CallbackParse.MessageCallback (messageTests)
+import UnitTest.CallbackParse.OptinCallback (optinTest)
+import UnitTest.CallbackParse.PaymentCallback (paymentTests)
+import UnitTest.CallbackParse.PolicyEnforcement (policyTests)
 import UnitTest.CallbackParse.PostbackCallback (postbackTests)
+import UnitTest.CallbackParse.PreCheckoutCallback (preCheckoutTest)
 import UnitTest.CallbackParse.ReadCallback (readTest)
 import UnitTest.CallbackParse.ReferralCallback (referralTests)
 import UnitTest.CallbackParse.ThreadControl (threadControlTests)
@@ -31,7 +35,11 @@ parseCallbackTests = Tasty.testGroup "Parse Callbacks"
     , deliveryTest
     , echoTests
     , messageTests
+    , optinTest
+    , paymentTests
+    , policyTests
     , postbackTests
+    , preCheckoutTest
     , readTest
     , referralTests
     , threadControlTests

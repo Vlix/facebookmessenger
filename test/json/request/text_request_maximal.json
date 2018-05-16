@@ -6,7 +6,8 @@
   "messaging_type": "MESSAGE_TAG",
   "notification_type": "SILENT_PUSH",
   "message":{
-    "text": "Here is a quick reply!"
+    "text": "<SOME_TEXT>",
+    "metadata": "<SOME_METADATA>"
   },
   "tag": "SHIPPING_UPDATE"
 }

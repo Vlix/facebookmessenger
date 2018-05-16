@@ -6,7 +6,6 @@ import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
 
 import Test.Tasty as Tasty
-import Test.Tasty.HUnit as Tasty
 import Web.Facebook.Messenger
 
 import UnitTest.Internal
@@ -32,25 +31,22 @@ postbackTests = Tasty.testGroup "Postback Callbacks"
     ]
 
 postbackCallback :: TestTree
-postbackCallback = testCase "Regular postback" $
-    eParse postbackCallbackVal @?= Right expected
-  where expected = msg $ CMPostback $ PBRegular
-                    $ RegularPostback (Just "Aan de slag") "getstarted" Nothing
+postbackCallback = parseTest "Regular postback" postbackCallbackVal
+                 $ msg $ CMPostback $ PBRegular
+                          $ RegularPostback (Just "Aan de slag") "getstarted" Nothing
 
 postbackCallbackReferral :: TestTree
-postbackCallbackReferral = testCase "Regular postback w/ referral" $
-    eParse postbackReferralVal @?= Right expected
-  where expected = msg $ CMPostback $ PBRegular
-                    $ RegularPostback (Just "Aan de slag") "getstarted" $ Just
-                        $ ReferralLink $ RefShortLink "some_cta_or_another"
+postbackCallbackReferral = parseTest "Regular postback w/ referral" postbackReferralVal
+                         $ msg $ CMPostback $ PBRegular
+                                  $ RegularPostback (Just "Aan de slag") "getstarted" $ Just
+                                      $ ReferralLink $ RefShortLink "some_cta_or_another"
 
 postbackSecondary :: TestTree
-postbackSecondary = testCase "Secondary postback" $
-    eParse postbackSecondaryVal @?= Right expected
-  where expected = msg $ CMPostback $ PBSecondary
-                    $ SecondaryPostback Nothing $ Just
-                        $ ReferralChat $ RefChatPlugin (Just "<REF_DATA_PASSED_IN_CODE>")
-                                                       "https://some.website.com/chat/page.html"
+postbackSecondary = parseTest "Secondary postback" postbackSecondaryVal
+                  $ msg $ CMPostback $ PBSecondary
+                            $ SecondaryPostback Nothing $ Just
+                                $ ReferralChat $ RefChatPlugin (Just "<REF_DATA_PASSED_IN_CODE>")
+                                                               "https://some.website.com/chat/page.html"
 
 
 msg :: CallbackContent -> CallbackMessaging

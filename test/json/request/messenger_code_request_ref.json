@@ -1,8 +1,8 @@
-# MESSENGER CODE Request
+# MESSENGER CODE Request w/ parameter
 {
   "type": "standard",
   "data": {
-    "ref":"billboard-ad"
+    "ref": "billboard-ad"
   },
-  "image_size": 1000
+  "image_size": 1500
 }

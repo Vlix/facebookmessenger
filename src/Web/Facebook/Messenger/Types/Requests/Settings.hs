@@ -508,7 +508,7 @@ instance ToJSON PaymentSettings where
 
 instance ToJSON TargetAudience where
   toJSON (TargetAudience typ countries) =
-      object' [ "type" .=! typ
+      object' [ "audience_type" .=! typ
               , "countries" .=!! countries
               ]
 
@@ -581,7 +581,7 @@ instance FromJSON PaymentSettings where
 
 instance FromJSON TargetAudience where
   parseJSON = withObject "TargetAudience" $ \o ->
-      TargetAudience <$> o .: "type"
+      TargetAudience <$> o .: "audience_type"
                      <*> o .:? "countries"
 
 instance FromJSON TargetCountries where

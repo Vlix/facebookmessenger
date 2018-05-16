@@ -347,7 +347,7 @@ instance ToJSON ListStyle where
   toJSON ListLARGE = String "large"
 
 instance FromJSON ListStyle where
-  parseJSON = withText' "ListStyle"
+  parseJSON = withTextCI "ListStyle"
       [("compact", ListCOMPACT)
       ,("large", ListLARGE)
       ]

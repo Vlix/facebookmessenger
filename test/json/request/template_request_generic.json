@@ -6,13 +6,13 @@
       "payload": {
         "template_type": "generic",
         "elements": [{
-            "image_url": "Voordeel",
-            "subtitle": "€83,96",
-            "title": "Missoni Home Giacomo badserie",
+            "image_url": "<SOME_URL>",
+            "subtitle": "€80,00",
+            "title": "CatapultsR'Us Flights",
             "buttons": [{
               "type": "element_share"
             }, {
-              "url": "http:\/\/share.some.gift\/gifts\/8320313747",
+              "url": "http:\/\/example.ofa.flight\/flight\/8321307457",
               "title": "Meer info",
               "type": "web_url"
             }]
@@ -25,7 +25,7 @@
               "type": "web_url",
               "url": "<DEFAULT_URL_TO_OPEN>",
               "messenger_extensions": false,
-              "webview_height_ratio": "FULL"
+              "webview_height_ratio": "full"
             },
             "buttons": [{
                 "type": "postback",
@@ -43,17 +43,18 @@
       }
     },
     "quick_replies": [{
-      "content_type": "text",
-      "payload": "remember",
-      "title": "😍 Onthoud deze!"
-    }, {
-      "content_type": "text",
-      "payload": "forget",
-      "title": "👎 Vergeet deze!"
-    }]
+        "content_type": "text",
+        "payload": "remember",
+        "title": "😍 Onthoud deze!"
+      }, {
+        "content_type": "text",
+        "payload": "forget",
+        "title": "👎 Vergeet deze!"
+      }
+    ]
   },
   "messaging_type": "RESPONSE",
   "recipient": {
-    "id": "1558445094245238"
+    "id": "1254444444682919"
   }
 }

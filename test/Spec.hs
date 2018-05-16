@@ -12,23 +12,27 @@ import UnitTest
 
 
 main :: IO ()
-main = Tasty.defaultMain
-     $ Tasty.testGroup "\nWeb.Facebook.Messenger" [
-        aesonTests,
-        unitTests
+main = Tasty.defaultMain $ Tasty.testGroup
+    "\nWeb.Facebook.Messenger"
+        [ aesonTests
+        , unitTests
         ]
 
 aesonTests :: TestTree
-aesonTests = Tasty.testGroup "Aeson"
-    [ staticTests
-    , requestTests
-    , responseTests
-    , callbackTests
-    ]
+aesonTests = Tasty.testGroup
+    "Aeson"
+        [ staticTests
+        , requestTests
+        , responseTests
+        , callbackTests
+        ]
 
 unitTests :: TestTree
-unitTests = Tasty.testGroup "Unit Tests"
-    [ profileRequestTest
-    , shortFunctionTests
-    , parseCallbackTests
-    ]
+unitTests = Tasty.testGroup
+    "Unit Tests"
+        [ profileRequestTest
+        , shortFunctionTests
+        , parseCallbackTests
+        , parseRequestTests
+        , parseResponseTests
+        ]

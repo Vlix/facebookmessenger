@@ -1,10 +1,10 @@
 # ERROR Response
 {
   "error": {
-    "message": "(#551) This person isn't available right now.",
+    "message": "(#-1) Send API unexpected internal error",
     "type": "OAuthException",
-    "code": 551,
-    "error_subcode": 1545041,
-    "fbtrace_id": "GgqXPxeJD8b"
+    "code": -1,
+    "error_subcode": 2018012,
+    "fbtrace_id": "G1lQWWzZaIu"
   }
 }

@@ -12,6 +12,13 @@ module Web.Facebook.Messenger.Types.Responses (
   -- ** Sender API Responses
   MessageResponse (..)
   , SenderActionResponse (..)
+  -- ** Broadcast API Responses
+  --
+  -- The Messenger Platform's Broadcast API allows you to broadcast
+  -- a message to everyone that currently has an open conversation
+  -- with your Page or a custom set of people.
+  , MessageCreativeResponse (..)
+  , BroadcastMessageResponse (..)
   -- ** Messenger Profile API Responses
   , SuccessResponse (..)
   , GetProfileResponse (..)
@@ -32,6 +39,7 @@ module Web.Facebook.Messenger.Types.Responses (
   , Shipping (..)
   -- ** Thread Control Response
   , ThreadControlResponse (..)
+  , ThreadOwnerResponse (..)
   -- ** Other Responses
   , DataResponse (..)
   , DomainWhitelistingResponse
@@ -47,7 +55,7 @@ import Data.Aeson
 import Data.Aeson.Types (Parser)
 import Data.Maybe (catMaybes)
 import qualified Data.HashMap.Strict as HM
-import Data.Text (Text, unpack)
+import Data.Text (Text, pack, unpack)
 
 import Web.Facebook.Messenger.Types.Requests (AppId)
 import Web.Facebook.Messenger.Types.Requests.Extra (PriceObject)
@@ -75,6 +83,14 @@ data MessageResponse = MessageResponse
 -- | This is a response to a Sender Action returning the Page-Scoped ID of the receiving user.
 newtype SenderActionResponse =
           SenderActionResponse { sarRecipientId :: PSID }
+  deriving (Eq, Show, Read, Ord)
+
+-- | Response with the creative ID to be used in the Broadcast Message
+newtype MessageCreativeResponse = MessageCreativeResponse { mcId :: Int }
+  deriving (Eq, Show, Read, Ord)
+
+-- | Successful response with the broadcast message ID
+newtype BroadcastMessageResponse = BroadcastMessageResponse { broadcastId :: Int }
   deriving (Eq, Show, Read, Ord)
 
 -- | This is a response from the Attachement Upload API.
@@ -201,6 +217,12 @@ data TagElement = TagElement
 newtype MessengerCodeResponse = MessengerCodeResponse { mcUri :: URL }
   deriving (Eq, Show, Read, Ord)
 
+-- | Successful response to a Thread Owner request.
+--
+-- @https://graph.facebook.com/v2.6/me/thread_owner?recipient=<PSID>&access_token=<PAGE_ACCESS_TOKEN>@
+newtype ThreadOwnerResponse = ThreadOwnerResponse { threadOwner :: AppId }
+  deriving (Eq, Show, Read, Ord)
+
 
 -- -------------------- --
 --  RESPONSE INSTANCES  --
@@ -215,6 +237,14 @@ instance FromJSON MessageResponse where
 instance FromJSON SenderActionResponse where
   parseJSON = withObject "SenderActionResponse" $ \o ->
       SenderActionResponse <$> o .: "recipient_id"
+
+instance FromJSON MessageCreativeResponse where
+  parseJSON = withObject "MessageCreativeResponse" $ \o ->
+      MessageCreativeResponse <$> o .: "message_creative_id"
+
+instance FromJSON BroadcastMessageResponse where
+  parseJSON = withObject "BroadcastMessageResponse" $ \o ->
+      BroadcastMessageResponse <$> o .: "broadcast_id"
 
 instance FromJSON AttachmentUploadResponse where
   parseJSON = withObject "AttachmentUploadResponse" $ \o ->
@@ -312,6 +342,14 @@ instance FromJSON MessengerCodeResponse where
   parseJSON = withObject "MessengerCodeResponse" $ \o ->
       MessengerCodeResponse <$> o .: "uri"
 
+instance FromJSON ThreadOwnerResponse where
+  parseJSON = withObject "ThreadOwnerResponse" $ \o -> do
+      appId <- o .: "thread_owner" >>= (.: "app_id")
+      case appId of
+        i@Number{} -> ThreadOwnerResponse . AppId . pack . show
+                  <$> (parseJSON i :: Parser Integer)
+        String t -> pure $ ThreadOwnerResponse $ AppId t
+        _ -> fail "wrong type parsing ThreadOwnerResponse's \"app_id\""
 
 
 instance ToJSON MessageResponse where
@@ -324,6 +362,14 @@ instance ToJSON MessageResponse where
 instance ToJSON SenderActionResponse where
   toJSON (SenderActionResponse recipId) =
       object ["recipient_id" .= recipId]
+
+instance ToJSON MessageCreativeResponse where
+  toJSON (MessageCreativeResponse ident) =
+      object [ "message_creative_id" .= ident]
+
+instance ToJSON BroadcastMessageResponse where
+  toJSON (BroadcastMessageResponse ident) =
+      object [ "broadcast_id" .= ident]
 
 instance ToJSON AttachmentUploadResponse where
   toJSON (AttachmentUploadResponse attId) =
@@ -420,6 +466,11 @@ instance ToJSON TagElement where
 
 instance ToJSON MessengerCodeResponse where
   toJSON (MessengerCodeResponse uri) = object ["uri" .= uri]
+
+
+instance ToJSON ThreadOwnerResponse where
+  toJSON (ThreadOwnerResponse appId) = object ["thread_owner" .= object ["app_id" .= appId] ]
+
 
 {-
 --------------------- old error codes ---------------------
