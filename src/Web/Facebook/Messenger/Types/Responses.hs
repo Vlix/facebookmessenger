@@ -272,7 +272,7 @@ instance Show ErrorDetails where
     where
       (slashSub,showSub) = maybe ("","") makeTup subcode
       makeTup x  = ("/subcode"," / " ++ show x)
-      maybetrace = maybe "" ((++) " >>> Trace ID: " . unpack) trace
+      maybetrace = maybe "" ((++ " >>> Trace ID: ") . unpack) trace
 -- SHOW INSTANCE OF ERROR RESPONSE --
 -- SHOW INSTANCE OF ERROR RESPONSE --
 

@@ -26,6 +26,7 @@ staticTests = Tasty.testGroup "Static"
                       , ''AppRole
                       , ''AudienceType
                       , ''PriorMessageType
+                      , ''FBLocale
                       ])
 
 requestTests :: TestTree

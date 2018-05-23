@@ -22,7 +22,7 @@ messengerProfileTest :: TestTree
 messengerProfileTest = parseTest "Messenger Profile Response" messengerProfileVal
                      $ GetProfileResponse obj
   where obj = greeting [ defaultGreeting "Hello!"
-                       , GreetingSetting "en_US" "Timeless apparel for the masses."
+                       , GreetingSetting (Just FBen_US) "Timeless apparel for the masses."
                        ]
            <> whiteListedDomains ["https://facebook.com/"]
            <> targetAudience (TargetAudience CUSTOM $ Just $ TargetCountries [] ["US", "NL", "JP"])

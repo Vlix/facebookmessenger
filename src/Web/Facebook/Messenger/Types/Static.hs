@@ -1,4 +1,5 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE LambdaCase #-}
 
 {-|
 Module      : Web.Facebook.Messenger.Types.Static
@@ -35,6 +36,7 @@ module Web.Facebook.Messenger.Types.Static (
   , AppRole (..)
   , AudienceType (..)
   , PriorMessageType (..)
+  , FBLocale (..)
 
   -- * Helper functions
   --
@@ -67,7 +69,7 @@ import Data.Bifunctor (first)
 import Data.ByteString.Lazy (toStrict)
 import Data.Maybe (catMaybes)
 import Data.Monoid ((<>))
-import Data.Text (toUpper, unpack, Text)
+import Data.Text (Text, pack, toUpper, unpack)
 import Data.Text.Encoding (decodeUtf8)
 import qualified Data.HashMap.Strict as HM
 
@@ -549,3 +551,355 @@ instance FromJSON PriorMessageType where
 instance ToJSON PriorMessageType where
   toJSON CheckBoxPlugin = String "checkbox_plugin"
   toJSON CustomerMatching = String "customer_matching"
+
+data FBLocale =
+    FBaf_ZA | FBar_AR | FBas_IN | FBaz_AZ
+  | FBbe_BY | FBbg_BG | FBbn_IN | FBbr_FR | FBbs_BA
+  | FBca_ES | FBcb_IQ | FBco_FR | FBcs_CZ | FBcx_PH | FBcy_GB
+  | FBda_DK | FBde_DE
+  | FBel_GR | FBen_GB | FBen_US | FBet_EE | FBen_UD | FBes_LA | FBes_ES | FBeu_ES
+  | FBfa_IR | FBff_NG | FBfi_FI | FBfo_FO | FBfr_CA | FBfr_FR | FBfy_NL
+  | FBga_IE | FBgl_ES | FBgn_PY | FBgu_IN
+  | FBha_NG | FBhe_IL | FBhi_IN | FBhr_HR | FBhu_HU | FBhy_AM
+  | FBid_ID | FBis_IS | FBit_IT
+  | FBja_JP | FBja_KS | FBjv_ID
+  | FBka_GE | FBkk_KZ | FBkm_KH | FBko_KR | FBku_TR | FBkn_IN
+  | FBlv_LV | FBlt_LT
+  | FBmg_MG | FBmk_MK | FBml_IN | FBmn_MN | FBmr_IN | FBms_MY | FBmt_MT | FBmy_MM
+  | FBnb_NO | FBne_NP | FBnn_NO | FBnl_BE | FBnl_NL
+  | FBor_IN
+  | FBpa_IN | FBpl_PL | FBps_AF | FBpt_BR | FBpt_PT
+  | FBqz_MM
+  | FBro_RO | FBru_RU | FBrw_RW
+  | FBsc_IT | FBsi_LK | FBsk_SK | FBsl_SI | FBso_SO | FBsq_AL | FBsr_RS | FBsv_SE | FBsw_KE | FBsz_PL
+  | FBta_IN | FBte_IN | FBth_TH | FBtg_TJ | FBtl_PH | FBtr_TR | FBtz_MA
+  | FBuk_UA | FBur_PK | FBuz_UZ
+  | FBvi_VN
+  | FBzh_CN | FBzh_HK | FBzh_TW
+  deriving (Ord, Eq, Enum)
+
+instance Show FBLocale where
+  show FBaf_ZA = "af_ZA"
+  show FBar_AR = "ar_AR"
+  show FBas_IN = "as_IN"
+  show FBaz_AZ = "az_AZ"
+  show FBbe_BY = "be_BY"
+  show FBbg_BG = "bg_BG"
+  show FBbn_IN = "bn_IN"
+  show FBbr_FR = "br_FR"
+  show FBbs_BA = "bs_BA"
+  show FBca_ES = "ca_ES"
+  show FBcb_IQ = "cb_IQ"
+  show FBco_FR = "co_FR"
+  show FBcs_CZ = "cs_CZ"
+  show FBcx_PH = "cx_PH"
+  show FBcy_GB = "cy_GB"
+  show FBda_DK = "da_DK"
+  show FBde_DE = "de_DE"
+  show FBel_GR = "el_GR"
+  show FBen_GB = "en_GB"
+  show FBen_US = "en_US"
+  show FBet_EE = "et_EE"
+  show FBen_UD = "en_UD"
+  show FBes_LA = "es_LA"
+  show FBes_ES = "es_ES"
+  show FBeu_ES = "eu_ES"
+  show FBfa_IR = "fa_IR"
+  show FBff_NG = "ff_NG"
+  show FBfi_FI = "fi_FI"
+  show FBfo_FO = "fo_FO"
+  show FBfr_CA = "fr_CA"
+  show FBfr_FR = "fr_FR"
+  show FBfy_NL = "fy_NL"
+  show FBga_IE = "ga_IE"
+  show FBgl_ES = "gl_ES"
+  show FBgn_PY = "gn_PY"
+  show FBgu_IN = "gu_IN"
+  show FBha_NG = "ha_NG"
+  show FBhe_IL = "he_IL"
+  show FBhi_IN = "hi_IN"
+  show FBhr_HR = "hr_HR"
+  show FBhu_HU = "hu_HU"
+  show FBhy_AM = "hy_AM"
+  show FBid_ID = "id_ID"
+  show FBis_IS = "is_IS"
+  show FBit_IT = "it_IT"
+  show FBja_JP = "ja_JP"
+  show FBja_KS = "ja_KS"
+  show FBjv_ID = "jv_ID"
+  show FBka_GE = "ka_GE"
+  show FBkk_KZ = "kk_KZ"
+  show FBkm_KH = "km_KH"
+  show FBko_KR = "ko_KR"
+  show FBku_TR = "ku_TR"
+  show FBkn_IN = "kn_IN"
+  show FBlv_LV = "lv_LV"
+  show FBlt_LT = "lt_LT"
+  show FBmg_MG = "mg_MG"
+  show FBmk_MK = "mk_MK"
+  show FBml_IN = "ml_IN"
+  show FBmn_MN = "mn_MN"
+  show FBmr_IN = "mr_IN"
+  show FBms_MY = "ms_MY"
+  show FBmt_MT = "mt_MT"
+  show FBmy_MM = "my_MM"
+  show FBnb_NO = "nb_NO"
+  show FBne_NP = "ne_NP"
+  show FBnn_NO = "nn_NO"
+  show FBnl_BE = "nl_BE"
+  show FBnl_NL = "nl_NL"
+  show FBor_IN = "or_IN"
+  show FBpa_IN = "pa_IN"
+  show FBpl_PL = "pl_PL"
+  show FBps_AF = "ps_AF"
+  show FBpt_BR = "pt_BR"
+  show FBpt_PT = "pt_PT"
+  show FBqz_MM = "qz_MM"
+  show FBro_RO = "ro_RO"
+  show FBru_RU = "ru_RU"
+  show FBrw_RW = "rw_RW"
+  show FBsc_IT = "sc_IT"
+  show FBsi_LK = "si_LK"
+  show FBsk_SK = "sk_SK"
+  show FBsl_SI = "sl_SI"
+  show FBso_SO = "so_SO"
+  show FBsq_AL = "sq_AL"
+  show FBsr_RS = "sr_RS"
+  show FBsw_KE = "sw_KE"
+  show FBsz_PL = "sz_PL"
+  show FBsv_SE = "sv_SE"
+  show FBta_IN = "ta_IN"
+  show FBte_IN = "te_IN"
+  show FBth_TH = "th_TH"
+  show FBtg_TJ = "tg_TJ"
+  show FBtl_PH = "tl_PH"
+  show FBtr_TR = "tr_TR"
+  show FBtz_MA = "tz_MA"
+  show FBuk_UA = "uk_UA"
+  show FBur_PK = "ur_PK"
+  show FBuz_UZ = "uz_UZ"
+  show FBvi_VN = "vi_VN"
+  show FBzh_CN = "zh_CN"
+  show FBzh_HK = "zh_HK"
+  show FBzh_TW = "zh_TW"
+
+instance Read FBLocale where
+  readsPrec _ x =
+    let (locale,rest) = splitAt 5 x
+    in if length locale /= 5
+        then []
+        else case locale of
+                "af_ZA" -> [(FBaf_ZA,rest)]
+                "ar_AR" -> [(FBar_AR,rest)]
+                "as_IN" -> [(FBas_IN,rest)]
+                "az_AZ" -> [(FBaz_AZ,rest)]
+                "be_BY" -> [(FBbe_BY,rest)]
+                "bg_BG" -> [(FBbg_BG,rest)]
+                "bn_IN" -> [(FBbn_IN,rest)]
+                "br_FR" -> [(FBbr_FR,rest)]
+                "bs_BA" -> [(FBbs_BA,rest)]
+                "ca_ES" -> [(FBca_ES,rest)]
+                "cb_IQ" -> [(FBcb_IQ,rest)]
+                "co_FR" -> [(FBco_FR,rest)]
+                "cs_CZ" -> [(FBcs_CZ,rest)]
+                "cx_PH" -> [(FBcx_PH,rest)]
+                "cy_GB" -> [(FBcy_GB,rest)]
+                "da_DK" -> [(FBda_DK,rest)]
+                "de_DE" -> [(FBde_DE,rest)]
+                "el_GR" -> [(FBel_GR,rest)]
+                "en_GB" -> [(FBen_GB,rest)]
+                "en_US" -> [(FBen_US,rest)]
+                "et_EE" -> [(FBet_EE,rest)]
+                "en_UD" -> [(FBen_UD,rest)]
+                "es_LA" -> [(FBes_LA,rest)]
+                "es_ES" -> [(FBes_ES,rest)]
+                "eu_ES" -> [(FBeu_ES,rest)]
+                "fa_IR" -> [(FBfa_IR,rest)]
+                "ff_NG" -> [(FBff_NG,rest)]
+                "fi_FI" -> [(FBfi_FI,rest)]
+                "fo_FO" -> [(FBfo_FO,rest)]
+                "fr_CA" -> [(FBfr_CA,rest)]
+                "fr_FR" -> [(FBfr_FR,rest)]
+                "fy_NL" -> [(FBfy_NL,rest)]
+                "ga_IE" -> [(FBga_IE,rest)]
+                "gl_ES" -> [(FBgl_ES,rest)]
+                "gn_PY" -> [(FBgn_PY,rest)]
+                "gu_IN" -> [(FBgu_IN,rest)]
+                "ha_NG" -> [(FBha_NG,rest)]
+                "he_IL" -> [(FBhe_IL,rest)]
+                "hi_IN" -> [(FBhi_IN,rest)]
+                "hr_HR" -> [(FBhr_HR,rest)]
+                "hu_HU" -> [(FBhu_HU,rest)]
+                "hy_AM" -> [(FBhy_AM,rest)]
+                "id_ID" -> [(FBid_ID,rest)]
+                "is_IS" -> [(FBis_IS,rest)]
+                "it_IT" -> [(FBit_IT,rest)]
+                "ja_JP" -> [(FBja_JP,rest)]
+                "ja_KS" -> [(FBja_KS,rest)]
+                "jv_ID" -> [(FBjv_ID,rest)]
+                "ka_GE" -> [(FBka_GE,rest)]
+                "kk_KZ" -> [(FBkk_KZ,rest)]
+                "km_KH" -> [(FBkm_KH,rest)]
+                "ko_KR" -> [(FBko_KR,rest)]
+                "ku_TR" -> [(FBku_TR,rest)]
+                "kn_IN" -> [(FBkn_IN,rest)]
+                "lv_LV" -> [(FBlv_LV,rest)]
+                "lt_LT" -> [(FBlt_LT,rest)]
+                "mg_MG" -> [(FBmg_MG,rest)]
+                "mk_MK" -> [(FBmk_MK,rest)]
+                "ml_IN" -> [(FBml_IN,rest)]
+                "mn_MN" -> [(FBmn_MN,rest)]
+                "mr_IN" -> [(FBmr_IN,rest)]
+                "ms_MY" -> [(FBms_MY,rest)]
+                "mt_MT" -> [(FBmt_MT,rest)]
+                "my_MM" -> [(FBmy_MM,rest)]
+                "nb_NO" -> [(FBnb_NO,rest)]
+                "ne_NP" -> [(FBne_NP,rest)]
+                "nn_NO" -> [(FBnn_NO,rest)]
+                "nl_BE" -> [(FBnl_BE,rest)]
+                "nl_NL" -> [(FBnl_NL,rest)]
+                "or_IN" -> [(FBor_IN,rest)]
+                "pa_IN" -> [(FBpa_IN,rest)]
+                "pl_PL" -> [(FBpl_PL,rest)]
+                "ps_AF" -> [(FBps_AF,rest)]
+                "pt_BR" -> [(FBpt_BR,rest)]
+                "pt_PT" -> [(FBpt_PT,rest)]
+                "qz_MM" -> [(FBqz_MM,rest)]
+                "ro_RO" -> [(FBro_RO,rest)]
+                "ru_RU" -> [(FBru_RU,rest)]
+                "rw_RW" -> [(FBrw_RW,rest)]
+                "sc_IT" -> [(FBsc_IT,rest)]
+                "si_LK" -> [(FBsi_LK,rest)]
+                "sk_SK" -> [(FBsk_SK,rest)]
+                "sl_SI" -> [(FBsl_SI,rest)]
+                "so_SO" -> [(FBso_SO,rest)]
+                "sq_AL" -> [(FBsq_AL,rest)]
+                "sr_RS" -> [(FBsr_RS,rest)]
+                "sw_KE" -> [(FBsw_KE,rest)]
+                "sz_PL" -> [(FBsz_PL,rest)]
+                "sv_SE" -> [(FBsv_SE,rest)]
+                "ta_IN" -> [(FBta_IN,rest)]
+                "te_IN" -> [(FBte_IN,rest)]
+                "th_TH" -> [(FBth_TH,rest)]
+                "tg_TJ" -> [(FBtg_TJ,rest)]
+                "tl_PH" -> [(FBtl_PH,rest)]
+                "tr_TR" -> [(FBtr_TR,rest)]
+                "tz_MA" -> [(FBtz_MA,rest)]
+                "uk_UA" -> [(FBuk_UA,rest)]
+                "ur_PK" -> [(FBur_PK,rest)]
+                "uz_UZ" -> [(FBuz_UZ,rest)]
+                "vi_VN" -> [(FBvi_VN,rest)]
+                "zh_CN" -> [(FBzh_CN,rest)]
+                "zh_HK" -> [(FBzh_HK,rest)]
+                "zh_TW" -> [(FBzh_TW,rest)]
+                _ -> []
+
+instance ToJSON FBLocale where
+  toJSON = String . pack . show
+
+instance FromJSON FBLocale where
+  parseJSON = withText "FBLocale" $ \case
+    "af_ZA" -> pure FBaf_ZA
+    "ar_AR" -> pure FBar_AR
+    "as_IN" -> pure FBas_IN
+    "az_AZ" -> pure FBaz_AZ
+    "be_BY" -> pure FBbe_BY
+    "bg_BG" -> pure FBbg_BG
+    "bn_IN" -> pure FBbn_IN
+    "br_FR" -> pure FBbr_FR
+    "bs_BA" -> pure FBbs_BA
+    "ca_ES" -> pure FBca_ES
+    "cb_IQ" -> pure FBcb_IQ
+    "co_FR" -> pure FBco_FR
+    "cs_CZ" -> pure FBcs_CZ
+    "cx_PH" -> pure FBcx_PH
+    "cy_GB" -> pure FBcy_GB
+    "da_DK" -> pure FBda_DK
+    "de_DE" -> pure FBde_DE
+    "el_GR" -> pure FBel_GR
+    "en_GB" -> pure FBen_GB
+    "en_US" -> pure FBen_US
+    "et_EE" -> pure FBet_EE
+    "en_UD" -> pure FBen_UD
+    "es_LA" -> pure FBes_LA
+    "es_ES" -> pure FBes_ES
+    "eu_ES" -> pure FBeu_ES
+    "fa_IR" -> pure FBfa_IR
+    "ff_NG" -> pure FBff_NG
+    "fi_FI" -> pure FBfi_FI
+    "fo_FO" -> pure FBfo_FO
+    "fr_CA" -> pure FBfr_CA
+    "fr_FR" -> pure FBfr_FR
+    "fy_NL" -> pure FBfy_NL
+    "ga_IE" -> pure FBga_IE
+    "gl_ES" -> pure FBgl_ES
+    "gn_PY" -> pure FBgn_PY
+    "gu_IN" -> pure FBgu_IN
+    "ha_NG" -> pure FBha_NG
+    "he_IL" -> pure FBhe_IL
+    "hi_IN" -> pure FBhi_IN
+    "hr_HR" -> pure FBhr_HR
+    "hu_HU" -> pure FBhu_HU
+    "hy_AM" -> pure FBhy_AM
+    "id_ID" -> pure FBid_ID
+    "is_IS" -> pure FBis_IS
+    "it_IT" -> pure FBit_IT
+    "ja_JP" -> pure FBja_JP
+    "ja_KS" -> pure FBja_KS
+    "jv_ID" -> pure FBjv_ID
+    "ka_GE" -> pure FBka_GE
+    "kk_KZ" -> pure FBkk_KZ
+    "km_KH" -> pure FBkm_KH
+    "ko_KR" -> pure FBko_KR
+    "ku_TR" -> pure FBku_TR
+    "kn_IN" -> pure FBkn_IN
+    "lv_LV" -> pure FBlv_LV
+    "lt_LT" -> pure FBlt_LT
+    "mg_MG" -> pure FBmg_MG
+    "mk_MK" -> pure FBmk_MK
+    "ml_IN" -> pure FBml_IN
+    "mn_MN" -> pure FBmn_MN
+    "mr_IN" -> pure FBmr_IN
+    "ms_MY" -> pure FBms_MY
+    "mt_MT" -> pure FBmt_MT
+    "my_MM" -> pure FBmy_MM
+    "nb_NO" -> pure FBnb_NO
+    "ne_NP" -> pure FBne_NP
+    "nn_NO" -> pure FBnn_NO
+    "nl_BE" -> pure FBnl_BE
+    "nl_NL" -> pure FBnl_NL
+    "or_IN" -> pure FBor_IN
+    "pa_IN" -> pure FBpa_IN
+    "pl_PL" -> pure FBpl_PL
+    "ps_AF" -> pure FBps_AF
+    "pt_BR" -> pure FBpt_BR
+    "pt_PT" -> pure FBpt_PT
+    "qz_MM" -> pure FBqz_MM
+    "ro_RO" -> pure FBro_RO
+    "ru_RU" -> pure FBru_RU
+    "rw_RW" -> pure FBrw_RW
+    "sc_IT" -> pure FBsc_IT
+    "si_LK" -> pure FBsi_LK
+    "sk_SK" -> pure FBsk_SK
+    "sl_SI" -> pure FBsl_SI
+    "so_SO" -> pure FBso_SO
+    "sq_AL" -> pure FBsq_AL
+    "sr_RS" -> pure FBsr_RS
+    "sw_KE" -> pure FBsw_KE
+    "sz_PL" -> pure FBsz_PL
+    "sv_SE" -> pure FBsv_SE
+    "ta_IN" -> pure FBta_IN
+    "te_IN" -> pure FBte_IN
+    "th_TH" -> pure FBth_TH
+    "tg_TJ" -> pure FBtg_TJ
+    "tl_PH" -> pure FBtl_PH
+    "tr_TR" -> pure FBtr_TR
+    "tz_MA" -> pure FBtz_MA
+    "uk_UA" -> pure FBuk_UA
+    "ur_PK" -> pure FBur_PK
+    "uz_UZ" -> pure FBuz_UZ
+    "vi_VN" -> pure FBvi_VN
+    "zh_CN" -> pure FBzh_CN
+    "zh_HK" -> pure FBzh_HK
+    "zh_TW" -> pure FBzh_TW
+    wat -> fail $ "Unsupported locale: " `mappend` unpack wat

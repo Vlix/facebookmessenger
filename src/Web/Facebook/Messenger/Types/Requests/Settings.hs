@@ -36,8 +36,10 @@ module Web.Facebook.Messenger.Types.Requests.Settings (
   -- N.B. In case you need an empty 'ProfileRequest',
   -- you can use 'mempty'. But it's unlikely you'll need it.
 
+  -- * Profile Request
+  ProfileRequest (..)
   -- ** Greeting
-  greeting
+  , greeting
   , defaultGreeting
   , Greeting (..)
   , GreetingSetting (..)
@@ -72,8 +74,6 @@ module Web.Facebook.Messenger.Types.Requests.Settings (
   , homeUrl
   , homeUrl_
   , HomeUrl (..)
-  -- * Profile Request
-  , ProfileRequest (..)
   )
 where
 
@@ -81,7 +81,6 @@ where
 import Control.Applicative ((<|>))
 import Data.Aeson
 import Data.Aeson.Types (Parser)
-import Data.Maybe (fromMaybe)
 import Data.Semigroup (Semigroup(..))
 import Data.Text (Text)
 
@@ -102,7 +101,7 @@ greeting x = mempty{prGreeting = Just (Greeting x)}
 
 -- | Convenience function to set a default 'GreetingSetting'
 defaultGreeting :: Text -> GreetingSetting
-defaultGreeting = GreetingSetting "default"
+defaultGreeting = GreetingSetting Nothing
 
 -- | A bot's welcome screen can display a Get Started button.
 -- When this button is tapped, the Messenger Platform will send
@@ -280,10 +279,7 @@ newtype Greeting = Greeting { greetingText :: [GreetingSetting] }
 --
 -- https://developers.facebook.com/docs/messenger-platform/messenger-profile/supported-locales
 data GreetingSetting = GreetingSetting
-    -- FIXME: gsLocale could be replaced with @Data.LanguageCodes@
-    -- and @Data.ISO3166_CountryCodes@ to have even better type
-    -- safety... but is it worth it.
-    { gsLocale :: Text
+    { gsLocale :: Maybe FBLocale
     -- ^ Locale of the greeting text, shown when the person's
     -- locale matches the provided locale. Must be in UTF-8.
     -- 160 character limit. You must at least specify greeting
@@ -316,7 +312,7 @@ newtype PersistentMenu = PersistentMenu { menuItems :: [PersistentMenuSetting] }
 --
 -- __N.B. Just set `pmsLocale` to `Nothing` for the default__
 data PersistentMenuSetting = PersistentMenuSetting
-    { pmsLocale :: Maybe Text
+    { pmsLocale :: Maybe FBLocale
     -- ^ There can only be one PersistentMenuSetting
     -- with a certain locale. ('Nothing' == "default")
     --
@@ -470,8 +466,8 @@ instance ToJSON ProfileRequest where
               ]
 
 instance ToJSON GreetingSetting where
-  toJSON (GreetingSetting loc txt) =
-      object [ "locale" .= loc
+  toJSON (GreetingSetting mloc txt) =
+      object [ "locale" .= maybe (String "default") toJSON mloc
              , "text" .= txt
              ]
 
@@ -481,7 +477,7 @@ instance ToJSON GetStartedButton where
 
 instance ToJSON PersistentMenuSetting where
   toJSON (PersistentMenuSetting mLocale input ctas chatDisabled) =
-      object' $ [ "locale" .=! fromMaybe ("default" :: Text) mLocale
+      object' $ [ "locale" .=! maybe (String "default") toJSON mLocale
                 , mDefault "composer_input_disabled" False input
                 , mEmptyList "call_to_actions" ctas
                 ] ++
@@ -541,8 +537,12 @@ instance FromJSON ProfileRequest where
 
 instance FromJSON GreetingSetting where
   parseJSON = withObject "GreetingSetting" $ \o ->
-      GreetingSetting <$> o .: "locale"
+      GreetingSetting <$> (localeP o >>= f)
                       <*> o .: "text"
+    where localeP o = o .: "locale" :: Parser Text
+          f x = if x == "default"
+                  then pure Nothing
+                  else parseJSON $ String x
 
 instance FromJSON GetStartedButton where
   parseJSON = withObject "GetStartedButton" $ \o ->
@@ -554,9 +554,9 @@ instance FromJSON PersistentMenuSetting where
                             <*> o .:? "composer_input_disabled" .!= False
                             <*> o .:? "call_to_actions" .!= []
                             <*> disableChat o
-    where setLocale o = f <$> localeP
+    where setLocale o = localeP >>= f
             where localeP = o .: "locale" :: Parser Text
-                  f x = if x == "default" then Nothing else Just x
+                  f x = if x == "default" then pure Nothing else parseJSON (String x)
           disableChat o = f <$> o .:? "disabled_surfaces"
             where f = \case
                         (Just [CUSTOMER_CHAT_PLUGIN]) -> True

@@ -36,8 +36,8 @@ testGreetings = testCase "Greetings concatinate lists" $
     greeting [defGreet, nlGreet] <>
     greeting [enGreet] @?= greeting [defGreet, nlGreet, enGreet]
   where defGreet = defaultGreeting "Hello, test"
-        nlGreet = GreetingSetting "nl_NL" "Hallo, test"
-        enGreet = GreetingSetting "en_US" "Hello, testing"
+        nlGreet = GreetingSetting (Just FBnl_NL) "Hallo, test"
+        enGreet = GreetingSetting (Just FBen_US) "Hello, testing"
 
 testGetStarted :: TestTree
 testGetStarted = testCase "Get started takes last" $
@@ -53,7 +53,7 @@ testPersistentMenu = testCase "Persistent menu concatinates lists" $
   where firstSetting = PersistentMenuSetting Nothing False
           [persistentUrlItem_ "test" "https://test.net/"]
           False
-        secondSetting = PersistentMenuSetting (Just "nl_NL") True
+        secondSetting = PersistentMenuSetting (Just FBnl_NL) True
           [persistentPostbackItem "click" "somemetadatahere"]
           True
         thirdSetting = PersistentMenuSetting Nothing True

@@ -21,7 +21,7 @@ messengerProfileVal = $$(decodeFile "test/json/request/messenger_profile_request
 messengerProfileTest :: TestTree
 messengerProfileTest = parseTest "Messenger Profile Request" messengerProfileVal
                      $ greeting [defaultGreeting "Hello!"]
-                    <> greeting [GreetingSetting "en_US" "Timeless apparel for the masses."]
+                    <> greeting [GreetingSetting (Just FBen_US) "Timeless apparel for the masses."]
                     <> whiteListedDomains ["https://www.something.com/"]
                     <> targetAudience (TargetAudience CUSTOM $ Just $ TargetCountries ["US","NL","JP"] [])
                     <> persistentMenu [PersistentMenuSetting Nothing False items False]

@@ -110,3 +110,8 @@ deriving instance Generic PriorMessageType
 instance Arbitrary PriorMessageType where
   arbitrary = genericArbitrary
   shrink = genericShrink
+
+deriving instance Generic FBLocale
+instance Arbitrary FBLocale where
+  arbitrary = genericArbitrary
+  shrink = genericShrink
