@@ -19,6 +19,7 @@ library
   hs-source-dirs:     src
   exposed-modules:     Web.Facebook.Messenger
 
+                       Web.Facebook.Messenger.Internal
                        Web.Facebook.Messenger.Types
 
                        Web.Facebook.Messenger.Types.Callbacks

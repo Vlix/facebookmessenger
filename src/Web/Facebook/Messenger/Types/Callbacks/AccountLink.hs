@@ -23,7 +23,7 @@ import Data.Aeson
 import Data.Aeson.Types (Parser)
 import Data.Text
 
-import Web.Facebook.Messenger.Types.Static
+import Web.Facebook.Messenger.Internal
 
 
 -- -------------------------- --

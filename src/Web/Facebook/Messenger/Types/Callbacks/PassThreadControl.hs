@@ -21,8 +21,9 @@ where
 import Data.Aeson
 import Data.Text (Text)
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests (AppId)
-import Web.Facebook.Messenger.Types.Static
+
 
 -- | This callback will occur when thread ownership for a user has been passed to your application.
 data PassThread = PassThread

@@ -26,9 +26,9 @@ import Data.Aeson
 import Data.Aeson.Types (Parser)
 import Data.Text (Text, unpack)
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.Airline (AirlineAirport)
 import Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineCheckin (AirlineCheckinFlightSchedule)
-import Web.Facebook.Messenger.Types.Static
 
 
 -- ------------------------------- --

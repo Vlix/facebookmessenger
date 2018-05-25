@@ -53,6 +53,7 @@ import qualified Data.HashMap.Strict as HM
 import Data.Scientific (scientific)
 import Data.Text (Text)
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests.Extra (GenericElement, Fallback)
 import Web.Facebook.Messenger.Types.Static
 

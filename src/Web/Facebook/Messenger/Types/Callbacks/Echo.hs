@@ -38,6 +38,7 @@ import Data.List.NonEmpty (NonEmpty)
 import Data.Maybe (catMaybes)
 import Data.Text (Text)
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests
 import Web.Facebook.Messenger.Types.Requests.Attachment (RequestAttachment)
 import Web.Facebook.Messenger.Types.Requests.Extra (Fallback)

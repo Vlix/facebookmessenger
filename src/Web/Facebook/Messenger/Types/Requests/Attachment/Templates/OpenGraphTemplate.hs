@@ -37,8 +37,9 @@ import Control.Monad (unless)
 import Data.Aeson
 import Data.Text (Text)
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests.Extra (TemplateButton)
-import Web.Facebook.Messenger.Types.Static
+import Web.Facebook.Messenger.Types.Static (URL)
 
 
 -- ----------------------------- --

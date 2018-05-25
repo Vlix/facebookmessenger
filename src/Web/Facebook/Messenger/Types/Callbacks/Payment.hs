@@ -33,8 +33,8 @@ import Control.Applicative ((<|>))
 import Data.Aeson
 import Data.Text
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests.Extra (TemplateAddress)
-import Web.Facebook.Messenger.Types.Static
 
 
 -- ------------------ --

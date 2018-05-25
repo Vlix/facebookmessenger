@@ -21,8 +21,9 @@ import Data.Aeson.Types (Parser)
 import Data.Maybe (isJust)
 import Data.Text
 
+import Web.Facebook.Messenger.Internal (checkValue)
 import Web.Facebook.Messenger.Types.Callbacks.Messaging
-import Web.Facebook.Messenger.Types.Static (checkValue, PageID (..))
+import Web.Facebook.Messenger.Types.Static (PageID (..))
 
 
 -- ============================== --

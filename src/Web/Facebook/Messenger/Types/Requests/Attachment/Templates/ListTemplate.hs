@@ -38,6 +38,7 @@ import Data.Maybe (listToMaybe)
 import Data.List.NonEmpty (NonEmpty(..))
 import Data.Text (Text)
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests.Extra (TemplateButton, DefaultAction)
 import Web.Facebook.Messenger.Types.Static
 

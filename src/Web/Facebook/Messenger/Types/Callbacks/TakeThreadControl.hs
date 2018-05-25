@@ -22,8 +22,9 @@ where
 import Data.Aeson
 import Data.Text (Text)
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests (AppId)
-import Web.Facebook.Messenger.Types.Static
+
 
 -- | A Secondary Receiver app will receive a @"take_thread_control"@ webhook event when it loses thread control.
 data TakeThread = TakeThread

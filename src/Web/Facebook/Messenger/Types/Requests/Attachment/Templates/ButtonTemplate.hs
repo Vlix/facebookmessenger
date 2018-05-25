@@ -21,8 +21,8 @@ import Data.Aeson
 import Data.List.NonEmpty as NE (NonEmpty, take)
 import Data.Text (Text)
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests.Extra (TemplateButton)
-import Web.Facebook.Messenger.Types.Static
 
 
 -- ------------------------- --

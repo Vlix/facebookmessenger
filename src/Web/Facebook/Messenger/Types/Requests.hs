@@ -64,6 +64,7 @@ import Data.Aeson.Types (Parser)
 import Data.Text (Text, unpack)
 
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests.Extra
 import Web.Facebook.Messenger.Types.Requests.Message
 import Web.Facebook.Messenger.Types.Requests.Settings

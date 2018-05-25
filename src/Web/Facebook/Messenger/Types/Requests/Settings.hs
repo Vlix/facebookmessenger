@@ -84,8 +84,10 @@ import Data.Aeson.Types (Parser)
 import Data.Semigroup (Semigroup(..))
 import Data.Text (Text)
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests.Extra
 import Web.Facebook.Messenger.Types.Static
+
 
 -- | The greeting property of your app's Messenger profile allows you
 -- to specify the greeting message people will see on the welcome

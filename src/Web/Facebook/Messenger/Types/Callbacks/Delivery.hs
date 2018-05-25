@@ -20,7 +20,7 @@ where
 import Data.Aeson
 import Data.Text
 
-import Web.Facebook.Messenger.Types.Static
+import Web.Facebook.Messenger.Internal
 
 
 -- ------------------- --

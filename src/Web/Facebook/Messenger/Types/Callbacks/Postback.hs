@@ -26,8 +26,8 @@ where
 import Data.Text (Text)
 import Data.Aeson
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Callbacks.Referral (Referral)
-import Web.Facebook.Messenger.Types.Static
 
 
 -- ------------------- --

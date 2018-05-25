@@ -39,8 +39,10 @@ import Data.Aeson
 import Data.List.NonEmpty (NonEmpty)
 import Data.Text
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests.Attachment.Templates
 import Web.Facebook.Messenger.Types.Static
+
 
 -- | Constructor for making a `RequestAttachment` from a `TemplatePayload`
 templateRequest :: TemplatePayload -> RequestAttachment

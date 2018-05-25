@@ -23,6 +23,7 @@ import Data.Aeson
 import Data.Maybe (listToMaybe)
 import Data.Text (Text)
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests.Extra (TemplateButton)
 import Web.Facebook.Messenger.Types.Static
 

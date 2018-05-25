@@ -59,6 +59,7 @@ import Data.Aeson
 import Data.HashMap.Strict as HM
 import Data.Text (Text)
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Callbacks.Message
 import Web.Facebook.Messenger.Types.Callbacks.Delivery
 import Web.Facebook.Messenger.Types.Callbacks.Read

@@ -57,6 +57,7 @@ import Data.Maybe (catMaybes)
 import qualified Data.HashMap.Strict as HM
 import Data.Text (Text, pack, unpack)
 
+import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests (AppId)
 import Web.Facebook.Messenger.Types.Requests.Extra (PriceObject)
 import Web.Facebook.Messenger.Types.Requests.Settings (ProfileRequest (..))
