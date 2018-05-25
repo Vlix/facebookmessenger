@@ -1,6 +1,4 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE LambdaCase #-}
-
 {-|
 Module      : Web.Facebook.Messenger.Types.Static
 Copyright   : (c) Felix Paulusma, 2016
@@ -47,7 +45,9 @@ where
 
 
 import Data.Aeson
+import Data.Aeson.Types (Parser)
 import Data.Text (Text, pack, unpack)
+import Text.Read (readEither)
 
 import Web.Facebook.Messenger.Internal
 
@@ -676,108 +676,7 @@ instance ToJSON FBLocale where
   toJSON = String . pack . show
 
 instance FromJSON FBLocale where
-  parseJSON = withText "FBLocale" $ \case
-    "af_ZA" -> pure FBaf_ZA
-    "ar_AR" -> pure FBar_AR
-    "as_IN" -> pure FBas_IN
-    "az_AZ" -> pure FBaz_AZ
-    "be_BY" -> pure FBbe_BY
-    "bg_BG" -> pure FBbg_BG
-    "bn_IN" -> pure FBbn_IN
-    "br_FR" -> pure FBbr_FR
-    "bs_BA" -> pure FBbs_BA
-    "ca_ES" -> pure FBca_ES
-    "cb_IQ" -> pure FBcb_IQ
-    "co_FR" -> pure FBco_FR
-    "cs_CZ" -> pure FBcs_CZ
-    "cx_PH" -> pure FBcx_PH
-    "cy_GB" -> pure FBcy_GB
-    "da_DK" -> pure FBda_DK
-    "de_DE" -> pure FBde_DE
-    "el_GR" -> pure FBel_GR
-    "en_GB" -> pure FBen_GB
-    "en_US" -> pure FBen_US
-    "et_EE" -> pure FBet_EE
-    "en_UD" -> pure FBen_UD
-    "es_LA" -> pure FBes_LA
-    "es_ES" -> pure FBes_ES
-    "eu_ES" -> pure FBeu_ES
-    "fa_IR" -> pure FBfa_IR
-    "ff_NG" -> pure FBff_NG
-    "fi_FI" -> pure FBfi_FI
-    "fo_FO" -> pure FBfo_FO
-    "fr_CA" -> pure FBfr_CA
-    "fr_FR" -> pure FBfr_FR
-    "fy_NL" -> pure FBfy_NL
-    "ga_IE" -> pure FBga_IE
-    "gl_ES" -> pure FBgl_ES
-    "gn_PY" -> pure FBgn_PY
-    "gu_IN" -> pure FBgu_IN
-    "ha_NG" -> pure FBha_NG
-    "he_IL" -> pure FBhe_IL
-    "hi_IN" -> pure FBhi_IN
-    "hr_HR" -> pure FBhr_HR
-    "hu_HU" -> pure FBhu_HU
-    "hy_AM" -> pure FBhy_AM
-    "id_ID" -> pure FBid_ID
-    "is_IS" -> pure FBis_IS
-    "it_IT" -> pure FBit_IT
-    "ja_JP" -> pure FBja_JP
-    "ja_KS" -> pure FBja_KS
-    "jv_ID" -> pure FBjv_ID
-    "ka_GE" -> pure FBka_GE
-    "kk_KZ" -> pure FBkk_KZ
-    "km_KH" -> pure FBkm_KH
-    "ko_KR" -> pure FBko_KR
-    "ku_TR" -> pure FBku_TR
-    "kn_IN" -> pure FBkn_IN
-    "lv_LV" -> pure FBlv_LV
-    "lt_LT" -> pure FBlt_LT
-    "mg_MG" -> pure FBmg_MG
-    "mk_MK" -> pure FBmk_MK
-    "ml_IN" -> pure FBml_IN
-    "mn_MN" -> pure FBmn_MN
-    "mr_IN" -> pure FBmr_IN
-    "ms_MY" -> pure FBms_MY
-    "mt_MT" -> pure FBmt_MT
-    "my_MM" -> pure FBmy_MM
-    "nb_NO" -> pure FBnb_NO
-    "ne_NP" -> pure FBne_NP
-    "nn_NO" -> pure FBnn_NO
-    "nl_BE" -> pure FBnl_BE
-    "nl_NL" -> pure FBnl_NL
-    "or_IN" -> pure FBor_IN
-    "pa_IN" -> pure FBpa_IN
-    "pl_PL" -> pure FBpl_PL
-    "ps_AF" -> pure FBps_AF
-    "pt_BR" -> pure FBpt_BR
-    "pt_PT" -> pure FBpt_PT
-    "qz_MM" -> pure FBqz_MM
-    "ro_RO" -> pure FBro_RO
-    "ru_RU" -> pure FBru_RU
-    "rw_RW" -> pure FBrw_RW
-    "sc_IT" -> pure FBsc_IT
-    "si_LK" -> pure FBsi_LK
-    "sk_SK" -> pure FBsk_SK
-    "sl_SI" -> pure FBsl_SI
-    "so_SO" -> pure FBso_SO
-    "sq_AL" -> pure FBsq_AL
-    "sr_RS" -> pure FBsr_RS
-    "sw_KE" -> pure FBsw_KE
-    "sz_PL" -> pure FBsz_PL
-    "sv_SE" -> pure FBsv_SE
-    "ta_IN" -> pure FBta_IN
-    "te_IN" -> pure FBte_IN
-    "th_TH" -> pure FBth_TH
-    "tg_TJ" -> pure FBtg_TJ
-    "tl_PH" -> pure FBtl_PH
-    "tr_TR" -> pure FBtr_TR
-    "tz_MA" -> pure FBtz_MA
-    "uk_UA" -> pure FBuk_UA
-    "ur_PK" -> pure FBur_PK
-    "uz_UZ" -> pure FBuz_UZ
-    "vi_VN" -> pure FBvi_VN
-    "zh_CN" -> pure FBzh_CN
-    "zh_HK" -> pure FBzh_HK
-    "zh_TW" -> pure FBzh_TW
-    wat -> fail $ "Unsupported locale: " `mappend` unpack wat
+  parseJSON = withText "FBLocale" $ \t -> go t $ readEither $ unpack t
+    where go :: Text -> Either String FBLocale -> Parser FBLocale
+          go t = either wat pure
+            where wat = fail . mappend ("Unsupported locale (" `mappend` unpack t `mappend` "): ")

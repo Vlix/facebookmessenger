@@ -60,6 +60,6 @@ instance ToJSON Optin where
               ]
 
 instance FromJSON Optin where
-  parseJSON = withObject "Optin" $ \o -> do
+  parseJSON = withObject "Optin" $ \o ->
       Optin <$> o .: "ref"
             <*> o .:? "user_ref"
