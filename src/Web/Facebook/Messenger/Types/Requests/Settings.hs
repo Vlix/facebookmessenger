@@ -387,6 +387,7 @@ data PersistentMenuItem = PMIUrl URLButton
                         | PMINested PersistentMenuItemNested
   deriving (Eq, Show, Read, Ord)
 
+-- | Constructor for nested Persistent Menu items.
 persistentNestedItem :: Text -- ^ /Menu item title. 30 char limit/
                      -> [PersistentMenuItem]
                      -- ^ /Nested `PersistentMenuItem` that will be expanded in next level./

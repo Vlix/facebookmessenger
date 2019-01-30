@@ -78,6 +78,7 @@ newtype EchoText = EchoText { eText :: Text }
 newtype EchoAttachment = EchoAttachment { eAttachments :: [RequestAttachment] }
   deriving (Eq, Show, Read, Ord)
 
+-- | Button used in an echoed Button Template.
 data EchoButton = EchoButton { ebText :: Text
                              , ebButtons :: NonEmpty TemplateButton
                              }

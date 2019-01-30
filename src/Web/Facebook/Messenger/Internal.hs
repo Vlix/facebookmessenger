@@ -128,6 +128,7 @@ withText' s tups = withText s $ \t ->
       Just val -> pure val
       _ -> fail $ "Wrong String for " <> s <> ": " <> unpack t
 
+-- | Like 'withText'', but case insensitive.
 withTextCI :: String -- ^ /reference in case the parsing fails/
            -> [(Text, a)] -- ^ /lookup list of JSON String to sum type/
            -> Value

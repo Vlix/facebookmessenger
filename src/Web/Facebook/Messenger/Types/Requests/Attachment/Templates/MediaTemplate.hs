@@ -87,32 +87,32 @@ instance FromJSON MediaElement where
                    <*> pure content
                    <*> (listToMaybe <$> o .:? "buttons" .!= [])
 
+-- | Content of a 'MediaElement'. Is either an attachment id, or the URL to a
+-- Facebook page's or Facebook account's media.
 data MediaElementContent =
-      -- | ID received when uploading attachment to attachment API
-      -- or when setting "is_reusable" when sending an attachment message
       AttachmentID Text
-{-|
-Getting the Facebook URL
-
-To get the Facebook URL for an image or video, do the following:
-
-* Click the image or video thumbnail to open the full-size view.
-* Copy the URL from your browser's address bar.
-
-Facebook URLs should be in the following base format:
-
-@
-Media Type  Media Source      URL Format
-
-Video       Facebook Page     https://business.facebook.com/<PAGE_NAME>/videos/<NUMERIC_ID>
-
-Video       Facebook Account  https://www.facebook.com/<USERNAME>/videos/<NUMERIC_ID>/
-
-Image       Facebook Page     https://business.facebook.com/<PAGE_NAME>/photos/<NUMERIC_ID>
-
-Image       Facebook Account  https://www.facebook.com/photo.php?fbid=<NUMERIC_ID>
-@
--}
+      -- ^ ID received when uploading attachment to attachment API
+      -- or when setting "is_reusable" when sending an attachment message
     | FacebookURL URL
+      -- ^ Getting the Facebook URL
+      --
+      -- To get the Facebook URL for an image or video, do the following:
+      --
+      -- * Click the image or video thumbnail to open the full-size view.
+      -- * Copy the URL from your browser's address bar.
+      --
+      -- Facebook URLs should be in the following base format:
+      --
+      -- @
+      -- Media Type  Media Source      URL Format
+      --
+      -- Video       Facebook Page     https://business.facebook.com/<PAGE_NAME>/videos/<NUMERIC_ID>
+      --
+      -- Video       Facebook Account  https://www.facebook.com/<USERNAME>/videos/<NUMERIC_ID>/
+      --
+      -- Image       Facebook Page     https://business.facebook.com/<PAGE_NAME>/photos/<NUMERIC_ID>
+      --
+      -- Image       Facebook Account  https://www.facebook.com/photo.php?fbid=<NUMERIC_ID>
+      -- @
 
   deriving (Eq, Show, Read, Ord)

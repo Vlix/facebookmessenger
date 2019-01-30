@@ -3,8 +3,6 @@ module UnitTest.ProfileRequest (
   ) where
 
 
-import Data.Semigroup
-
 import Test.Tasty as Tasty
 import Test.Tasty.HUnit as Tasty
 import Web.Facebook.Messenger

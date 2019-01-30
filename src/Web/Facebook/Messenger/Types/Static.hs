@@ -430,6 +430,7 @@ instance ToJSON PriorMessageType where
   toJSON CheckBoxPlugin = String "checkbox_plugin"
   toJSON CustomerMatching = String "customer_matching"
 
+-- | All possible locales that FB supports
 data FBLocale =
     FBaf_ZA | FBar_AR | FBas_IN | FBaz_AZ
   | FBbe_BY | FBbg_BG | FBbn_IN | FBbr_FR | FBbs_BA

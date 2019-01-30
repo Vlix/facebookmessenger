@@ -97,7 +97,7 @@ instance Arbitrary ThreadOwnerResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance {-# OVERLAPPABLE #-} Generic a => Generic (DataResponse a)
+deriving instance {-# OVERLAPPABLE #-} Generic (DataResponse a)
 instance {-# OVERLAPPABLE #-} (Arbitrary a, Generic a) => Arbitrary (DataResponse a) where
   arbitrary = genericArbitrary
   shrink = genericShrink
