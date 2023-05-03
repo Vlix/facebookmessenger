@@ -4,6 +4,7 @@ module UnitTest.ResponseParse.TagResponse where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -15,7 +16,7 @@ import UnitTest.Internal
 ------------------
 
 tagResponseVal :: Value
-tagResponseVal = $$(decodeFile "test/json/response/tag_response.json")
+tagResponseVal = $$(liftCode $ decodeFile "test/json/response/tag_response.json")
 
 tagResponseTest :: TestTree
 tagResponseTest = parseTest "Tag Response" tagResponseVal

@@ -4,6 +4,7 @@ module UnitTest.ResponseParse.AccountLinking where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -15,7 +16,7 @@ import UnitTest.Internal
 ------------------
 
 accountLinkingVal :: Value
-accountLinkingVal = $$(decodeFile "test/json/response/account_linking.json")
+accountLinkingVal = $$(liftCode $ decodeFile "test/json/response/account_linking.json")
 
 accountLinkTest :: TestTree
 accountLinkTest = parseTest "Account Linking Response" accountLinkingVal

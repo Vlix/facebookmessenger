@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.RequestThreadControl
 Copyright   : (c) Felix Paulusma, 2016-2018
@@ -34,7 +35,7 @@ data RequestThread = RequestThread
     -- (User from the top `RecipientSender`)
     , rtMetaData :: Maybe Text
     -- ^ Custom string specified in the API request.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- --------------------------- --

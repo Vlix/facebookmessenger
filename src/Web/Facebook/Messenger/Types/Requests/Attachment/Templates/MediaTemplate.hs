@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.MediaTemplate
 Copyright   : (c) Felix Paulusma, 2016
@@ -36,7 +37,7 @@ import Web.Facebook.Messenger.Types.Static
 --
 -- (Currently, the media template only supports sending images and video. Audio is currently not supported)
 newtype MediaTemplate = MediaTemplate { mtElements :: MediaElement }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON MediaTemplate where
   toJSON (MediaTemplate element) =
@@ -61,7 +62,7 @@ data MediaElement = MediaElement
     { meType :: AttachmentType -- ^ Type of the media (can only be 'VIDEO' or 'IMAGE')
     , meContent :: MediaElementContent -- ^ Is either an @Attachment ID@ or a @Facebook URL@
     , meButton :: Maybe TemplateButton -- ^ Buttons on the element (1 button limit)
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON MediaElement where
   toJSON (MediaElement typ content mBtn) =
@@ -115,4 +116,4 @@ data MediaElementContent =
       -- Image       Facebook Account  https://www.facebook.com/photo.php?fbid=<NUMERIC_ID>
       -- @
 
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)

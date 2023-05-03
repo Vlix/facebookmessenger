@@ -4,6 +4,7 @@ module UnitTest.CallbackParse.ReferralCallback where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -22,10 +23,10 @@ referralTests = Tasty.testGroup "Referral Callbacks"
 
 
 referralsVal :: Value
-referralsVal = $$(decodeFile "test/json/callback/referrals.json")
+referralsVal = $$(liftCode $ decodeFile "test/json/callback/referrals.json")
 
 referralCBVal :: Value
-referralCBVal = $$(decodeFile "test/json/callback/referral_callback.json")
+referralCBVal = $$(liftCode $ decodeFile "test/json/callback/referral_callback.json")
 
 referrals :: TestTree
 referrals = parseTest "All referral types" referralsVal [ads, link, msngr, discover, plugin]

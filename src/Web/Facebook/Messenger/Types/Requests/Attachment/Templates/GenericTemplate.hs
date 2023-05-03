@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.GenericTemplate
 Copyright   : (c) Felix Paulusma, 2016
@@ -48,7 +49,7 @@ data GenericTemplate = GenericTemplate
     -- ^ Aspect ratio used to render images specified by image_url in element objects.
     -- Must be `HORIZONTAL` or `SQUARE`. Default is `HORIZONTAL`.
     , gtElements :: NonEmpty GenericElement -- ^ Data for each bubble in message (Limited to 10)
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON GenericTemplate where
   toJSON (GenericTemplate share ratio elements) =

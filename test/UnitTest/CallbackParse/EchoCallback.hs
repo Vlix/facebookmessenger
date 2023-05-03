@@ -5,6 +5,7 @@ module UnitTest.CallbackParse.EchoCallback where
 import Data.Aeson (Value)
 import Data.List.NonEmpty (NonEmpty(..))
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -25,16 +26,16 @@ echoTests = Tasty.testGroup "Account Linking Callback"
 
 
 echoTextVal :: Value
-echoTextVal = $$(decodeFile "test/json/callback/echo_callback_text.json")
+echoTextVal = $$(liftCode $ decodeFile "test/json/callback/echo_callback_text.json")
 
 echoGenericVal :: Value
-echoGenericVal = $$(decodeFile "test/json/callback/echo_callback_generic.json")
+echoGenericVal = $$(liftCode $ decodeFile "test/json/callback/echo_callback_generic.json")
 
 echoButtonVal :: Value
-echoButtonVal = $$(decodeFile "test/json/callback/echo_callback_button.json")
+echoButtonVal = $$(liftCode $ decodeFile "test/json/callback/echo_callback_button.json")
 
 echoFallbackVal :: Value
-echoFallbackVal = $$(decodeFile "test/json/callback/echo_callback_fallback.json")
+echoFallbackVal = $$(liftCode $ decodeFile "test/json/callback/echo_callback_fallback.json")
 
 echoCallback :: TestTree
 echoCallback = parseTest "Echo callback" echoTextVal

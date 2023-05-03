@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 {-|
@@ -34,7 +35,7 @@ where
 import Control.Monad (unless)
 import Data.Aeson
 import Data.Aeson.Types (Parser)
-import qualified Data.HashMap.Strict as HM
+import qualified Data.Aeson.KeyMap as KM
 import Data.Text (Text, unpack)
 
 import Web.Facebook.Messenger.Internal
@@ -56,7 +57,7 @@ data AirlineBoardingPass = AirlineBoardingPass
     -- https://developers.facebook.com/docs/messenger-platform/messenger-profile/supported-locales
     , abptThemeColor :: Maybe Text -- ^ Background color of the attachment. Must be a RGB hexadecimal string (default #009ddc)
     , abptBoardingPass :: [BoardingPass] -- ^ Boarding passes for passengers
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Boarding pass for a passenger
 --
@@ -73,12 +74,12 @@ data BoardingPass = BoardingPass
     , abpQrBarCode :: AirlineQRBarCode -- ^ /use `qrCode` or `barCode` to construct the `AirlineQRBarCode`/
     , abpAboveBarCodeImageUrl :: URL -- ^ URL of thin image above the barcode
     , abpFlightInfo :: AirlineFlightInfo -- ^ Information about the flight
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | QR code or Bar code used as the boarding pass
 data AirlineQRBarCode = AirlineQR AirlineQRCode
                       | AirlineBar AirlineBarCode
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Takes Aztec or QR text.
 qrCode :: Text -> AirlineQRBarCode
@@ -87,7 +88,8 @@ qrCode = AirlineQR . AirlineQRCode
 -- | Aztec or QR code
 newtype AirlineQRCode =
           AirlineQRCode { getQRCode :: Text }
-  deriving (Eq, Show, Read, Ord, FromJSON, ToJSON)
+  deriving stock (Eq, Show, Read, Ord)
+  deriving newtype (FromJSON, ToJSON)
 
 -- | Takes an image URL.
 barCode :: URL -> AirlineQRBarCode
@@ -96,13 +98,14 @@ barCode = AirlineBar . AirlineBarCode
 -- | URL of the barcode image
 newtype AirlineBarCode =
           AirlineBarCode { barCodeImageUrl :: URL }
-  deriving (Eq, Show, Read, Ord, FromJSON, ToJSON)
+  deriving stock (Eq, Show, Read, Ord)
+  deriving newtype (FromJSON, ToJSON)
 
 -- | Custom field to add information to the `BoardingPass`
 data AirlineField = AirlineField
   { afLabel :: Text -- Label for the additional field
   , afValue :: Text -- Value for the additional field
-  } deriving (Eq, Show, Read, Ord)
+  } deriving stock (Eq, Show, Read, Ord)
 
 
 
@@ -160,8 +163,8 @@ instance FromJSON AirlineBoardingPass where
 
 instance FromJSON BoardingPass where
   parseJSON = withObject "BoardingPass" $ \o -> do
-      let mQRCode = "qr_code" `HM.lookup` o
-          mBarCode = "barcode_image_url" `HM.lookup` o
+      let mQRCode = "qr_code" `KM.lookup` o
+          mBarCode = "barcode_image_url" `KM.lookup` o
           eitherQrBar = case (mQRCode,mBarCode) of
             (Just v,Nothing) -> AirlineQR <$> parseJSON v
             (Nothing,Just v) -> AirlineBar <$> parseJSON v

@@ -3,8 +3,9 @@ module UnitTest.CallbackParse.AppRoleCallback where
 
 
 import Data.Aeson (Value)
-import Data.HashMap.Strict (fromList)
+import Data.Aeson.KeyMap (fromList)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -16,7 +17,7 @@ import UnitTest.Internal
 ---------------
 
 appRoleVal :: Value
-appRoleVal = $$(decodeFile "test/json/callback/app_role_callback.json")
+appRoleVal = $$(liftCode $ decodeFile "test/json/callback/app_role_callback.json")
 
 appRoleTests :: TestTree
 appRoleTests = parseTest "App Role Callback" appRoleVal

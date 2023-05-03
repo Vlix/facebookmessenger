@@ -4,6 +4,7 @@ module UnitTest.ResponseParse.UserProfileResponse where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -15,7 +16,7 @@ import UnitTest.Internal
 ---------------------------
 
 userProfileResponseVal :: Value
-userProfileResponseVal = $$(decodeFile "test/json/response/user_profile.json")
+userProfileResponseVal = $$(liftCode $ decodeFile "test/json/response/user_profile.json")
 
 userProfileResponseTest :: TestTree
 userProfileResponseTest = parseTest "User Profile Response" userProfileResponseVal

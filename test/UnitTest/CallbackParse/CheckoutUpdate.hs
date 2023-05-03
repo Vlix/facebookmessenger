@@ -4,6 +4,7 @@ module UnitTest.CallbackParse.CheckoutUpdate where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -15,7 +16,7 @@ import UnitTest.Internal
 ---------------------
 
 checkoutUpdateVal :: Value
-checkoutUpdateVal = $$(decodeFile "test/json/callback/checkout_update.json")
+checkoutUpdateVal = $$(liftCode $ decodeFile "test/json/callback/checkout_update.json")
 
 checkoutUpdateTest :: TestTree
 checkoutUpdateTest = parseTest "Checkout Update Callback" checkoutUpdateVal

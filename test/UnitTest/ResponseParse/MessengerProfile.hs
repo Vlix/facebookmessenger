@@ -3,8 +3,8 @@ module UnitTest.ResponseParse.MessengerProfile where
 
 
 import Data.Aeson (Value)
-import Data.Semigroup ((<>))
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -16,7 +16,7 @@ import UnitTest.Internal
 -----------------------
 
 messengerProfileVal :: Value
-messengerProfileVal = $$(decodeFile "test/json/response/messenger_profile_response.json")
+messengerProfileVal = $$(liftCode $ decodeFile "test/json/response/messenger_profile_response.json")
 
 messengerProfileTest :: TestTree
 messengerProfileTest = parseTest "Messenger Profile Response" messengerProfileVal

@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.ListTemplate
 Copyright   : (c) Felix Paulusma, 2016
@@ -52,7 +53,7 @@ data ListTemplate = ListTemplate
     { ltTopElementStyle :: ListStyle -- ^ Value must be `ListLARGE` or `ListCOMPACT`. Default to `ListLARGE` if not specified.
     , ltElements :: NonEmpty ListElement -- ^ List view elements (minimum of 2 elements and maximum of 4 elements)
     , ltButton :: Maybe TemplateButton  -- ^ Button associated on the `ListTemplate` message.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON ListTemplate where
   toJSON (ListTemplate style elements button) =
@@ -88,7 +89,7 @@ data ListElement = ListElement
     , leImageUrl :: Maybe URL -- ^ URL to image in list view item. It is required for the first element if `ListStyle` is large
     , leDefaultAction :: Maybe DefaultAction -- ^ Default action to be triggered when user taps on the element row.
     , leButton :: Maybe TemplateButton -- ^ Button on the element
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON ListElement where
   toJSON (ListElement title subtitle image da button) =

@@ -4,6 +4,7 @@ module UnitTest.ResponseParse.ErrorResponse where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -22,10 +23,10 @@ errorResponseTests = Tasty.testGroup "Error Response"
 
 
 errorResponseMinVal :: Value
-errorResponseMinVal = $$(decodeFile "test/json/response/error_response_minimal.json")
+errorResponseMinVal = $$(liftCode $ decodeFile "test/json/response/error_response_minimal.json")
 
 errorResponseMaxVal :: Value
-errorResponseMaxVal = $$(decodeFile "test/json/response/error_response_maximal.json")
+errorResponseMaxVal = $$(liftCode $ decodeFile "test/json/response/error_response_maximal.json")
 
 errorResponseMinimal :: TestTree
 errorResponseMinimal = parseTest "Minimal error response" errorResponseMinVal

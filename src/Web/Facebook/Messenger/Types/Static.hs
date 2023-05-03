@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Static
@@ -57,15 +58,18 @@ type URL = Text
 -- | When representing a user, these IDs are page-scoped IDs (PSID).
 -- This means that the IDs of users are unique for a given page.
 newtype PSID = PSID Text
-  deriving (Eq, Show, Read, Ord, FromJSON, ToJSON)
+  deriving stock (Eq, Show, Read, Ord)
+  deriving newtype (FromJSON, ToJSON)
 
 -- | Pages have their own unique ID
 newtype PageID = PageID Text
-  deriving (Eq, Show, Read, Ord, FromJSON, ToJSON)
+  deriving stock (Eq, Show, Read, Ord)
+  deriving newtype (FromJSON, ToJSON)
 
 -- | Newtype wrapper around Text, because the AppId is very different than anything else used as IDs in this package
 newtype AppId = AppId Text
-  deriving (Eq, Show, Read, Ord, FromJSON, ToJSON)
+  deriving stock (Eq, Show, Read, Ord)
+  deriving newtype (FromJSON, ToJSON)
 
 -- | Set typing indicators or send read receipts to let users know you are processing their request.
 --
@@ -74,7 +78,7 @@ data SenderActionType =
     MARK_SEEN -- ^ Mark last message as read
   | TYPING_ON -- ^ Turn typing indicators on
   | TYPING_OFF -- ^ Turn typing indicators off
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON SenderActionType where
   toJSON MARK_SEEN = String "mark_seen"
@@ -98,7 +102,7 @@ data MessagingType =
       RESPONSE -- ^ Response to a user message
     | UPDATE -- ^ Self-initiated update
     | MESSAGE_TAG -- ^ Message with tag sent outside the 24+1 messaging window
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance FromJSON MessagingType where
   parseJSON = withText' "MessagingType"
@@ -117,7 +121,7 @@ data NotificationType =
     REGULAR -- ^ sound/vibration and a phone notification
   | SILENT_PUSH -- ^ on-screen notification only
   | NO_PUSH -- ^ no notification
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON NotificationType where
   toJSON REGULAR = String "REGULAR"
@@ -136,7 +140,7 @@ data WebviewHeightRatioType =
     COMPACT -- ^ 50% of screen
   | TALL -- ^ 75% of screen
   | FULL -- ^ full screen
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON WebviewHeightRatioType where
   toJSON COMPACT = String "compact"
@@ -156,7 +160,7 @@ data AttachmentType =
   | VIDEO -- ^ Video type (should be @mp4@?)
   | AUDIO -- ^ Audio type (should be @mp3@?)
   | FILE -- ^ File type (any plain file)
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON AttachmentType where
   toJSON IMAGE = String "image"
@@ -177,7 +181,7 @@ data AirlineUpdateType =
     DELAY
   | GATE_CHANGE
   | CANCELLATION
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON AirlineUpdateType where
   toJSON DELAY = String "delay"
@@ -198,7 +202,7 @@ data ReferralSource =
   | MESSENGER_CODE -- ^ Scanning of a Parametric Messenger Code
   | DISCOVER_TAB -- ^ Facebook Discover Tab
   | CUSTOMER_CHAT_PLUGIN -- ^ Facebook Chat Plugin
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON ReferralSource where
   toJSON SHORTLINK = String "SHORTLINK"
@@ -220,7 +224,7 @@ instance FromJSON ReferralSource where
 data ListStyle =
     ListCOMPACT -- ^ All items are the same with an optional image on the right side
   | ListLARGE -- ^ Top item is more prominent and requires an image as the background of that item
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON ListStyle where
   toJSON ListCOMPACT = String "compact"
@@ -239,7 +243,7 @@ instance FromJSON ListStyle where
 data PaymentType =
     FIXED_AMOUNT
   | FLEXIBLE_AMOUNT
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON PaymentType where
   toJSON FIXED_AMOUNT = String "FIXED_AMOUNT"
@@ -259,7 +263,7 @@ data RequestedUserInfoType =
   | CONTACT_NAME -- ^ Name of contact
   | CONTACT_PHONE -- ^ Phone number of contact
   | CONTACT_EMAIL -- ^ Email address of contaxt
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON RequestedUserInfoType where
   toJSON SHIPPING_ADDRESS = String "shipping_address"
@@ -307,7 +311,7 @@ data MessageTag =
   | SHIPPING_UPDATE -- ^ Notify the message recipient of a change in shipping status for a product that has already been purchased.
   | TICKET_UPDATE -- ^ Notify the message recipient of updates pertaining to an event for which a person already has a ticket.
   | TRANSPORTATION_UPDATE -- ^ Notify the message recipient of updates to an existing transportation reservation.
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance FromJSON MessageTag where
   parseJSON = withText' "MessageTag"
@@ -351,7 +355,7 @@ instance ToJSON MessageTag where
 data AppRole =
     PrimaryReceiver
   | SecondaryReceiver
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance FromJSON AppRole where
   parseJSON = withText' "AppRole"
@@ -370,7 +374,7 @@ data AudienceType =
     ALL -- ^ Bot might appear in anyone's Discover Tab
   | CUSTOM -- ^ Required to provide white- or blacklisted countries
   | NONE -- ^ Bot will not appear in anyone's Discover Tab
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance FromJSON AudienceType where
   parseJSON = withText' "AudienceType"
@@ -388,7 +392,7 @@ instance ToJSON AudienceType where
 data ImageAspectRatioType =
     HORIZONTAL -- ^ @1\.91:1@ aspect ratio
   | SQUARE -- ^ @1:1@ aspect ratio
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance FromJSON ImageAspectRatioType where
   parseJSON = withText' "ImageAspectRatioType"
@@ -403,7 +407,7 @@ instance ToJSON ImageAspectRatioType where
 -- | Whether to show or hide the share button used in webview windows
 data WebviewShareType = SHOW
                       | HIDE
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance FromJSON WebviewShareType where
   parseJSON = withText' "WebviewShareType"
@@ -418,7 +422,7 @@ instance ToJSON WebviewShareType where
 -- | Whether to show or hide the share button used in webview windows
 data PriorMessageType = CheckBoxPlugin
                       | CustomerMatching
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance FromJSON PriorMessageType where
   parseJSON = withText' "PriorMessageType"
@@ -455,7 +459,7 @@ data FBLocale =
   | FBuk_UA | FBur_PK | FBuz_UZ
   | FBvi_VN
   | FBzh_CN | FBzh_HK | FBzh_TW
-  deriving (Ord, Eq, Enum)
+  deriving stock (Ord, Eq, Enum)
 
 instance Show FBLocale where
   show FBaf_ZA = "af_ZA"

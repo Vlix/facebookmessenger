@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineFlightUpdate
 Copyright   : (c) Felix Paulusma, 2016
@@ -40,7 +41,7 @@ data AirlineFlightUpdate = AirlineFlightUpdate
     , afuThemeColor :: Maybe Text -- ^ Background color of the attachment. Must be a RGB hexadecimal string (default #009ddc)
     , afuPnrNumber :: Text -- ^ Passenger name record number (Booking Number)
     , afuUpdateFlightInfo :: AirlineFlightInfo -- ^ Information about a flight
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- --------------------------- --

@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.Message
 Copyright   : (c) Felix Paulusma, 2016
@@ -49,7 +50,7 @@ where
 import Control.Applicative ((<|>))
 import Data.Aeson
 import Data.Aeson.Types (Parser)
-import qualified Data.HashMap.Strict as HM
+import qualified Data.Aeson.KeyMap as KM
 import Data.Scientific (scientific)
 import Data.Text (Text)
 
@@ -73,14 +74,14 @@ data Message = Message
     , mTag :: [ReferralSource]
     -- ^ Will be @[CUSTOMER_CHAT_PLUGIN]@ if the message is
     -- sent from the customer chat plugin.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Content of the message
 data MessageContent = MText MessageText -- ^ Text message or Quick Reply callback
                     | MAttachment MessageAttachment -- ^ Multimedia attachment message
                     | MSticker MessageSticker -- ^ Sticker message
                     | MLocation MessageLocation -- ^ Shared location
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Regular text message sent by a user.
 -- If `mtQuickreply` is @Just@ then the user has pressed a Quick Reply.
@@ -88,17 +89,17 @@ data MessageContent = MText MessageText -- ^ Text message or Quick Reply callbac
 data MessageText = MessageText
     { mtText :: Text -- ^ Text of message (or label of the Quick Reply)
     , mtQuickreply :: Maybe CallbackQuickReply -- ^ Optional custom data provided by the sending app
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Optional custom data provided by the sending app. This is the payload of the pressed Quick Reply.
 newtype CallbackQuickReply =
           CallbackQuickReply { cbQR :: Text }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Multimedia attachment with a list of attachments
 newtype MessageAttachment =
           MessageAttachment { maAttachments :: [CallbackAttachment] }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Either Multimedia or Template
 --
@@ -106,19 +107,19 @@ newtype MessageAttachment =
 data CallbackAttachment = CAMultimedia MultimediaAttachment
                         | CATemplate TemplateAttachment
                         | CAFallback Fallback
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Multimedia attachment
 data MultimediaAttachment = MultimediaAttachment
     { maType :: AttachmentType -- ^ `IMAGE` \/ `VIDEO` \/ `AUDIO` \/ `FILE`
     , maPayload :: CallbackMultimediaPayload -- ^ URL of the media
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- | The URL of the media sent
 newtype CallbackMultimediaPayload =
           CallbackMultimediaPayload { cmpUrl :: URL }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | A template sent by a user (rare, but possible)
 data TemplateAttachment = TemplateAttachment
@@ -126,53 +127,53 @@ data TemplateAttachment = TemplateAttachment
     , taTemplateSubtitle :: Maybe Text -- ^ Subtitle
     , taTemplateUrl :: Maybe URL -- ^ URL
     , taTemplatePayload :: CallbackTemplate -- ^ More of the template
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Elements of a generic template
 data CallbackTemplate = CallbackTemplate
     { ctSharable :: Maybe Bool -- ^ Is sharable or not (maybe not used?)
     , ctElements :: [GenericElement] -- ^ Elements of the template
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Sticker sent by a user
 data MessageSticker = MessageSticker
     { msAttachments :: [StickerAttachment] -- ^ Array containing sticker attachments
     , msStickerId :: Integer -- ^ Sticker ID
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Sticker Payload
 newtype StickerAttachment =
           StickerAttachment { sticker :: CallbackStickerPayload }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Url and ID of the sticker
 data CallbackStickerPayload = CallbackStickerPayload
     { cspStickerUrl :: URL -- ^ URL of the file
     , cspStickerId :: Integer -- ^ Sticker ID
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Location shared by a user
 newtype MessageLocation =
           MessageLocation { mlCoords :: [CallbackLocation] } -- Array containing Location Quick Reply Callback (probably just 1)
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Wrapper for JSON instance convenience
 data CallbackLocation = CallbackLocation
   { clTitle :: Maybe Text
   , clUrl :: Maybe URL
   , clPayload :: CallbackLocationPayload
-  } deriving (Eq, Show, Read, Ord)
+  } deriving stock (Eq, Show, Read, Ord)
 
 -- | Location payload
 newtype CallbackLocationPayload =
           CallbackLocationPayload { clpCoords :: CallbackCoordinates }
-    deriving (Eq, Show, Read, Ord)
+    deriving stock (Eq, Show, Read, Ord)
 
 -- | Coordinates of the location payload
 data CallbackCoordinates = CallbackCoordinates
     { ccLat :: Double -- ^ Latitude
     , ccLong :: Double -- ^ Longitude
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- ------------------- --
 --  MESSAGE INSTANCES  --
@@ -294,13 +295,13 @@ instance ToJSON Message where
       case toJSON content of
         Object o -> Object
             $ mAddSeq
-            $ HM.insert "mid" (String ident)
+            $ KM.insert "mid" (String ident)
             $ mAddTags o
         x -> x -- This should never happen. Content should be an object
-    where mAddSeq | Just s <- mseq = HM.insert "seq" $ Number $ scientific s 0
+    where mAddSeq | Just s <- mseq = KM.insert "seq" $ Number $ scientific s 0
                   | otherwise = id
           mAddTags | null tags = id
-                   | otherwise = HM.insert "tags" $ toJSON $ fmap SR tags
+                   | otherwise = KM.insert "tags" $ toJSON $ fmap SR tags
 
 instance ToJSON MessageContent where
   toJSON (MText x) = toJSON x

@@ -4,6 +4,7 @@ module UnitTest.ResponseParse.BroadcastResponse where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -21,10 +22,10 @@ broadcastTests = Tasty.testGroup "Broadcast Message Reponse"
     ]
 
 messageCreativeVal :: Value
-messageCreativeVal = $$(decodeFile "test/json/response/message_creative_response.json")
+messageCreativeVal = $$(liftCode $ decodeFile "test/json/response/message_creative_response.json")
 
 broadcastMessageVal :: Value
-broadcastMessageVal = $$(decodeFile "test/json/response/broadcast_message_response.json")
+broadcastMessageVal = $$(liftCode $ decodeFile "test/json/response/broadcast_message_response.json")
 
 messageCreativeTest :: TestTree
 messageCreativeTest = parseTest "Message creative response" messageCreativeVal

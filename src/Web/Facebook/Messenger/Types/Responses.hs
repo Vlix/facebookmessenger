@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Responses
 Copyright   : (c) Felix Paulusma, 2016
@@ -54,11 +55,10 @@ where
 import Data.Aeson
 import Data.Aeson.Types (Parser)
 import Data.Maybe (catMaybes)
-import qualified Data.HashMap.Strict as HM
+import qualified Data.Aeson.KeyMap as KM
 import Data.Text (Text, pack, unpack)
 
 import Web.Facebook.Messenger.Internal
-import Web.Facebook.Messenger.Types.Requests (AppId)
 import Web.Facebook.Messenger.Types.Requests.Extra (PriceObject)
 import Web.Facebook.Messenger.Types.Requests.Settings (ProfileRequest (..))
 import Web.Facebook.Messenger.Types.Static
@@ -79,30 +79,30 @@ data MessageResponse = MessageResponse
     , mrMessageId :: Text -- Unique ID for the message
     , mrAttachmentId :: Maybe Text
     -- ^ Please note that this ID is private and only the page that originally sent the attachment can reuse it.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | This is a response to a Sender Action returning the Page-Scoped ID of the receiving user.
 newtype SenderActionResponse =
           SenderActionResponse { sarRecipientId :: PSID }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Response with the creative ID to be used in the Broadcast Message
 newtype MessageCreativeResponse = MessageCreativeResponse { mcId :: Int }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Successful response with the broadcast message ID
 newtype BroadcastMessageResponse = BroadcastMessageResponse { broadcastId :: Int }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | This is a response from the Attachement Upload API.
 -- `Text` is a unique ID for the reusable attachment.
 newtype AttachmentUploadResponse =
           AttachmentUploadResponse {aurAttachmentId :: Text}
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | This is a standard Error response
 newtype ErrorResponse = ErrorResponse { erError :: ErrorDetails }
-  deriving (Eq, Show, Ord)
+  deriving stock (Eq, Show, Ord)
 
 -- | Specifics pertaining to the `Error`
 data ErrorDetails = ErrorDetails
@@ -111,7 +111,7 @@ data ErrorDetails = ErrorDetails
     , erCode :: Int -- ^ Error code
     , erErrorSubcode :: Maybe Int -- ^ Error subcode
     , erFbtraceId :: Maybe Text -- ^ Back-end trace code for FB to help in debugging
-    } deriving (Eq, Ord)
+    } deriving stock (Eq, Ord)
 
 -- | This is a response to a `ProfileRequest` or an `AccountUnlinkRequest`
 --
@@ -119,7 +119,7 @@ data ErrorDetails = ErrorDetails
 -- * `Text` should be \"unlink account success\" for a `AccountUnlinkRequest`.
 newtype SuccessResponse =
           SuccessResponse { srResult :: Text }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | This is a response to a User Profile API request
 data UserProfileResponse = UserProfileResponse
@@ -133,7 +133,7 @@ data UserProfileResponse = UserProfileResponse
     , uprIsPaymentEnabled :: Maybe Bool -- ^ Is the user eligible to receive messenger platform payment messages
     , uprLastAdReferral :: Maybe Text -- ^ Last ad the user was referred by
     , uprEmail :: Maybe Text -- ^ Email address of user (is accepted but hasn't returned anything yet)
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | This is a response to a PSID retrieval request
 --
@@ -145,26 +145,26 @@ data UserProfileResponse = UserProfileResponse
 data AccountLinkingResponse = AccountLinkingResponse
     { alrId :: PageID -- ^ Page ID
     , alrRecipient :: PSID -- ^ PSID of the user
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | This is the response to be used when receiving a `CheckoutUpdate` callback
 --
 -- __THIS SHOULD BE PUT IN THE RESPONSE TO THE__ `CheckoutUpdate` __CALLBACK WITH THE__ @200 OK@
 newtype CheckoutUpdateResponse =
           CheckoutUpdateResponse { cuShipping :: [Shipping] }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | These are the shipping options for the CheckoutUpdateResponse
 data Shipping = Shipping
     { sOptionId :: Text
     , sOptionTitle :: Text
     , sPriceList :: [PriceObject]
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | When successful returns a `True`
 newtype ThreadControlResponse =
           ThreadControlResponse { threadSuccess :: Bool }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Response of a GET request to
 --
@@ -182,11 +182,11 @@ newtype ThreadControlResponse =
 -- * "home_url"
 newtype GetProfileResponse =
           GetProfileResponse { profileResponse :: ProfileRequest }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Generic wrapper around objects with a @\"data\"@ field containing an array of something.
 newtype DataResponse a = DataResponse { resData :: [a] }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | This is the response of a GET request for whitelisted domains
 type DomainWhitelistingResponse = DataResponse Text
@@ -198,7 +198,7 @@ type SecondaryReceiverResponse = DataResponse SecondaryReceiverElement
 data SecondaryReceiverElement = SecondaryReceiverElement
     { srId :: Maybe AppId -- ^ The App ID of a second receiver app
     , srName :: Maybe Text -- ^ The name of the App
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | This is the response of a GET request for retrieving tags
 type TagResponse = DataResponse TagElement
@@ -207,7 +207,7 @@ type TagResponse = DataResponse TagElement
 data TagElement = TagElement
     { teTag :: MessageTag -- ^ Which `MessageTag`
     , teDescription :: Text -- ^ Description of said `MessageTag`
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | This is the response of a POST request to the Messenger Code API.
 -- The URL is from where you can download your Messenger Code.
@@ -216,13 +216,13 @@ data TagElement = TagElement
 --
 -- Tip: You can replace the image in the center with any image you want. It won't affect the functionality of the code.
 newtype MessengerCodeResponse = MessengerCodeResponse { mcUri :: URL }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Successful response to a Thread Owner request.
 --
 -- @https://graph.facebook.com/v2.6/me/thread_owner?recipient=<PSID>&access_token=<PAGE_ACCESS_TOKEN>@
 newtype ThreadOwnerResponse = ThreadOwnerResponse { threadOwner :: AppId }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 
 -- -------------------- --
@@ -284,7 +284,7 @@ instance FromJSON SuccessResponse where
 instance FromJSON UserProfileResponse where
   parseJSON = withObject "UserProfileResponse" $ \o -> do
       ad <- o .:? "last_ad_referral" :: Parser (Maybe Object)
-      let setAd = ad >>= HM.lookup "ad_id" >>= go
+      let setAd = ad >>= KM.lookup "ad_id" >>= go
       UserProfileResponse <$> o .: "id"
                           <*> o .:? "first_name"
                           <*> o .:? "last_name"

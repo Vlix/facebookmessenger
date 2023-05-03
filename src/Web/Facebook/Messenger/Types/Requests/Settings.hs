@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE LambdaCase #-}
 {-|
@@ -81,7 +82,6 @@ where
 import Control.Applicative ((<|>))
 import Data.Aeson
 import Data.Aeson.Types (Parser)
-import Data.Semigroup (Semigroup(..))
 import Data.Text (Text)
 
 import Web.Facebook.Messenger.Internal
@@ -223,7 +223,7 @@ data ProfileRequest = ProfileRequest
     , prPaymentSettings :: Maybe PaymentSettings
     , prTargetAudience :: Maybe TargetAudience
     , prHomeUrl :: Maybe HomeUrl
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Empty `ProfileRequest` used for the monoid instance
 emptyProfileRequest :: ProfileRequest
@@ -268,7 +268,8 @@ instance Monoid ProfileRequest where
 
 -- | Wrapper around [`GreetingSetting`]
 newtype Greeting = Greeting { greetingText :: [GreetingSetting] }
-  deriving (Eq, Show, Read, Ord, FromJSON, ToJSON, Semigroup)
+  deriving stock (Eq, Show, Read, Ord)
+  deriving newtype (FromJSON, ToJSON, Semigroup)
 
 -- | Greeting for a specific locale
 --
@@ -288,7 +289,7 @@ data GreetingSetting = GreetingSetting
     -- text for the default locale, which will be displayed if
     -- no provided locale matches the person's locale.
     , gsText :: Text -- ^ The greeting text for the specific locale.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | This data will be sent back to you via webhook.
 newtype GetStartedButton =
@@ -297,11 +298,12 @@ newtype GetStartedButton =
                            -- @messaging_postbacks@ event when the 'Get
                            -- Started' button is tapped. 1000 character limit.
                            }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | List of settings per locale
 newtype PersistentMenu = PersistentMenu { menuItems :: [PersistentMenuSetting] }
-  deriving (Eq, Show, Read, Ord, FromJSON, ToJSON, Semigroup)
+  deriving stock (Eq, Show, Read, Ord)
+  deriving newtype (FromJSON, ToJSON, Semigroup)
 
 -- | A setting that defines the persistent menu for a
 -- certain locale. The menu with a locale property that
@@ -331,7 +333,7 @@ data PersistentMenuSetting = PersistentMenuSetting
     -- Required if 'pmsInputDisabled' is 'True'
     , pmsChatPluginDisabled :: Bool
     -- ^ If 'True', disables the persistent menu in the Customer Chat Plugin.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Constructor for the URL 'PersistentMenuItem'
 persistentUrlItem :: Text
@@ -385,7 +387,7 @@ persistentPostbackItem title = PMIPostback . PostbackButton title
 data PersistentMenuItem = PMIUrl URLButton
                         | PMIPostback PostbackButton
                         | PMINested PersistentMenuItemNested
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Constructor for nested Persistent Menu items.
 persistentNestedItem :: Text -- ^ /Menu item title. 30 char limit/
@@ -401,17 +403,19 @@ data PersistentMenuItemNested = PersistentMenuItemNested
     , nestedMenuCTA :: [PersistentMenuItem]
     -- ^ Nested `PersistentMenuItem` that will be expanded in next level.
     -- A maximum of 5 items is allowed. A persistent menu may have a maximum of two nested menus.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- | A list of domains being used. All domains must be valid. Up to 50 domains allowed.
 newtype WhiteListedDomains = WhiteListedDomains { domains :: [URL] }
-  deriving (Eq, Show, Read, Ord, FromJSON, ToJSON, Semigroup)
+  deriving stock (Eq, Show, Read, Ord)
+  deriving newtype (FromJSON, ToJSON, Semigroup)
 
 
 -- | URL opened by the Messenger Platform when a user triggers account linking.
 newtype AccountLinkingUrl = AccountLinkingUrl { linkingUrl :: URL }
-  deriving (Eq, Show, Read, Ord, FromJSON, ToJSON)
+  deriving stock (Eq, Show, Read, Ord)
+  deriving newtype (FromJSON, ToJSON)
 
 -- | You need to be accepted to our beta program to use payment features in your bot in production.
 -- You can still test payment features in development mode until then.
@@ -423,20 +427,20 @@ data PaymentSettings = PaymentSettings
     , psTesters :: [Text]
     -- ^ A list of IDs for people that will test payments in your app.
     -- These people will send a mock payment when they tap the `BuyButton`.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | If 'taAudience' is `CUSTOM`, `tcBlacklist` and `tcWhitelist` can't both be null or empty.
 -- In addition, only one of them can be non-empty at the same time.
 data TargetAudience = TargetAudience
     { taAudience :: AudienceType -- ^ Valid values include `ALL`, `CUSTOM`, or `NONE`.
     , taCountries :: Maybe TargetCountries -- ^
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | The countries you'd want to target in the Discover tab
 data TargetCountries = TargetCountries
     { tcWhitelist :: [Text] -- ^ List of ISO 3166 Alpha-2 codes.
     , tcBlacklist :: [Text] -- ^ List of ISO 3166 Alpha-2 codes.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | The domain of the home URL for your Chat Extension must be added to the domain whitelist in your app's Messenger profile.
 data HomeUrl = HomeUrl
@@ -449,7 +453,7 @@ data HomeUrl = HomeUrl
     , hInTest :: Bool
     -- ^ Controls whether users not assigned a role for your app or its Facebook page can see the Chat Extension.
     -- This should be set to true until the Chat Extension is ready to be used by others.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- ------------------------ --

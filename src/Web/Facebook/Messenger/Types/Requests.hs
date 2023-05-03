@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Requests
 Copyright   : (c) Felix Paulusma, 2016
@@ -91,7 +92,7 @@ data SendRequest = SendRequest
     , srMessagingType :: MessagingType -- ^ Type of message ('RESPONSE', 'UPDATE' or 'MESSAGE_TAG')
     , srNotificationType :: NotificationType -- ^ Optional; by default, messages will be a `REGULAR` push notification type
     , srTag :: Maybe MessageTag -- ^ Optional; to be used if you have a valid reason to send a message outside of the 24+1 window
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Shortcut constructor for a default `SendRequest`
 -- (no `MessageTag` and with a `REGULAR` `NotificationType`
@@ -110,7 +111,7 @@ sendRequestTag recipient msg = SendRequest recipient msg MESSAGE_TAG REGULAR . J
 data SenderActionRequest = SenderActionRequest
     { sarRecipient :: RequestRecipient -- ^ Recipient of the Sender Action
     , sarSenderAction :: SenderActionType -- ^ `TYPING_ON` \/ `TYPING_OFF` \/ `MARK_SEEN`
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | The Attachment Upload API allows you to upload assets that can be sent in messages at a later time.
 -- This allows you to avoid the need to upload commonly used files multiple times.
@@ -121,7 +122,7 @@ data SenderActionRequest = SenderActionRequest
 data AttachmentUploadRequest = AttachmentUploadRequest
     { aurType :: AttachmentType -- ^ Type of file to be uploaded
     , aurUrl :: URL -- ^ URL of the file to upload
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | The recipient of a message.
 data RequestRecipient = RID RecipientID -- ^ Facebook Page-Scoped ID
@@ -129,7 +130,7 @@ data RequestRecipient = RID RecipientID -- ^ Facebook Page-Scoped ID
                       | RRef RecipientRef
                       -- ^ Ref to use when a user enters your bot through the Checkbox Plugin.\
                       -- After a successful response, switch to using the received PSID.
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Constructor for making a @regular PSID@ `RequestRecipient`
 recipientID :: PSID -> RequestRecipient
@@ -138,7 +139,7 @@ recipientID = RID . RecipientID
 -- | Identifying a user by their Page-Scoped ID.
 -- This means that the IDs are unique per user per page.
 newtype RecipientID = RecipientID { recipId :: PSID }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Constructor for making a @Phone number@ `RequestRecipient`.
 -- This is only for US based users and your bot needs the @"pages_messaging_phone_number"@ permission.
@@ -153,13 +154,13 @@ recipientPhone number = RPhone . RecipientPhone number
 data RecipientPhone = RecipientPhone
   { recipPhone :: Text
   , recipName :: Maybe RecipientName
-  } deriving (Eq, Show, Read, Ord)
+  } deriving stock (Eq, Show, Read, Ord)
 
 -- | Name provided if possible when matching customers using phone numbers.
 data RecipientName = RecipientName
   { rnFirstName :: Text
   , rnLastName :: Text
-  } deriving (Eq, Show, Read, Ord)
+  } deriving stock (Eq, Show, Read, Ord)
 
 -- | Constructor for making a @"user_ref"@ `RequestRecipient`.
 -- Use this only when a user enters your bot through the @Checkbox plugin@
@@ -173,14 +174,14 @@ recipientRef = RRef . RecipientRef
 -- You can call the Send API to start messaging the user using the @user_ref@ field in recipient.
 -- Note that this field is the same as the unique @user_ref@ param used in rendering the plugin and used in confirming the opt-in.
 newtype RecipientRef = RecipientRef { recipRef :: Text }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 
 -- | In case you want to programmatically unlink someone from an account
 --
 -- Bottom of: @https://developers.facebook.com/docs/messenger-platform/identity/account-linking@
 newtype AccountUnlinkRequest = AccountUnlinkRequest { aurPSID :: PSID }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Constructor to get a 1000px x 1000px Messenger Code without a @ref@ parameter.
 messengerCode :: MessengerCodeRequest
@@ -194,7 +195,7 @@ data MessengerCodeRequest = MessengerCodeRequest
     , mcrData :: Maybe Text
     -- ^ Optional custom parameter to add to the code (for analytics or UX purposes)
     -- 250 char limit @[a-zA-Z0-9+/=-.:_]@
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Part of the handover protocol, pass thread control allows you to pass thread control from your app to another app.
 -- The app that will receive thread ownership will receive a @"pass_thread_control"@ webhook event.
@@ -207,7 +208,7 @@ data PassThreadControlRequest = PassThreadControlRequest
     -- (Required if the Primary Receiver is passing thread control.)
     -- To pass thread control to the Page inbox, use app ID __@263902037430900@__.
     , pcrMetaData :: Maybe Text -- ^ Metadata passed to the receiving app in the @"pass_thread_control"@ webhook event.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Part of the Handover Protocol, take/request thread control allows the Primary Receiver app
 -- to take/request control of a specific thread from a Secondary Receiver app.
@@ -219,7 +220,7 @@ data PassThreadControlRequest = PassThreadControlRequest
 data ThreadControlRequest = ThreadControlRequest
     { tcrRecipient :: RecipientID -- ^ User who's thread is taken control over or of which control is requested
     , tcrMetaData :: Maybe Text -- ^ Metadata passed back to the secondary app in the webhook event.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- ------------------------ --

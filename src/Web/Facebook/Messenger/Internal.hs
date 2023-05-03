@@ -35,18 +35,17 @@ import Data.Aeson.Types (Pair, Parser)
 import Data.Bifunctor (first)
 import Data.ByteString.Lazy (toStrict)
 import Data.Maybe (catMaybes)
-import Data.Monoid ((<>))
 import Data.Text (Text, toUpper, unpack)
 import Data.Text.Encoding (decodeUtf8)
-import qualified Data.HashMap.Strict as HM
+import qualified Data.Aeson.KeyMap as KM
 
 -- | Helper function to avoid @`Maybe` [a]@ when an empty list doesn't have to (or shouldn't) be included in the @JSON@
-mEmptyList :: ToJSON a => Text -> [a] -> Maybe Pair
+mEmptyList :: ToJSON a => Key -> [a] -> Maybe Pair
 mEmptyList _ [] = Nothing
 mEmptyList t l  = Just $ t .= l
 
 -- | Helper function to not include values that are the default when not included in the @JSON@
-mDefault :: (Eq a, ToJSON a) => Text -> a -> a -> Maybe Pair
+mDefault :: (Eq a, ToJSON a) => Key -> a -> a -> Maybe Pair
 mDefault t a b = if a == b then Nothing else Just $ t .= b
 
 -- | Alternative to "Aeson"'s `object` to make a @JSON object@ that might omit certain fields.
@@ -82,14 +81,14 @@ mDefault t a b = if a == b then Nothing else Just $ t .= b
 -- }
 -- @
 object' :: [Maybe Pair] -> Value
-object' = Object . HM.fromList . catMaybes
+object' = Object . KM.fromList . catMaybes
 
 -- | @a `.=!!` b@ will omit the specified `Pair` in case @b@ is `Nothing`
-(.=!!) :: ToJSON a => Text -> Maybe a -> Maybe Pair
+(.=!!) :: ToJSON a => Key -> Maybe a -> Maybe Pair
 (.=!!) name = fmap (name .=)
 
 -- | Add a required `Pair` to the @JSON object@
-(.=!) :: ToJSON a => Text -> a -> Maybe Pair
+(.=!) :: ToJSON a => Key -> a -> Maybe Pair
 (.=!) name = Just . (name .=)
 
 -- | This function checks to see if a `Value` is an `Object` and then proceeds to check
@@ -97,7 +96,7 @@ object' = Object . HM.fromList . catMaybes
 -- (e.g. checking if @"type"@ is actually @"image"@ or not)
 checkValue :: (FromJSON a, ToJSON a, Eq a)
            => String -- ^ /reference in case the parsing fails/
-           -> Text -- ^ /field name to check/
+           -> Key -- ^ /field name to check/
            -> a -- ^ /value to check in that field/
            -> (Object -> Parser b) -- ^ /parser to run in case the field check succeeds/
            -> Value

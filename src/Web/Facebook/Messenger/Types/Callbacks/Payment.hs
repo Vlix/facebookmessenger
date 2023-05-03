@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.Payment
 Copyright   : (c) Felix Paulusma, 2016
@@ -49,13 +50,13 @@ data Payment = Payment
     , pAmount :: Amount -- ^ Total amount of transaction.
     , pShippingOptionId :: Maybe Text
   -- ^ The `option_id` of the selected shipping option sent via the "CheckoutUpdate" callback. Only applicable for flexible payments.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Total amount of transaction.
 data Amount = Amount
     { aCurrency :: Text -- ^ Currency of amount
     , aAmount :: Text -- ^ Total amount
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Data in this object will depend on the requested user information defined on the `BuyButton`.
 data RequestedUserInfo = RequestedUserInfo
@@ -63,13 +64,13 @@ data RequestedUserInfo = RequestedUserInfo
     , ruiContactName :: Maybe Text -- ^ Person's name
     , ruiContactEmail :: Maybe Text -- ^ Person's email address
     , ruiContactPhone :: Maybe Text -- ^ Person's phone number
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Different payment provider types
 data PaymentCredential = Token PaymentToken -- ^ Credit Card
                        | PayPal PaymentPayPal -- ^ PayPal
                        | Stripe PaymentStripe -- ^ Stripe
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Information about the credit card to use
 data PaymentToken = PaymentToken
@@ -80,19 +81,19 @@ data PaymentToken = PaymentToken
     , ptFbPaymentId :: Text
     -- ^ A Facebook issued payment ID for tracking.
     -- (If it is a test payment, the id will be @"test_payment_id_12345"@.)
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Information about the PayPal account used
 data PaymentPayPal = PaymentPayPal
     { ppChargeId :: Text -- ^ PayPal charge id
     , ppFbPaymentId :: Text -- ^ A facebook issued payment id for tracking.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Information about the Stripe account used
 data PaymentStripe = PaymentStripe
     { psChargeId :: Text -- ^ Stripe charge id
     , psFbPaymentId :: Text -- ^ A facebook issued payment id for tracking.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | The result after decrypting a certain processed payment
 --
@@ -108,7 +109,7 @@ data DecryptedPaymentResult = DecryptedPaymentResult
     -- ^ Facebook payment ID
     -- (in case of a test payment, the value will be @"test_payment_id_12345"@.)
     , dprProvider :: String -- ^ Facebook payment provider ID
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- ---------------- --

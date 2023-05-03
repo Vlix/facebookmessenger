@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates
 Copyright   : (c) Felix Paulusma, 2016
@@ -155,7 +156,7 @@ data TemplatePayload = TGeneric GenericTemplate
                      | TItinerary AirlineItinerary
                      | TCheckin AirlineCheckin
                      | TFlightUpdate AirlineFlightUpdate
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON TemplatePayload where
   toJSON (TGeneric x) = toJSON x

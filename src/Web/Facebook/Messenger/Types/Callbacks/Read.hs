@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.Read
 Copyright   : (c) Felix Paulusma, 2016
@@ -33,7 +34,7 @@ import Web.Facebook.Messenger.Internal
 data ReadCallback = ReadCallback
     { rWatermark :: Integer -- ^ All messages that were sent before this timestamp were read
     , rSeq :: Maybe Integer  -- ^ Sequence number
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- ---------------- --

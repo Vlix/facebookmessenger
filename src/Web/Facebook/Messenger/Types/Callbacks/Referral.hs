@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.Referral
 Copyright   : (c) Felix Paulusma, 2016
@@ -48,28 +49,28 @@ data Referral =
   | ReferralCode RefMessengerCode -- ^ User scanned a parametric Messenger Code
   | ReferralChat RefChatPlugin -- ^ User started a chat with the Customer Chat Plugin
   | ReferralDiscover -- ^ User found your bot in the Discover Tab
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Referral parameter added to an @m.me@ link.
 newtype RefShortLink = RefShortLink { rslRef :: Text }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Referral parameter added to a Messenger Conversation Ad and the ID of that ad.
 data RefAds = RefAds
   { raRef :: Maybe Text
   , raAdId :: Text
-  } deriving (Eq, Show, Read, Ord)
+  } deriving stock (Eq, Show, Read, Ord)
 
 -- | Referral parameter added to a Messenger Code.
 newtype RefMessengerCode = RefMessengerCode { rmcRef :: Text }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Referral parameters added when a user speaks
 -- through a Customer Chat Plugin on a website
 data RefChatPlugin = RefChatPlugin
   { rcpRef :: Maybe Text -- ^ Ref code from the plugin settings on the website
   , rcpRefUri :: URL -- ^ On which page the user initiated a chat
-  } deriving (Eq, Show, Read, Ord)
+  } deriving stock (Eq, Show, Read, Ord)
 
 
 -- -------------------- --

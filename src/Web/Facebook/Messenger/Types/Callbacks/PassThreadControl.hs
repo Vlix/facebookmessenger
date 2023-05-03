@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.PassThreadControl
 Copyright   : (c) Felix Paulusma, 2016
@@ -29,7 +30,7 @@ import Web.Facebook.Messenger.Types.Requests (AppId)
 data PassThread = PassThread
     { ptNewOwnderAppId :: AppId -- ^ App ID of the app receiving control over this user's thread
     , ptMetaData :: Maybe Text -- ^ Optional free form data sent from the control passing app
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- --------------------------- --

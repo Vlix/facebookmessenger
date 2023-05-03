@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.PreCheckout
 Copyright   : (c) Felix Paulusma, 2016
@@ -39,7 +40,7 @@ data PreCheckout = PreCheckout
     { cpPayload :: Text -- ^ Metadata defined in the `BuyButton`.
     , cpRequestedUserInfo :: RequestedUserInfo -- ^ Information that was requested from the user by the Buy Button.
     , cpAmount :: Amount -- ^ Total amount of transaction.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- --------------------------- --

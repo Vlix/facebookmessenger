@@ -4,6 +4,7 @@ module UnitTest.CallbackParse.PaymentCallback where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -22,10 +23,10 @@ paymentTests = Tasty.testGroup "Payment Callback"
 
 
 paymentCallbackVal :: Value
-paymentCallbackVal = $$(decodeFile "test/json/callback/payment_callback.json")
+paymentCallbackVal = $$(liftCode $ decodeFile "test/json/callback/payment_callback.json")
 
 paymentCredentialsVal :: Value
-paymentCredentialsVal = $$(decodeFile "test/json/callback/payment_credential_types.json")
+paymentCredentialsVal = $$(liftCode $ decodeFile "test/json/callback/payment_credential_types.json")
 
 callbackTest :: TestTree
 callbackTest = parseTest "Payment callback" paymentCallbackVal

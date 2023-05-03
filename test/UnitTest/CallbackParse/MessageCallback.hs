@@ -4,6 +4,7 @@ module UnitTest.CallbackParse.MessageCallback where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -28,28 +29,28 @@ messageTests = Tasty.testGroup "Message Callbacks"
 
 
 textQRVal :: Value
-textQRVal = $$(decodeFile "test/json/callback/text_qr_callback.json")
+textQRVal = $$(liftCode $ decodeFile "test/json/callback/text_qr_callback.json")
 
 imageVal :: Value
-imageVal = $$(decodeFile "test/json/callback/attachment_callback_image.json")
+imageVal = $$(liftCode $ decodeFile "test/json/callback/attachment_callback_image.json")
 
 videoVal :: Value
-videoVal = $$(decodeFile "test/json/callback/attachment_callback_video.json")
+videoVal = $$(liftCode $ decodeFile "test/json/callback/attachment_callback_video.json")
 
 audioVal :: Value
-audioVal = $$(decodeFile "test/json/callback/attachment_callback_audio.json")
+audioVal = $$(liftCode $ decodeFile "test/json/callback/attachment_callback_audio.json")
 
 fallbackVal :: Value
-fallbackVal = $$(decodeFile "test/json/callback/attachment_callback_fallback.json")
+fallbackVal = $$(liftCode $ decodeFile "test/json/callback/attachment_callback_fallback.json")
 
 templateVal :: Value
-templateVal = $$(decodeFile "test/json/callback/attachment_callback_template.json")
+templateVal = $$(liftCode $ decodeFile "test/json/callback/attachment_callback_template.json")
 
 locationVal :: Value
-locationVal = $$(decodeFile "test/json/callback/attachment_callback_location.json")
+locationVal = $$(liftCode $ decodeFile "test/json/callback/attachment_callback_location.json")
 
 stickerVal :: Value
-stickerVal = $$(decodeFile "test/json/callback/attachment_callback_sticker.json")
+stickerVal = $$(liftCode $ decodeFile "test/json/callback/attachment_callback_sticker.json")
 
 textCallbackQR :: TestTree
 textCallbackQR = parseTest "Text with QR" textQRVal

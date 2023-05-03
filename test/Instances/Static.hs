@@ -1,5 +1,6 @@
-{-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE StandaloneDeriving #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
 
 module Instances.Static where
@@ -16,102 +17,102 @@ import Web.Facebook.Messenger
 -- STATIC --
 ------------
 
-deriving instance Generic PSID
+deriving stock instance Generic PSID
 instance Arbitrary PSID where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic PageID
+deriving stock instance Generic PageID
 instance Arbitrary PageID where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AppId
+deriving stock instance Generic AppId
 instance Arbitrary AppId where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic SenderActionType
+deriving stock instance Generic SenderActionType
 instance Arbitrary SenderActionType where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic MessagingType
+deriving stock instance Generic MessagingType
 instance Arbitrary MessagingType where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic NotificationType
+deriving stock instance Generic NotificationType
 instance Arbitrary NotificationType where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic WebviewHeightRatioType
+deriving stock instance Generic WebviewHeightRatioType
 instance Arbitrary WebviewHeightRatioType where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AttachmentType
+deriving stock instance Generic AttachmentType
 instance Arbitrary AttachmentType where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineUpdateType
+deriving stock instance Generic AirlineUpdateType
 instance Arbitrary AirlineUpdateType where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ReferralSource
+deriving stock instance Generic ReferralSource
 instance Arbitrary ReferralSource where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ListStyle
+deriving stock instance Generic ListStyle
 instance Arbitrary ListStyle where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic PaymentType
+deriving stock instance Generic PaymentType
 instance Arbitrary PaymentType where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RequestedUserInfoType
+deriving stock instance Generic RequestedUserInfoType
 instance Arbitrary RequestedUserInfoType where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic MessageTag
+deriving stock instance Generic MessageTag
 instance Arbitrary MessageTag where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AppRole
+deriving stock instance Generic AppRole
 instance Arbitrary AppRole where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AudienceType
+deriving stock instance Generic AudienceType
 instance Arbitrary AudienceType where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ImageAspectRatioType
+deriving stock instance Generic ImageAspectRatioType
 instance Arbitrary ImageAspectRatioType where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic WebviewShareType
+deriving stock instance Generic WebviewShareType
 instance Arbitrary WebviewShareType where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic PriorMessageType
+deriving stock instance Generic PriorMessageType
 instance Arbitrary PriorMessageType where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic FBLocale
+deriving stock instance Generic FBLocale
 instance Arbitrary FBLocale where
   arbitrary = genericArbitrary
   shrink = genericShrink

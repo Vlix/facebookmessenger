@@ -4,6 +4,7 @@ module UnitTest.RequestParse.AccountUnlinking where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -15,7 +16,7 @@ import UnitTest.Internal
 -----------------------
 
 accountUnlinkVal :: Value
-accountUnlinkVal = $$(decodeFile "test/json/request/account_unlinking.json")
+accountUnlinkVal = $$(liftCode $ decodeFile "test/json/request/account_unlinking.json")
 
 accountUnlinkTest :: TestTree
 accountUnlinkTest = parseTest "Account Unlinking Request" accountUnlinkVal

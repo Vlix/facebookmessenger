@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.TakeThreadControl
 Copyright   : (c) Felix Paulusma, 2016
@@ -32,7 +33,7 @@ data TakeThread = TakeThread
     -- ^ App ID of the app taking control of a user's thread.
     -- (User from the top `RecipientSender`)
     , ttMetaData :: Maybe Text -- ^ Potential free form data sent from the app taking control of the thread.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- --------------------------- --

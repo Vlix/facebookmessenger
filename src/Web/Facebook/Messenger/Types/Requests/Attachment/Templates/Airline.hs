@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.Airline
 Copyright   : (c) Felix Paulusma, 2016
@@ -32,7 +33,7 @@ data AirlineAirport = AirlineAirport
   , aaCity :: Text -- ^ City name
   , aaTerminal :: Maybe Text -- ^ Terminal number
   , aaGate :: Maybe Text -- ^ Gate number
-  } deriving (Eq, Show, Read, Ord)
+  } deriving stock (Eq, Show, Read, Ord)
 
 -- | Information about a certain flight
 data AirlineFlightInfo = AirlineFlightInfo
@@ -40,7 +41,7 @@ data AirlineFlightInfo = AirlineFlightInfo
   , afiDepartureAirport :: AirlineAirport -- ^ Departure airport
   , afiArrivalAirport :: AirlineAirport -- ^ Arrival airport
   , afiFlightSchedule :: AirlineFlightSchedule -- ^ Schedule for the flight
-  } deriving (Eq, Show, Read, Ord)
+  } deriving stock (Eq, Show, Read, Ord)
 
 -- | Must all be in the ISO 8601-based format
 --
@@ -51,7 +52,7 @@ data AirlineFlightSchedule = AirlineFlightSchedule
   { afsBoardingTime :: Maybe Text -- ^ Boarding time in departure airport timezone
   , afsDepartureTime :: Text -- ^ Departure time in departure airport timezone
   , afsArrivalTime :: Maybe Text -- ^ Arrival time in arrival airport timezone
-  } deriving (Eq, Show, Read, Ord)
+  } deriving stock (Eq, Show, Read, Ord)
 
 
 -- ----------------------- --

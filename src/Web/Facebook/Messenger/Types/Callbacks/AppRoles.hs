@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.AppRoles
 Copyright   : (c) Felix Paulusma, 2016
@@ -20,16 +21,15 @@ where
 
 
 import Data.Aeson
-import qualified Data.HashMap.Strict as HM
-import Data.Text
+import qualified Data.Aeson.KeyMap as KM
 
 import Web.Facebook.Messenger.Types.Static (AppRole)
 
 -- | This callback is sent when a page admin changes the role of your application.
 --
 -- (My suspicion is that the `Text` key is an `AppId`, but untested)
-newtype AppRoles = AppRoles (HM.HashMap Text [AppRole])
-  deriving (Eq, Show, Read)
+newtype AppRoles = AppRoles (KM.KeyMap [AppRole])
+  deriving stock (Eq, Show, Read)
 
 
 -- --------------------------- --

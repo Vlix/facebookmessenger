@@ -4,6 +4,7 @@ module UnitTest.RequestParse.MessageRequest where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -26,7 +27,7 @@ messageRequestTests = Tasty.testGroup "Message Requests"
 
 
 recipientVal :: Value
-recipientVal = $$(decodeFile "test/json/request/recipient.json")
+recipientVal = $$(liftCode $ decodeFile "test/json/request/recipient.json")
 
 recipientTest :: TestTree
 recipientTest = parseTest "Recipient types" recipientVal
@@ -38,21 +39,21 @@ recipientTest = parseTest "Recipient types" recipientVal
                 ]
 
 senderActionVal :: Value
-senderActionVal = $$(decodeFile "test/json/request/sender_action_request.json")
+senderActionVal = $$(liftCode $ decodeFile "test/json/request/sender_action_request.json")
 
 senderActionTest :: TestTree
 senderActionTest = parseTest "Sender action request" senderActionVal
                $ SenderActionRequest (recipientID $ PSID "<PSID>") TYPING_ON
 
 senderActionsVal :: Value
-senderActionsVal = $$(decodeFile "test/json/request/sender_actions.json")
+senderActionsVal = $$(liftCode $ decodeFile "test/json/request/sender_actions.json")
 
 senderActionTypes :: TestTree
 senderActionTypes = parseTest "Message request w/ attachment id" senderActionsVal
                   $ [TYPING_ON, TYPING_OFF, MARK_SEEN]
 
 textRequestMinVal :: Value
-textRequestMinVal = $$(decodeFile "test/json/request/text_request_minimal.json")
+textRequestMinVal = $$(liftCode $ decodeFile "test/json/request/text_request_minimal.json")
 
 textRequestMinimal :: TestTree
 textRequestMinimal = parseTest "Minimal text request" textRequestMinVal
@@ -63,7 +64,7 @@ textRequestMinimal = parseTest "Minimal text request" textRequestMinVal
                                  Nothing
 
 textRequestMaxVal :: Value
-textRequestMaxVal = $$(decodeFile "test/json/request/text_request_maximal.json")
+textRequestMaxVal = $$(liftCode $ decodeFile "test/json/request/text_request_maximal.json")
 
 textRequestMaximal :: TestTree
 textRequestMaximal = parseTest "Maximal text request" textRequestMaxVal
@@ -74,7 +75,7 @@ textRequestMaximal = parseTest "Maximal text request" textRequestMaxVal
                                  (Just SHIPPING_UPDATE)
 
 textRequestQRVal :: Value
-textRequestQRVal = $$(decodeFile "test/json/request/text_request_qrs.json")
+textRequestQRVal = $$(liftCode $ decodeFile "test/json/request/text_request_qrs.json")
 
 textRequestQRs :: TestTree
 textRequestQRs = parseTest "Text request w/ QRs" textRequestQRVal

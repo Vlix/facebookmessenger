@@ -4,6 +4,7 @@ module UnitTest.RequestParse.ThreadControl where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -22,7 +23,7 @@ threadControlTests = Tasty.testGroup "Thread Control Requests"
 
 
 passThreadControlVal :: Value
-passThreadControlVal = $$(decodeFile "test/json/request/thread_control_pass.json")
+passThreadControlVal = $$(liftCode $ decodeFile "test/json/request/thread_control_pass.json")
 
 passThreadControl :: TestTree
 passThreadControl = parseTest "Pass thread" passThreadControlVal
@@ -31,7 +32,7 @@ passThreadControl = parseTest "Pass thread" passThreadControlVal
                                              $ Just "String to pass to secondary receiver app"
 
 threadControlVal :: Value
-threadControlVal = $$(decodeFile "test/json/request/thread_control_take-request.json")
+threadControlVal = $$(liftCode $ decodeFile "test/json/request/thread_control_take-request.json")
 
 threadControlTest :: TestTree
 threadControlTest = parseTest "Thread control (take/request)" threadControlVal

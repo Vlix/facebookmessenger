@@ -4,6 +4,7 @@ module UnitTest.ResponseParse.ThreadControl where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -23,7 +24,7 @@ threadControlTests = Tasty.testGroup "Thread Control Responses"
 
 
 threadControlVal :: Value
-threadControlVal = $$(decodeFile "test/json/response/thread_control.json")
+threadControlVal = $$(liftCode $ decodeFile "test/json/response/thread_control.json")
 
 threadControl :: TestTree
 threadControl = parseTest "Success response" threadControlVal
@@ -31,7 +32,7 @@ threadControl = parseTest "Success response" threadControlVal
 
 
 secondaryReceiversVal :: Value
-secondaryReceiversVal = $$(decodeFile "test/json/response/secondary_receiver.json")
+secondaryReceiversVal = $$(liftCode $ decodeFile "test/json/response/secondary_receiver.json")
 
 secondaryReceivers :: TestTree
 secondaryReceivers = parseTest "Request secondary receivers" secondaryReceiversVal
@@ -40,7 +41,7 @@ secondaryReceivers = parseTest "Request secondary receivers" secondaryReceiversV
                                   ]
 
 threadOwnerVal :: Value
-threadOwnerVal = $$(decodeFile "test/json/response/thread_owner_response.json")
+threadOwnerVal = $$(liftCode $ decodeFile "test/json/response/thread_owner_response.json")
 
 threadOwnerResponse :: TestTree
 threadOwnerResponse = parseTest "Thread owner response" threadOwnerVal

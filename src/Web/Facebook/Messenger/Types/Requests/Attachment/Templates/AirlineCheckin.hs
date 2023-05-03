@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.AirlineCheckin
 Copyright   : (c) Felix Paulusma, 2016
@@ -40,7 +41,7 @@ data AirlineCheckin = AirlineCheckin
     , acPnrNumber :: Text -- ^ Passenger name record number (Booking Number)
     , acFlightInfo :: [AirlineCheckinFlightInfo] -- ^ Information about a flight
     , acCheckinUrl :: URL -- ^ URL for passengers to check-in
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Information about a flight
 data AirlineCheckinFlightInfo = AirlineCheckinFlightInfo
@@ -48,7 +49,7 @@ data AirlineCheckinFlightInfo = AirlineCheckinFlightInfo
   , acfDepartureAirport :: AirlineAirport -- ^ Departure airport
   , acfArrivalAirport :: AirlineAirport -- ^ Arrival airport
   , acfFlightSchedule :: AirlineCheckinFlightSchedule -- ^ Schedule for the flight
-  } deriving (Eq, Show, Read, Ord)
+  } deriving stock (Eq, Show, Read, Ord)
 
 -- | All times must be in the ISO 8601-based format
 --
@@ -59,7 +60,7 @@ data AirlineCheckinFlightSchedule = AirlineCheckinFlightSchedule
   { acfBoardingTime :: Maybe Text -- ^ Boarding time in departure airport timezone
   , acfDepartureTime :: Text -- ^ Departure time in departure airport timezone
   , acfArrivalTime :: Text -- ^ Arrival time in arrival airport timezone
-  } deriving (Eq, Show, Read, Ord)
+  } deriving stock (Eq, Show, Read, Ord)
 
 -- --------------------------- --
 --  AIRLINE CHECKIN INSTANCES  --

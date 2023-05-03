@@ -4,6 +4,7 @@ module UnitTest.ResponseParse.MessageResponse where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -23,13 +24,13 @@ messageResponseTests = Tasty.testGroup "Message Response"
 
 
 messageResponseVal :: Value
-messageResponseVal = $$(decodeFile "test/json/response/message_response_regular.json")
+messageResponseVal = $$(liftCode $ decodeFile "test/json/response/message_response_regular.json")
 
 messageResponseRefVal :: Value
-messageResponseRefVal = $$(decodeFile "test/json/response/message_response_ref.json")
+messageResponseRefVal = $$(liftCode $ decodeFile "test/json/response/message_response_ref.json")
 
 messageResponseAttVal :: Value
-messageResponseAttVal = $$(decodeFile "test/json/response/message_response_attachment.json")
+messageResponseAttVal = $$(liftCode $ decodeFile "test/json/response/message_response_attachment.json")
 
 messageResponseRegular :: TestTree
 messageResponseRegular = parseTest "Regular message response" messageResponseVal

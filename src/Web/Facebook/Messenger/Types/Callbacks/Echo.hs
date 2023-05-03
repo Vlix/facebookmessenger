@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.Echo
 Copyright   : (c) Felix Paulusma, 2016
@@ -33,15 +34,13 @@ where
 
 import Control.Applicative ((<|>))
 import Data.Aeson
-import qualified Data.HashMap.Strict as HM
+import qualified Data.Aeson.KeyMap as KM
 import Data.List.NonEmpty (NonEmpty)
 import Data.Maybe (catMaybes)
 import Data.Text (Text)
 
 import Web.Facebook.Messenger.Internal
 import Web.Facebook.Messenger.Types.Requests
-import Web.Facebook.Messenger.Types.Requests.Attachment (RequestAttachment)
-import Web.Facebook.Messenger.Types.Requests.Extra (Fallback)
 import Web.Facebook.Messenger.Types.Callbacks.Message (MessageId)
 
 
@@ -61,34 +60,34 @@ data Echo = Echo
     , eMid :: MessageId -- ^ Message ID
     , eSeq :: Maybe Integer -- ^ Sequence number
     , eContent :: EchoContent -- ^ Contents of the Echo callback
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | Different kinds of Echo callbacks
 data EchoContent = EText EchoText -- ^ Regular message
                  | EAttachment EchoAttachment -- ^ Attachment message
                  | EButton EchoButton -- ^ Button Template
                  | EFallback EchoFallback -- ^ Any other message
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Text message
 newtype EchoText = EchoText { eText :: Text }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Attachment message. `RequestAttachment` as described in the Send API Reference ("Requests")
 newtype EchoAttachment = EchoAttachment { eAttachments :: [RequestAttachment] }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Button used in an echoed Button Template.
 data EchoButton = EchoButton { ebText :: Text
                              , ebButtons :: NonEmpty TemplateButton
                              }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Fallback message
 data EchoFallback = EchoFallback { efText :: Maybe Text
                                  , efFallback :: [Fallback]
                                  }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 
 -- ---------------- --
@@ -120,7 +119,7 @@ instance FromJSON EchoAttachment where
   parseJSON = withObject "EchoAttachment" $ \o -> do
       atts <- o .: attField
       let actualAtts = filter (/= Object mempty) (atts :: [Value])
-          newObj = HM.insert attField (toJSON actualAtts) o
+          newObj = KM.insert attField (toJSON actualAtts) o
       EchoAttachment <$> newObj .: attField
     where attField = "attachments"
 
@@ -140,7 +139,7 @@ instance FromJSON EchoFallback where
 
 
 instance ToJSON Echo where
-  toJSON echo = Object $ HM.fromList (catMaybes basis) `HM.union` extra
+  toJSON echo = Object $ KM.fromList (catMaybes basis) `KM.union` extra
    where
     basis = [ "is_echo" .=! eIsEcho echo
             , "mid" .=! eMid echo
@@ -149,11 +148,11 @@ instance ToJSON Echo where
             , "seq" .=!! eSeq echo
             ]
     extra = case eContent echo of
-              EText x -> HM.fromList [ "text" .= eText x ]
+              EText x -> KM.fromList [ "text" .= eText x ]
               EButton x | Object o <- toJSON x -> o
-                        | otherwise -> HM.empty
-              EAttachment x -> HM.fromList [ "attachments" .= eAttachments x ]
-              EFallback x -> HM.fromList . catMaybes $
+                        | otherwise -> KM.empty
+              EAttachment x -> KM.fromList [ "attachments" .= eAttachments x ]
+              EFallback x -> KM.fromList . catMaybes $
                                 [ "text" .=!! efText x
                                 , "attachments" .=! efFallback x
                                 ]

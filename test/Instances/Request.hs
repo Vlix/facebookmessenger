@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
 
@@ -22,62 +23,62 @@ limitNEList i (e :| es) = e :| take (i - 1) es
 -- Requests --
 --------------
 
-deriving instance Generic SendRequest
+deriving stock instance Generic SendRequest
 instance Arbitrary SendRequest where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic SenderActionRequest
+deriving stock instance Generic SenderActionRequest
 instance Arbitrary SenderActionRequest where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RequestRecipient
+deriving stock instance Generic RequestRecipient
 instance Arbitrary RequestRecipient where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RecipientID
+deriving stock instance Generic RecipientID
 instance Arbitrary RecipientID where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RecipientRef
+deriving stock instance Generic RecipientRef
 instance Arbitrary RecipientRef where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RecipientPhone
+deriving stock instance Generic RecipientPhone
 instance Arbitrary RecipientPhone where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RecipientName
+deriving stock instance Generic RecipientName
 instance Arbitrary RecipientName where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AttachmentUploadRequest
+deriving stock instance Generic AttachmentUploadRequest
 instance Arbitrary AttachmentUploadRequest where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AccountUnlinkRequest
+deriving stock instance Generic AccountUnlinkRequest
 instance Arbitrary AccountUnlinkRequest where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic MessengerCodeRequest
+deriving stock instance Generic MessengerCodeRequest
 instance Arbitrary MessengerCodeRequest where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic PassThreadControlRequest
+deriving stock instance Generic PassThreadControlRequest
 instance Arbitrary PassThreadControlRequest where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ThreadControlRequest
+deriving stock instance Generic ThreadControlRequest
 instance Arbitrary ThreadControlRequest where
   arbitrary = genericArbitrary
   shrink = genericShrink
@@ -86,27 +87,27 @@ instance Arbitrary ThreadControlRequest where
 -- Requests Settings --
 -----------------------
 
-deriving instance Generic Greeting
+deriving stock instance Generic Greeting
 instance Arbitrary Greeting where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic GreetingSetting
+deriving stock instance Generic GreetingSetting
 instance Arbitrary GreetingSetting where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic GetStartedButton
+deriving stock instance Generic GetStartedButton
 instance Arbitrary GetStartedButton where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic PersistentMenu
+deriving stock instance Generic PersistentMenu
 instance Arbitrary PersistentMenu where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic PersistentMenuSetting
+deriving stock instance Generic PersistentMenuSetting
 instance Arbitrary PersistentMenuSetting where
   arbitrary = PersistentMenuSetting <$> arbitrary
                                     <*> arbitrary
@@ -114,48 +115,48 @@ instance Arbitrary PersistentMenuSetting where
                                     <*> arbitrary
   shrink = genericShrink
 
-deriving instance Generic PersistentMenuItem
+deriving stock instance Generic PersistentMenuItem
 instance Arbitrary PersistentMenuItem where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic PersistentMenuItemNested
+deriving stock instance Generic PersistentMenuItemNested
 instance Arbitrary PersistentMenuItemNested where
   arbitrary = PersistentMenuItemNested <$> arbitrary
                                        <*> pure []
   shrink = genericShrink
 
-deriving instance Generic WhiteListedDomains
+deriving stock instance Generic WhiteListedDomains
 instance Arbitrary WhiteListedDomains where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AccountLinkingUrl
+deriving stock instance Generic AccountLinkingUrl
 instance Arbitrary AccountLinkingUrl where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic PaymentSettings
+deriving stock instance Generic PaymentSettings
 instance Arbitrary PaymentSettings where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic TargetAudience
+deriving stock instance Generic TargetAudience
 instance Arbitrary TargetAudience where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic TargetCountries
+deriving stock instance Generic TargetCountries
 instance Arbitrary TargetCountries where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic HomeUrl
+deriving stock instance Generic HomeUrl
 instance Arbitrary HomeUrl where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ProfileRequest
+deriving stock instance Generic ProfileRequest
 instance Arbitrary ProfileRequest where
   arbitrary = genericArbitrary
   shrink = genericShrink
@@ -165,58 +166,58 @@ instance Arbitrary ProfileRequest where
 -- Requests Extra --
 --------------------
 
-deriving instance Generic TemplateButton
+deriving stock instance Generic TemplateButton
 instance Arbitrary TemplateButton where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic URLButton
+deriving stock instance Generic URLButton
 instance Arbitrary URLButton where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic PostbackButton
+deriving stock instance Generic PostbackButton
 instance Arbitrary PostbackButton where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic CallButton
+deriving stock instance Generic CallButton
 instance Arbitrary CallButton where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic LogInButton
+deriving stock instance Generic LogInButton
 instance Arbitrary LogInButton where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic LogOutButton
+deriving stock instance Generic LogOutButton
 instance Arbitrary LogOutButton where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
 -- YOLO: Let's not infinitely nest GenericElements through these buttons...
-deriving instance Generic ShareButton
+deriving stock instance Generic ShareButton
 instance Arbitrary ShareButton where
   arbitrary = pure $ ShareButton Nothing
   shrink = genericShrink
 
-deriving instance Generic ShareContents
+deriving stock instance Generic ShareContents
 instance Arbitrary ShareContents where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic BuyButton
+deriving stock instance Generic BuyButton
 instance Arbitrary BuyButton where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic PriceObject
+deriving stock instance Generic PriceObject
 instance Arbitrary PriceObject where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic GenericElement
+deriving stock instance Generic GenericElement
 instance Arbitrary GenericElement where
   arbitrary = genericElement <$> arbitrary
                              <*> arbitrary
@@ -235,12 +236,12 @@ instance Arbitrary GenericElement where
           getBtns (btn:rest) = (Nothing,Just btn) : getBtns rest
   shrink = genericShrink
 
-deriving instance Generic DefaultAction
+deriving stock instance Generic DefaultAction
 instance Arbitrary DefaultAction where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic TemplateAddress
+deriving stock instance Generic TemplateAddress
 instance Arbitrary TemplateAddress where
   arbitrary = genericArbitrary
   shrink = genericShrink
@@ -250,46 +251,46 @@ instance Arbitrary TemplateAddress where
 -- Requests Message --
 ----------------------
 
-deriving instance Generic RequestMessage
+deriving stock instance Generic RequestMessage
 instance Arbitrary RequestMessage where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RequestMessageText
+deriving stock instance Generic RequestMessageText
 instance Arbitrary RequestMessageText where
   arbitrary = RequestMessageText <$> arbitrary
                                  <*> fmap (take 11) arbitrary
                                  <*> arbitrary
   shrink = genericShrink
 
-deriving instance Generic RequestMessageAttachment
+deriving stock instance Generic RequestMessageAttachment
 instance Arbitrary RequestMessageAttachment where
   arbitrary = RequestMessageAttachment <$> arbitrary
                                        <*> fmap (take 11) arbitrary
                                        <*> arbitrary
   shrink = genericShrink
 
-deriving instance Generic RequestQuickReply
+deriving stock instance Generic RequestQuickReply
 instance Arbitrary RequestQuickReply where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RQuickReply
+deriving stock instance Generic RQuickReply
 instance Arbitrary RQuickReply where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic LocationQuickReply
+deriving stock instance Generic LocationQuickReply
 instance Arbitrary LocationQuickReply where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic PhoneNumberQuickReply
+deriving stock instance Generic PhoneNumberQuickReply
 instance Arbitrary PhoneNumberQuickReply where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic EmailQuickReply
+deriving stock instance Generic EmailQuickReply
 instance Arbitrary EmailQuickReply where
   arbitrary = genericArbitrary
   shrink = genericShrink
@@ -299,32 +300,32 @@ instance Arbitrary EmailQuickReply where
 -- Requests Attachments --
 --------------------------
 
-deriving instance Generic RequestAttachment
+deriving stock instance Generic RequestAttachment
 instance Arbitrary RequestAttachment where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RequestMultimediaAttachment
+deriving stock instance Generic RequestMultimediaAttachment
 instance Arbitrary RequestMultimediaAttachment where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RequestAttachmentTemplate
+deriving stock instance Generic RequestAttachmentTemplate
 instance Arbitrary RequestAttachmentTemplate where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RequestMultimediaPayload
+deriving stock instance Generic RequestMultimediaPayload
 instance Arbitrary RequestMultimediaPayload where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RMultimediaPayload
+deriving stock instance Generic RMultimediaPayload
 instance Arbitrary RMultimediaPayload where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic RReusedMultimediaPayload
+deriving stock instance Generic RReusedMultimediaPayload
 instance Arbitrary RReusedMultimediaPayload where
   arbitrary = genericArbitrary
   shrink = genericShrink
@@ -334,32 +335,32 @@ instance Arbitrary RReusedMultimediaPayload where
 -- Requests Attachments --
 --------------------------
 
-deriving instance Generic TemplatePayload
+deriving stock instance Generic TemplatePayload
 instance Arbitrary TemplatePayload where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineAirport
+deriving stock instance Generic AirlineAirport
 instance Arbitrary AirlineAirport where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineFlightInfo
+deriving stock instance Generic AirlineFlightInfo
 instance Arbitrary AirlineFlightInfo where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineFlightSchedule
+deriving stock instance Generic AirlineFlightSchedule
 instance Arbitrary AirlineFlightSchedule where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineBoardingPass
+deriving stock instance Generic AirlineBoardingPass
 instance Arbitrary AirlineBoardingPass where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic BoardingPass
+deriving stock instance Generic BoardingPass
 instance Arbitrary BoardingPass where
   arbitrary = BoardingPass <$> arbitrary
                            <*> arbitrary
@@ -374,47 +375,47 @@ instance Arbitrary BoardingPass where
                            <*> arbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineQRBarCode
+deriving stock instance Generic AirlineQRBarCode
 instance Arbitrary AirlineQRBarCode where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineQRCode
+deriving stock instance Generic AirlineQRCode
 instance Arbitrary AirlineQRCode where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineBarCode
+deriving stock instance Generic AirlineBarCode
 instance Arbitrary AirlineBarCode where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineField
+deriving stock instance Generic AirlineField
 instance Arbitrary AirlineField where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineCheckin
+deriving stock instance Generic AirlineCheckin
 instance Arbitrary AirlineCheckin where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineCheckinFlightInfo
+deriving stock instance Generic AirlineCheckinFlightInfo
 instance Arbitrary AirlineCheckinFlightInfo where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineCheckinFlightSchedule
+deriving stock instance Generic AirlineCheckinFlightSchedule
 instance Arbitrary AirlineCheckinFlightSchedule where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineFlightUpdate
+deriving stock instance Generic AirlineFlightUpdate
 instance Arbitrary AirlineFlightUpdate where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineItinerary
+deriving stock instance Generic AirlineItinerary
 instance Arbitrary AirlineItinerary where
   arbitrary = AirlineItinerary <$> arbitrary
                                <*> arbitrary
@@ -430,17 +431,17 @@ instance Arbitrary AirlineItinerary where
                                <*> arbitrary
   shrink = genericShrink
 
-deriving instance Generic PassengerInfo
+deriving stock instance Generic PassengerInfo
 instance Arbitrary PassengerInfo where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ItineraryFlightInfo
+deriving stock instance Generic ItineraryFlightInfo
 instance Arbitrary ItineraryFlightInfo where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic PassengerSegmentInfo
+deriving stock instance Generic PassengerSegmentInfo
 instance Arbitrary PassengerSegmentInfo where
   arbitrary = PassengerSegmentInfo <$> arbitrary
                                    <*> arbitrary
@@ -449,30 +450,30 @@ instance Arbitrary PassengerSegmentInfo where
                                    <*> fmap (take 4) arbitrary
   shrink = genericShrink
 
-deriving instance Generic AirlineProductInfo
+deriving stock instance Generic AirlineProductInfo
 instance Arbitrary AirlineProductInfo where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic PriceInfo
+deriving stock instance Generic PriceInfo
 instance Arbitrary PriceInfo where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ButtonTemplate
+deriving stock instance Generic ButtonTemplate
 instance Arbitrary ButtonTemplate where
   arbitrary = ButtonTemplate <$> arbitrary
                              <*> fmap (limitNEList 3) arbitrary
   shrink = genericShrink
 
-deriving instance Generic GenericTemplate
+deriving stock instance Generic GenericTemplate
 instance Arbitrary GenericTemplate where
   arbitrary = GenericTemplate <$> arbitrary
                               <*> arbitrary
                               <*> fmap (limitNEList 10) arbitrary
   shrink = genericShrink
 
-deriving instance Generic ListTemplate
+deriving stock instance Generic ListTemplate
 instance Arbitrary ListTemplate where
   arbitrary = go <$> arbitrary
                  <*> fmap (limitNEList 4) arbitrary
@@ -483,53 +484,53 @@ instance Arbitrary ListTemplate where
                           _ -> es'
   shrink = genericShrink
 
-deriving instance Generic ListElement
+deriving stock instance Generic ListElement
 instance Arbitrary ListElement where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic MediaTemplate
+deriving stock instance Generic MediaTemplate
 instance Arbitrary MediaTemplate where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic MediaElement
+deriving stock instance Generic MediaElement
 instance Arbitrary MediaElement where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic MediaElementContent
+deriving stock instance Generic MediaElementContent
 instance Arbitrary MediaElementContent where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic OpenGraphTemplate
+deriving stock instance Generic OpenGraphTemplate
 instance Arbitrary OpenGraphTemplate where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic OpenGraphElement
+deriving stock instance Generic OpenGraphElement
 instance Arbitrary OpenGraphElement where
   arbitrary = OpenGraphElement <$> arbitrary
                                <*> fmap (take 3) arbitrary
   shrink = genericShrink
 
-deriving instance Generic ReceiptTemplate
+deriving stock instance Generic ReceiptTemplate
 instance Arbitrary ReceiptTemplate where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ReceiptElement
+deriving stock instance Generic ReceiptElement
 instance Arbitrary ReceiptElement where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ReceiptSummary
+deriving stock instance Generic ReceiptSummary
 instance Arbitrary ReceiptSummary where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ReceiptAdjustment
+deriving stock instance Generic ReceiptAdjustment
 instance Arbitrary ReceiptAdjustment where
   arbitrary = genericArbitrary
   shrink = genericShrink

@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Requests.Attachment.Templates.OpenGraphTemplate
 Copyright   : (c) Felix Paulusma, 2016
@@ -51,7 +52,7 @@ import Web.Facebook.Messenger.Types.Static (URL)
 -- More info about the Open Graph: https://developers.facebook.com/docs/opengraph/music
 newtype OpenGraphTemplate =
           OpenGraphTemplate { ogtElement :: OpenGraphElement }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON OpenGraphTemplate where
   toJSON (OpenGraphTemplate e) =
@@ -76,7 +77,7 @@ instance FromJSON OpenGraphTemplate where
 data OpenGraphElement = OpenGraphElement
     { ogeUrl :: URL -- ^ Open graph URL for the element
     , ogeButtons :: [TemplateButton] -- ^ Maximum of 3 buttons are allowed when sending via Send API.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 instance ToJSON OpenGraphElement where
   toJSON (OpenGraphElement url buttons) =
@@ -88,4 +89,3 @@ instance FromJSON OpenGraphElement where
   parseJSON = withObject "OpenGraphElement" $ \o ->
       OpenGraphElement <$> o .: "url"
                        <*> o .:? "buttons" .!= []
-

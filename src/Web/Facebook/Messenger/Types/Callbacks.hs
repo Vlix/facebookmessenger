@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks
 Copyright   : (c) Felix Paulusma, 2016
@@ -34,7 +35,7 @@ import Web.Facebook.Messenger.Types.Static (PageID (..))
 --
 -- Be sure to iterate over @[`CallbackEntry`]@ to process all events.
 newtype Callback = Callback {cbEntries :: [CallbackEntry]}
-  deriving (Eq, Show, Read)
+  deriving stock (Eq, Show, Read)
 
 -- | A callback event. Although @[`CallbackMessaging`]@ is also a list, there is no batching mechanism for @[`CallbackMessaging`]@ at the moment.
 data CallbackEntry = CallbackEntry
@@ -45,7 +46,7 @@ data CallbackEntry = CallbackEntry
     -- (Even though this is a list, it will only contain one messaging object at the moment,
     -- hence just the single data type in @entryMessaging@)
     , entryStandby :: Bool -- ^ Whether this `CallbackEntry` is a standby event, meaning the receiving bot is a `SecondaryReceiver`
-    } deriving (Eq, Show, Read)
+    } deriving stock (Eq, Show, Read)
 
 
 -- ------------------------ --

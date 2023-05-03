@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE TypeSynonymInstances #-}
@@ -16,113 +17,113 @@ import Instances.Request()
 import Instances.Static()
 
 
-deriving instance Generic MessageResponse
+deriving stock instance Generic MessageResponse
 instance Arbitrary MessageResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic SenderActionResponse
+deriving stock instance Generic SenderActionResponse
 instance Arbitrary SenderActionResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic SuccessResponse
+deriving stock instance Generic SuccessResponse
 instance Arbitrary SuccessResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic MessageCreativeResponse
+deriving stock instance Generic MessageCreativeResponse
 instance Arbitrary MessageCreativeResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic BroadcastMessageResponse
+deriving stock instance Generic BroadcastMessageResponse
 instance Arbitrary BroadcastMessageResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic GetProfileResponse
+deriving stock instance Generic GetProfileResponse
 instance Arbitrary GetProfileResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ErrorResponse
+deriving stock instance Generic ErrorResponse
 instance Arbitrary ErrorResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ErrorDetails
+deriving stock instance Generic ErrorDetails
 instance Arbitrary ErrorDetails where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AttachmentUploadResponse
+deriving stock instance Generic AttachmentUploadResponse
 instance Arbitrary AttachmentUploadResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic UserProfileResponse
+deriving stock instance Generic UserProfileResponse
 instance Arbitrary UserProfileResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic MessengerCodeResponse
+deriving stock instance Generic MessengerCodeResponse
 instance Arbitrary MessengerCodeResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic AccountLinkingResponse
+deriving stock instance Generic AccountLinkingResponse
 instance Arbitrary AccountLinkingResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
 -- | Only taking 5 to speed up testing
-deriving instance Generic CheckoutUpdateResponse
+deriving stock instance Generic CheckoutUpdateResponse
 instance Arbitrary CheckoutUpdateResponse where
   arbitrary = CheckoutUpdateResponse <$> fmap (take 5) arbitrary
   shrink = genericShrink
 
-deriving instance Generic Shipping
+deriving stock instance Generic Shipping
 instance Arbitrary Shipping where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ThreadControlResponse
+deriving stock instance Generic ThreadControlResponse
 instance Arbitrary ThreadControlResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic ThreadOwnerResponse
+deriving stock instance Generic ThreadOwnerResponse
 instance Arbitrary ThreadOwnerResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance {-# OVERLAPPABLE #-} Generic (DataResponse a)
+deriving stock instance {-# OVERLAPPABLE #-} Generic (DataResponse a)
 instance {-# OVERLAPPABLE #-} (Arbitrary a, Generic a) => Arbitrary (DataResponse a) where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic DomainWhitelistingResponse
+deriving stock instance Generic DomainWhitelistingResponse
 instance Arbitrary DomainWhitelistingResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic SecondaryReceiverResponse
+deriving stock instance Generic SecondaryReceiverResponse
 instance Arbitrary SecondaryReceiverResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic SecondaryReceiverElement
+deriving stock instance Generic SecondaryReceiverElement
 instance Arbitrary SecondaryReceiverElement where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic TagResponse
+deriving stock instance Generic TagResponse
 instance Arbitrary TagResponse where
   arbitrary = genericArbitrary
   shrink = genericShrink
 
-deriving instance Generic TagElement
+deriving stock instance Generic TagElement
 instance Arbitrary TagElement where
   arbitrary = genericArbitrary
   shrink = genericShrink

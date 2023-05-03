@@ -4,6 +4,7 @@ module UnitTest.RequestParse.MessengerCode where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -22,13 +23,13 @@ messengerCodeTests = Tasty.testGroup "Messenger Code Requests"
 
 
 messengerCodeVal :: Value
-messengerCodeVal = $$(decodeFile "test/json/request/messenger_code_request.json")
+messengerCodeVal = $$(liftCode $ decodeFile "test/json/request/messenger_code_request.json")
 
 messengerCodeTest :: TestTree
 messengerCodeTest = parseTest "Messenger code" messengerCodeVal messengerCode
 
 messengerCodeMaxVal :: Value
-messengerCodeMaxVal = $$(decodeFile "test/json/request/messenger_code_request_ref.json")
+messengerCodeMaxVal = $$(liftCode $ decodeFile "test/json/request/messenger_code_request_ref.json")
 
 messengerCodeRef :: TestTree
 messengerCodeRef = parseTest "Maximal messenger code w/ parameter" messengerCodeMaxVal

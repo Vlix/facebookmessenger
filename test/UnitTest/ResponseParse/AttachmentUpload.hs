@@ -4,6 +4,7 @@ module UnitTest.ResponseParse.AttachmentUpload where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -15,7 +16,7 @@ import UnitTest.Internal
 ----------------
 
 attachmentUploadVal :: Value
-attachmentUploadVal = $$(decodeFile "test/json/response/attachment_upload.json")
+attachmentUploadVal = $$(liftCode $ decodeFile "test/json/response/attachment_upload.json")
 
 attachmentUploadTest :: TestTree
 attachmentUploadTest = parseTest "Attachment Upload Response" attachmentUploadVal

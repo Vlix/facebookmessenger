@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Optin
 Copyright   : (c) Felix Paulusma, 2016
@@ -46,7 +47,7 @@ data Optin = Optin
     -- ^ In case the user went through the @Checkbox@ plugin,
     -- this is the @"user_ref"@ which you'll have to use as the `RecipientRef` in the
     -- first message you send to this user.
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- ----------------- --

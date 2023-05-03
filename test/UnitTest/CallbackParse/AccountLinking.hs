@@ -4,6 +4,7 @@ module UnitTest.CallbackParse.AccountLinking where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -22,10 +23,10 @@ accountLinkTests = Tasty.testGroup "Account Linking Callback"
 
 
 accountLinkingVal :: Value
-accountLinkingVal = $$(decodeFile "test/json/callback/account_linking_callback.json")
+accountLinkingVal = $$(liftCode $ decodeFile "test/json/callback/account_linking_callback.json")
 
 accountLinksVal :: Value
-accountLinksVal = $$(decodeFile "test/json/callback/account_linking_types.json")
+accountLinksVal = $$(liftCode $ decodeFile "test/json/callback/account_linking_types.json")
 
 accountLinkCallback :: TestTree
 accountLinkCallback = parseTest "Account link callback" accountLinkingVal

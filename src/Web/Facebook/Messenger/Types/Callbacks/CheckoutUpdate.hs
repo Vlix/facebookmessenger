@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.CheckoutUpdate
 Copyright   : (c) Felix Paulusma, 2016
@@ -23,7 +24,7 @@ where
 
 import Data.Aeson
 import Data.Aeson.Types (Parser)
-import qualified Data.HashMap.Strict as HM
+import qualified Data.Aeson.KeyMap as KM
 import Data.Text
 
 import Web.Facebook.Messenger.Types.Requests.Extra (TemplateAddress)
@@ -39,7 +40,7 @@ data CheckoutUpdate = CheckoutUpdate
     -- (Again, the documentation example is a Number,
     -- and the text says the shipping_address_id's a String...)
     , cuAddress :: TemplateAddress -- ^ Address of the user
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- --------------------------- --
@@ -51,7 +52,7 @@ instance ToJSON CheckoutUpdate where
       object [ "payload" .= payload
              , "shipping_address" .= addIDtoAddress
              ]
-    where addIDtoAddress = changeObject addressValue $ HM.insert "id" shipIDValue
+    where addIDtoAddress = changeObject addressValue $ KM.insert "id" shipIDValue
           shipIDValue    = toJSON shipid
           addressValue   = toJSON address
           changeObject (Object o) f = Object $ f o

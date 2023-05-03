@@ -4,6 +4,7 @@ module UnitTest.CallbackParse where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Test.Tasty.HUnit as Tasty
@@ -55,13 +56,13 @@ callbackTests = Tasty.testGroup "Callbacks"
 
 
 regularCallbackVal :: Value
-regularCallbackVal = $$(decodeFile "test/json/callback/regular_text_callback.json")
+regularCallbackVal = $$(liftCode $ decodeFile "test/json/callback/regular_text_callback.json")
 
 standbyCallbackVal :: Value
-standbyCallbackVal = $$(decodeFile "test/json/callback/standby_callback.json")
+standbyCallbackVal = $$(liftCode $ decodeFile "test/json/callback/standby_callback.json")
 
 customerMatchingVal :: Value
-customerMatchingVal = $$(decodeFile "test/json/callback/customer_matching_accepted.json")
+customerMatchingVal = $$(liftCode $ decodeFile "test/json/callback/customer_matching_accepted.json")
 
 regularCallback :: TestTree
 regularCallback = testCase "Regular callback" $ sharedCallback False regularCallbackVal
@@ -83,7 +84,7 @@ sharedCallback b val = eParse val @?= Right expected
 
 
 textPrior :: Value
-textPrior = $$(decodeFile "test/json/callback/text_callback_prior_message.json")
+textPrior = $$(liftCode $ decodeFile "test/json/callback/text_callback_prior_message.json")
 
 textCallbackPrior :: TestTree
 textCallbackPrior = testCase "Text with PriorMessage" $

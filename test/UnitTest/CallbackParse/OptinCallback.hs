@@ -4,6 +4,7 @@ module UnitTest.CallbackParse.OptinCallback where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -15,7 +16,7 @@ import UnitTest.Internal
 -----------
 
 optinCallbackVal :: Value
-optinCallbackVal = $$(decodeFile "test/json/callback/optin_callback.json")
+optinCallbackVal = $$(liftCode $ decodeFile "test/json/callback/optin_callback.json")
 
 optinTest :: TestTree
 optinTest = parseTest "Optin Callback" optinCallbackVal

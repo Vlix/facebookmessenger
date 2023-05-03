@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.Delivery
 Copyright   : (c) Felix Paulusma, 2016
@@ -39,7 +40,7 @@ data Delivery = Delivery
     { dWatermark :: Integer -- ^ All messages that were sent before this timestamp were delivered
     , dMids :: [Text] -- ^ Array containing message IDs of messages that were delivered. Field may not be present.
     , dSeq :: Maybe Integer -- ^ Sequence number
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- -------------------- --

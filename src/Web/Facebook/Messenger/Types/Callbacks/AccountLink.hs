@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE LambdaCase #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.AppRoles
@@ -34,7 +35,7 @@ import Web.Facebook.Messenger.Internal
 -- `AccountLink` might have a pass-through authorization_code provided in the Linking Account flow
 data AccountLink = AccountLink { authCode :: Maybe Text }
                  | AccountUnlink
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- --------------------------- --
 --  ACCOUNT LINKING INSTANCES  --

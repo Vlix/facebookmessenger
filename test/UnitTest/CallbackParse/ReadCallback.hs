@@ -4,6 +4,7 @@ module UnitTest.CallbackParse.ReadCallback where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -15,7 +16,7 @@ import UnitTest.Internal
 ----------
 
 readCallbackVal :: Value
-readCallbackVal = $$(decodeFile "test/json/callback/read_callback.json")
+readCallbackVal = $$(liftCode $ decodeFile "test/json/callback/read_callback.json")
 
 readTest :: TestTree
 readTest = parseTest "Read Callback" readCallbackVal

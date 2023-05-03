@@ -4,6 +4,7 @@ module UnitTest.RequestParse.AttachmentRequest where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -23,7 +24,7 @@ attachmentRequestTests = Tasty.testGroup "Attachment Requests"
 
 
 attachmentRequestMediaVal :: Value
-attachmentRequestMediaVal = $$(decodeFile "test/json/request/attachment_request_media.json")
+attachmentRequestMediaVal = $$(liftCode $ decodeFile "test/json/request/attachment_request_media.json")
 
 attachmentRequestMedia :: TestTree
 attachmentRequestMedia = parseTest "Media attachment" attachmentRequestMediaVal
@@ -31,7 +32,7 @@ attachmentRequestMedia = parseTest "Media attachment" attachmentRequestMediaVal
                           $ attachmentRequest_ $ multimediaRequest_ VIDEO "http://www.example.com/video.mp4"
 
 attachmentRequestMediaReusableVal :: Value
-attachmentRequestMediaReusableVal = $$(decodeFile "test/json/request/attachment_request_media_reusable.json")
+attachmentRequestMediaReusableVal = $$(liftCode $ decodeFile "test/json/request/attachment_request_media_reusable.json")
 
 attachmentRequestMediaReusable :: TestTree
 attachmentRequestMediaReusable = parseTest "Reusable media attachment" attachmentRequestMediaReusableVal
@@ -39,7 +40,7 @@ attachmentRequestMediaReusable = parseTest "Reusable media attachment" attachmen
                                   $ attachmentRequest_ $ multimediaRequest IMAGE "http://www.example.com/file.jpg" True
 
 attachmentRequestTypesVal :: Value
-attachmentRequestTypesVal = $$(decodeFile "test/json/request/attachment_request_media_types.json")
+attachmentRequestTypesVal = $$(liftCode $ decodeFile "test/json/request/attachment_request_media_types.json")
 
 attachmentRequestTypes :: TestTree
 attachmentRequestTypes = parseTest "Attachment types" attachmentRequestTypesVal $ [IMAGE, VIDEO, FILE, AUDIO]

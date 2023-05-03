@@ -4,6 +4,7 @@ module UnitTest.CallbackParse.PolicyEnforcement where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -21,10 +22,10 @@ policyTests = Tasty.testGroup "Policy Enforcement Callback"
     ]
 
 policyCallbackVal :: Value
-policyCallbackVal = $$(decodeFile "test/json/callback/policy_enforcement.json")
+policyCallbackVal = $$(liftCode $ decodeFile "test/json/callback/policy_enforcement.json")
 
 policyTypesVal :: Value
-policyTypesVal = $$(decodeFile "test/json/callback/policy_enforcement_types.json")
+policyTypesVal = $$(liftCode $ decodeFile "test/json/callback/policy_enforcement_types.json")
 
 policyCallback :: TestTree
 policyCallback = parseTest "Policy enforcement callback" policyCallbackVal

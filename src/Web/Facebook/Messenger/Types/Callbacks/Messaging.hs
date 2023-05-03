@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE LambdaCase #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.Messaging
@@ -56,7 +57,7 @@ module Web.Facebook.Messenger.Types.Callbacks.Messaging (
 
 import Control.Applicative ((<|>))
 import Data.Aeson
-import Data.HashMap.Strict as HM
+import Data.Aeson.KeyMap as KM
 import Data.Text (Text)
 
 import Web.Facebook.Messenger.Internal
@@ -99,7 +100,7 @@ data CallbackMessaging = CallbackMessaging
     -- ^ Included in case it's the first message from a user
     -- after they received a message using the @user-ref@ from the checkbox plugin.
     , content :: CallbackContent -- ^ Content depending on the type of callback.
-    } deriving (Eq, Show, Read)
+    } deriving stock (Eq, Show, Read)
 
 -- | The different types of callbacks that could be
 data CallbackContent =
@@ -120,18 +121,18 @@ data CallbackContent =
   | CMRequestThread RequestThread -- ^ Part of thread control
   | CMTakeThread TakeThread -- ^ Part of thread control
   | CMMsgAccept -- ^ Customer Matching accepted
-  deriving (Eq, Show, Read)
+  deriving stock (Eq, Show, Read)
 
 
 -- | The sender of the message. Sometimes this is absent because it wouldn't make sense with certain callbacks.
 newtype CallbackSender =
           CallbackSender { senderId :: PSID }
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | The receiving page of the callback.
 newtype CallbackRecipient =
           CallbackRecipient { recipientId :: PageID } -- Recipient user ID/PAGE_ID
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Indicates the @user-ref@ this user is linked to
 -- so you can link their PSID with the earlier used @user-ref@
@@ -142,7 +143,7 @@ newtype CallbackRecipient =
 data PriorMessage = PriorMessage
   { source :: PriorMessageType
   , identifier :: Text
-  } deriving (Eq, Show, Read, Ord)
+  } deriving stock (Eq, Show, Read, Ord)
 
 
 -- --------------------- --
@@ -177,7 +178,7 @@ instance FromJSON CallbackContent where
       <|> tryMatch o
     where tryMessage o = do
               msg <- o .: "message"
-              case "is_echo" `HM.lookup` msg of
+              case "is_echo" `KM.lookup` msg of
                 Just _ -> CMEcho <$> parseJSON (Object msg)
                 _ -> CMMessage <$> parseJSON (Object msg)
           tryMatch o = do
@@ -211,7 +212,7 @@ instance ToJSON CallbackMessaging where
                 , "prior_message" .=!! mpriorMsg
                 ] ++ contentPair
     where Object cbContentObj = toJSON cont
-          contentPair = Just <$> HM.toList cbContentObj
+          contentPair = Just <$> KM.toList cbContentObj
 
 instance ToJSON CallbackContent where
   toJSON = object . (:[]) . go

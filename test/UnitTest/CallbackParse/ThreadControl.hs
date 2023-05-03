@@ -4,6 +4,7 @@ module UnitTest.CallbackParse.ThreadControl where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -23,13 +24,13 @@ threadControlTests = Tasty.testGroup "Thread Control Callbacks"
 
 
 passThreadVal :: Value
-passThreadVal = $$(decodeFile "test/json/callback/pass_thread_control.json")
+passThreadVal = $$(liftCode $ decodeFile "test/json/callback/pass_thread_control.json")
 
 requestThreadVal :: Value
-requestThreadVal = $$(decodeFile "test/json/callback/request_thread_control.json")
+requestThreadVal = $$(liftCode $ decodeFile "test/json/callback/request_thread_control.json")
 
 takeThreadVal :: Value
-takeThreadVal = $$(decodeFile "test/json/callback/take_thread_control.json")
+takeThreadVal = $$(liftCode $ decodeFile "test/json/callback/take_thread_control.json")
 
 passThreadCallback :: TestTree
 passThreadCallback = parseTest "Pass thread" passThreadVal

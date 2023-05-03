@@ -69,8 +69,6 @@ library
                      , bytestring
                      , scientific
                      , text
-                     , unordered-containers
-                     , vector
 
   -- hs-source-dirs:
   default-language:    Haskell2010
@@ -88,15 +86,11 @@ test-suite facebookmessenger-test
                     , generic-arbitrary
                     , QuickCheck
                     , quickcheck-instances
---                    , scientific
                     , tasty
                     , tasty-hunit
                     , tasty-quickcheck
                     , template-haskell
                     , text
---                    , time
-                    , unordered-containers
---                    , vector
                     , yaml
   other-modules:      Aeson
                     , Instances
@@ -144,6 +138,6 @@ test-suite facebookmessenger-test
                     , UnitTest.ProfileRequest
                     , UnitTest.ShortFunction
                     , Util.Testing.Aeson
-  ghc-options:        -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:        -threaded -rtsopts -with-rtsopts=-N -fconstraint-solver-iterations=9
   default-language:    Haskell2010
   default-extensions:  OverloadedStrings

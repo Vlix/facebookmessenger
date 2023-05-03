@@ -5,6 +5,7 @@ module UnitTest.RequestParse.TemplateRequests where
 import Data.Aeson (Value)
 import Data.List.NonEmpty (NonEmpty(..))
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -26,7 +27,7 @@ templateRequestTests = Tasty.testGroup "Template Requests"
 
 
 templateButtonsVal :: Value
-templateButtonsVal = $$(decodeFile "test/json/request/template_buttons.json")
+templateButtonsVal = $$(liftCode $ decodeFile "test/json/request/template_buttons.json")
 
 templateButtons :: TestTree
 templateButtons = parseTest "Template buttons" templateButtonsVal
@@ -46,7 +47,7 @@ templateButtons = parseTest "Template buttons" templateButtonsVal
                   ]
 
 genericTemplateMinVal :: Value
-genericTemplateMinVal = $$(decodeFile "test/json/request/template_request_generic_minimal.json")
+genericTemplateMinVal = $$(liftCode $ decodeFile "test/json/request/template_request_generic_minimal.json")
 
 genericTemplateMinimal :: TestTree
 genericTemplateMinimal = parseTest "Minimal generic template" genericTemplateMinVal
@@ -55,7 +56,7 @@ genericTemplateMinimal = parseTest "Minimal generic template" genericTemplateMin
                                         $ genericElem "Some element or another" Nothing Nothing :| []
 
 genericTemplateMaxVal :: Value
-genericTemplateMaxVal = $$(decodeFile "test/json/request/template_request_generic.json")
+genericTemplateMaxVal = $$(liftCode $ decodeFile "test/json/request/template_request_generic.json")
 
 genericTemplateMaximal :: TestTree
 genericTemplateMaximal = parseTest "Maximal generic template" genericTemplateMaxVal
@@ -87,7 +88,7 @@ genericTemplateMaximal = parseTest "Maximal generic template" genericTemplateMax
               ]
 
 listTemplateMinVal :: Value
-listTemplateMinVal = $$(decodeFile "test/json/request/template_request_list_minimal.json")
+listTemplateMinVal = $$(liftCode $ decodeFile "test/json/request/template_request_list_minimal.json")
 
 listTemplateMinimal :: TestTree
 listTemplateMinimal = parseTest "Minimal list template" listTemplateMinVal
@@ -100,7 +101,7 @@ listTemplateMinimal = parseTest "Minimal list template" listTemplateMinVal
                                        ]
 
 listTemplateMaxVal :: Value
-listTemplateMaxVal = $$(decodeFile "test/json/request/template_request_list_maximal.json")
+listTemplateMaxVal = $$(liftCode $ decodeFile "test/json/request/template_request_list_maximal.json")
 
 listTemplateMaximal :: TestTree
 listTemplateMaximal = parseTest "Maximal list template" listTemplateMaxVal

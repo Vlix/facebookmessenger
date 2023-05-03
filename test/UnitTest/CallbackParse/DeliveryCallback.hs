@@ -4,6 +4,7 @@ module UnitTest.CallbackParse.DeliveryCallback where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -15,7 +16,7 @@ import UnitTest.Internal
 --------------
 
 deliveryCallbackVal :: Value
-deliveryCallbackVal = $$(decodeFile "test/json/callback/delivery_callback.json")
+deliveryCallbackVal = $$(liftCode $ decodeFile "test/json/callback/delivery_callback.json")
 
 deliveryTest :: TestTree
 deliveryTest = parseTest "Delivery Callback" deliveryCallbackVal

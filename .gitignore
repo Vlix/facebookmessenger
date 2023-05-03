@@ -1,6 +1,9 @@
 *.hi
 *.o
 .stack-work/
+.stack-work-fast/
 .cabal-sandbox
 cabal.sandbox.config
 .git/
+.hie/
+*.code-workspace

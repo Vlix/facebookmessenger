@@ -4,6 +4,7 @@ module UnitTest.CallbackParse.PreCheckoutCallback where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -15,7 +16,7 @@ import UnitTest.Internal
 ----------
 
 preCheckoutCallbackVal :: Value
-preCheckoutCallbackVal = $$(decodeFile "test/json/callback/pre_checkout_callback.json")
+preCheckoutCallbackVal = $$(liftCode $ decodeFile "test/json/callback/pre_checkout_callback.json")
 
 preCheckoutTest :: TestTree
 preCheckoutTest = parseTest "Pre Checkout Callback" preCheckoutCallbackVal

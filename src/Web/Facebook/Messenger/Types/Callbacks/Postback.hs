@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.Postback
 Copyright   : (c) Felix Paulusma, 2016
@@ -38,7 +39,7 @@ import Web.Facebook.Messenger.Types.Callbacks.Referral (Referral)
 -- The payload field passed is defined in the above places.
 data Postback = PBRegular RegularPostback
               | PBSecondary SecondaryPostback
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 -- | Convenience function to get the 'Maybe Title' from a 'Postback'
 postbackTitle :: Postback -> Maybe Text
@@ -69,7 +70,7 @@ data RegularPostback = RegularPostback
     -- * The user entered the thread via Discover tab and tapped the Get Started button.
     --
     -- https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_referrals
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 -- | This is a postback of which the receiving app has not sent the template this postback is generated from.
 data SecondaryPostback = SecondaryPostback
@@ -87,7 +88,7 @@ data SecondaryPostback = SecondaryPostback
     -- * The user entered the thread via Discover tab and tapped the Get Started button.
     --
     -- https://developers.facebook.com/docs/messenger-platform/reference/webhook-events/messaging_referrals
-    } deriving (Eq, Show, Read, Ord)
+    } deriving stock (Eq, Show, Read, Ord)
 
 
 -- -------------------- --

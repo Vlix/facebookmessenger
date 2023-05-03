@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-|
 Module      : Web.Facebook.Messenger.Types.Callbacks.PolicyEnforcement
 Copyright   : (c) Felix Paulusma, 2016
@@ -27,7 +28,7 @@ import Data.Text
 -- | This callback is sent when a policy enforcement action is taken on the page it manages
 data PolicyEnforcement = Block { peReason :: Text }
                        | Unblock
-  deriving (Eq, Show, Read, Ord)
+  deriving stock (Eq, Show, Read, Ord)
 
 
 -- --------------------------- --

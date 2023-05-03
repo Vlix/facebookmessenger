@@ -4,6 +4,7 @@ module UnitTest.CallbackParse.PostbackCallback where
 
 import Data.Aeson (Value)
 import Data.Yaml.TH (decodeFile)
+import Language.Haskell.TH (liftCode)
 
 import Test.Tasty as Tasty
 import Web.Facebook.Messenger
@@ -15,13 +16,13 @@ import UnitTest.Internal
 --------------
 
 postbackCallbackVal :: Value
-postbackCallbackVal = $$(decodeFile "test/json/callback/postback_callback.json")
+postbackCallbackVal = $$(liftCode $ decodeFile "test/json/callback/postback_callback.json")
 
 postbackReferralVal :: Value
-postbackReferralVal = $$(decodeFile "test/json/callback/postback_callback_referral.json")
+postbackReferralVal = $$(liftCode $ decodeFile "test/json/callback/postback_callback_referral.json")
 
 postbackSecondaryVal :: Value
-postbackSecondaryVal = $$(decodeFile "test/json/callback/postback_callback_secondary.json")
+postbackSecondaryVal = $$(liftCode $ decodeFile "test/json/callback/postback_callback_secondary.json")
 
 postbackTests :: TestTree
 postbackTests = Tasty.testGroup "Postback Callbacks"
